@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
   "ios": {
-    "buildNumber": "1"
+    "buildNumber": "1.0.0"
   },
   "android": {
-    "versionCode": 1
+    "versionCode": 10000
   }
 }
