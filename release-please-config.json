@@ -16,6 +16,5 @@
         "frontend-party-battle"
       ]
     }
-  ],
-  "group-pull-request-title-pattern": "chore({branch}): release {groupName}"
+  ]
 }
