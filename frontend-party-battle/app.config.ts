@@ -8,18 +8,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "frontend-party-battle",
   slug: "frontend-party-battle",
-  version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
   scheme: "frontendpartybattle",
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
   ios: {
-    buildNumber: "1",
+    ...(config.ios ?? {}),
     supportsTablet: true,
   },
   android: {
-    versionCode: 1,
+    ...(config.android ?? {}),
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
       backgroundColor: "#ffffff",
