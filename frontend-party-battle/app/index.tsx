@@ -6,7 +6,7 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
-import { SERVER_ENDPOINT } from "../config.js";
+import Constants from "expo-constants";
 
 // Only import Colyseus on web for now
 let Client: any = null;
@@ -39,7 +39,7 @@ export default function HomeScreen() {
 
     try {
       setStatus("Connecting...");
-      const client = new Client(SERVER_ENDPOINT);
+      const client = new Client(Constants.expoConfig?.extra?.backendUrl);
       const room = await client.joinOrCreate("my_room", {
         name: playerName || "Player",
       });
