@@ -1,6 +1,6 @@
 import { router } from "expo-router";
-import React, { useRef, useState } from "react";
-import { Platform, View } from "react-native";
+import React, { useState } from "react";
+import { View } from "react-native";
 
 import { RainbowText } from "@/components/RainbowText";
 import { Button, ButtonText } from "@/components/ui/button";
@@ -9,63 +9,37 @@ import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import Constants from "expo-constants";
 
-// Only import Colyseus on web for now
-let Client: any = null;
-let Room: any = null;
-
-if (Platform.OS === "web") {
-  const colyseus = require("colyseus.js");
-  Client = colyseus.Client;
-  Room = colyseus.Room;
-}
-
-// Type for room reference
-type RoomType = any;
+const { Client } = require("colyseus.js");
 
 export default function HomeScreen() {
   const [playerName, setPlayerName] = useState("");
-  const [status, setStatus] = useState<string>("Idle");
-  const roomRef = useRef<RoomType | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
 
-  const handleJoin = async () => {
-    if (Platform.OS !== "web") {
-      setStatus("Colyseus is only supported on web for now");
+  const handleCreateRoom = async () => {
+    if (!playerName.trim()) {
       return;
     }
 
-    if (!Client) {
-      setStatus("Colyseus client not available");
-      return;
-    }
+    setIsCreating(true);
 
     try {
-      setStatus("Connecting...");
-      const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const room = await client.joinOrCreate("my_room", {
-        name: playerName || "Player",
-      });
-      roomRef.current = room;
-      setStatus(`Joined room: ${room.roomId}`);
+      localStorage.setItem("playerName", playerName.trim());
 
-      // Navigate to room screen
+      const client = new Client(Constants.expoConfig?.extra?.backendUrl);
+      const room = await client.create("my_room", {
+        name: playerName.trim(),
+      });
+
       router.push({
         pathname: "/room",
-        params: { roomId: room.roomId },
+        params: {
+          roomId: room.roomId,
+        },
       });
-
-      room.onMessage("message", (message: unknown) => {
-        // eslint-disable-next-line no-console
-        console.log("[Colyseus] message:", message);
-      });
-
-      room.onLeave((code: number) => {
-        setStatus(`Left room (code ${code})`);
-        roomRef.current = null;
-      });
+      setIsCreating(false);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      setStatus("Failed to join room");
+      console.error("Failed to create room:", error);
+      setIsCreating(false);
     }
   };
 
@@ -75,7 +49,7 @@ export default function HomeScreen() {
         <RainbowText text="Party" />
         <Heading size="xl">Battle</Heading>
       </View>
-      <Text>Enter a name and join the room.</Text>
+      <Text>Enter a name and create a room.</Text>
       <Input
         variant="outline"
         size="md"
@@ -86,11 +60,17 @@ export default function HomeScreen() {
         <InputField
           value={playerName}
           onChangeText={setPlayerName}
-          placeholder="Enter Text here..."
+          placeholder="Enter your name..."
         />
       </Input>
-      <Button size="md" action="primary" onPress={handleJoin} className="mt-20">
-        <ButtonText>Join</ButtonText>
+      <Button
+        size="md"
+        action="primary"
+        onPress={handleCreateRoom}
+        className="mt-20"
+        isDisabled={!playerName.trim() || isCreating}
+      >
+        <ButtonText>{isCreating ? "Creating..." : "Create Room"}</ButtonText>
       </Button>
     </View>
   );
