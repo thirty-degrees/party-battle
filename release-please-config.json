@@ -1,0 +1,6 @@
+{
+    "packages": {
+        "backend-party-battle": {"release-type": "node"},
+        "frontend-party-battle": {"release-type": "expo"}
+    }
+}
