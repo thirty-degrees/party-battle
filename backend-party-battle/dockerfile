@@ -1,0 +1,33 @@
+FROM node:24-alpine AS deps
+WORKDIR /app
+
+# Install production dependencies only
+COPY package.json package-lock.json ./
+RUN npm ci --production
+
+# Build stage: install all deps and compile TypeScript
+FROM node:24-alpine AS builder
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY tsconfig.json ./
+COPY src ./src
+
+RUN npm run build
+
+# Runtime stage
+FROM node:24-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Copy production node_modules and built files
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json ./
+COPY build ./build
+
+EXPOSE 2567
+
+CMD ["node", "build/index.js"]

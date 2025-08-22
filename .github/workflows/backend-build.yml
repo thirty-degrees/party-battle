@@ -1,0 +1,46 @@
+name: Build and Publish Backend Image
+
+on:
+  release:
+    types: [published]
+
+env:
+  IMAGE_VERSION: ${{ github.sha }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+  
+      - name: Log in to the GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./backend-party-battle/dockerfile
+          push: true
+          tags: |
+            ghcr.io/thirty-degrees/backend-party-battle:${{ env.IMAGE_VERSION }}
+            ghcr.io/thirty-degrees/backend-party-battle:latest
+          build-args: |
+            VERSION=alpine
+          platforms: linux/arm64
+          cache-from: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache
+          cache-to: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache,mode=max
