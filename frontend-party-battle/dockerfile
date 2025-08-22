@@ -1,15 +1,19 @@
 ARG NODE_VERSION=24-alpine
 
-# Build stage
-FROM node:${NODE_VERSION} AS builder
-
+# Dependencies stage: install production dependencies only
+FROM node:${NODE_VERSION} AS deps
 WORKDIR /app
 
-# Install dependencies
 COPY package.json package-lock.json ./
 RUN npm ci --production
 
-# Copy all files
+# Build stage: install all deps and build the web app
+FROM node:${NODE_VERSION} AS builder
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
 COPY . .
 
 # Generate the web build
