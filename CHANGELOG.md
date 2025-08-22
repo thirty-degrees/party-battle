@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/thirty-degrees/party-battle/compare/v1.0.0...v1.1.0) (2025-08-22)
+
+
+### Features
+
+* added RainbowText to the index title screen ([13a6944](https://github.com/thirty-degrees/party-battle/commit/13a694489ab5c96a1a563e4cf8f63a6dda16b90a))
+
 ## 1.0.0 (2025-08-22)
 
 
