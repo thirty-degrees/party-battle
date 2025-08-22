@@ -40,3 +40,7 @@ yarn-error.*
 config.js
 
 app-example
+
+# local env files
+.env*.local
+.env.development

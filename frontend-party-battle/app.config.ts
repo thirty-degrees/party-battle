@@ -1,4 +1,8 @@
-import { ExpoConfig, ConfigContext } from 'expo/config';
+import { config as dotenvConfig } from "dotenv";
+import { ConfigContext, ExpoConfig } from "expo/config";
+import { resolve } from "path";
+
+dotenvConfig({ path: resolve(__dirname, ".env.development") });
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -12,20 +16,20 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   newArchEnabled: true,
   ios: {
     buildNumber: "1",
-    supportsTablet: true
+    supportsTablet: true,
   },
   android: {
     versionCode: 1,
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
-      backgroundColor: "#ffffff"
+      backgroundColor: "#ffffff",
     },
-    edgeToEdgeEnabled: true
+    edgeToEdgeEnabled: true,
   },
   web: {
     bundler: "metro",
     output: "static",
-    favicon: "./assets/images/favicon.png"
+    favicon: "./assets/images/favicon.png",
   },
   plugins: [
     "expo-router",
@@ -35,14 +39,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         image: "./assets/images/splash-icon.png",
         imageWidth: 200,
         resizeMode: "contain",
-        backgroundColor: "#ffffff"
-      }
-    ]
+        backgroundColor: "#ffffff",
+      },
+    ],
   ],
   experiments: {
-    typedRoutes: true
+    typedRoutes: true,
   },
   extra: {
-    backendUrl: `https://party-battle.thirty-degrees.ch/api/v${config.version}`,
-  }
+    backendUrl:
+      process.env.EXPO_PUBLIC_BACKEND_URL ||
+      `https://party-battle.thirty-degrees.ch/api/v${config.version}`,
+  },
 });
