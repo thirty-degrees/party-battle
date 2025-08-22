@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.0.0...frontend-party-battle-v1.1.0) (2025-08-22)
+
+
+### Features
+
+* display player count in room (realtime) ([8811b3c](https://github.com/thirty-degrees/party-battle/commit/8811b3c8b6c5bf35b7d1f720ed4898fe36740e1a))
+
 ## 1.0.0 (2025-08-22)
 
 
