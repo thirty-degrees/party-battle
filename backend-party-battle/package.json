@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "backend-party-battle",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "build/index.js",
   "engines": {
     "node": ">= 20.9.0"
