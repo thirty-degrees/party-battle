@@ -20,7 +20,7 @@ jobs:
         with:
           token: ${{ secrets.GH_PAT_RELEASE_PLEASE }}
 
-  backend-build:
+  build-backend:
     needs: release
     if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'backend-party-battle')
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache
           cache-to: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache,mode=max
 
-  frontend-build:
+  build-web:
     needs: release
     if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'frontend-party-battle')
     runs-on: ubuntu-latest
