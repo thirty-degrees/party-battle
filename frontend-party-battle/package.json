@@ -1,5 +1,5 @@
 {
-  "name": "party-battle",
+  "name": "frontend-party-battle",
   "main": "expo-router/entry",
   "version": "1.1.0",
   "scripts": {

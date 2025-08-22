@@ -2,5 +2,15 @@
     "packages": {
         "backend-party-battle": {"release-type": "node"},
         "frontend-party-battle": {"release-type": "expo"}
-    }
+    },
+    "plugins": [
+        {
+          "type": "linked-versions",
+          "groupName": "party-battle",
+          "components": [
+            "backend-party-battle",
+            "frontend-party-battle"
+          ]
+        }
+    ]
 }
