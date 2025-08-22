@@ -41,5 +41,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ],
   experiments: {
     typedRoutes: true
+  },
+  extra: {
+    backendUrl: `https://party-battle.thirty-degrees.ch/api/v${config.version}`,
   }
 });

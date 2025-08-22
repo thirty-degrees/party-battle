@@ -4,17 +4,17 @@ import React, { useRef, useState } from "react";
 import { Platform, Pressable, StyleSheet, TextInput, View } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
-import { SERVER_ENDPOINT } from "@/expo-env.d";
+import Constants from 'expo-constants'
 
 export default function HomeScreen() {
   const [playerName, setPlayerName] = useState("");
   const [status, setStatus] = useState<string>("Idle");
   const roomRef = useRef<Room | null>(null);
-
+  
   const handleJoin = async () => {
     try {
       setStatus("Connecting...");
-      const client = new Client(SERVER_ENDPOINT);
+      const client = new Client(Constants.expoConfig?.extra?.backendUrl);
       const room = await client.joinOrCreate("my_room", {
         name: playerName || "Player",
       });
