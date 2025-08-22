@@ -5,6 +5,7 @@ import { Alert, Platform, Text, View } from "react-native";
 import { Heading } from "@/components/ui/heading";
 import Constants from "expo-constants";
 import LobbyScreen from "./lobby";
+import { useRoomStore } from "@/hooks/useRoomStore";
 
 const { Client, Room } = require("colyseus.js");
 
@@ -14,9 +15,10 @@ type RoomScreen = "lobby" | "game";
 
 export default function RoomScreen() {
   const { roomId } = useLocalSearchParams<{ roomId?: string }>();
-  const [room, setRoom] = useState<RoomType | null>(null);
+  const { room: globalRoom, setRoom: setGlobalRoom } = useRoomStore();
   const [currentScreen, setCurrentScreen] = useState<RoomScreen>("lobby");
   const [playerName, setPlayerName] = useState<string>("");
+  const [playerCount, setPlayerCount] = useState<number>(0);
   const roomRef = useRef<RoomType | null>(null);
 
   const showWebNamePrompt = () => {
@@ -66,9 +68,6 @@ export default function RoomScreen() {
     const storedPlayerName = localStorage.getItem("playerName");
 
     if (!storedPlayerName) {
-      console.log("Platform.OS:", Platform.OS);
-
-      // Use different approaches for web vs mobile
       if (Platform.OS === "web") {
         showWebNamePrompt();
       } else {
@@ -85,6 +84,20 @@ export default function RoomScreen() {
       if (!playerName || !roomId) return;
 
       try {
+        // If we already have a room from the global store, use it
+        if (globalRoom) {
+          roomRef.current = globalRoom;
+
+          // Set up the state change listener
+          globalRoom.onStateChange((state: any) => {
+            const count = state.players?.$items?.size || 0;
+            setPlayerCount(count);
+          });
+
+          return;
+        }
+
+        // Otherwise, join the room
         const client = new Client(Constants.expoConfig?.extra?.backendUrl);
 
         const roomInstance = await client.joinById(roomId, {
@@ -92,14 +105,15 @@ export default function RoomScreen() {
         });
 
         roomRef.current = roomInstance;
-        setRoom(roomInstance);
+        setGlobalRoom(roomInstance);
 
-        roomInstance.onMessage("message", (message: unknown) => {
-          console.log("[Colyseus] message:", message);
+        roomInstance.onStateChange((state: any) => {
+          const count = state.players?.$items?.size || 0;
+          setPlayerCount(count);
         });
 
         roomInstance.onLeave((code: number) => {
-          setRoom(null);
+          setGlobalRoom(null);
           roomRef.current = null;
         });
 
@@ -131,6 +145,8 @@ export default function RoomScreen() {
 
     return () => {
       if (roomRef.current) {
+        // Remove all listeners before leaving
+        roomRef.current.removeAllListeners();
         roomRef.current.leave();
       }
     };
@@ -167,9 +183,12 @@ export default function RoomScreen() {
           Party Battle
         </Heading>
         <Text className="text-gray-400 mt-2">Player: {playerName}</Text>
-        {room && (
-          <Text className="text-gray-400 mt-1">Room ID: {room.roomId}</Text>
+        {globalRoom && (
+          <Text className="text-gray-400 mt-1">
+            Room ID: {globalRoom.roomId}
+          </Text>
         )}
+        <Text className="text-gray-400 mt-1">Players Count: {playerCount}</Text>
       </View>
 
       {renderCurrentScreen()}

@@ -8,12 +8,14 @@ import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import Constants from "expo-constants";
+import { useRoomStore } from "@/hooks/useRoomStore";
 
 const { Client } = require("colyseus.js");
 
 export default function HomeScreen() {
   const [playerName, setPlayerName] = useState("");
   const [isCreating, setIsCreating] = useState(false);
+  const { setRoom } = useRoomStore();
 
   const handleCreateRoom = async () => {
     if (!playerName.trim()) {
@@ -29,6 +31,9 @@ export default function HomeScreen() {
       const room = await client.create("my_room", {
         name: playerName.trim(),
       });
+
+      // Store the room instance in the global store
+      setRoom(room);
 
       router.push({
         pathname: "/room",
