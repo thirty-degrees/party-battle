@@ -1,7 +1,8 @@
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, View } from "react-native";
 
+import { RainbowText } from "@/components/RainbowText";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
@@ -69,67 +70,28 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        <Heading size="md">Connect to Colyseus</Heading>
-        <Text>Enter a name and join the room.</Text>
-        {Platform.OS !== "web" && (
-          <Text style={styles.warningText}>
-            Note: Colyseus is only supported on web for now
-          </Text>
-        )}
-        <View style={styles.inputRow}>
-          <Input size="md" variant="outline" style={styles.inputContainer}>
-            <InputField
-              value={playerName}
-              onChangeText={setPlayerName}
-              placeholder="Your name"
-              autoCapitalize="none"
-              returnKeyType="done"
-            />
-          </Input>
-          <Button
-            size="md"
-            action="primary"
-            onPress={handleJoin}
-            style={styles.button}
-          >
-            <ButtonText>Join</ButtonText>
-          </Button>
-        </View>
-        <Text>Status: {status}</Text>
+    <View className="flex-1 justify-center gap-2 items-center p-4 bg-background-0">
+      <View className="flex-row items-center gap-2">
+        <RainbowText text="Party" />
+        <Heading size="xl">Battle</Heading>
       </View>
+      <Text>Enter a name and join the room.</Text>
+      <Input
+        variant="outline"
+        size="md"
+        isDisabled={false}
+        isInvalid={false}
+        isReadOnly={false}
+      >
+        <InputField
+          value={playerName}
+          onChangeText={setPlayerName}
+          placeholder="Enter Text here..."
+        />
+      </Input>
+      <Button size="md" action="primary" onPress={handleJoin} className="mt-20">
+        <ButtonText>Join</ButtonText>
+      </Button>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
-  },
-  contentContainer: {
-    width: "100%",
-    maxWidth: 400,
-    gap: 16,
-    alignItems: "center",
-  },
-  inputRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    width: "100%",
-  },
-  inputContainer: {
-    flex: 1,
-  },
-  button: {
-    minWidth: 80,
-  },
-  warningText: {
-    color: "#f59e0b",
-    textAlign: "center",
-  },
-});
