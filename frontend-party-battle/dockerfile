@@ -1,0 +1,30 @@
+ARG NODE_VERSION=24-alpine
+
+# Build stage
+FROM node:${NODE_VERSION} AS builder
+
+WORKDIR /app
+
+# Install dependencies
+COPY package.json package-lock.json ./
+RUN npm ci --production
+
+# Copy all files
+COPY . .
+
+# Generate the web build
+RUN npx expo export -p web
+
+# Production stage
+FROM nginx:stable-alpine
+
+# Copy nginx config to handle SPA routing
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy built assets from builder stage
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

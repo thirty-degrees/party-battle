@@ -54,3 +54,36 @@ jobs:
           platforms: linux/arm64
           cache-from: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache
           cache-to: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache,mode=max
+
+  frontend-build:
+    needs: release
+    if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'frontend-party-battle')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE_VERSION: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+        id: buildx
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v5
+        with:
+          context: ./frontend-party-battle
+          file: ./frontend-party-battle/dockerfile
+          push: true
+          tags: |
+            ghcr.io/thirty-degrees/frontend-party-battle-web:${{ env.IMAGE_VERSION }}
+            ghcr.io/thirty-degrees/frontend-party-battle-web:latest
+          platforms: linux/arm64
+          cache-from: type=registry,ref=ghcr.io/thirty-degrees/frontend-party-battle-web:buildcache
+          cache-to: type=registry,ref=ghcr.io/thirty-degrees/frontend-party-battle-web:buildcache,mode=max

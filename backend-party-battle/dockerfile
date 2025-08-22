@@ -1,4 +1,6 @@
-FROM node:24-alpine AS deps
+ARG NODE_VERSION=24-alpine
+
+FROM node:${NODE_VERSION} AS deps
 WORKDIR /app
 
 # Install production dependencies only
@@ -6,7 +8,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --production
 
 # Build stage: install all deps and compile TypeScript
-FROM node:24-alpine AS builder
+FROM node:${NODE_VERSION} AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -18,7 +20,7 @@ COPY src ./src
 RUN npm run build
 
 # Runtime stage
-FROM node:24-alpine AS runner
+FROM node:${NODE_VERSION} AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
