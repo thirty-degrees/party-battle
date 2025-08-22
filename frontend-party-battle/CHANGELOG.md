@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.1.1...frontend-party-battle-v1.2.0) (2025-08-22)
+
+
+### Features
+
+* Add frontend pipeline ([7b4957b](https://github.com/thirty-degrees/party-battle/commit/7b4957befc08b1e1b1df8180f41c16492e88359a))
+
 ## [1.1.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.1.0...frontend-party-battle-v1.1.1) (2025-08-22)
 
 
