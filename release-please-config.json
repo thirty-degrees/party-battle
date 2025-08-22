@@ -1,16 +1,21 @@
 {
-    "packages": {
-        "backend-party-battle": {"release-type": "node"},
-        "frontend-party-battle": {"release-type": "expo"}
+  "packages": {
+    "backend-party-battle": {
+      "release-type": "node"
     },
-    "plugins": [
-        {
-          "type": "linked-versions",
-          "groupName": "party-battle",
-          "components": [
-            "backend-party-battle",
-            "frontend-party-battle"
-          ]
-        }
-    ]
+    "frontend-party-battle": {
+      "release-type": "expo"
+    }
+  },
+  "plugins": [
+    {
+      "type": "linked-versions",
+      "groupName": "party-battle",
+      "components": [
+        "backend-party-battle",
+        "frontend-party-battle"
+      ]
+    }
+  ],
+  "group-pull-request-title-pattern": "chore({branch}): release {groupName}"
 }
