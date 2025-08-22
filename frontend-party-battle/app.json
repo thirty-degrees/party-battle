@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "party-battle",
-    "slug": "party-battle",
+    "name": "frontend-party-battle",
+    "slug": "frontend-party-battle",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "partybattle",
+    "scheme": "frontendpartybattle",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
