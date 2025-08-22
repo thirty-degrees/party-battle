@@ -43,7 +43,7 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./backend-party-battle
           file: ./backend-party-battle/dockerfile
           push: true
           tags: |
