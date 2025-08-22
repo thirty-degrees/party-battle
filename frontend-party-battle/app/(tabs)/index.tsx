@@ -1,80 +1,114 @@
-import { Image } from "expo-image";
-import { Platform, StyleSheet } from "react-native";
+import type { Room } from "colyseus.js";
+import { Client } from "colyseus.js";
+import React, { useRef, useState } from "react";
+import { Platform, Pressable, StyleSheet, TextInput, View } from "react-native";
 
-import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { SERVER_ENDPOINT } from "@/expo-env.d";
 
 export default function HomeScreen() {
+  const [playerName, setPlayerName] = useState("");
+  const [status, setStatus] = useState<string>("Idle");
+  const roomRef = useRef<Room | null>(null);
+
+  const handleJoin = async () => {
+    try {
+      setStatus("Connecting...");
+      const client = new Client(SERVER_ENDPOINT);
+      const room = await client.joinOrCreate("my_room", {
+        name: playerName || "Player",
+      });
+      roomRef.current = room;
+      setStatus(`Joined room: ${room.roomId}`);
+
+      room.onMessage("message", (message: unknown) => {
+        // eslint-disable-next-line no-console
+        console.log("[Colyseus] message:", message);
+      });
+
+      room.onLeave((code) => {
+        setStatus(`Left room (code ${code})`);
+        roomRef.current = null;
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      setStatus("Failed to join room");
+    }
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-      headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
-      }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          to see changes. Press{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">
-            npm run reset-project
-          </ThemedText>{" "}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{" "}
-          directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <View style={styles.contentContainer}>
+        <ThemedText type="subtitle">Connect to Colyseus</ThemedText>
+        <ThemedText>Enter a name and join the room.</ThemedText>
+        <View style={styles.inputRow}>
+          <TextInput
+            value={playerName}
+            onChangeText={setPlayerName}
+            placeholder="Your name"
+            placeholderTextColor="#888"
+            style={styles.textInput}
+            autoCapitalize="none"
+            returnKeyType="done"
+          />
+          <Pressable
+            onPress={handleJoin}
+            style={({ pressed }) => [
+              styles.button,
+              pressed && styles.buttonPressed,
+            ]}
+          >
+            <ThemedText type="defaultSemiBold" style={styles.buttonText}>
+              Join
+            </ThemedText>
+          </Pressable>
+        </View>
+        <ThemedText>Status: {status}</ThemedText>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+  },
+  contentContainer: {
+    width: "100%",
+    maxWidth: 400,
+    gap: 16,
+    alignItems: "center",
+  },
+  inputRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
+    width: "100%",
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  textInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#999",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: Platform.select({ ios: 12, android: 8, default: 10 }),
+    color: "#111",
+    backgroundColor: "#fff",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
+  button: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "#2563eb",
+    borderRadius: 8,
+  },
+  buttonPressed: {
+    backgroundColor: "#1d4ed8",
+  },
+  buttonText: {
+    color: "#fff",
   },
 });
