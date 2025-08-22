@@ -1,3 +1,5 @@
+name: release-please
+
 on:
   push:
     branches:
@@ -8,8 +10,6 @@ permissions:
   pull-requests: write
   issues: write
 
-name: release-please
-
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -17,4 +17,3 @@ jobs:
       - uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          release-type: simple

@@ -1,8 +1,8 @@
-name: Build and Publish Backend Image
+name: backend-build
 
 on:
   release:
-    types: [published]
+    types: [released]
 
 env:
   IMAGE_VERSION: ${{ github.sha }}
