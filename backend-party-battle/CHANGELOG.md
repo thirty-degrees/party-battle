@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.1.0...backend-party-battle-v1.1.1) (2025-08-22)
+
+
+### Bug Fixes
+
+* pipeline ([3d17c65](https://github.com/thirty-degrees/party-battle/commit/3d17c65df13c0e025bddb9f3756856d3a290fb02))
+
 ## [1.1.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.0.0...backend-party-battle-v1.1.0) (2025-08-22)
 
 

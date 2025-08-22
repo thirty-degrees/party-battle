@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.1.0...frontend-party-battle-v1.1.1) (2025-08-22)
+
+
+### Miscellaneous Chores
+
+* **frontend-party-battle:** Synchronize party-battle versions
+
 ## [1.1.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.0.0...frontend-party-battle-v1.1.0) (2025-08-22)
 
 
