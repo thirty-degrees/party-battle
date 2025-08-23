@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.1...frontend-party-battle-v1.3.2) (2025-08-23)
+
+
+### Miscellaneous Chores
+
+* release 1.3.2 ([bfadf78](https://github.com/thirty-degrees/party-battle/commit/bfadf782e09fa24db527b81f755de30b4f25f2e1))
+
 ## [1.3.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.0...frontend-party-battle-v1.3.1) (2025-08-23)
 
 
