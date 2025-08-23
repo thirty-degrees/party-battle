@@ -20,7 +20,7 @@ export const useSafeLayoutEffect =
   typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 export function GluestackUIProvider({
-  mode = 'light',
+  mode = 'system',
   ...props
 }: {
   mode?: ModeType;
@@ -48,10 +48,14 @@ export function GluestackUIProvider({
   useSafeLayoutEffect(() => {
     if (mode !== 'system') {
       const documentElement = document.documentElement;
-      if (documentElement) {
+      const body = document.body;
+      if (documentElement && body) {
         documentElement.classList.add(mode);
         documentElement.classList.remove(mode === 'light' ? 'dark' : 'light');
         documentElement.style.colorScheme = mode;
+        const background = mode === 'dark' ? '18 18 18' : '255 255 255';
+        documentElement.style.backgroundColor = `rgb(${background})`;
+        body.style.backgroundColor = `rgb(${background})`;
       }
     }
   }, [mode]);
