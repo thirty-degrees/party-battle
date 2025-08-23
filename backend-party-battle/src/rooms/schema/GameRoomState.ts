@@ -6,4 +6,5 @@ export class PlayerState extends Schema {
 
 export class GameRoomState extends Schema {
   @type({ map: PlayerState }) players = new MapSchema<PlayerState>();
+  @type("string") currentGame: "lobby" | "croc" = "lobby"; // TODO: enum auslagern
 }

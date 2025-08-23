@@ -5,21 +5,20 @@ import { Alert, Platform, Text, View } from "react-native";
 import { Heading } from "@/components/ui/heading";
 import { Card } from "@/components/ui/card";
 import { Badge, BadgeText } from "@/components/ui/badge";
+import { Spinner } from "@/components/ui/spinner";
 import Constants from "expo-constants";
 import LobbyScreen from "./lobby";
 import { useRoomStore } from "@/hooks/useRoomStore";
-import { PlayerState, GameRoomState } from "@/types/game";
+import { PlayerState, GameRoomState, GameTypes } from "@/types/game";
 
 const { Client, Room } = require("colyseus.js");
 
 type RoomType = any;
 
-type RoomScreen = "lobby" | "game";
-
 export default function RoomScreen() {
   const { roomId } = useLocalSearchParams<{ roomId?: string }>();
   const { room: globalRoom, setRoom: setGlobalRoom } = useRoomStore();
-  const [currentScreen, setCurrentScreen] = useState<RoomScreen>("lobby");
+  const [currentScreen, setCurrentScreen] = useState<GameTypes>(null);
   const [playerName, setPlayerName] = useState<string>("");
   const [playerCount, setPlayerCount] = useState<number>(0);
   const [players, setPlayers] = useState<PlayerState[]>([]);
@@ -32,7 +31,7 @@ export default function RoomScreen() {
     setPlayerCount(playerCount);
 
     console.error("state.players?.$items", playersMap);
-    // Convert the Map to an array of player objects
+    // TODO: refactor pleaseee
     const playersArray: PlayerState[] = [];
     if (playersMap && typeof playersMap.forEach === "function") {
       playersMap.forEach((player: any, key: string) => {
@@ -43,6 +42,7 @@ export default function RoomScreen() {
       });
     }
     setPlayers(playersArray);
+    setCurrentScreen(state.currentGame);
   };
 
   const showWebNamePrompt = () => {
@@ -172,15 +172,11 @@ export default function RoomScreen() {
     };
   }, [playerName, roomId]);
 
-  const switchScreen = (screen: RoomScreen) => {
-    setCurrentScreen(screen);
-  };
-
   const startGame = () => {
     console.log("game started");
   };
 
-  const renderCurrentScreen = () => {
+  const renderCurrentScreen = (currentScreen: GameTypes) => {
     switch (currentScreen) {
       case "lobby":
         return (
@@ -190,24 +186,24 @@ export default function RoomScreen() {
             onGameStart={startGame}
           />
         );
-      case "game":
+      case "croc":
         return (
           <View className="flex-1 justify-center items-center">
             <Heading size="xl" className="text-2xl font-bold text-white">
-              Game Screen
+              Croc Game
             </Heading>
             <Text className="text-gray-400 mt-2">
               Game content will go here
             </Text>
           </View>
         );
+      case null:
       default:
         return (
-          <LobbyScreen
-            players={players}
-            currentPlayerId={currentPlayerId}
-            onGameStart={startGame}
-          />
+          <View className="flex-1 justify-center items-center">
+            <Spinner size="large" color="#3B82F6" />
+            <Text className="text-gray-400 mt-4 text-center">Loading...</Text>
+          </View>
         );
     }
   };
@@ -227,7 +223,7 @@ export default function RoomScreen() {
       {/* Main Content */}
       <View className="flex-1 p-1">
         <Card className="flex-1 m-1 bg-black border-gray-600">
-          {renderCurrentScreen()}
+          {renderCurrentScreen(currentScreen)}
         </Card>
       </View>
     </View>
