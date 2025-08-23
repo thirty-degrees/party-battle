@@ -23,7 +23,7 @@ jobs:
   build-backend:
     needs: release
     if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'backend-party-battle')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
       packages: write
@@ -58,7 +58,7 @@ jobs:
   build-web:
     needs: release
     if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'frontend-party-battle')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
       packages: write
