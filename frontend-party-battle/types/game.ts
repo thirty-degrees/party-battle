@@ -1,12 +1,39 @@
 // TODO: In Backend auch nutzen
 
-export type GameTypes = "lobby" | "croc" | null;
+export type MiniGameTypes = "croc" | null;
 export interface PlayerState {
   name: string;
-  id?: string; // Optional ID for the session ID
+  id?: string;
+  ready?: boolean;
 }
 
-export interface GameRoomState {
-  players: { [key: string]: PlayerState };
-  currentGame: GameTypes;
+export interface LobbyPlayerState {
+  name: string;
+  id: string;
+  ready: boolean;
+}
+
+export interface GameHistory {
+  gameType: string;
+  timestamp: number;
+  duration: number;
+  playerScores: { [key: string]: number };
+}
+
+export interface LobbyRoomState {
+  players: { [key: string]: LobbyPlayerState };
+  roomName: string;
+  maxPlayers: number;
+  currentMiniGame: "croc" | null;
+}
+
+export interface CrocPlayerState {
+  name: string;
+  id: string;
+}
+
+export interface CrocMiniGameRoomState {
+  players: { [key: string]: CrocPlayerState };
+  gameState: "waiting" | "playing" | "finished";
+  hotThootIndex: number;
 }

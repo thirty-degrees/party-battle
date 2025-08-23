@@ -10,3 +10,10 @@ Ask before adding custom-made style components. Prioritize existing gluestack-ui
 alwaysApply: true
 
 ---
+
+## Code Style
+
+Never write comments in code. Write self-documenting code instead.
+alwaysApply: true
+
+---
