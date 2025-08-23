@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.2.1...backend-party-battle-v1.3.0) (2025-08-23)
+
+
+### Features
+
+* added a list of players in the room to the lobbyscreen ([a176347](https://github.com/thirty-degrees/party-battle/commit/a1763470a22ffe5ee12ad64d01db3aaacf4053ca))
+
 ## [1.2.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.2.0...backend-party-battle-v1.2.1) (2025-08-22)
 
 
