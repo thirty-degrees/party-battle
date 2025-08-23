@@ -1,0 +1,52 @@
+import React from "react";
+import { View, Text, ViewProps } from "react-native";
+
+interface TagProps extends ViewProps {
+  children: React.ReactNode;
+  variant?: "default" | "outline";
+  size?: "sm" | "md" | "lg";
+  className?: string;
+}
+
+const Tag = React.forwardRef<React.ComponentRef<typeof View>, TagProps>(
+  function Tag(
+    { children, variant = "default", size = "md", className = "", ...props },
+    ref
+  ) {
+    const baseClasses =
+      "rounded-full px-3 py-1 flex-row items-center justify-center";
+
+    const variantClasses = {
+      default: "bg-blue-100 border border-blue-200",
+      outline: "bg-transparent border border-gray-300",
+    };
+
+    const sizeClasses = {
+      sm: "px-2 py-0.5",
+      md: "px-3 py-1",
+      lg: "px-4 py-2",
+    };
+
+    const textSizeClasses = {
+      sm: "text-xs",
+      md: "text-sm",
+      lg: "text-base",
+    };
+
+    return (
+      <View
+        className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+        {...props}
+        ref={ref}
+      >
+        <Text className={`font-medium text-gray-700 ${textSizeClasses[size]}`}>
+          {children}
+        </Text>
+      </View>
+    );
+  }
+);
+
+Tag.displayName = "Tag";
+
+export { Tag };

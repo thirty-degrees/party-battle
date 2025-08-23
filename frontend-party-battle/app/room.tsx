@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Alert, Platform, Text, View } from "react-native";
 
 import { Heading } from "@/components/ui/heading";
+import { Card } from "@/components/ui/card";
+import { Badge, BadgeText } from "@/components/ui/badge";
 import Constants from "expo-constants";
 import LobbyScreen from "./lobby";
 import { useRoomStore } from "@/hooks/useRoomStore";
@@ -21,6 +23,7 @@ export default function RoomScreen() {
   const [playerName, setPlayerName] = useState<string>("");
   const [playerCount, setPlayerCount] = useState<number>(0);
   const [players, setPlayers] = useState<PlayerState[]>([]);
+  const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
   const roomRef = useRef<RoomType | null>(null);
 
   const handleStateChange = (state: GameRoomState) => {
@@ -108,6 +111,7 @@ export default function RoomScreen() {
         // If we already have a room from the global store, use it
         if (globalRoom) {
           roomRef.current = globalRoom;
+          setCurrentPlayerId(globalRoom.sessionId);
 
           // Set up the state change listener
           globalRoom.onStateChange(handleStateChange);
@@ -124,6 +128,7 @@ export default function RoomScreen() {
 
         roomRef.current = roomInstance;
         setGlobalRoom(roomInstance);
+        setCurrentPlayerId(roomInstance.sessionId);
 
         roomInstance.onStateChange(handleStateChange);
 
@@ -171,42 +176,60 @@ export default function RoomScreen() {
     setCurrentScreen(screen);
   };
 
+  const startGame = () => {
+    console.log("game started");
+  };
+
   const renderCurrentScreen = () => {
     switch (currentScreen) {
       case "lobby":
-        return <LobbyScreen players={players} />;
+        return (
+          <LobbyScreen
+            players={players}
+            currentPlayerId={currentPlayerId}
+            onGameStart={startGame}
+          />
+        );
       case "game":
         return (
-          <View className="flex-1 bg-blue-900 justify-center items-center">
+          <View className="flex-1 justify-center items-center">
             <Heading size="xl" className="text-2xl font-bold text-white">
               Game Screen
             </Heading>
-            <Text className="text-gray-300 mt-2">
+            <Text className="text-gray-400 mt-2">
               Game content will go here
             </Text>
           </View>
         );
       default:
-        return <LobbyScreen players={players} />;
+        return (
+          <LobbyScreen
+            players={players}
+            currentPlayerId={currentPlayerId}
+            onGameStart={startGame}
+          />
+        );
     }
   };
 
   return (
     <View className="flex-1 bg-black">
-      <View className="flex-1 justify-center items-center">
-        <Heading size="xl" className="text-2xl font-bold text-white">
-          Party Battle
-        </Heading>
-        <Text className="text-gray-400 mt-2">Player: {playerName}</Text>
+      {/* Top Bar */}
+      <View className="bg-black border-b border-gray-600 px-4 py-3 flex-row items-center justify-between">
+        <Text className="text-lg font-semibold text-white">{playerName}</Text>
         {globalRoom && (
-          <Text className="text-gray-400 mt-1">
-            Room ID: {globalRoom.roomId}
-          </Text>
+          <Badge variant="outline" action="muted" size="sm">
+            <BadgeText>{globalRoom.roomId}</BadgeText>
+          </Badge>
         )}
-        <Text className="text-gray-400 mt-1">Players Count: {playerCount}</Text>
       </View>
 
-      {renderCurrentScreen()}
+      {/* Main Content */}
+      <View className="flex-1 p-1">
+        <Card className="flex-1 m-1 bg-black border-gray-600">
+          {renderCurrentScreen()}
+        </Card>
+      </View>
     </View>
   );
 }
