@@ -1,0 +1,12 @@
+## Gluestack UI Components
+
+Always use gluestack-ui style components when available. If components need to be installed, get them via the v2 way using:
+
+```
+npx gluestack-ui add <component>
+```
+
+Ask before adding custom-made style components. Prioritize existing gluestack-ui components over custom styling.
+alwaysApply: true
+
+---
