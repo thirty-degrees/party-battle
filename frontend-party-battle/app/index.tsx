@@ -28,7 +28,7 @@ export default function HomeScreen() {
       localStorage.setItem("playerName", playerName.trim());
 
       const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const room = await client.create("my_room", {
+      const room = await client.create("game_room", {
         name: playerName.trim(),
       });
 

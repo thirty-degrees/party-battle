@@ -6,6 +6,7 @@ import { Heading } from "@/components/ui/heading";
 import Constants from "expo-constants";
 import LobbyScreen from "./lobby";
 import { useRoomStore } from "@/hooks/useRoomStore";
+import { PlayerState, GameRoomState } from "@/types/game";
 
 const { Client, Room } = require("colyseus.js");
 
@@ -19,7 +20,27 @@ export default function RoomScreen() {
   const [currentScreen, setCurrentScreen] = useState<RoomScreen>("lobby");
   const [playerName, setPlayerName] = useState<string>("");
   const [playerCount, setPlayerCount] = useState<number>(0);
+  const [players, setPlayers] = useState<PlayerState[]>([]);
   const roomRef = useRef<RoomType | null>(null);
+
+  const handleStateChange = (state: GameRoomState) => {
+    const playersMap = state.players?.$items as any;
+    const playerCount = playersMap?.size || 0;
+    setPlayerCount(playerCount);
+
+    console.error("state.players?.$items", playersMap);
+    // Convert the Map to an array of player objects
+    const playersArray: PlayerState[] = [];
+    if (playersMap && typeof playersMap.forEach === "function") {
+      playersMap.forEach((player: any, key: string) => {
+        playersArray.push({
+          name: player.name,
+          id: key, // Add the session ID as player ID
+        });
+      });
+    }
+    setPlayers(playersArray);
+  };
 
   const showWebNamePrompt = () => {
     console.log("Using web prompt");
@@ -89,10 +110,7 @@ export default function RoomScreen() {
           roomRef.current = globalRoom;
 
           // Set up the state change listener
-          globalRoom.onStateChange((state: any) => {
-            const count = state.players?.$items?.size || 0;
-            setPlayerCount(count);
-          });
+          globalRoom.onStateChange(handleStateChange);
 
           return;
         }
@@ -107,10 +125,7 @@ export default function RoomScreen() {
         roomRef.current = roomInstance;
         setGlobalRoom(roomInstance);
 
-        roomInstance.onStateChange((state: any) => {
-          const count = state.players?.$items?.size || 0;
-          setPlayerCount(count);
-        });
+        roomInstance.onStateChange(handleStateChange);
 
         roomInstance.onLeave((code: number) => {
           setGlobalRoom(null);
@@ -159,7 +174,7 @@ export default function RoomScreen() {
   const renderCurrentScreen = () => {
     switch (currentScreen) {
       case "lobby":
-        return <LobbyScreen />;
+        return <LobbyScreen players={players} />;
       case "game":
         return (
           <View className="flex-1 bg-blue-900 justify-center items-center">
@@ -172,7 +187,7 @@ export default function RoomScreen() {
           </View>
         );
       default:
-        return <LobbyScreen />;
+        return <LobbyScreen players={players} />;
     }
   };
 
