@@ -7,7 +7,7 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
-import { JoinRoomModal } from "@/components/ui/modal/custom-modals";
+import { JoinRoomModal } from "@/components/ui/modal/join-room-modal";
 import { useToastHelper } from "@/components/ui/toast-helper";
 import Constants from "expo-constants";
 import { useRoomStore } from "@/hooks/useRoomStore";

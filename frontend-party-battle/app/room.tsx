@@ -1,14 +1,12 @@
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
-import { Platform, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
-import { Heading } from "@/components/ui/heading";
 import { Card } from "@/components/ui/card";
-import { Badge, BadgeText } from "@/components/ui/badge";
-import { Spinner } from "@/components/ui/spinner";
-import { Button, ButtonText } from "@/components/ui/button";
-import { Input, InputField } from "@/components/ui/input";
-import { NameInputModal } from "@/components/ui/modal/custom-modals";
+import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
+import { NameInputModal } from "@/components/ui/modal/name-input-modal";
+import { QrCodeModal } from "@/components/ui/modal/qr-code-modal";
+import { ShareIcon } from "@/components/ui/icon";
 import Constants from "expo-constants";
 import PlayerList from "../components/player-list";
 import { useRoomStore } from "@/hooks/useRoomStore";
@@ -26,6 +24,7 @@ export default function RoomScreen() {
   const [players, setPlayers] = useState<PlayerState[]>([]);
   const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
   const [showNamePrompt, setShowNamePrompt] = useState(false);
+  const [showQrCode, setShowQrCode] = useState(false);
 
   const roomRef = useRef<RoomType | null>(null);
 
@@ -239,6 +238,14 @@ export default function RoomScreen() {
     }
   };
 
+  const getRoomUrl = () => {
+    if (typeof window !== "undefined") {
+      const baseUrl = window.location.origin;
+      return `${baseUrl}/room?roomId=${roomId}`;
+    }
+    return `https://your-app-domain.com/room?roomId=${roomId}`;
+  };
+
   const renderCurrentScreen = () => {
     return (
       <PlayerList
@@ -257,9 +264,14 @@ export default function RoomScreen() {
           {playerName}
         </Text>
         {globalRoom && (
-          <Badge variant="outline" action="muted" size="sm">
-            <BadgeText>{globalRoom.roomId}</BadgeText>
-          </Badge>
+          <Button
+            size="sm"
+            action="secondary"
+            onPress={() => setShowQrCode(true)}
+          >
+            <ButtonIcon as={ShareIcon} />
+            <ButtonText>Invite Players</ButtonText>
+          </Button>
         )}
       </View>
 
@@ -273,6 +285,13 @@ export default function RoomScreen() {
         isOpen={showNamePrompt}
         onClose={handleNameCancel}
         onSubmit={handleNameSubmit}
+      />
+
+      <QrCodeModal
+        isOpen={showQrCode}
+        onClose={() => setShowQrCode(false)}
+        roomId={roomId || ""}
+        roomUrl={getRoomUrl()}
       />
     </View>
   );
