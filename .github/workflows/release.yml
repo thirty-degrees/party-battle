@@ -36,17 +36,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - name: Derive backend version from release outputs
         id: derive_backend_version
         env:
           RELEASES: ${{ needs.release.outputs.releases }}
         run: |
-          ver=$(node -e "const r=JSON.parse(process.env.RELEASES||'[]'); const b=r.find(x=>x.path==='backend-party-battle'); if(!b){process.exit(1)} const v=b.version||b.tag_name||b.tagName||''; const ver=String(v).replace(/^v/, ''); if(!ver){process.exit(1)} process.stdout.write(ver)")
+          chmod +x .github/scripts/read_manifest_version.py
+          ver=$(.github/scripts/read_manifest_version.py backend-party-battle)
           echo "BACKEND_VERSION=$ver" >> $GITHUB_ENV
           echo "backend_version=$ver" >> $GITHUB_OUTPUT
 
