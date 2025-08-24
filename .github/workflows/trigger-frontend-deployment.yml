@@ -1,0 +1,31 @@
+name: trigger-frontend-deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_version:
+        description: Frontend image version to deploy (defaults to the image created based on the checked out commit)
+        required: false
+        type: string
+
+jobs:
+  trigger-frontend-deployment:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Determine image version
+        id: vars
+        run: |
+          if [ -z "${{ github.event.inputs.image_version }}" ]; then
+            echo "IMAGE_VERSION=${GITHUB_SHA}" >> $GITHUB_ENV
+          else
+            echo "IMAGE_VERSION=${{ github.event.inputs.image_version }}" >> $GITHUB_ENV
+          fi
+
+      - name: Trigger frontend image update
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GH_PAT_ACTIONS_TRIGGER }}
+          repository: Calfur/calfur-dev
+          event-type: new-party-battle-frontend-image
+          client-payload: '{"image_version":"${{ env.IMAGE_VERSION }}"}'
