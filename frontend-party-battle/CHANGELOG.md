@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.4](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.3...frontend-party-battle-v1.3.4) (2025-08-24)
+
+
+### Bug Fixes
+
+* Dark mode & Rework frontend ([2664e1c](https://github.com/thirty-degrees/party-battle/commit/2664e1cdabcdf00dc56e8e14ed64bd95aa8d995b))
+
 ## [1.3.3](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.2...frontend-party-battle-v1.3.3) (2025-08-24)
 
 
