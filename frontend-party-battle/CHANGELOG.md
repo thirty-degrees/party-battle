@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.2...frontend-party-battle-v1.3.3) (2025-08-24)
+
+
+### Bug Fixes
+
+* System theme handling and initial dark mode flash ([7f08cc1](https://github.com/thirty-degrees/party-battle/commit/7f08cc1e0385dcc90b573e1f0c1d2ee06e680256))
+
 ## [1.3.2](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.1...frontend-party-battle-v1.3.2) (2025-08-23)
 
 
