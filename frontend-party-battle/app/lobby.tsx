@@ -16,6 +16,14 @@ export default function LobbyScreen({
   currentPlayerId,
   onGameStart,
 }: LobbyScreenProps) {
+  const currentPlayer = players.find(
+    (player) => player.name === currentPlayerId
+  );
+  const isCurrentPlayerReady = currentPlayer?.ready || false;
+
+  console.log("LobbyScreen - Current player:", currentPlayer);
+  console.log("LobbyScreen - Is current player ready:", isCurrentPlayerReady);
+
   return (
     <View className="flex-1 bg-black justify-between items-center p-4 pt-8">
       <View className="w-full max-w-md">
@@ -25,7 +33,7 @@ export default function LobbyScreen({
 
         <ScrollView className="max-h-64">
           {players.map((player, index) => {
-            const isCurrentPlayer = player.id === currentPlayerId;
+            const isCurrentPlayer = player.name === currentPlayerId;
             return (
               <View
                 key={index}
@@ -47,16 +55,26 @@ export default function LobbyScreen({
                 >
                   {player.name}
                 </Text>
+                {player.ready && (
+                  <View className="ml-auto bg-green-600 px-2 py-1 rounded-full">
+                    <Text className="text-xs text-white font-medium">✓</Text>
+                  </View>
+                )}
               </View>
             );
           })}
         </ScrollView>
       </View>
 
-      {/* Start Game Button */}
+      {/* Ready Button */}
       <View className="w-full max-w-md mt-6">
-        <Button onPress={onGameStart} variant="solid" action="primary">
-          <ButtonText>Start</ButtonText>
+        <Button
+          onPress={onGameStart}
+          variant="solid"
+          action={isCurrentPlayerReady ? "secondary" : "primary"}
+          disabled={isCurrentPlayerReady}
+        >
+          <ButtonText>{isCurrentPlayerReady ? "Ready!" : "Ready"}</ButtonText>
         </Button>
       </View>
     </View>

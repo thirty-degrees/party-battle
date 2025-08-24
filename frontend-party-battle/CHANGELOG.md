@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.3.2](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.1...frontend-party-battle-v1.3.2) (2025-08-23)
+
+
+### Miscellaneous Chores
+
+* release 1.3.2 ([bfadf78](https://github.com/thirty-degrees/party-battle/commit/bfadf782e09fa24db527b81f755de30b4f25f2e1))
+
+## [1.3.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.0...frontend-party-battle-v1.3.1) (2025-08-23)
+
+
+### Miscellaneous Chores
+
+* release 1.3.1 ([cacb86d](https://github.com/thirty-degrees/party-battle/commit/cacb86ded9909e93443bd09db8c893ae9d7429f2))
+
+## [1.3.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.2.1...frontend-party-battle-v1.3.0) (2025-08-23)
+
+
+### Features
+
+* added a list of players in the room to the lobbyscreen ([a176347](https://github.com/thirty-degrees/party-battle/commit/a1763470a22ffe5ee12ad64d01db3aaacf4053ca))
+
 ## [1.2.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.2.0...frontend-party-battle-v1.2.1) (2025-08-22)
 
 

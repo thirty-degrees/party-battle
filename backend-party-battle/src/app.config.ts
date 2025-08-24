@@ -5,14 +5,18 @@ import { playground } from "@colyseus/playground";
 /**
  * Import your Room files
  */
-import { GameRoom } from "./rooms/GameRoom";
+import { LobbyRoom } from "./rooms/LobbyRoom";
+import { CrocMiniGameRoom } from "./rooms/CrocMiniGameRoom";
 
 export default config({
   initializeGameServer: (gameServer) => {
     /**
      * Define your room handlers:
      */
-    gameServer.define("game_room", GameRoom);
+    gameServer.define("lobby_room", LobbyRoom);
+    gameServer.define("croc_mini_game_room", CrocMiniGameRoom, {
+      maxEmptyTime: 300000,
+    });
   },
 
   initializeExpress: (app) => {

@@ -9,7 +9,7 @@ import { Spinner } from "@/components/ui/spinner";
 import Constants from "expo-constants";
 import LobbyScreen from "./lobby";
 import { useRoomStore } from "@/hooks/useRoomStore";
-import { PlayerState, GameRoomState, GameTypes } from "@/types/game";
+import { PlayerState, LobbyRoomState } from "@/types/game";
 
 const { Client, Room } = require("colyseus.js");
 
@@ -18,31 +18,44 @@ type RoomType = any;
 export default function RoomScreen() {
   const { roomId } = useLocalSearchParams<{ roomId?: string }>();
   const { room: globalRoom, setRoom: setGlobalRoom } = useRoomStore();
-  const [currentScreen, setCurrentScreen] = useState<GameTypes>(null);
+
   const [playerName, setPlayerName] = useState<string>("");
-  const [playerCount, setPlayerCount] = useState<number>(0);
   const [players, setPlayers] = useState<PlayerState[]>([]);
   const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
+
   const roomRef = useRef<RoomType | null>(null);
 
-  const handleStateChange = (state: GameRoomState) => {
-    const playersMap = state.players?.$items as any;
-    const playerCount = playersMap?.size || 0;
-    setPlayerCount(playerCount);
-
-    console.error("state.players?.$items", playersMap);
-    // TODO: refactor pleaseee
+  const handleStateChange = (state: LobbyRoomState) => {
+    console.log("State changed:", state);
     const playersArray: PlayerState[] = [];
-    if (playersMap && typeof playersMap.forEach === "function") {
-      playersMap.forEach((player: any, key: string) => {
-        playersArray.push({
-          name: player.name,
-          id: key, // Add the session ID as player ID
+
+    if (state.players) {
+      const playersMap = state.players as any;
+      if (playersMap && typeof playersMap.forEach === "function") {
+        playersMap.forEach((player: any, key: string) => {
+          playersArray.push({
+            name: player.name,
+            id: key,
+            ready: player.ready,
+          });
+
+          // Update local storage with the server-assigned name if this is the current player
+          if (
+            key === roomRef.current?.sessionId &&
+            player.name !== playerName
+          ) {
+            console.log(
+              `Updating stored name from "${playerName}" to "${player.name}"`
+            );
+            localStorage.setItem("playerName", player.name);
+            setPlayerName(player.name);
+          }
         });
-      });
+      }
     }
+
+    console.log("Players array:", playersArray);
     setPlayers(playersArray);
-    setCurrentScreen(state.currentGame);
   };
 
   const showWebNamePrompt = () => {
@@ -108,18 +121,53 @@ export default function RoomScreen() {
       if (!playerName || !roomId) return;
 
       try {
-        // If we already have a room from the global store, use it
         if (globalRoom) {
           roomRef.current = globalRoom;
-          setCurrentPlayerId(globalRoom.sessionId);
+          setCurrentPlayerId(playerName);
 
-          // Set up the state change listener
           globalRoom.onStateChange(handleStateChange);
+
+          globalRoom.onMessage("game_started", async (message: any) => {
+            console.log("Game started:", message);
+            if (message.gameRoomId) {
+              router.push({
+                pathname: "/croc-game",
+                params: {
+                  gameRoomId: message.gameRoomId,
+                  playerName: playerName,
+                  lobbyRoomId: roomId || "",
+                },
+              });
+            }
+          });
+
+          globalRoom.onMessage("return_to_lobby", (message: any) => {
+            console.log("Returning to lobby");
+            // Force a state refresh when returning to lobby
+            if (globalRoom.state) {
+              handleStateChange(globalRoom.state);
+            }
+          });
+
+          globalRoom.onMessage("player_returned", (message: any) => {
+            console.log("Player returned from game:", message);
+            // Force a state refresh when a player returns
+            if (globalRoom.state) {
+              handleStateChange(globalRoom.state);
+            }
+          });
+
+          // Initial state load
+          if (globalRoom.state) {
+            handleStateChange(globalRoom.state);
+          }
+
+          // Reset ready state when returning to lobby
+          globalRoom.send("reset_ready");
 
           return;
         }
 
-        // Otherwise, join the room
         const client = new Client(Constants.expoConfig?.extra?.backendUrl);
 
         const roomInstance = await client.joinById(roomId, {
@@ -128,9 +176,47 @@ export default function RoomScreen() {
 
         roomRef.current = roomInstance;
         setGlobalRoom(roomInstance);
-        setCurrentPlayerId(roomInstance.sessionId);
+        setCurrentPlayerId(playerName);
 
         roomInstance.onStateChange(handleStateChange);
+
+        roomInstance.onMessage("game_started", async (message: any) => {
+          console.log("Game started:", message);
+          if (message.gameRoomId) {
+            router.push({
+              pathname: "/croc-game",
+              params: {
+                gameRoomId: message.gameRoomId,
+                playerName: playerName,
+                lobbyRoomId: roomId || "",
+              },
+            });
+          }
+        });
+
+        roomInstance.onMessage("return_to_lobby", (message: any) => {
+          console.log("Returning to lobby");
+          // Force a state refresh when returning to lobby
+          if (roomInstance.state) {
+            handleStateChange(roomInstance.state);
+          }
+        });
+
+        roomInstance.onMessage("player_returned", (message: any) => {
+          console.log("Player returned from game:", message);
+          // Force a state refresh when a player returns
+          if (roomInstance.state) {
+            handleStateChange(roomInstance.state);
+          }
+        });
+
+        // Initial state load
+        if (roomInstance.state) {
+          handleStateChange(roomInstance.state);
+        }
+
+        // Reset ready state when returning to lobby
+        roomInstance.send("reset_ready");
 
         roomInstance.onLeave((code: number) => {
           setGlobalRoom(null);
@@ -173,39 +259,27 @@ export default function RoomScreen() {
   }, [playerName, roomId]);
 
   const startGame = () => {
-    console.log("game started");
+    console.log("Sending ready...");
+    if (roomRef.current) {
+      roomRef.current.send("ready");
+    }
   };
 
-  const renderCurrentScreen = (currentScreen: GameTypes) => {
-    switch (currentScreen) {
-      case "lobby":
-        return (
-          <LobbyScreen
-            players={players}
-            currentPlayerId={currentPlayerId}
-            onGameStart={startGame}
-          />
-        );
-      case "croc":
-        return (
-          <View className="flex-1 justify-center items-center">
-            <Heading size="xl" className="text-2xl font-bold text-white">
-              Croc Game
-            </Heading>
-            <Text className="text-gray-400 mt-2">
-              Game content will go here
-            </Text>
-          </View>
-        );
-      case null:
-      default:
-        return (
-          <View className="flex-1 justify-center items-center">
-            <Spinner size="large" color="#3B82F6" />
-            <Text className="text-gray-400 mt-4 text-center">Loading...</Text>
-          </View>
-        );
+  const requestGameRoom = () => {
+    console.log("Requesting game room creation...");
+    if (roomRef.current) {
+      roomRef.current.send("create_game_room");
     }
+  };
+
+  const renderCurrentScreen = () => {
+    return (
+      <LobbyScreen
+        players={players}
+        currentPlayerId={currentPlayerId}
+        onGameStart={startGame}
+      />
+    );
   };
 
   return (
@@ -223,7 +297,7 @@ export default function RoomScreen() {
       {/* Main Content */}
       <View className="flex-1 p-1">
         <Card className="flex-1 m-1 bg-black border-gray-600">
-          {renderCurrentScreen(currentScreen)}
+          {renderCurrentScreen()}
         </Card>
       </View>
     </View>
