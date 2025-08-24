@@ -151,9 +151,9 @@ export default function CrocGamePage() {
 
   if (isConnecting) {
     return (
-      <View className="flex-1 bg-black justify-center items-center">
+      <View className="flex-1 bg-white dark:bg-black justify-center items-center">
         <Spinner size="large" color="#3B82F6" />
-        <Text className="text-gray-400 mt-4 text-center">
+        <Text className="text-gray-600 dark:text-gray-400 mt-4 text-center">
           Connecting to game...
         </Text>
       </View>
@@ -162,45 +162,45 @@ export default function CrocGamePage() {
 
   if (!gameRoom) {
     return (
-      <View className="flex-1 bg-black justify-center items-center">
-        <Text className="text-white text-xl mb-4">
+      <View className="flex-1 bg-white dark:bg-black justify-center items-center">
+        <Text className="text-black dark:text-white text-xl mb-4">
           Failed to connect to game
         </Text>
         <Button
           onPress={() => router.replace(`/room?roomId=${lobbyRoomId}`)}
-          className="bg-blue-500"
+          className="bg-blue-500 dark:bg-blue-500"
         >
-          <Text className="text-white">Return to Lobby</Text>
+          <Text className="text-white dark:text-white">Return to Lobby</Text>
         </Button>
       </View>
     );
   }
 
   return (
-    <View className="flex-1 bg-black justify-center items-center space-y-6">
-      <Text className="text-white text-2xl font-bold">Croc Mini Game</Text>
+    <View className="flex-1 bg-white dark:bg-black justify-center items-center space-y-6">
+      <Text className="text-black dark:text-white text-2xl font-bold">Croc Mini Game</Text>
 
-      <Text className="text-white text-xl">
+      <Text className="text-black dark:text-white text-xl">
         Game started: {gameStarted.toString()}
       </Text>
 
       {gameRoomState && (
         <View className="items-center space-y-2">
-          <Text className="text-white text-lg">
+          <Text className="text-black dark:text-white text-lg">
             Players: {Object.keys(gameRoomState.players || {}).length}
           </Text>
-          <Text className="text-white text-lg">
+          <Text className="text-black dark:text-white text-lg">
             Game State: {gameRoomState.gameState}
           </Text>
-          <Text className="text-white text-lg">
+          <Text className="text-black dark:text-white text-lg">
             Hot Tooth Index: {gameRoomState.hotThootIndex}
           </Text>
         </View>
       )}
 
       <View className="space-y-4">
-        <Button onPress={handleLeaveRoom} className="bg-red-500">
-          <Text className="text-white">Leave Game</Text>
+        <Button onPress={handleLeaveRoom} className="bg-red-500 dark:bg-red-500">
+          <Text className="text-white dark:text-white">Leave Game</Text>
         </Button>
       </View>
     </View>

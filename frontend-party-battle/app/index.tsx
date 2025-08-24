@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { View } from "react-native";
 
-import { RainbowText } from "@/components/RainbowText";
+import RainbowText from "@/components/rainbow-text";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
@@ -10,7 +10,7 @@ import { Text } from "@/components/ui/text";
 import Constants from "expo-constants";
 import { useRoomStore } from "@/hooks/useRoomStore";
 
-const { Client } = require("colyseus.js");
+import { Client } from "colyseus.js";
 
 export default function HomeScreen() {
   const [playerName, setPlayerName] = useState("");
@@ -49,7 +49,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <View className="flex-1 justify-center gap-2 items-center p-4 bg-background-0">
+    <View className="flex-1 justify-center gap-2 items-center p-4 bg-background-0 dark:bg-background-950">
       <View className="flex-row items-center gap-2">
         <RainbowText text="Party" />
         <Heading size="xl">Battle</Heading>

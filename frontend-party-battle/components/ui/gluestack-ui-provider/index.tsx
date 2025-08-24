@@ -1,5 +1,5 @@
 import React from 'react';
-import { config } from './config';
+import { colors } from './colors';
 import { View, ViewProps } from 'react-native';
 import { OverlayProvider } from '@gluestack-ui/overlay';
 import { ToastProvider } from '@gluestack-ui/toast';
@@ -13,7 +13,7 @@ export function GluestackUIProvider({
   return (
     <View
       style={[
-        config,
+        colors,
         {
           flex: 1,
           height: '100%',

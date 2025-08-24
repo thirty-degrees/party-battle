@@ -17,11 +17,11 @@ const badgeStyle = tva({
   base: "flex-row items-center rounded-sm data-[disabled=true]:opacity-50 px-2 py-1",
   variants: {
     action: {
-      error: "bg-background-error border-error-300",
-      warning: "bg-background-warning border-warning-300",
-      success: "bg-background-success border-success-300",
-      info: "bg-background-info border-info-300",
-      muted: "bg-background-muted border-background-300",
+      error: "bg-background-error dark:bg-error-950 border-error-300 dark:border-error-700",
+      warning: "bg-background-warning dark:bg-warning-950 border-warning-300 dark:border-warning-700",
+      success: "bg-background-success dark:bg-success-950 border-success-300 dark:border-success-700",
+      info: "bg-background-info dark:bg-info-950 border-info-300 dark:border-info-700",
+      muted: "bg-background-muted dark:bg-background-900 border-background-300 dark:border-background-700",
     },
     variant: {
       solid: "",
@@ -36,15 +36,15 @@ const badgeStyle = tva({
 });
 
 const badgeTextStyle = tva({
-  base: "text-typography-700 font-body font-normal tracking-normal uppercase",
+  base: "text-typography-700 dark:text-typography-300 font-body font-normal tracking-normal uppercase",
 
   parentVariants: {
     action: {
-      error: "text-error-600",
-      warning: "text-warning-600",
-      success: "text-success-600",
-      info: "text-info-600",
-      muted: "text-background-800",
+      error: "text-error-600 dark:text-error-400",
+      warning: "text-warning-600 dark:text-warning-400",
+      success: "text-success-600 dark:text-success-400",
+      info: "text-info-600 dark:text-info-400",
+      muted: "text-background-800 dark:text-background-200",
     },
     size: {
       sm: "text-2xs",
@@ -72,7 +72,7 @@ const badgeTextStyle = tva({
       true: "italic",
     },
     highlight: {
-      true: "bg-yellow-500",
+      true: "bg-yellow-500 dark:bg-yellow-500",
     },
   },
 });
@@ -81,11 +81,11 @@ const badgeIconStyle = tva({
   base: "fill-none",
   parentVariants: {
     action: {
-      error: "text-error-600",
-      warning: "text-warning-600",
-      success: "text-success-600",
-      info: "text-info-600",
-      muted: "text-background-800",
+      error: "text-error-600 dark:text-error-400",
+      warning: "text-warning-600 dark:text-warning-400",
+      success: "text-success-600 dark:text-success-400",
+      info: "text-info-600 dark:text-info-400",
+      muted: "text-background-800 dark:text-background-200",
     },
     size: {
       sm: "h-3 w-3",

@@ -12,7 +12,7 @@ const rainbowColors = [
 ];
 
 // Simple rainbow text component
-function RainbowText({ text }: { text: string }) {
+export default function RainbowText({ text }: { text: string }) {
   return (
     <View className="flex-row">
       {text.split("").map((letter, index) => (
@@ -27,5 +27,3 @@ function RainbowText({ text }: { text: string }) {
     </View>
   );
 }
-
-export { RainbowText };

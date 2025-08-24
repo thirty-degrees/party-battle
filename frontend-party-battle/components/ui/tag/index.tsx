@@ -17,8 +17,8 @@ const Tag = React.forwardRef<React.ComponentRef<typeof View>, TagProps>(
       "rounded-full px-3 py-1 flex-row items-center justify-center";
 
     const variantClasses = {
-      default: "bg-blue-100 border border-blue-200",
-      outline: "bg-transparent border border-gray-300",
+      default: "bg-blue-100 dark:bg-blue-900 border border-blue-200 dark:border-blue-800",
+      outline: "bg-transparent dark:bg-transparent border border-gray-300 dark:border-gray-700",
     };
 
     const sizeClasses = {
@@ -39,7 +39,7 @@ const Tag = React.forwardRef<React.ComponentRef<typeof View>, TagProps>(
         {...props}
         ref={ref}
       >
-        <Text className={`font-medium text-gray-700 ${textSizeClasses[size]}`}>
+        <Text className={`font-medium text-gray-700 dark:text-gray-300 ${textSizeClasses[size]}`}>
           {children}
         </Text>
       </View>

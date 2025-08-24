@@ -1,7 +1,6 @@
-'use client';
 import { vars } from 'nativewind';
 
-export const config = vars({
+export const colors = vars({
   '--color-primary-0': '179 179 179',
   '--color-primary-50': '153 153 153',
   '--color-primary-100': '128 128 128',

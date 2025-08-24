@@ -7,11 +7,11 @@ import { Card } from "@/components/ui/card";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
 import Constants from "expo-constants";
-import LobbyScreen from "./lobby";
+import PlayerList from "../components/player-list";
 import { useRoomStore } from "@/hooks/useRoomStore";
 import { PlayerState, LobbyRoomState } from "@/types/game";
 
-const { Client, Room } = require("colyseus.js");
+import { Client, Room } from "colyseus.js";
 
 type RoomType = any;
 
@@ -274,7 +274,7 @@ export default function RoomScreen() {
 
   const renderCurrentScreen = () => {
     return (
-      <LobbyScreen
+      <PlayerList
         players={players}
         currentPlayerId={currentPlayerId}
         onGameStart={startGame}
@@ -283,10 +283,10 @@ export default function RoomScreen() {
   };
 
   return (
-    <View className="flex-1 bg-black">
+    <View className="flex-1 bg-white dark:bg-black">
       {/* Top Bar */}
-      <View className="bg-black border-b border-gray-600 px-4 py-3 flex-row items-center justify-between">
-        <Text className="text-lg font-semibold text-white">{playerName}</Text>
+      <View className="bg-white dark:bg-black border-b border-gray-400 dark:border-gray-600 px-4 py-3 flex-row items-center justify-between">
+        <Text className="text-lg font-semibold text-black dark:text-white">{playerName}</Text>
         {globalRoom && (
           <Badge variant="outline" action="muted" size="sm">
             <BadgeText>{globalRoom.roomId}</BadgeText>
@@ -294,9 +294,8 @@ export default function RoomScreen() {
         )}
       </View>
 
-      {/* Main Content */}
       <View className="flex-1 p-1">
-        <Card className="flex-1 m-1 bg-black border-gray-600">
+        <Card className="flex-1 m-1 bg-white dark:bg-black border-gray-400 dark:border-gray-600">
           {renderCurrentScreen()}
         </Card>
       </View>
