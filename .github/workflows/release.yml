@@ -29,6 +29,8 @@ jobs:
       packages: write
     env:
       IMAGE_VERSION: ${{ github.sha }}
+    outputs:
+      image_version: ${{ env.IMAGE_VERSION }}
     steps:
       - uses: actions/checkout@v4
 
@@ -54,6 +56,18 @@ jobs:
           platforms: linux/arm64
           cache-from: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache
           cache-to: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache,mode=max
+
+  trigger-backend-deployment:
+    needs: build-backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger backend image update
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GH_PAT_ACTIONS_TRIGGER }}
+          repository: Calfur/calfur-dev
+          event-type: new-backend-party-battle-image
+          client-payload: '{"image_version": "${{ needs.build-backend.outputs.image_version }}"}'
 
   build-web:
     needs: release
