@@ -7,9 +7,7 @@ import { Heading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 
 export default function ErrorScreen() {
-  const { error } = useLocalSearchParams<{
-    error: string;
-  }>();
+  const { error } = useLocalSearchParams<{ error: string }>();
 
   const handleGoHome = () => {
     router.replace("/");
@@ -28,8 +26,8 @@ export default function ErrorScreen() {
         </Heading>
 
         <Text className="text-gray-300 text-center mb-8 leading-6">
-          Hey! The room you're looking for doesn't exist or is full. Go back
-          home and create a new one! 🎮
+          Hey! The room you&apos;re looking for doesn&apos;t exist or is full. Go
+          back home and create a new one! 🎮
         </Text>
 
         <Button
