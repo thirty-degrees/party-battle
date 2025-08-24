@@ -1,11 +1,14 @@
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, Platform, Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 
 import { Heading } from "@/components/ui/heading";
 import { Card } from "@/components/ui/card";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
+import { Button, ButtonText } from "@/components/ui/button";
+import { Input, InputField } from "@/components/ui/input";
+import { NameInputModal } from "@/components/ui/modal/custom-modals";
 import Constants from "expo-constants";
 import PlayerList from "../components/player-list";
 import { useRoomStore } from "@/hooks/useRoomStore";
@@ -22,6 +25,7 @@ export default function RoomScreen() {
   const [playerName, setPlayerName] = useState<string>("");
   const [players, setPlayers] = useState<PlayerState[]>([]);
   const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
+  const [showNamePrompt, setShowNamePrompt] = useState(false);
 
   const roomRef = useRef<RoomType | null>(null);
 
@@ -58,58 +62,21 @@ export default function RoomScreen() {
     setPlayers(playersArray);
   };
 
-  const showWebNamePrompt = () => {
-    console.log("Using web prompt");
-    const name = prompt("Please enter your name to join the room");
-    console.log("Prompt result:", name);
-
-    if (name && name.trim()) {
-      localStorage.setItem("playerName", name.trim());
-      setPlayerName(name.trim());
-    } else {
-      router.replace("/");
-    }
+  const handleNameSubmit = (name: string) => {
+    localStorage.setItem("playerName", name);
+    setPlayerName(name);
+    setShowNamePrompt(false);
   };
 
-  const showMobileNameAlert = () => {
-    console.log("Using mobile Alert.prompt");
-    Alert.prompt(
-      "Enter Your Name",
-      "Please enter your name to join the room",
-      [
-        {
-          text: "Cancel",
-          onPress: () => router.replace("/"),
-          style: "cancel",
-        },
-        {
-          text: "Join",
-          onPress: (name) => {
-            console.log("Alert.prompt result:", name);
-            if (name && name.trim()) {
-              localStorage.setItem("playerName", name.trim());
-              setPlayerName(name.trim());
-            } else {
-              router.replace("/");
-            }
-          },
-        },
-      ],
-      "plain-text",
-      "",
-      "default"
-    );
+  const handleNameCancel = () => {
+    router.replace("/");
   };
 
   useEffect(() => {
     const storedPlayerName = localStorage.getItem("playerName");
 
     if (!storedPlayerName) {
-      if (Platform.OS === "web") {
-        showWebNamePrompt();
-      } else {
-        showMobileNameAlert();
-      }
+      setShowNamePrompt(true);
     } else {
       console.log("Found stored player name:", storedPlayerName);
       setPlayerName(storedPlayerName);
@@ -286,7 +253,9 @@ export default function RoomScreen() {
     <View className="flex-1 bg-white dark:bg-black">
       {/* Top Bar */}
       <View className="bg-white dark:bg-black border-b border-gray-400 dark:border-gray-600 px-4 py-3 flex-row items-center justify-between">
-        <Text className="text-lg font-semibold text-black dark:text-white">{playerName}</Text>
+        <Text className="text-lg font-semibold text-black dark:text-white">
+          {playerName}
+        </Text>
         {globalRoom && (
           <Badge variant="outline" action="muted" size="sm">
             <BadgeText>{globalRoom.roomId}</BadgeText>
@@ -299,6 +268,12 @@ export default function RoomScreen() {
           {renderCurrentScreen()}
         </Card>
       </View>
+
+      <NameInputModal
+        isOpen={showNamePrompt}
+        onClose={handleNameCancel}
+        onSubmit={handleNameSubmit}
+      />
     </View>
   );
 }
