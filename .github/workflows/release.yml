@@ -14,6 +14,7 @@ jobs:
       issues: write
     outputs:
       paths: ${{ steps.rp.outputs.paths_released }}
+      releases: ${{ steps.rp.outputs.releases_created }}
     steps:
       - uses: googleapis/release-please-action@v4
         id: rp
@@ -31,8 +32,23 @@ jobs:
       IMAGE_VERSION: ${{ github.sha }}
     outputs:
       image_version: ${{ env.IMAGE_VERSION }}
+      backend_version: ${{ steps.derive_backend_version.outputs.backend_version }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Derive backend version from release outputs
+        id: derive_backend_version
+        env:
+          RELEASES: ${{ needs.release.outputs.releases }}
+        run: |
+          ver=$(node -e "const r=JSON.parse(process.env.RELEASES||'[]'); const b=r.find(x=>x.path==='backend-party-battle'); if(!b){process.exit(1)} const v=b.version||b.tag_name||b.tagName||''; const ver=String(v).replace(/^v/, ''); if(!ver){process.exit(1)} process.stdout.write(ver)")
+          echo "BACKEND_VERSION=$ver" >> $GITHUB_ENV
+          echo "backend_version=$ver" >> $GITHUB_OUTPUT
 
       - name: Setup Blacksmith Builder
         uses: useblacksmith/setup-docker-builder@v1
@@ -66,8 +82,8 @@ jobs:
         with:
           token: ${{ secrets.GH_PAT_ACTIONS_TRIGGER }}
           repository: Calfur/calfur-dev
-          event-type: new-backend-party-battle-image
-          client-payload: '{"image_version": "${{ needs.build-backend.outputs.image_version }}"}'
+          event-type: add-party-battle-backend-version
+          client-payload: '{"image_version":"${{ needs.build-backend.outputs.image_version }}","backend_version":"${{ needs.build-backend.outputs.backend_version }}"}'
 
   build-web:
     needs: release
