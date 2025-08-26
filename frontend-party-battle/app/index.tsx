@@ -105,6 +105,7 @@ export default function HomeScreen() {
           value={playerName}
           onChangeText={setPlayerName}
           placeholder="Enter your name..."
+          autoComplete="username"
         />
       </Input>
       <View className="flex-col gap-2 mt-20">
