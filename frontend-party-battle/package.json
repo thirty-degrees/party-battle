@@ -4,10 +4,10 @@
   "version": "1.3.5",
   "scripts": {
     "start": "npx expo start -c",
-    "start:web": "npx expo start --web",
-    "android": "DARK_MODE=media expo start --android",
-    "ios": "DARK_MODE=media expo start --ios",
-    "web": "DARK_MODE=media expo start --web",
+    "start:web": "npx expo start --web -c",
+    "android": "DARK_MODE=media expo start --android -c",
+    "ios": "DARK_MODE=media expo start --ios -c",
+    "web": "DARK_MODE=media expo start --web -c",
     "lint": "expo lint"
   },
   "dependencies": {
