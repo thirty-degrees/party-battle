@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.6](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.5...frontend-party-battle-v1.3.6) (2025-08-26)
+
+
+### Bug Fixes
+
+* Auto complete of username field ([68e59fb](https://github.com/thirty-degrees/party-battle/commit/68e59fbdd9e34fb8fe73b024647c8a06f5ceaa16))
+* ios error httpie ([2a9ad99](https://github.com/thirty-degrees/party-battle/commit/2a9ad99a1466640a1df143da8125a79105b4ba9f))
+
 ## [1.3.5](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.4...frontend-party-battle-v1.3.5) (2025-08-24)
 
 
