@@ -22,6 +22,9 @@ module.exports = function (api) {
           alias: {
             "@": "./",
             "tailwind.config": "./tailwind.config.js",
+            "@colyseus/httpie": "@colyseus/httpie/fetch",
+            "stream": "stream-browserify",
+            "ws": "isomorphic-ws",
           },
         },
       ],
