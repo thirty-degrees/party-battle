@@ -125,7 +125,7 @@ export default function CrocGamePage() {
         roomRef.current.leave();
       }
     };
-  }, [gameRoomId, playerName, router]);
+  }, [gameRoomId, playerName, lobbyRoomId, router]);
 
   const handleLeaveRoom = () => {
     if (roomRef.current) {

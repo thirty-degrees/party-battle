@@ -7,7 +7,7 @@ import { Heading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 
 export default function ErrorScreen() {
-  const { error } = useLocalSearchParams<{ error: string }>();
+  useLocalSearchParams<{ error: string }>();
 
   const handleGoHome = () => {
     router.replace("/");

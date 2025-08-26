@@ -46,7 +46,7 @@ export default function HomeScreen() {
         },
       });
       setIsCreating(false);
-    } catch (error) {
+    } catch {
       toast.showError("Error", "Failed to create room. Please try again.");
       setIsCreating(false);
     }
@@ -78,7 +78,7 @@ export default function HomeScreen() {
       });
       setShowJoinModal(false);
       setIsJoining(false);
-    } catch (error) {
+    } catch {
       toast.showError(
         "Error",
         "Failed to join room. Please check the room ID and try again."
