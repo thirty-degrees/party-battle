@@ -21,7 +21,7 @@ export default function (api) {
 
           alias: {
             "@": "./",
-            "tailwind.config": "./tailwind.config.js",
+            "tailwind.config": "./tailwind.config.ts",
             "@colyseus/httpie": "@colyseus/httpie/fetch",
             "stream": "stream-browserify",
             "ws": "isomorphic-ws",

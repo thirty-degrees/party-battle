@@ -1,7 +1,7 @@
+import type { Config } from "tailwindcss";
 import gluestackPlugin from "@gluestack-ui/nativewind-utils/tailwind-plugin";
-import nativewindPreset from "nativewind/preset";
+import nativewindPreset from "nativewind/dist/tailwind/native";
 
-/** @type {import('tailwindcss').Config} */
 export default {
   darkMode: "media",
   content: ["app/**/*.{tsx,jsx,ts,js}", "components/**/*.{tsx,jsx,ts,js}"],
@@ -171,9 +171,6 @@ export default {
         },
       },
       fontFamily: {
-        heading: undefined,
-        body: undefined,
-        mono: undefined,
         roboto: ["Roboto", "sans-serif"],
       },
       fontWeight: {
@@ -196,4 +193,4 @@ export default {
     },
   },
   plugins: [gluestackPlugin],
-};
+} satisfies Config;
