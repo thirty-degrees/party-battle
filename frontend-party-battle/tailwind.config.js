@@ -1,6 +1,5 @@
-import type { Config } from "tailwindcss";
 import gluestackPlugin from "@gluestack-ui/nativewind-utils/tailwind-plugin";
-import nativewindPreset from "nativewind/dist/tailwind/native";
+import nativewindPreset from "nativewind/preset";
 
 export default {
   darkMode: "media",
@@ -193,4 +192,4 @@ export default {
     },
   },
   plugins: [gluestackPlugin],
-} satisfies Config;
+};

@@ -1,6 +1,6 @@
 {
   "tailwind": {
-    "config": "tailwind.config.ts",
+    "config": "tailwind.config.js",
     "css": "global.css"
   },
   "app": {
