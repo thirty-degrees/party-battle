@@ -1,0 +1,23 @@
+{
+  "cli": {
+    "version": "16.17.4"
+  },
+  "build": {
+    "production": {
+      "android": {
+        "buildType": "app-bundle",
+        "distribution": "store",
+        "credentialsSource": "local"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "track": "internal",
+        "serviceAccountKeyPath": "./service-account.json"
+      }
+    }
+  }
+}
+

@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    runs-on: blacksmith-4vcpu-ubuntu-2404-arm
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
@@ -113,3 +113,79 @@ jobs:
           platforms: linux/arm64
           cache-from: type=registry,ref=ghcr.io/thirty-degrees/frontend-party-battle-web:buildcache
           cache-to: type=registry,ref=ghcr.io/thirty-degrees/frontend-party-battle-web:buildcache,mode=max
+
+  build-android:
+    needs: release
+    if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'frontend-party-battle')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install EAS CLI
+        run: npm i -g eas-cli@16.17.4
+
+      - name: Install dependencies
+        working-directory: ./frontend-party-battle
+        run: npm ci
+
+      - name: Configure Google Service Account
+        working-directory: ./frontend-party-battle
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > service-account.json
+
+      - name: Decode Android keystore
+        working-directory: ./frontend-party-battle
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          mkdir -p android/app
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
+
+      - name: Configure local Android credentials
+        working-directory: ./frontend-party-battle
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          cat > credentials.json <<'JSON'
+          {
+            "android": {
+              "keystore": {
+                "keystorePath": "./android/app/keystore.jks",
+                "keystorePassword": "${ANDROID_KEYSTORE_PASSWORD}",
+                "keyAlias": "${ANDROID_KEY_ALIAS}",
+                "keyPassword": "${ANDROID_KEY_PASSWORD}"
+              }
+            }
+          }
+          JSON
+
+      - name: Build Android AAB locally (EAS)
+        working-directory: ./frontend-party-battle
+        run: eas build --platform android --profile production --local --non-interactive --output app-release.aab
+
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: frontend-party-battle/service-account.json
+          packageName: ch.thirty_degrees.party_battle
+          releaseFiles: frontend-party-battle/app-release.aab
+          track: internal

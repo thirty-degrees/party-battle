@@ -19,6 +19,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     ...(config.android ?? {}),
+    package: "ch.thirty_degrees.party_battle",
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
       backgroundColor: "#ffffff",
