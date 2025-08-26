@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Text, View } from "react-native";
 
 import { Card } from "@/components/ui/card";
@@ -12,7 +12,7 @@ import PlayerList from "../components/player-list";
 import { useRoomStore } from "@/hooks/useRoomStore";
 import { PlayerState, LobbyRoomState } from "@/types/game";
 
-import { Client, Room } from "colyseus.js";
+import { Client } from "colyseus.js";
 
 type RoomType = any;
 
@@ -28,7 +28,7 @@ export default function RoomScreen() {
 
   const roomRef = useRef<RoomType | null>(null);
 
-  const handleStateChange = (state: LobbyRoomState) => {
+  const handleStateChange = useCallback((state: LobbyRoomState) => {
     console.log("State changed:", state);
     const playersArray: PlayerState[] = [];
 
@@ -59,7 +59,7 @@ export default function RoomScreen() {
 
     console.log("Players array:", playersArray);
     setPlayers(playersArray);
-  };
+  }, [playerName]);
 
   const handleNameSubmit = (name: string) => {
     localStorage.setItem("playerName", name);
@@ -222,19 +222,12 @@ export default function RoomScreen() {
         roomRef.current.leave();
       }
     };
-  }, [playerName, roomId]);
+  }, [playerName, roomId, globalRoom, handleStateChange, setGlobalRoom]);
 
   const startGame = () => {
     console.log("Sending ready...");
     if (roomRef.current) {
       roomRef.current.send("ready");
-    }
-  };
-
-  const requestGameRoom = () => {
-    console.log("Requesting game room creation...");
-    if (roomRef.current) {
-      roomRef.current.send("create_game_room");
     }
   };
 
