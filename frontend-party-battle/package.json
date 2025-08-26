@@ -9,7 +9,8 @@
     "android": "DARK_MODE=media expo start --android -c",
     "ios": "DARK_MODE=media expo start --ios -c",
     "web": "DARK_MODE=media expo start --web -c",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "docker:build": "docker build -t frontend-party-battle ."
   },
   "dependencies": {
     "@expo/cli": "^0.24.20",
