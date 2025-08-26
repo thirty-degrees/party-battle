@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.7](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.3.6...backend-party-battle-v1.3.7) (2025-08-26)
+
+
+### Bug Fixes
+
+* migrate from commonjs to esnext ([cac08f2](https://github.com/thirty-degrees/party-battle/commit/cac08f26abd21514132d817d106aafe84327ddcc))
+
 ## [1.3.6](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.3.5...backend-party-battle-v1.3.6) (2025-08-26)
 
 
