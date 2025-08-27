@@ -137,8 +137,8 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install EAS CLI
-        run: npm i -g eas-cli@16.17.4
+      - name: Install Android build tools
+        run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Install dependencies
         working-directory: ./frontend-party-battle
@@ -150,6 +150,10 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > service-account.json
 
+      - name: Prebuild native Android project
+        working-directory: ./frontend-party-battle
+        run: npx expo prebuild --platform android --non-interactive --clean
+
       - name: Decode Android keystore
         working-directory: ./frontend-party-battle
         env:
@@ -158,34 +162,29 @@ jobs:
           mkdir -p android/app
           echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
 
-      - name: Configure local Android credentials
+      - name: Build Android AAB with Gradle
+        working-directory: ./frontend-party-battle/android
+        run: ./gradlew bundleRelease
+
+      - name: Sign Android AAB
         working-directory: ./frontend-party-battle
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          cat > credentials.json <<'JSON'
-          {
-            "android": {
-              "keystore": {
-                "keystorePath": "./android/app/keystore.jks",
-                "keystorePassword": "${ANDROID_KEYSTORE_PASSWORD}",
-                "keyAlias": "${ANDROID_KEY_ALIAS}",
-                "keyPassword": "${ANDROID_KEY_PASSWORD}"
-              }
-            }
-          }
-          JSON
-
-      - name: Build Android AAB locally (EAS)
-        working-directory: ./frontend-party-battle
-        run: eas build --platform android --profile production --local --non-interactive --output app-release.aab
+          jarsigner \
+            -sigalg SHA256withRSA -digestalg SHA-256 \
+            -keystore android/app/keystore.jks \
+            -storepass "$ANDROID_KEYSTORE_PASSWORD" \
+            -keypass "$ANDROID_KEY_PASSWORD" \
+            android/app/build/outputs/bundle/release/app-release.aab \
+            "$ANDROID_KEY_ALIAS"
 
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJson: frontend-party-battle/service-account.json
           packageName: ch.thirty_degrees.party_battle
-          releaseFiles: frontend-party-battle/app-release.aab
+          releaseFiles: frontend-party-battle/android/app/build/outputs/bundle/release/app-release.aab
           track: internal
