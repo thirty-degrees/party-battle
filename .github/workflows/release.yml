@@ -201,22 +201,11 @@ jobs:
 
       - name: Build Android AAB with Gradle
         working-directory: ./frontend-party-battle/android
-        run: ./gradlew bundleRelease --build-cache
-
-      - name: Sign Android AAB
-        working-directory: ./frontend-party-battle
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: |
-          jarsigner \
-            -sigalg SHA256withRSA -digestalg SHA-256 \
-            -keystore android/app/keystore.jks \
-            -storepass "$ANDROID_KEYSTORE_PASSWORD" \
-            -keypass "$ANDROID_KEY_PASSWORD" \
-            android/app/build/outputs/bundle/release/app-release.aab \
-            "$ANDROID_KEY_ALIAS"
+        run: ./gradlew bundleRelease -Pandroid.injected.signing.store.password="$ANDROID_KEYSTORE_PASSWORD" -Pandroid.injected.signing.key.alias="$ANDROID_KEY_ALIAS" -Pandroid.injected.signing.key.password="$ANDROID_KEY_PASSWORD" --build-cache
 
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1
