@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.4.0...backend-party-battle-v1.4.1) (2025-08-27)
+
+
+### Miscellaneous Chores
+
+* release 1.4.1 ([6c7a4af](https://github.com/thirty-degrees/party-battle/commit/6c7a4af5637782c73662136f4ea5e12eae6eefed))
+
 ## [1.4.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.3.7...backend-party-battle-v1.4.0) (2025-08-27)
 
 
