@@ -13,6 +13,7 @@ import { useRoomStore } from "@/hooks/useRoomStore";
 import { PlayerState, LobbyRoomState } from "@/types/game";
 
 import { Client } from "colyseus.js";
+import useStorage from "@/hooks/useStorage";
 
 type RoomType = any;
 
@@ -20,7 +21,7 @@ export default function RoomScreen() {
   const { roomId } = useLocalSearchParams<{ roomId?: string }>();
   const { room: globalRoom, setRoom: setGlobalRoom } = useRoomStore();
 
-  const [playerName, setPlayerName] = useState<string>("");
+  const [playerName, setPlayerName, isLoading] = useStorage("playerName");
   const [players, setPlayers] = useState<PlayerState[]>([]);
   const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
   const [showNamePrompt, setShowNamePrompt] = useState(false);
@@ -42,7 +43,7 @@ export default function RoomScreen() {
             ready: player.ready,
           });
 
-          // Update local storage with the server-assigned name if this is the current player
+          // Update stored name with the server-assigned name if this is the current player
           if (
             key === roomRef.current?.sessionId &&
             player.name !== playerName
@@ -50,7 +51,6 @@ export default function RoomScreen() {
             console.log(
               `Updating stored name from "${playerName}" to "${player.name}"`
             );
-            localStorage.setItem("playerName", player.name);
             setPlayerName(player.name);
           }
         });
@@ -59,10 +59,9 @@ export default function RoomScreen() {
 
     console.log("Players array:", playersArray);
     setPlayers(playersArray);
-  }, [playerName]);
+  }, [playerName, setPlayerName]);
 
   const handleNameSubmit = (name: string) => {
-    localStorage.setItem("playerName", name);
     setPlayerName(name);
     setShowNamePrompt(false);
   };
@@ -72,15 +71,10 @@ export default function RoomScreen() {
   };
 
   useEffect(() => {
-    const storedPlayerName = localStorage.getItem("playerName");
-
-    if (!storedPlayerName) {
+    if (!isLoading && !playerName) {
       setShowNamePrompt(true);
-    } else {
-      console.log("Found stored player name:", storedPlayerName);
-      setPlayerName(storedPlayerName);
     }
-  }, []);
+  }, [isLoading, playerName]);
 
   useEffect(() => {
     const joinRoom = async () => {

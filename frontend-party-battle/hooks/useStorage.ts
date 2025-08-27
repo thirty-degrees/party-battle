@@ -1,18 +1,25 @@
 import { useState, useEffect } from "react";
 import { storage } from "./storage";
 
-export default function useStorage<T>(key: string, initial: T) {
-  const [value, setValue] = useState<T>(initial);
+export default function useStorage(key: string) {
+  const [value, setValue] = useState<string>();
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    let active = true;
     storage.getItem(key).then(v => {
-      if (v !== null) setValue(JSON.parse(v));
+      if (!active) return;
+      if (v !== null) setValue(v);
+      setLoading(false);
     });
+    return () => { active = false };
   }, [key]);
 
   useEffect(() => {
-    storage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
+    if (!isLoading && value !== undefined) {
+      storage.setItem(key, value);
+    }
+  }, [key, value, isLoading]);
 
-  return [value, setValue] as const;
+  return [value, setValue, isLoading] as const;
 }

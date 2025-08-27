@@ -13,28 +13,30 @@ import Constants from "expo-constants";
 import { useRoomStore } from "@/hooks/useRoomStore";
 
 import { Client } from "colyseus.js";
+import useStorage from "@/hooks/useStorage";
 
 export default function HomeScreen() {
-  const [playerName, setPlayerName] = useState("");
   const [isCreating, setIsCreating] = useState(false);
   const [isJoining, setIsJoining] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const { setRoom } = useRoomStore();
+  const [playerName, setPlayerName, isLoading] = useStorage("playerName");
   const toast = useToastHelper();
 
   const handleCreateRoom = async () => {
-    if (!playerName.trim()) {
+    if (!playerName) {
       return;
     }
 
     setIsCreating(true);
 
     try {
-      localStorage.setItem("playerName", playerName.trim());
+      const trimmedName = playerName.trim();
+      setPlayerName(trimmedName);
 
       const client = new Client(Constants.expoConfig?.extra?.backendUrl);
       const room = await client.create("lobby_room", {
-        name: playerName.trim(),
+        name: trimmedName,
       });
 
       setRoom(room);
@@ -46,14 +48,15 @@ export default function HomeScreen() {
         },
       });
       setIsCreating(false);
-    } catch {
+    } catch (e) {
+      console.error(e);
       toast.showError("Error", "Failed to create room. Please try again.");
       setIsCreating(false);
     }
   };
 
   const handleJoinRoom = async (roomId: string) => {
-    if (!playerName.trim()) {
+    if (!playerName?.trim()) {
       toast.showError("Error", "Please enter your name first.");
       return;
     }
@@ -61,11 +64,12 @@ export default function HomeScreen() {
     setIsJoining(true);
 
     try {
-      localStorage.setItem("playerName", playerName.trim());
+      const trimmedName = playerName.trim();
+      setPlayerName(trimmedName);
 
       const client = new Client(Constants.expoConfig?.extra?.backendUrl);
       const room = await client.joinById(roomId, {
-        name: playerName.trim(),
+        name: trimmedName,
       });
 
       setRoom(room);
@@ -78,7 +82,8 @@ export default function HomeScreen() {
       });
       setShowJoinModal(false);
       setIsJoining(false);
-    } catch {
+    } catch (e) {
+      console.error(e);
       toast.showError(
         "Error",
         "Failed to join room. Please check the room ID and try again."
@@ -113,7 +118,7 @@ export default function HomeScreen() {
           size="md"
           action="primary"
           onPress={handleCreateRoom}
-          isDisabled={!playerName.trim() || isCreating}
+          isDisabled={!playerName?.trim() || isCreating}
         >
           <ButtonText>{isCreating ? "Creating..." : "Create Room"}</ButtonText>
         </Button>
@@ -121,7 +126,7 @@ export default function HomeScreen() {
           size="md"
           action="secondary"
           onPress={() => setShowJoinModal(true)}
-          isDisabled={!playerName.trim() || isJoining}
+          isDisabled={!playerName?.trim() || isJoining}
         >
           <ButtonText>{isJoining ? "Joining..." : "Join Room"}</ButtonText>
         </Button>
