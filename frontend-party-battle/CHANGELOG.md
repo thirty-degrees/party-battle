@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.4.1...frontend-party-battle-v1.5.0) (2025-08-27)
+
+
+### Features
+
+* add proguard rules ([1c4524a](https://github.com/thirty-degrees/party-battle/commit/1c4524a46c09ed5632a724c527ecd22d6946c193))
+
 ## [1.4.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.4.0...frontend-party-battle-v1.4.1) (2025-08-27)
 
 
