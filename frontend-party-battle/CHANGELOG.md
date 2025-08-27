@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.6.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.5.0...frontend-party-battle-v1.6.0) (2025-08-27)
+
+
+### Features
+
+* local storage hook for native ([c05069d](https://github.com/thirty-degrees/party-battle/commit/c05069d3f9a5c57cd2c3101d164dbfdcfbfd5286))
+
+
+### Bug Fixes
+
+* use storage correctly ([55b5856](https://github.com/thirty-degrees/party-battle/commit/55b58569ddd5ca63212699c06341d40fefe55b97))
+
 ## [1.5.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.4.1...frontend-party-battle-v1.5.0) (2025-08-27)
 
 
