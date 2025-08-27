@@ -44,3 +44,8 @@ app-example
 # local env files
 .env*.local
 .env.development
+
+# github actions secrets
+credentials.json
+keystore.jks
+service-account.json
