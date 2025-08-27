@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.6.0...backend-party-battle-v1.6.1) (2025-08-27)
+
+
+### Miscellaneous Chores
+
+* release 1.6.1 ([3ade4cd](https://github.com/thirty-degrees/party-battle/commit/3ade4cdcbb7110d7c5f10864d4bb9f1ed3ed7be3))
+
 ## [1.6.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.5.0...backend-party-battle-v1.6.0) (2025-08-27)
 
 
