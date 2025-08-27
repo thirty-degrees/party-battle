@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.3.7...backend-party-battle-v1.4.0) (2025-08-27)
+
+
+### Bug Fixes
+
+* build issues ([fe089ef](https://github.com/thirty-degrees/party-battle/commit/fe089ef62ab4dddd85a43ba5baf9ccdfc1e17d82))
+
 ## [1.3.7](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.3.6...backend-party-battle-v1.3.7) (2025-08-26)
 
 

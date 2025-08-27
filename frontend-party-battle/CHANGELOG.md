@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.7...frontend-party-battle-v1.4.0) (2025-08-27)
+
+
+### Features
+
+* create android aab pipeline ([35ca59e](https://github.com/thirty-degrees/party-battle/commit/35ca59e395cc5a0ff2381e2a3f507fb958122de4))
+
+
+### Bug Fixes
+
+* build issues ([fe089ef](https://github.com/thirty-degrees/party-battle/commit/fe089ef62ab4dddd85a43ba5baf9ccdfc1e17d82))
+
 ## [1.3.7](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.3.6...frontend-party-battle-v1.3.7) (2025-08-26)
 
 
