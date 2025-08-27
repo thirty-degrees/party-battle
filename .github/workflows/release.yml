@@ -187,12 +187,15 @@ jobs:
         run: |
           mkdir -p android/app
           printf %s "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
+
+          # Optional: specify storetype explicitly; keytool generally auto-detects
           keytool -list -keystore android/app/keystore.jks \
-          -storepass "$ANDROID_KEYSTORE_PASSWORD"          
+            -storepass "$ANDROID_KEYSTORE_PASSWORD" -storetype PKCS12
+
+          # Fingerprint for the specific alias (no -keypass on PKCS12)
           keytool -list -v -keystore android/app/keystore.jks \
-          -storepass "$ANDROID_KEYSTORE_PASSWORD" \
-          -alias "$ANDROID_KEY_ALIAS" -keypass "$ANDROID_KEY_PASSWORD" \
-          | grep -E 'SHA1:|SHA-1:'
+            -storepass "$ANDROID_KEYSTORE_PASSWORD" -storetype PKCS12 \
+            -alias "$ANDROID_KEY_ALIAS" | grep -E 'SHA1:|SHA-1:'
 
       - name: Cache Gradle packages
         uses: actions/cache@v4
