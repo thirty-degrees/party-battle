@@ -7,7 +7,8 @@
       "android": {
         "buildType": "app-bundle",
         "distribution": "store",
-        "credentialsSource": "local"
+        "credentialsSource": "local",
+        "gradleCommand": ":app:bundleRelease"
       }
     }
   },
