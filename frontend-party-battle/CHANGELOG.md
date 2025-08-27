@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.1...frontend-party-battle-v1.6.2) (2025-08-27)
+
+
+### Miscellaneous Chores
+
+* release 1.6.2 ([e274a77](https://github.com/thirty-degrees/party-battle/commit/e274a77024b05c91af7d89eeb55b2e51fb1fdfe0))
+
 ## [1.6.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.0...frontend-party-battle-v1.6.1) (2025-08-27)
 
 
