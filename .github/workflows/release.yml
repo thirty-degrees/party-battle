@@ -245,7 +245,7 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           packageName: ch.thirty_degrees.party_battle
-          releaseFiles: dist/app-release.aab
-          mappingFile: dist/mapping.txt
+          releaseFiles: dist/bundle/release/app-release.aab
+          mappingFile: dist/mapping/release/mapping.txt
           track: internal
           status: draft

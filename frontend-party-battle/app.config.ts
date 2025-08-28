@@ -42,6 +42,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         backgroundColor: "#ffffff",
       },
     ],
+    [
+      "expo-build-properties",
+      {
+        android: {
+          enableProguardInReleaseBuilds: true,
+          enableShrinkResourcesInReleaseBuilds: true,
+        },
+      },
+    ],
   ],
   experiments: {
     typedRoutes: true,
