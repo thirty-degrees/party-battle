@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.10](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.9...frontend-party-battle-v1.6.10) (2025-08-28)
+
+
+### Bug Fixes
+
+* inset top issue in room, update gluestack components ([c4e5207](https://github.com/thirty-degrees/party-battle/commit/c4e5207338a33d047a09b57b6c5841d58dfd1f40))
+
 ## [1.6.9](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.8...frontend-party-battle-v1.6.9) (2025-08-28)
 
 
