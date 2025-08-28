@@ -217,7 +217,7 @@ jobs:
             -Pandroid.injected.signing.key.alias="$ANDROID_KEY_ALIAS" \
             -Pandroid.injected.signing.key.password="$ANDROID_KEY_PASSWORD" \
             -Pandroid.injected.signing.store.type=PKCS12 \
-            --build-cache --no-daemon --stacktrace --warning-mode all
+            --build-cache --no-daemon
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
