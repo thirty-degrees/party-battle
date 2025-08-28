@@ -1,8 +1,8 @@
 import React from 'react';
 import { colors } from './colors';
 import { View, ViewProps } from 'react-native';
-import { OverlayProvider } from '@gluestack-ui/overlay';
-import { ToastProvider } from '@gluestack-ui/toast';
+import { OverlayProvider } from '@gluestack-ui/core/overlay/creator';
+import { ToastProvider } from '@gluestack-ui/core/toast/creator';
 
 export function GluestackUIProvider({
   ...props

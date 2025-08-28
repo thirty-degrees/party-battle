@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
-import { createToastHook } from '@gluestack-ui/toast';
+import { createToastHook } from '@gluestack-ui/core/toast/creator';
 import { AccessibilityInfo, Text, View, ViewStyle } from 'react-native';
-import { tva } from '@gluestack-ui/nativewind-utils/tva';
+import { tva } from '@gluestack-ui/utils/nativewind-utils';
 import { cssInterop } from 'nativewind';
 import {
   Motion,
@@ -12,8 +12,8 @@ import {
 import {
   withStyleContext,
   useStyleContext,
-} from '@gluestack-ui/nativewind-utils/withStyleContext';
-import type { VariantProps } from '@gluestack-ui/nativewind-utils';
+} from '@gluestack-ui/utils/nativewind-utils';
+import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils';
 
 type IMotionViewProps = React.ComponentProps<typeof View> &
   MotionComponentProps<typeof View, ViewStyle, unknown, unknown, unknown>;

@@ -1,4 +1,3 @@
-import gluestackPlugin from "@gluestack-ui/nativewind-utils/tailwind-plugin";
 import nativewindPreset from "nativewind/preset";
 
 export default {
@@ -191,5 +190,5 @@ export default {
       },
     },
   },
-  plugins: [gluestackPlugin],
+  plugins: [],
 };

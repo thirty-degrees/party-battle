@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Text, View } from "react-native";
 
 import { Card } from "@/components/ui/card";
+import { Box } from "@/components/ui/box";
 import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { NameInputModal } from "@/components/ui/modal/name-input-modal";
 import { QrCodeModal } from "@/components/ui/modal/qr-code-modal";
@@ -14,6 +15,7 @@ import { PlayerState, LobbyRoomState } from "@/types/game";
 
 import { Client } from "colyseus.js";
 import useStorage from "@/hooks/useStorage";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type RoomType = any;
 
@@ -28,6 +30,7 @@ export default function RoomScreen() {
   const [showQrCode, setShowQrCode] = useState(false);
 
   const roomRef = useRef<RoomType | null>(null);
+  const insets = useSafeAreaInsets();
 
   const handleStateChange = useCallback((state: LobbyRoomState) => {
     console.log("State changed:", state);
@@ -245,6 +248,7 @@ export default function RoomScreen() {
 
   return (
     <View className="flex-1 bg-white dark:bg-black">
+      <Box style={{ height: insets.top }}></Box>
       {/* Top Bar */}
       <View className="bg-white dark:bg-black border-b border-gray-400 dark:border-gray-600 px-4 py-3 flex-row items-center justify-between">
         <Text className="text-lg font-semibold text-black dark:text-white">
