@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.6.8](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.7...frontend-party-battle-v1.6.8) (2025-08-28)
+
+
+### Bug Fixes
+
+* remove changesNotSentForReview ([349c090](https://github.com/thirty-degrees/party-battle/commit/349c0906585bb295885b39d75733613ce48ae82b))
+
+
+### Miscellaneous Chores
+
+* release 1.6.8 ([641c71e](https://github.com/thirty-degrees/party-battle/commit/641c71eac28707a075cc73def2c30bf20bdd80c7))
+
 ## [1.6.7](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.6...frontend-party-battle-v1.6.7) (2025-08-28)
 
 
