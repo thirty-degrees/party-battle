@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.11](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.6.10...backend-party-battle-v1.6.11) (2025-08-28)
+
+
+### Miscellaneous Chores
+
+* **backend-party-battle:** Synchronize party-battle versions
+
 ## [1.6.10](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.6.9...backend-party-battle-v1.6.10) (2025-08-28)
 
 
