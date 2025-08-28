@@ -147,7 +147,6 @@ jobs:
             android-sdk-${{ runner.os }}-
 
       - name: Setup Android SDK
-        if: steps.android-sdk-cache.outputs.cache-hit != 'true'
         uses: android-actions/setup-android@v3
 
       - name: Install Android build tools
@@ -189,6 +188,7 @@ jobs:
         run: |
           mkdir -p android/app
           printf %s "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
+          echo "KEYSTORE_PATH=$(pwd)/android/app/keystore.jks" >> "$GITHUB_ENV"
 
           # Optional: specify storetype explicitly; keytool generally auto-detects
           keytool -list -keystore android/app/keystore.jks \
@@ -216,8 +216,15 @@ jobs:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: ./gradlew bundleRelease -Pandroid.injected.signing.store.file=../app/keystore.jks -Pandroid.injected.signing.store.password="$ANDROID_KEYSTORE_PASSWORD" -Pandroid.injected.signing.key.alias="$ANDROID_KEY_ALIAS" -Pandroid.injected.signing.key.password="$ANDROID_KEY_PASSWORD" -Pandroid.injected.signing.store.type=PKCS12 --build-cache
-
+        run: |
+          ./gradlew :app:bundleRelease \
+            -Pandroid.injected.signing.store.file="$KEYSTORE_PATH" \
+            -Pandroid.injected.signing.store.password="$ANDROID_KEYSTORE_PASSWORD" \
+            -Pandroid.injected.signing.key.alias="$ANDROID_KEY_ALIAS" \
+            -Pandroid.injected.signing.key.password="$ANDROID_KEY_PASSWORD" \
+            -Pandroid.injected.signing.store.type=PKCS12 \
+            --build-cache --no-daemon --stacktrace --warning-mode all
+      
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
