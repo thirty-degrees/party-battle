@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.9](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.8...frontend-party-battle-v1.6.9) (2025-08-28)
+
+
+### Bug Fixes
+
+* disable unloaded input ([78f7326](https://github.com/thirty-degrees/party-battle/commit/78f73260da59243950055d86dc9a244f234c8f4c))
+
 ## [1.6.8](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.7...frontend-party-battle-v1.6.8) (2025-08-28)
 
 
