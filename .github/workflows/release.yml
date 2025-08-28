@@ -120,6 +120,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    env:
+      ANDROID_SDK_ROOT: ${{ env.HOME }}/.android/sdk
     steps:
       - uses: actions/checkout@v4
 
@@ -140,8 +142,7 @@ jobs:
         uses: actions/cache@v4
         id: android-sdk-cache
         with:
-          path: |
-            ~/.android/sdk
+          path: ${{ env.ANDROID_SDK_ROOT }}
           key: android-sdk-${{ runner.os }}-34-0-0
           restore-keys: |
             android-sdk-${{ runner.os }}-
