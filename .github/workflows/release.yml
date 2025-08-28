@@ -219,11 +219,13 @@ jobs:
             -Pandroid.injected.signing.store.type=PKCS12 \
             --build-cache --no-daemon
 
-      - name: Upload artifact
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-aab
-          path: frontend-party-battle/android/app/build/outputs/bundle/release/app-release.aab
+          name: android-release
+          path: |
+            frontend-party-battle/android/app/build/outputs/bundle/release/app-release.aab
+            frontend-party-battle/android/app/build/outputs/mapping/release/mapping.txt
           if-no-files-found: error
 
   deploy-android:
@@ -234,7 +236,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v5
         with:
-          name: app-release-aab
+          name: android-release
           path: dist
 
       - name: Upload to Google Play (internal)
@@ -243,5 +245,6 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           packageName: ch.thirty_degrees.party_battle
           releaseFiles: dist/app-release.aab
+          mappingFile: dist/mapping.txt
           track: internal
           status: draft
