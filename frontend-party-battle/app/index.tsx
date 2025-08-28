@@ -20,7 +20,7 @@ export default function HomeScreen() {
   const [isJoining, setIsJoining] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const { setRoom } = useRoomStore();
-  const [playerName, setPlayerName, isLoading] = useStorage("playerName");
+  const [playerName, setPlayerName, isLoadingPlayerName] = useStorage("playerName");
   const toast = useToastHelper();
 
   const handleCreateRoom = async () => {
@@ -102,7 +102,7 @@ export default function HomeScreen() {
       <Input
         variant="outline"
         size="md"
-        isDisabled={false}
+        isDisabled={isLoadingPlayerName}
         isInvalid={false}
         isReadOnly={false}
       >
