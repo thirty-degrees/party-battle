@@ -133,7 +133,7 @@ export default function RoomScreen() {
 
         const client = new Client(Constants.expoConfig?.extra?.backendUrl);
 
-        const roomInstance = await client.joinById(roomId, {
+        const roomInstance = await client.joinById<LobbyRoomState>(roomId, {
           name: playerName,
         });
 
@@ -186,7 +186,7 @@ export default function RoomScreen() {
           roomRef.current = null;
         });
 
-        roomInstance.onError((code: number, message: string) => {
+        roomInstance.onError((code: number, message?: string) => {
           console.error("[Colyseus] Error:", code, message);
           router.replace({
             pathname: "/error",
