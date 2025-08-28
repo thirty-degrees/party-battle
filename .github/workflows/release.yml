@@ -157,12 +157,6 @@ jobs:
         working-directory: ./frontend-party-battle
         run: npm ci
 
-      - name: Configure Google Service Account
-        working-directory: ./frontend-party-battle
-        env:
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-        run: echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > service-account.json
-
       - name: Cache Expo prebuild
         uses: actions/cache@v4
         id: expo-prebuild-cache
@@ -224,11 +218,31 @@ jobs:
             -Pandroid.injected.signing.key.password="$ANDROID_KEY_PASSWORD" \
             -Pandroid.injected.signing.store.type=PKCS12 \
             --build-cache --no-daemon --stacktrace --warning-mode all
-      
-      - name: Upload to Google Play
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: frontend-party-battle/android/app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+
+  deploy-android:
+    needs: build-android
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          name: app-release-aab
+          path: dist
+
+      - name: Upload to Google Play (internal)
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: frontend-party-battle/service-account.json
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           packageName: ch.thirty_degrees.party_battle
-          releaseFiles: frontend-party-battle/android/app/build/outputs/bundle/release/app-release.aab
+          releaseFiles: dist/app-release.aab
           track: internal
+          status: draft
+          changesNotSentForReview: true
