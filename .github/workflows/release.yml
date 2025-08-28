@@ -121,7 +121,7 @@ jobs:
     permissions:
       contents: read
     env:
-      ANDROID_SDK_ROOT: ${{ env.HOME }}/.android/sdk
+      ANDROID_SDK_ROOT: /home/runner/.android/sdk
     steps:
       - uses: actions/checkout@v4
 
