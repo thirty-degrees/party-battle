@@ -2,8 +2,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { PrimitiveIcon, UIIcon } from '@gluestack-ui/core/icon/creator';
-import { tva } from '@gluestack-ui/utils/nativewind-utils';
-import {
+import { tva ,
   withStyleContext,
   useStyleContext,
 } from '@gluestack-ui/utils/nativewind-utils';

@@ -10,6 +10,7 @@
     "ios": "DARK_MODE=media expo start --ios -c",
     "web": "DARK_MODE=media expo start --web -c",
     "lint": "expo lint",
+    "lint:fix": "expo lint --fix",
     "docker:build": "docker build -t frontend-party-battle ."
   },
   "dependencies": {
