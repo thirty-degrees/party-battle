@@ -5,7 +5,7 @@ FROM node:${NODE_VERSION} AS deps
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm ci --production
+RUN npm ci --omit=dev
 
 # Build stage: install all deps and build the web app
 FROM node:${NODE_VERSION} AS builder
