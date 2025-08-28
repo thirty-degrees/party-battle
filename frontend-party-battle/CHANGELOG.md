@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.11](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.10...frontend-party-battle-v1.6.11) (2025-08-28)
+
+
+### Bug Fixes
+
+* lint ([318cf2b](https://github.com/thirty-degrees/party-battle/commit/318cf2b09919a9bdf96843788f307d6f59c4d7d6))
+* proguard ([38d8b80](https://github.com/thirty-degrees/party-battle/commit/38d8b80c33d42b3234534da838b7ec9467e117a5))
+
 ## [1.6.10](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.9...frontend-party-battle-v1.6.10) (2025-08-28)
 
 
