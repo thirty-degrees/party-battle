@@ -1,4 +1,4 @@
-import { MapSchema, Schema, type } from "@colyseus/schema";
+import { type } from "@colyseus/schema";
 import { Game } from "./Game";
 
 export class CrocGame extends Game {
