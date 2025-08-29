@@ -4,7 +4,7 @@ import expoConfig from 'eslint-config-expo/flat.js';
 export default defineConfig([
   expoConfig,
   {
-    ignores: ['dist/*', 'components/ui/**'],
+    ignores: ['dist/*', 'components/ui/**', 'node_modules/*'],
     rules: {
       'indent': ['warn', 2],
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],

@@ -1,18 +1,18 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { LobbyRoomState } from "@/types/game";
+import { Room } from "colyseus.js";
+import { useState, useCallback, useEffect } from "react";
 
-type RoomType = any;
-
-let globalRoom: RoomType | null = null;
-let listeners: Array<() => void> = [];
+let globalRoom: Room<LobbyRoomState> | null = null;
+let listeners: (() => void)[] = [];
 
 const notifyListeners = () => {
   listeners.forEach((listener) => listener());
 };
 
 export function useRoomStore() {
-  const [room, setRoomState] = useState<RoomType | null>(globalRoom);
+  const [room, setRoomState] = useState<Room<LobbyRoomState> | null>(globalRoom);
 
-  const setRoom = useCallback((newRoom: RoomType | null) => {
+  const setRoom = useCallback((newRoom: Room<LobbyRoomState> | null) => {
     globalRoom = newRoom;
     setRoomState(newRoom);
     notifyListeners();

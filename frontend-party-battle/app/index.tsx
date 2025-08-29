@@ -14,6 +14,7 @@ import { useRoomStore } from "@/hooks/useRoomStore";
 
 import { Client } from "colyseus.js";
 import useStorage from "@/hooks/useStorage";
+import { LobbyRoomState } from "@/types/game";
 
 export default function HomeScreen() {
   const [isCreating, setIsCreating] = useState(false);
@@ -35,7 +36,7 @@ export default function HomeScreen() {
       setPlayerName(trimmedName);
 
       const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const room = await client.create("lobby_room", {
+      const room = await client.create<LobbyRoomState>("lobby_room", {
         name: trimmedName,
       });
 
@@ -69,7 +70,7 @@ export default function HomeScreen() {
       setPlayerName(trimmedName);
 
       const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const room = await client.joinById(roomId, {
+      const room = await client.joinById<LobbyRoomState>(roomId, {
         name: trimmedName,
       });
 
