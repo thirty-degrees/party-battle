@@ -7,6 +7,11 @@ export default defineConfig([
   ...tseslint.configs.recommended,
   {
     ignores: ['build/*', 'node_modules/*', 'dist/*'],
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
       'indent': ['warn', 2],
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],

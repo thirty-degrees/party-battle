@@ -7,7 +7,7 @@ export class LobbyRoom extends Room<Lobby> {
   private gameRoomId: string | null = null;
   private playersInGame = new Set<string>();
 
-  onCreate(options: { roomName: string; playerName: number }) {
+  onCreate(_options: { roomName: string; playerName: number }) {
     this.autoDispose = false;
     console.log("LobbyRoom created:", this.roomId);
 

@@ -10,6 +10,11 @@ export default defineConfig([
   ...tseslint.configs.recommended,
   {
     files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
       'indent': ['warn', 2],
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],

@@ -5,10 +5,9 @@
   "type": "commonjs",
   "scripts": {
     "start": "npx expo start -c",
-    "start:web": "npx expo start --web -c",
-    "android": "DARK_MODE=media expo start --android -c",
-    "ios": "DARK_MODE=media expo start --ios -c",
-    "web": "DARK_MODE=media expo start --web -c",
+    "android": "expo start --android -c",
+    "ios": "expo start --ios -c",
+    "web": "expo start --web -c",
     "lint": "expo lint",
     "lint:fix": "expo lint --fix",
     "docker:build": "docker build -t frontend-party-battle ."
