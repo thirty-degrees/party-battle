@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { View, Text } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Client } from "colyseus.js";
+import { Client, Room } from "colyseus.js";
 import { CrocMiniGameRoomState } from "@/types/game";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import Constants from "expo-constants";
-
-type RoomType = any;
 
 export default function CrocGamePage() {
   const router = useRouter();
@@ -17,12 +15,13 @@ export default function CrocGamePage() {
     lobbyRoomId: string;
   }>();
 
-  const [gameRoom, setGameRoom] = useState<RoomType | null>(null);
+  const roomRef = useRef<Room<CrocMiniGameRoomState> | null>(null);
+  const [gameRoom, setGameRoom] = useState<Room<CrocMiniGameRoomState> | null>(null);
   const [gameRoomState, setGameRoomState] =
     useState<CrocMiniGameRoomState | null>(null);
+
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [isConnecting, setIsConnecting] = useState<boolean>(true);
-  const roomRef = useRef<RoomType | null>(null);
 
   useEffect(() => {
     if (!gameRoomId || !playerName || !lobbyRoomId) {
@@ -37,7 +36,7 @@ export default function CrocGamePage() {
         const client = new Client(Constants.expoConfig?.extra?.backendUrl);
 
         console.log("Joining croc game room by ID:", gameRoomId);
-        const gameRoomInstance = await client.joinById(gameRoomId, {
+        const gameRoomInstance = await client.joinById<CrocMiniGameRoomState>(gameRoomId, {
           name: playerName,
         });
 
@@ -45,9 +44,9 @@ export default function CrocGamePage() {
         roomRef.current = gameRoomInstance;
         console.log("Joined croc game room:", gameRoomInstance.roomId);
 
-        gameRoomInstance.onStateChange((state: any) => {
+        gameRoomInstance.onStateChange((state: CrocMiniGameRoomState) => {
           console.log("Croc game state changed:", state);
-          setGameRoomState(state as CrocMiniGameRoomState);
+          setGameRoomState(state);
         });
 
         gameRoomInstance.onMessage("player_joined", (message: any) => {

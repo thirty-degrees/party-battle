@@ -11,13 +11,11 @@ import { ShareIcon } from "@/components/ui/icon";
 import Constants from "expo-constants";
 import PlayerList from "../components/player-list";
 import { useRoomStore } from "@/hooks/useRoomStore";
-import { PlayerState, LobbyRoomState } from "@/types/game";
+import { PlayerState, LobbyRoomState, LobbyPlayerState } from "@/types/game";
 
-import { Client } from "colyseus.js";
+import { Client, Room } from "colyseus.js";
 import useStorage from "@/hooks/useStorage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-type RoomType = any;
 
 export default function RoomScreen() {
   const { roomId } = useLocalSearchParams<{ roomId?: string }>();
@@ -29,7 +27,7 @@ export default function RoomScreen() {
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showQrCode, setShowQrCode] = useState(false);
 
-  const roomRef = useRef<RoomType | null>(null);
+  const roomRef = useRef<Room<LobbyRoomState> | null>(null);
   const insets = useSafeAreaInsets();
 
   const handleStateChange = useCallback((state: LobbyRoomState) => {
@@ -37,27 +35,24 @@ export default function RoomScreen() {
     const playersArray: PlayerState[] = [];
 
     if (state.players) {
-      const playersMap = state.players as any;
-      if (playersMap && typeof playersMap.forEach === "function") {
-        playersMap.forEach((player: any, key: string) => {
-          playersArray.push({
-            name: player.name,
-            id: key,
-            ready: player.ready,
-          });
-
-          // Update stored name with the server-assigned name if this is the current player
-          if (
-            key === roomRef.current?.sessionId &&
-            player.name !== playerName
-          ) {
-            console.log(
-              `Updating stored name from "${playerName}" to "${player.name}"`
-            );
-            setPlayerName(player.name);
-          }
+      Object.entries(state.players).forEach(([key, player]: [string, LobbyPlayerState]) => {
+        playersArray.push({
+          name: player.name,
+          id: key,
+          ready: player.ready,
         });
-      }
+
+        // Update stored name with the server-assigned name if this is the current player
+        if (
+          key === roomRef.current?.sessionId &&
+          player.name !== playerName
+        ) {
+          console.log(
+            `Updating stored name from "${playerName}" to "${player.name}"`
+          );
+          setPlayerName(player.name);
+        }
+      });
     }
 
     console.log("Players array:", playersArray);
