@@ -1,5 +1,6 @@
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import "@/global.css";
+import { LobbyProvider } from "@/lobby/LobbyProvider";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -20,12 +21,14 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <GluestackUIProvider>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="room" />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="auto" />
+        <LobbyProvider>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="room" />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          <StatusBar style="auto" />
+        </LobbyProvider>
       </GluestackUIProvider>
     </SafeAreaProvider>
   );
