@@ -1,8 +1,8 @@
 import { Room, Client } from "@colyseus/core";
 import { matchMaker } from "@colyseus/core";
-import { LobbyRoomState, LobbyPlayerState } from "types-party-battle";
+import { Lobby, Player } from "types-party-battle";
 
-export class LobbyRoom extends Room<LobbyRoomState> {
+export class LobbyRoom extends Room<Lobby> {
   maxClients = 8;
   private gameRoomId: string | null = null;
   private playersInGame = new Set<string>();
@@ -11,7 +11,7 @@ export class LobbyRoom extends Room<LobbyRoomState> {
     this.autoDispose = false;
     console.log("LobbyRoom created:", this.roomId);
 
-    this.state = new LobbyRoomState();
+    this.state = new Lobby();
 
     if (options.roomName) {
       this.state.roomName = options.roomName;
@@ -87,7 +87,7 @@ export class LobbyRoom extends Room<LobbyRoomState> {
   onJoin(client: Client, options: { name: string }) {
     console.log(`Player ${client.sessionId} joined lobby`);
 
-    const player = new LobbyPlayerState();
+    const player = new Player();
     const requestedName =
       options.name || `Player_${client.sessionId.substr(0, 5)}`;
 
