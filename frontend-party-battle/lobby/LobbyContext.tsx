@@ -1,9 +1,9 @@
-import { LobbyRoomState } from "@/games/game";
 import { Room } from "colyseus.js";
 import { createContext, useContext } from "react";
+import { Lobby } from "types-party-battle";
 
 export type LobbyContextType = {
-  room?: Room<LobbyRoomState>;
+  room?: Room<Lobby>;
 };
 
 const LobbyContext = createContext<LobbyContextType>({
