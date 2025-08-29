@@ -6,6 +6,13 @@
 - Android: (wip)
 - IOS: (wip)
 
+## Setup
+
+- Create a config file .env.development inside /frontend-party-battle with the content:
+```env
+EXPO_PUBLIC_BACKEND_URL=http://localhost:2567
+```
+
 ## Tech stack
 
 - TypeScript

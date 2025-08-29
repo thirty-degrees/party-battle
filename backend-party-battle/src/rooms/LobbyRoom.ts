@@ -1,41 +1,19 @@
 import { Room, Client } from "@colyseus/core";
 import { matchMaker } from "@colyseus/core";
-import { Lobby, Player } from "types-party-battle";
+import { Lobby, LobbyPlayer } from "types-party-battle";
 
 export class LobbyRoom extends Room<Lobby> {
   maxClients = 8;
   private gameRoomId: string | null = null;
   private playersInGame = new Set<string>();
 
-  onCreate(options: { roomName: string; maxPlayers: number }) {
+  onCreate(options: { roomName: string; playerName: number }) {
     this.autoDispose = false;
     console.log("LobbyRoom created:", this.roomId);
 
     this.state = new Lobby();
 
-    if (options.roomName) {
-      this.state.roomName = options.roomName;
-    }
-    if (options.maxPlayers) {
-      this.state.maxPlayers = options.maxPlayers;
-      this.maxClients = options.maxPlayers;
-    }
-
-    this.onMessage("end_game", (_client, _message) => {
-      if (this.state.currentMiniGame === null) {
-        return;
-      }
-
-      console.log("Game ended. Returning to lobby.");
-      this.state.currentMiniGame = null;
-
-      // Reset all players' ready state when game ends
-      this.state.players.forEach((player) => {
-        player.ready = false;
-      });
-
-      this.broadcast("game_ended", { timestamp: Date.now() });
-    });
+    this.maxClients = 8;
 
     this.onMessage("ready", (client, _message) => {
       const player = this.state.players.get(client.sessionId);
@@ -87,7 +65,7 @@ export class LobbyRoom extends Room<Lobby> {
   onJoin(client: Client, options: { name: string }) {
     console.log(`Player ${client.sessionId} joined lobby`);
 
-    const player = new Player();
+    const player = new LobbyPlayer();
     const requestedName =
       options.name || `Player_${client.sessionId.substr(0, 5)}`;
 
@@ -104,7 +82,6 @@ export class LobbyRoom extends Room<Lobby> {
     }
 
     player.name = finalName;
-    player.id = client.sessionId;
     player.ready = false;
 
     this.state.players.set(client.sessionId, player);

@@ -45,9 +45,7 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       setIsLoading(true);
       const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const createdRoom = await client.create<Lobby>("lobby_room", {
-        name: playerName,
-      });
+      const createdRoom = await client.create<Lobby>("lobby_room", playerName);
       setRoom(createdRoom);
     } catch (error) {
       console.error("Failed to create lobby:", error);
