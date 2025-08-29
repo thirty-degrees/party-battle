@@ -2,7 +2,7 @@ import { Room, Client } from "@colyseus/core";
 import {
   CrocMiniGameRoomState,
   CrocPlayerState,
-} from "./schema/CrocMiniGameRoomState";
+} from "types-party-battle";
 
 // TODO: Create an abstract MiniGameRoom class to avoid code duplication when adding more mini-games
 // This would include common functionality like player management, game state transitions, and message handling

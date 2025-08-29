@@ -1,0 +1,8 @@
+{
+  "workspaces": [
+    "frontend-party-battle",
+    "backend-party-battle",
+    "types-party-battle"
+  ],
+  "type": "module"
+}

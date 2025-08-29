@@ -1,0 +1,12 @@
+{
+  "name": "types-party-battle",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "dependencies": {
+    "@colyseus/schema": "^3.0.59"
+  }
+}
