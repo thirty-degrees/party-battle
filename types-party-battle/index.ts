@@ -1,2 +1,2 @@
-export * from "./types/CrocMiniGameRoomState";
-export * from "./types/LobbyRoomState";
+export * from "./types/CrocGame";
+export * from "./types/Lobby";
