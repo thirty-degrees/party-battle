@@ -13,7 +13,7 @@ export class CrocMiniGameRoom extends Room<CrocMiniGameRoomState> {
   private playerReady: { [key: string]: boolean } = {};
   private disposeTimer: NodeJS.Timeout | null = null;
 
-  onCreate(options: any) {
+  onCreate(options: unknown) {
     this.autoDispose = false;
     console.log(
       "CrocMiniGameRoom created:",
@@ -22,9 +22,9 @@ export class CrocMiniGameRoom extends Room<CrocMiniGameRoomState> {
       options
     );
 
-    this.setState(new CrocMiniGameRoomState());
+    this.state = new CrocMiniGameRoomState();
 
-    this.onMessage("player_ready", (client, message) => {
+    this.onMessage("player_ready", (client, _message) => {
       const player = this.state.players.get(client.sessionId);
       if (player) {
         this.playerReady[client.sessionId] = true;
@@ -34,7 +34,7 @@ export class CrocMiniGameRoom extends Room<CrocMiniGameRoomState> {
       }
     });
 
-    this.onMessage("croc_hit", (client, message) => {
+    this.onMessage("croc_hit", (client, _message) => {
       if (this.state.gameState !== "playing") {
         return;
       }
@@ -44,8 +44,7 @@ export class CrocMiniGameRoom extends Room<CrocMiniGameRoomState> {
         this.playerScores[client.sessionId] =
           (this.playerScores[client.sessionId] || 0) + 1;
         console.log(
-          `Player ${player.name} hit croc! Score: ${
-            this.playerScores[client.sessionId]
+          `Player ${player.name} hit croc! Score: ${this.playerScores[client.sessionId]
           }`
         );
 
@@ -58,7 +57,7 @@ export class CrocMiniGameRoom extends Room<CrocMiniGameRoomState> {
     });
   }
 
-  onJoin(client: Client, options: any) {
+  onJoin(client: Client, options: { name: string }) {
     console.log(`Player ${client.sessionId} joined croc game`);
 
     const player = new CrocPlayerState();

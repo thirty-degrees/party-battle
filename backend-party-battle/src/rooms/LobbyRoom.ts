@@ -1,18 +1,17 @@
 import { Room, Client } from "@colyseus/core";
 import { matchMaker } from "@colyseus/core";
 import { LobbyRoomState, LobbyPlayerState } from "./schema/LobbyRoomState";
-import { CrocMiniGameRoom } from "./CrocMiniGameRoom";
 
 export class LobbyRoom extends Room<LobbyRoomState> {
   maxClients = 8;
   private gameRoomId: string | null = null;
   private playersInGame = new Set<string>();
 
-  onCreate(options: any) {
+  onCreate(options: { roomName: string; maxPlayers: number }) {
     this.autoDispose = false;
     console.log("LobbyRoom created:", this.roomId);
 
-    this.setState(new LobbyRoomState());
+    this.state = new LobbyRoomState();
 
     if (options.roomName) {
       this.state.roomName = options.roomName;
@@ -22,7 +21,7 @@ export class LobbyRoom extends Room<LobbyRoomState> {
       this.maxClients = options.maxPlayers;
     }
 
-    this.onMessage("end_game", (client, message) => {
+    this.onMessage("end_game", (_client, _message) => {
       if (this.state.currentMiniGame === null) {
         return;
       }
@@ -38,7 +37,7 @@ export class LobbyRoom extends Room<LobbyRoomState> {
       this.broadcast("game_ended", { timestamp: Date.now() });
     });
 
-    this.onMessage("ready", (client, message) => {
+    this.onMessage("ready", (client, _message) => {
       const player = this.state.players.get(client.sessionId);
       if (player) {
         console.log(`Player ${player.name} is ready for next game`);
@@ -52,12 +51,12 @@ export class LobbyRoom extends Room<LobbyRoomState> {
       }
     });
 
-    this.onMessage("create_game_room", (client, message) => {
+    this.onMessage("create_game_room", (client, _message) => {
       console.log(`Player ${client.sessionId} requested game room creation`);
       this.createGameRoomRequest(client);
     });
 
-    this.onMessage("reset_ready", (client, message) => {
+    this.onMessage("reset_ready", (client, _message) => {
       console.log(`Player ${client.sessionId} reset ready state`);
       const player = this.state.players.get(client.sessionId);
       if (player) {
@@ -66,7 +65,7 @@ export class LobbyRoom extends Room<LobbyRoomState> {
       }
     });
 
-    this.onMessage("return_from_game", (client, message) => {
+    this.onMessage("return_from_game", (client, _message) => {
       console.log(`Player ${client.sessionId} returned from game`);
       const player = this.state.players.get(client.sessionId);
       if (player) {
@@ -85,7 +84,7 @@ export class LobbyRoom extends Room<LobbyRoomState> {
     });
   }
 
-  onJoin(client: Client, options: any) {
+  onJoin(client: Client, options: { name: string }) {
     console.log(`Player ${client.sessionId} joined lobby`);
 
     const player = new LobbyPlayerState();

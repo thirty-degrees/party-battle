@@ -104,7 +104,7 @@ export default function RoomScreen() {
             }
           });
 
-          globalRoom.onMessage("return_to_lobby", (message: any) => {
+          globalRoom.onMessage("return_to_lobby", (_message: any) => {
             console.log("Returning to lobby");
             // Force a state refresh when returning to lobby
             if (globalRoom.state) {
@@ -157,7 +157,7 @@ export default function RoomScreen() {
           }
         });
 
-        roomInstance.onMessage("return_to_lobby", (message: any) => {
+        roomInstance.onMessage("return_to_lobby", (_message: any) => {
           console.log("Returning to lobby");
           // Force a state refresh when returning to lobby
           if (roomInstance.state) {
@@ -181,7 +181,7 @@ export default function RoomScreen() {
         // Reset ready state when returning to lobby
         roomInstance.send("reset_ready");
 
-        roomInstance.onLeave((code: number) => {
+        roomInstance.onLeave((_code: number) => {
           setGlobalRoom(null);
           roomRef.current = null;
         });

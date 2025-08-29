@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const os = require('os');
 
 /**
@@ -7,7 +9,7 @@ const os = require('os');
  */
 
 module.exports = {
-  apps : [{
+  apps: [{
     name: "colyseus-app",
     script: 'build/index.js',
     time: true,

@@ -1,0 +1,15 @@
+import { defineConfig } from 'eslint/config';
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+
+export default defineConfig([
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    ignores: ['build/*', 'node_modules/*', 'dist/*'],
+    rules: {
+      'indent': ['warn', 2],
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    },
+  },
+]);

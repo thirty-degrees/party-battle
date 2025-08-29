@@ -7,6 +7,7 @@ export default defineConfig([
     ignores: ['dist/*', 'components/ui/**'],
     rules: {
       'indent': ['warn', 2],
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     },
   },
 ]);
