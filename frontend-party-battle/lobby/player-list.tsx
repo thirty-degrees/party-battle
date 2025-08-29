@@ -1,8 +1,8 @@
-import React from "react";
+import React from "react"
 import { View, Text, ScrollView } from "react-native";
 
 import { Button, ButtonText } from "@/components/ui/button";
-import { PlayerState } from "@/types/game";
+import { PlayerState } from "@/games/game";
 
 interface LobbyScreenProps {
   players?: PlayerState[];
@@ -36,21 +36,18 @@ export default function PlayerList({
             return (
               <View
                 key={index}
-                className={`rounded-lg p-3 mb-2 flex-row items-center border ${
-                  isCurrentPlayer
-                    ? "bg-blue-100 dark:bg-blue-900 border-blue-400 dark:border-blue-600"
-                    : "bg-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-700"
-                }`}
+                className={`rounded-lg p-3 mb-2 flex-row items-center border ${isCurrentPlayer
+                  ? "bg-blue-100 dark:bg-blue-900 border-blue-400 dark:border-blue-600"
+                  : "bg-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-700"
+                  }`}
               >
                 <View
-                  className={`w-3 h-3 rounded-full mr-3 ${
-                    isCurrentPlayer ? "bg-blue-600 dark:bg-blue-400" : "bg-green-500 dark:bg-green-500"
-                  }`}
+                  className={`w-3 h-3 rounded-full mr-3 ${isCurrentPlayer ? "bg-blue-600 dark:bg-blue-400" : "bg-green-500 dark:bg-green-500"
+                    }`}
                 />
                 <Text
-                  className={`font-medium ${
-                    isCurrentPlayer ? "text-blue-800 dark:text-blue-200" : "text-black dark:text-white"
-                  }`}
+                  className={`font-medium ${isCurrentPlayer ? "text-blue-800 dark:text-blue-200" : "text-black dark:text-white"
+                    }`}
                 >
                   {player.name}
                 </Text>

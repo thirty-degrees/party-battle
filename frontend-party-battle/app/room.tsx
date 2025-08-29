@@ -9,12 +9,12 @@ import { NameInputModal } from "@/components/ui/modal/name-input-modal";
 import { QrCodeModal } from "@/components/ui/modal/qr-code-modal";
 import { ShareIcon } from "@/components/ui/icon";
 import Constants from "expo-constants";
-import PlayerList from "../components/player-list";
-import { useRoomStore } from "@/hooks/useRoomStore";
-import { PlayerState, LobbyRoomState, LobbyPlayerState } from "@/types/game";
+import PlayerList from "../lobby/player-list";
+import { useRoomStore } from "@/lobby/useRoomStore";
+import { PlayerState, LobbyRoomState, LobbyPlayerState } from "@/games/game";
 
 import { Client, Room } from "colyseus.js";
-import useStorage from "@/hooks/useStorage";
+import useStorage from "@/index/useStorage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function RoomScreen() {

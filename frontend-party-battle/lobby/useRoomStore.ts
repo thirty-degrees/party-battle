@@ -1,4 +1,4 @@
-import { LobbyRoomState } from "@/types/game";
+import { LobbyRoomState } from "@/games/game";
 import { Room } from "colyseus.js";
 import { useState, useCallback, useEffect } from "react";
 

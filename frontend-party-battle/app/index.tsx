@@ -10,11 +10,11 @@ import { Text } from "@/components/ui/text";
 import { JoinRoomModal } from "@/components/ui/modal/join-room-modal";
 import { useToastHelper } from "@/components/ui/toast-helper";
 import Constants from "expo-constants";
-import { useRoomStore } from "@/hooks/useRoomStore";
+import { useRoomStore } from "@/lobby/useRoomStore";
 
 import { Client } from "colyseus.js";
-import useStorage from "@/hooks/useStorage";
-import { LobbyRoomState } from "@/types/game";
+import useStorage from "@/index/useStorage";
+import { LobbyRoomState } from "@/games/game";
 
 export default function HomeScreen() {
   const [isCreating, setIsCreating] = useState(false);

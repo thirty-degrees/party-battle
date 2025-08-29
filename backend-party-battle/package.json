@@ -14,7 +14,7 @@
     "test": "mocha -r tsx test/**_test.ts --exit --timeout 15000",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "docker:build": "docker build -t backend-party-battle ."
+    "docker:build": "docker build -f backend-party-battle/dockerfile -t backend-party-battle ."
   },
   "devDependencies": {
     "@colyseus/loadtest": "^0.16.1",

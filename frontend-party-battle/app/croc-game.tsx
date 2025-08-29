@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { View, Text } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Client, Room } from "colyseus.js";
-import { CrocMiniGameRoomState } from "@/types/game";
+import { CrocMiniGameRoomState } from "@/games/game";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import Constants from "expo-constants";
