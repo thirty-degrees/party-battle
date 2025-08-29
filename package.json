@@ -1,8 +1,9 @@
 {
+  "name": "party-battle",
   "workspaces": [
-    "frontend-party-battle",
+    "types-party-battle",
     "backend-party-battle",
-    "types-party-battle"
+    "frontend-party-battle"
   ],
   "type": "module"
 }

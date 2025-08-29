@@ -35,7 +35,6 @@
     "@colyseus/playground": "^0.16.4",
     "@colyseus/tools": "^0.16.13",
     "colyseus": "^0.16.4",
-    "express": "^5.1.0",
-    "types-party-battle": "workspace:*"
+    "express": "^5.1.0"
   }
 }

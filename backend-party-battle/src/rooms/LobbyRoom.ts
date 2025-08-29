@@ -1,6 +1,6 @@
 import { Room, Client } from "@colyseus/core";
 import { matchMaker } from "@colyseus/core";
-import { LobbyRoomState, LobbyPlayerState } from "../../../types-party-battle/types/LobbyRoomState";
+import { LobbyRoomState, LobbyPlayerState } from "types-party-battle";
 
 export class LobbyRoom extends Room<LobbyRoomState> {
   maxClients = 8;
