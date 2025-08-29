@@ -13,5 +13,7 @@ export class Lobby extends Schema {
   @type({ map: LobbyPlayer }) players = new MapSchema<LobbyPlayer>();
   @type("string") currentGame?: "croc" | null = null;
   @type("string") currentGameRoomId?: string | null = null;
-  @type([{ map: GameHistory }]) gameHistory: Array<GameHistory> = [];
+  // Commented out because it caused this error:
+  // Cannot read properties of null (reading 'Symbol(Symbol.metadata)')
+  // @type([{ map: GameHistory }]) gameHistory: Array<GameHistory> = [];
 }

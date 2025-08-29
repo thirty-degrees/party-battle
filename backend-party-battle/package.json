@@ -1,6 +1,6 @@
 {
-  "private": true,
   "name": "backend-party-battle",
+  "private": true,
   "version": "1.6.11",
   "main": "build/index.js",
   "engines": {
@@ -31,9 +31,12 @@
     "typescript-eslint": "^8.41.0"
   },
   "dependencies": {
+    "@colyseus/auth": "^0.16.6",
+    "@colyseus/core": "^0.16.19",
     "@colyseus/monitor": "^0.16.7",
     "@colyseus/playground": "^0.16.4",
     "@colyseus/tools": "^0.16.13",
+    "@colyseus/ws-transport": "^0.16.5",
     "colyseus": "^0.16.4",
     "express": "^5.1.0"
   }

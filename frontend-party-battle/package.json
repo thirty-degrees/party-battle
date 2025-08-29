@@ -1,5 +1,6 @@
 {
   "name": "frontend-party-battle",
+  "private": true,
   "main": "expo-router/entry",
   "version": "1.6.11",
   "type": "commonjs",
@@ -68,6 +69,5 @@
     "jscodeshift": "^17.3.0",
     "tsx": "^4.20.5",
     "typescript": "~5.8.3"
-  },
-  "private": true
+  }
 }
