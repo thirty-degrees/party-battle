@@ -1,5 +1,3 @@
-// TODO: In Backend auch nutzen
-
 export type MiniGameTypes = "croc" | null;
 export interface PlayerState {
   name: string;

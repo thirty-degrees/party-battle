@@ -11,9 +11,6 @@
         "./tailwind.config.js"
       ]
     },
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "useDefineForClassFields": false
   },
   "include": [
     "**/*.ts",
