@@ -8,91 +8,42 @@ import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { JoinRoomModal } from "@/components/ui/modal/join-room-modal";
-import { useToastHelper } from "@/components/ui/toast-helper";
-import Constants from "expo-constants";
-import { useRoomStore } from "@/lobby/useRoomStore";
 
-import { Client } from "colyseus.js";
 import useStorage from "@/index/useStorage";
-import { LobbyRoomState } from "@/games/game";
+import { useLobbyContext } from "@/lobby/LobbyProvider";
 
 export default function HomeScreen() {
-  const [isCreating, setIsCreating] = useState(false);
-  const [isJoining, setIsJoining] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
-  const { setRoom } = useRoomStore();
   const [playerName, setPlayerName, isLoadingPlayerName] = useStorage("playerName");
-  const toast = useToastHelper();
+
+  const { createLobby, joinLobby, isLoading } = useLobbyContext();
+
+  const trimPlayerName = () => {
+    const trimmedName = playerName!.trim();
+    setPlayerName(trimmedName);
+    return trimmedName;
+  }
 
   const handleCreateRoom = async () => {
-    if (!playerName) {
-      return;
-    }
+    const trimmedName = trimPlayerName();
 
-    setIsCreating(true);
+    await createLobby(trimmedName);
 
-    try {
-      const trimmedName = playerName.trim();
-      setPlayerName(trimmedName);
-
-      const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const room = await client.create<LobbyRoomState>("lobby_room", {
-        name: trimmedName,
-      });
-
-      setRoom(room);
-
-      router.push({
-        pathname: "/room",
-        params: {
-          roomId: room.roomId,
-        },
-      });
-      setIsCreating(false);
-    } catch (e) {
-      console.error("Error creating room:", e);
-
-      toast.showError("Error", "Failed to create room. Please try again.");
-      setIsCreating(false);
-    }
+    router.push({
+      pathname: "/lobby",
+    });
   };
 
   const handleJoinRoom = async (roomId: string) => {
-    if (!playerName?.trim()) {
-      toast.showError("Error", "Please enter your name first.");
-      return;
-    }
+    const trimmedName = trimPlayerName();
 
-    setIsJoining(true);
+    await joinLobby(roomId, trimmedName);
 
-    try {
-      const trimmedName = playerName.trim();
-      setPlayerName(trimmedName);
+    router.push({
+      pathname: "/lobby",
+    });
 
-      const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const room = await client.joinById<LobbyRoomState>(roomId, {
-        name: trimmedName,
-      });
-
-      setRoom(room);
-
-      router.push({
-        pathname: "/room",
-        params: {
-          roomId: room.roomId,
-        },
-      });
-      setShowJoinModal(false);
-      setIsJoining(false);
-    } catch (e) {
-      console.error("Error joining room:", e);
-
-      toast.showError(
-        "Error",
-        "Failed to join room. Please check the room ID and try again."
-      );
-      setIsJoining(false);
-    }
+    setShowJoinModal(false);
   };
 
   return (
@@ -121,17 +72,17 @@ export default function HomeScreen() {
           size="md"
           action="primary"
           onPress={handleCreateRoom}
-          isDisabled={!playerName?.trim() || isCreating}
+          isDisabled={!playerName?.trim() || isLoading}
         >
-          <ButtonText>{isCreating ? "Creating..." : "Create Room"}</ButtonText>
+          <ButtonText>{isLoading ? "Loading..." : "Create Room"}</ButtonText>
         </Button>
         <Button
           size="md"
           action="secondary"
           onPress={() => setShowJoinModal(true)}
-          isDisabled={!playerName?.trim() || isJoining}
+          isDisabled={!playerName?.trim() || isLoading}
         >
-          <ButtonText>{isJoining ? "Joining..." : "Join Room"}</ButtonText>
+          <ButtonText>{isLoading ? "Loading..." : "Join Room"}</ButtonText>
         </Button>
       </View>
 
@@ -139,7 +90,7 @@ export default function HomeScreen() {
         isOpen={showJoinModal}
         onClose={() => setShowJoinModal(false)}
         onJoin={handleJoinRoom}
-        isLoading={isJoining}
+        isLoading={isLoading}
       />
     </View>
   );

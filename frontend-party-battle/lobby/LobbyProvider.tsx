@@ -1,10 +1,10 @@
 import { Client, Room } from "colyseus.js";
 import React, { createContext, useContext, useState, useCallback } from "react";
-import { LobbyRoomState } from "@/games/game";
 import Constants from "expo-constants";
+import { Lobby } from "types-party-battle";
 
 export type LobbyContextType = {
-  room?: Room<LobbyRoomState>;
+  room?: Room<Lobby>;
   isLoading: boolean;
   joinLobby: (roomId: string, playerName: string) => Promise<void>;
   createLobby: (playerName: string) => Promise<void>;
@@ -22,14 +22,14 @@ export const useLobbyContext = () => {
 };
 
 export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [room, setRoom] = useState<Room<LobbyRoomState> | undefined>(undefined);
+  const [room, setRoom] = useState<Room<Lobby> | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
 
   const joinLobby = useCallback(async (roomId: string, playerName: string) => {
     try {
       setIsLoading(true);
       const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const joinedRoom = await client.joinById<LobbyRoomState>(roomId, {
+      const joinedRoom = await client.joinById<Lobby>(roomId, {
         name: playerName,
       });
       setRoom(joinedRoom);
@@ -45,7 +45,7 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       setIsLoading(true);
       const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const createdRoom = await client.create<LobbyRoomState>("lobby_room", {
+      const createdRoom = await client.create<Lobby>("lobby_room", {
         name: playerName,
       });
       setRoom(createdRoom);

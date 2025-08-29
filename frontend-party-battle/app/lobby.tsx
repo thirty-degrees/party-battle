@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Button, ButtonText } from "@/components/ui/button";
-import { useLobbyContext } from "@/lobby/LobbyContext";
+import { useLobbyContext } from "@/lobby/LobbyProvider";
 import { Lobby, GameType } from "types-party-battle";
 import { useRouter } from "expo-router";
 import PlayerList from "@/lobby/player-list";
@@ -23,7 +23,7 @@ export default function LobbyScreen() {
 
     switch (gameType) {
       case "croc":
-        router.push(`/croc-game?roomId=${roomId}`);
+        router.push(`/games/croc-game?roomId=${roomId}`);
         break;
       case "snake":
         console.log("Snake game redirection not implemented yet");

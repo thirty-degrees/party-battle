@@ -24,7 +24,7 @@ export default function RootLayout() {
         <LobbyProvider>
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="index" />
-            <Stack.Screen name="room" />
+            <Stack.Screen name="lobby" />
             <Stack.Screen name="+not-found" />
           </Stack>
           <StatusBar style="auto" />

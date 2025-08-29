@@ -18,13 +18,6 @@ export interface GameHistory {
   playerScores: { [key: string]: number };
 }
 
-export interface LobbyRoomState {
-  players: { [key: string]: LobbyPlayerState };
-  roomName: string;
-  maxPlayers: number;
-  currentMiniGame: "croc" | null;
-}
-
 export interface CrocPlayerState {
   name: string;
   id: string;
