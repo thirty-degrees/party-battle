@@ -113,6 +113,7 @@ export default function CrocGamePage() {
         setIsConnecting(false);
       } catch (error) {
         console.error("Failed to join croc game room:", error);
+
         setIsConnecting(false);
         router.replace(`/room?roomId=${lobbyRoomId}`);
       }

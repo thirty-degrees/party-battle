@@ -166,6 +166,7 @@ export class LobbyRoom extends Room<LobbyRoomState> {
       });
     } catch (error) {
       console.error("Failed to create game room via matchMaker:", error);
+
       this.broadcast("game_room_error", {
         error: "Failed to create game room",
         timestamp: Date.now(),
@@ -201,6 +202,7 @@ export class LobbyRoom extends Room<LobbyRoomState> {
       });
     } catch (error) {
       console.error("Failed to create croc game room via matchMaker:", error);
+
       this.broadcast("game_room_error", {
         error: "Failed to create game room",
         timestamp: Date.now(),

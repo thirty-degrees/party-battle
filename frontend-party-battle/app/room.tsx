@@ -198,6 +198,7 @@ export default function RoomScreen() {
         });
       } catch (error) {
         console.error("Failed to join room:", error);
+
         router.replace({
           pathname: "/error",
           params: {

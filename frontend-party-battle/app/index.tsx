@@ -49,7 +49,8 @@ export default function HomeScreen() {
       });
       setIsCreating(false);
     } catch (e) {
-      console.error(e);
+      console.error("Error creating room:", e);
+
       toast.showError("Error", "Failed to create room. Please try again.");
       setIsCreating(false);
     }
@@ -83,7 +84,8 @@ export default function HomeScreen() {
       setShowJoinModal(false);
       setIsJoining(false);
     } catch (e) {
-      console.error(e);
+      console.error("Error joining room:", e);
+
       toast.showError(
         "Error",
         "Failed to join room. Please check the room ID and try again."
