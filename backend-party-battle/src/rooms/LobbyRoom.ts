@@ -1,6 +1,7 @@
 import { Room, Client } from "@colyseus/core";
 import { matchMaker } from "@colyseus/core";
 import { Lobby, LobbyPlayer } from "types-party-battle";
+import { RoomIds } from "../app.config";
 
 export class LobbyRoom extends Room<Lobby> {
   maxClients = 8;
@@ -9,9 +10,6 @@ export class LobbyRoom extends Room<Lobby> {
 
   onCreate(options: { name: string }) {
     this.autoDispose = false;
-    console.log("options", options);
-    console.log("playerName", options.name);
-    console.log("LobbyRoom created:", this.roomId);
 
     this.state = new Lobby();
 
@@ -22,6 +20,8 @@ export class LobbyRoom extends Room<Lobby> {
       if (player) {
         player.ready = true;
         console.log(`Player ${player.name} is ready`);
+
+        this.checkAllPlayersReady();
       } else {
         console.log(`Unknown player ${client.sessionId} is ready`);
       }
@@ -29,7 +29,6 @@ export class LobbyRoom extends Room<Lobby> {
   }
 
   onJoin(client: Client, options: { name: string }) {
-    console.log(`Player ${client.sessionId} joined lobby`);
     const player = new LobbyPlayer();
     player.name = options.name;
     player.ready = false;
@@ -43,5 +42,32 @@ export class LobbyRoom extends Room<Lobby> {
 
   onDispose() {
     console.log("Lobby room disposing:", this.roomId);
+  }
+
+  private async checkAllPlayersReady() {
+    const allPlayers = Array.from(this.state.players.values());
+    const allReady = allPlayers.every((player) => player.ready);
+
+    if (allReady && allPlayers.length > 0) {
+      console.log("All players are ready! Creating croc game room.");
+
+      try {
+        const crocRoom = await matchMaker.createRoom(
+          RoomIds.CROC_GAME_ROOM,
+          {}
+        );
+        this.state.currentGame = "croc";
+        this.state.currentGameRoomId = crocRoom.roomId;
+
+        console.log(`Created croc game room: ${crocRoom.roomId}`);
+
+        this.broadcast("game_room_created", {
+          gameType: "croc",
+          roomId: crocRoom.roomId,
+        });
+      } catch (error) {
+        console.error("Failed to create croc game room:", error);
+      }
+    }
   }
 }
