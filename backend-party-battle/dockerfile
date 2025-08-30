@@ -4,6 +4,7 @@ FROM node:${NODE_VERSION} AS deps
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+COPY types-party-battle/package.json types-party-battle/package.json
 COPY backend-party-battle/package.json backend-party-battle/package.json
 RUN npm ci --omit=dev --workspace backend-party-battle --include-workspace-root=false
 
@@ -11,9 +12,11 @@ FROM node:${NODE_VERSION} AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-COPY backend-party-battle backend-party-battle
 COPY types-party-battle types-party-battle
-RUN npm ci --workspace backend-party-battle --workspace types-party-battle --include-workspace-root=false
+COPY backend-party-battle backend-party-battle
+RUN npm ci --workspace types-party-battle --workspace backend-party-battle --include-workspace-root=false
+
+RUN npm run -w types-party-battle build
 RUN npm run -w backend-party-battle build
 
 FROM node:${NODE_VERSION} AS runner
