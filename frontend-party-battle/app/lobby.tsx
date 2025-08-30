@@ -12,8 +12,8 @@ export default function LobbyScreen() {
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
 
-  console.log("Lobby screen");
   useEffect(() => {
+    console.log("Set onStateChange");
     room?.onStateChange((state: Lobby) => {
       console.log("LOBBY State changed:", state);
       if (state.currentGame && state.currentGameRoomId) {
