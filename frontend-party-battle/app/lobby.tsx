@@ -12,21 +12,10 @@ export default function LobbyScreen() {
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
 
-  console.log("Lobby screen");
   useEffect(() => {
-    room?.onStateChange((state: Lobby) => {
-      console.log("LOBBY State changed:", state);
-      if (state.currentGame && state.currentGameRoomId) {
-        redirectGame(state.currentGame, state.currentGameRoomId);
-      }
-    });
-
     const redirectGame = (gameType: GameType, roomId: string) => {
-      console.log("redirectGame() - gameType:", gameType, "roomId:", roomId);
-
       switch (gameType) {
         case "croc":
-          console.log("Croc game redirection");
           router.push(`/games/croc-game?roomId=${roomId}`);
           break;
         case "snake":
@@ -37,6 +26,18 @@ export default function LobbyScreen() {
           break;
       }
     };
+
+    const roomOnStateChange = room?.onStateChange((state: Lobby) => {
+      if (state.currentGame && state.currentGameRoomId) {
+        redirectGame(state.currentGame, state.currentGameRoomId);
+      }
+    });
+
+    return () => {
+      if (roomOnStateChange) {
+        roomOnStateChange.clear();
+      }
+    };
   }, [room, router]);
 
   const onReady = () => {
@@ -45,7 +46,6 @@ export default function LobbyScreen() {
     try {
       room.send("ready");
       setIsReady(true);
-      console.log("Ready status sent to server");
     } catch (error) {
       console.error("Failed to send ready status:", error);
     }

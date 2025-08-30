@@ -46,10 +46,6 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
         const joinedRoom = await client.joinById<CrocGame>(roomId, {
           name: playerName,
         });
-        console.log("Joined croc game room:", joinedRoom.roomId);
-        console.log("Initial state:", joinedRoom.state);
-        console.log("Initial gameState:", joinedRoom.state.gameState);
-        console.log("Initial gameType:", joinedRoom.state.gameType);
 
         joinedRoom.onStateChange((state) => {
           setState(state);

@@ -1,10 +1,8 @@
-import { View, Text, Button } from "react-native";
+import { View, Text } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { CrocGameProvider, useCrocGameContext } from "@/games/CrocGameProvider";
 import { Spinner } from "@/components/ui/spinner";
-import { usePlayerName } from "@/index/PlayerNameProvider";
-import { ButtonText } from "@/components/ui/button";
 
 function CrocGameContent() {
   const { roomId } = useLocalSearchParams<{ roomId: string }>();
@@ -15,12 +13,6 @@ function CrocGameContent() {
       joinCrocGame(roomId);
     }
   }, [roomId, joinCrocGame]);
-
-  // useEffect(() => {
-  //   if (roomId && !room) {
-  //     joinCrocGame(roomId);
-  //   }
-  // }, [roomId, room, joinCrocGame]);
 
   if (isLoading) {
     return (
@@ -44,9 +36,6 @@ function CrocGameContent() {
       <Text className="text-black dark:text-white text-lg">
         Room ID: {roomId}
       </Text>
-      <Button action="primary" onPress={() => joinCrocGame(roomId)}>
-        <ButtonText>Join Croc Game</ButtonText>
-      </Button>
     </View>
   );
 }

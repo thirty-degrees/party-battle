@@ -15,6 +15,8 @@ export class LobbyRoom extends Room<Lobby> {
 
     this.maxClients = 8;
 
+    console.log("Lobby room created");
+
     this.onMessage("ready", (client: Client) => {
       const player = this.state.players.get(client.sessionId);
       if (player) {
@@ -33,6 +35,7 @@ export class LobbyRoom extends Room<Lobby> {
     player.name = options.name;
     player.ready = false;
     this.state.players.set(client.sessionId, player);
+    console.log(`Player ${player.name} joined lobby`);
   }
 
   onLeave(client: Client, _consented: boolean) {
