@@ -50,7 +50,6 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({
       const createdRoom = await client.create<Lobby>("lobby_room", {
         name: playerName,
       });
-      console.error("createdRoom", createdRoom);
       setRoom(createdRoom);
     } catch (error) {
       console.error("Failed to create lobby:", error);

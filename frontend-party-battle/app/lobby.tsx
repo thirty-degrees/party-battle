@@ -5,12 +5,14 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { useLobbyContext } from "@/lobby/LobbyProvider";
 import { Lobby, GameType } from "types-party-battle";
 import { useRouter } from "expo-router";
-import PlayerList from "@/lobby/player-list";
+import PlayerList from "@/lobby/PlayerList";
+import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
 
 export default function LobbyScreen() {
   const { room } = useLobbyContext();
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
+
 
   useEffect(() => {
     const redirectGame = (gameType: GameType, roomId: string) => {
@@ -49,29 +51,36 @@ export default function LobbyScreen() {
     }
   };
 
+  const backgroundColorClasses = "bg-background-0 dark:bg-background-950";
+
   return (
-    <View className="flex-1 justify-center gap-4 items-center p-4 bg-background-0 dark:bg-background-950">
-      <Text className="text-lg font-semibold">Lobby screen</Text>
+    <View className="flex-1">
+      <SafeAreaPlaceholder position="top" className={backgroundColorClasses} />
+      <View className={`flex-1 justify-between gap-2 p-4 ${backgroundColorClasses}`}>
+        <View className="flex-row">
 
-      <PlayerList
-        players={room?.state?.players}
-        currentPlayerId={room?.sessionId}
-        onGameStart={onReady}
-      />
+          <Text className="text-lg font-semibold">Lobby</Text>
+        </View>
 
-      <View className="items-center gap-2">
-        <Text className="text-sm text-typography-500 dark:text-typography-400">
-          Ready Status: {isReady ? "Ready" : "Not Ready"}
-        </Text>
+        <View className="flex-row flex-1">
+          <PlayerList
+            players={room?.state?.players}
+            currentPlayerId={room?.sessionId}
+            onGameStart={onReady}
+          />
+        </View>
 
-        <Button
-          action={isReady ? "positive" : "secondary"}
-          onPress={onReady}
-          disabled={isReady}
-        >
-          <ButtonText>{isReady ? "Ready" : "Set Ready"}</ButtonText>
-        </Button>
+        <View className="iflex-row">
+          <Button
+            action={isReady ? "positive" : "secondary"}
+            onPress={onReady}
+            disabled={isReady}
+          >
+            <ButtonText>{isReady ? "Ready" : "Set Ready"}</ButtonText>
+          </Button>
+        </View>
       </View>
+      <SafeAreaPlaceholder position="bottom" className={backgroundColorClasses} />
     </View>
   );
 }
