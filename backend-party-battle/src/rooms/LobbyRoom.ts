@@ -8,7 +8,7 @@ export class LobbyRoom extends Room<Lobby> {
   private gameRoomId: string | null = null;
   private playersInGame = new Set<string>();
 
-  onCreate(options: { name: string }) {
+  onCreate(_options: { name: string }) {
     this.autoDispose = false;
 
     this.state = new Lobby();
@@ -35,7 +35,7 @@ export class LobbyRoom extends Room<Lobby> {
     this.state.players.set(client.sessionId, player);
   }
 
-  onLeave(client: Client, consented: boolean) {
+  onLeave(client: Client, _consented: boolean) {
     console.log(`Player ${client.sessionId} left lobby`);
     this.state.players.delete(client.sessionId);
   }

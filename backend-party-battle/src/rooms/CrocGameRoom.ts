@@ -14,11 +14,11 @@ export class CrocGameRoom extends Room<CrocGame> {
     );
   }
 
-  onJoin(client: Client, options: { name: string }) {
+  onJoin(client: Client, _options: { name: string }) {
     console.log(`Player ${client.sessionId} joined croc game`);
   }
 
-  onLeave(client: Client, consented: boolean) {}
+  onLeave(_client: Client, _consented: boolean) { }
 
-  onDispose() {}
+  onDispose() { }
 }
