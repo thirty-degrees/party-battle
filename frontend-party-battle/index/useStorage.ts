@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { storage } from "./storage";
 
 export default function useStorage(key: string) {
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<string>("");
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function useStorage(key: string) {
   }, [key]);
 
   useEffect(() => {
-    if (!isLoading && value !== undefined) {
+    if (!isLoading && value && value.trim() !== "") {
       storage.setItem(key, value);
     }
   }, [key, value, isLoading]);
