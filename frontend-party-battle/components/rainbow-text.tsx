@@ -1,5 +1,4 @@
 import { Heading } from "@/components/ui/heading";
-import React from "react";
 import { View } from "react-native";
 
 // Static rainbow colors (optimized for dark backgrounds)

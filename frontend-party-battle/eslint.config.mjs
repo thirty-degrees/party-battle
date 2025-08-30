@@ -5,8 +5,8 @@ import reactPlugin from "eslint-plugin-react"
 
 export default defineConfig([
   expoConfig,
+  reactPlugin.configs.flat['jsx-runtime'],
   reactCompiler.configs.recommended,
-  reactPlugin.configs.flat.recommended,
   {
     ignores: ['dist/**', 'components/ui/**', 'node_modules/**'],
     languageOptions: {
