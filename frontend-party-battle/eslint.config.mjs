@@ -11,7 +11,7 @@ export default defineConfig([
       },
     },
     rules: {
-      'indent': ['warn', 2],
+      'indent': ['warn', 2, { SwitchCase: 1 }],
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'error',
     },
