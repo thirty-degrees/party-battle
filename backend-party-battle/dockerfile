@@ -14,6 +14,7 @@ COPY package.json package-lock.json ./
 COPY backend-party-battle backend-party-battle
 COPY types-party-battle types-party-battle
 RUN npm ci --workspace backend-party-battle --workspace types-party-battle --include-workspace-root=false
+RUN npm run -w types-party-battle build
 RUN npm run -w backend-party-battle build
 
 FROM node:${NODE_VERSION} AS runner
