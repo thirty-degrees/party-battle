@@ -3,10 +3,11 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { CrocGameProvider, useCrocGameContext } from "@/games/CrocGameProvider";
 import { Spinner } from "@/components/ui/spinner";
+import CrocGameView from "@/games/CrocGameView";
 
 function CrocGameContent() {
   const { roomId } = useLocalSearchParams<{ roomId: string }>();
-  const { state, isLoading, joinCrocGame } = useCrocGameContext();
+  const { room, isLoading, joinCrocGame } = useCrocGameContext();
 
   useEffect(() => {
     if (roomId) {
@@ -14,7 +15,7 @@ function CrocGameContent() {
     }
   }, [roomId, joinCrocGame]);
 
-  if (isLoading) {
+  if (isLoading || !room) {
     return (
       <View className="flex-1 bg-white dark:bg-black justify-center items-center">
         <Spinner size="large" />
@@ -25,19 +26,7 @@ function CrocGameContent() {
     );
   }
 
-  return (
-    <View className="flex-1 bg-white dark:bg-black justify-center items-center space-y-6">
-      <Text className="text-black dark:text-white text-2xl font-bold">
-        Croc Mini Game
-      </Text>
-      <Text className="text-black dark:text-white text-lg">
-        Room State: {state?.gameState}
-      </Text>
-      <Text className="text-black dark:text-white text-lg">
-        Room ID: {roomId}
-      </Text>
-    </View>
-  );
+  return <CrocGameView room={room} />;
 }
 
 export default function CrocGameScreen() {

@@ -6,7 +6,7 @@ import { usePlayerName } from "@/index/PlayerNameProvider";
 import { router } from "expo-router";
 
 export type CrocGameContextType = {
-  state?: CrocGame;
+  room?: Room<CrocGame>;
   isLoading: boolean;
   joinCrocGame: (roomId: string) => Promise<void>;
   leaveCrocGame: () => void;
@@ -30,7 +30,6 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [room, setRoom] = useState<Room<CrocGame> | undefined>(undefined);
-  const [state, setState] = useState<CrocGame | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const { playerName } = usePlayerName();
 
@@ -49,9 +48,8 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
         });
 
         joinedRoom.onStateChange((state) => {
-          setState(state);
           if (state.gameState === "finished") {
-            router.replace("/lobby");
+            router.replace("/");
           }
         });
 
@@ -74,7 +72,7 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [room]);
 
   const value: CrocGameContextType = {
-    state,
+    room,
     isLoading,
     joinCrocGame,
     leaveCrocGame,
