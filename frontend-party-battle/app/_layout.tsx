@@ -14,7 +14,6 @@ export default function RootLayout() {
   });
 
   if (!loaded) {
-    // Async font loading only occurs in development.
     return null;
   }
 
@@ -26,6 +25,7 @@ export default function RootLayout() {
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="index" />
               <Stack.Screen name="lobby" />
+              <Stack.Screen name="games/croc-game" />
               <Stack.Screen name="+not-found" />
             </Stack>
             <StatusBar style="auto" />

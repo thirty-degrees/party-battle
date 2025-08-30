@@ -13,8 +13,8 @@ export default function LobbyScreen() {
   const router = useRouter();
 
   room?.onStateChange((state: Lobby) => {
-    if (state.currentGame) {
-      redirectGame(state.currentGame, room.roomId);
+    if (state.currentGame && state.currentGameRoomId) {
+      redirectGame(state.currentGame, state.currentGameRoomId);
     }
   });
 
