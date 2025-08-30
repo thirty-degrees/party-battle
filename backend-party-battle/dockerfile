@@ -3,33 +3,30 @@ ARG NODE_VERSION=24-alpine
 FROM node:${NODE_VERSION} AS deps
 WORKDIR /app
 
-# Install production dependencies only
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+COPY backend-party-battle/package.json backend-party-battle/package.json
+RUN npm ci --omit=dev --workspace backend-party-battle --include-workspace-root=false
 
-# Build stage: install all deps and compile TypeScript
 FROM node:${NODE_VERSION} AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm ci
+COPY backend-party-battle backend-party-battle
+COPY types-party-battle types-party-battle
+RUN npm ci --workspace backend-party-battle --workspace types-party-battle --include-workspace-root=false
+RUN npm run -w backend-party-battle build
 
-COPY tsconfig.json ./
-COPY src ./src
-
-RUN npm run build
-
-# Runtime stage
 FROM node:${NODE_VERSION} AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copy production node_modules and built files
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/build ./build
+COPY --from=builder /app/backend-party-battle/package.json ./backend-party-battle/package.json
+COPY --from=builder /app/types-party-battle/package.json ./node_modules/types-party-battle/package.json
+COPY --from=builder /app/backend-party-battle/build ./backend-party-battle/build
+COPY --from=builder /app/types-party-battle/dist ./node_modules/types-party-battle/dist
 
+WORKDIR /app/backend-party-battle
 EXPOSE 2567
-
 CMD ["node", "build/index.js"]

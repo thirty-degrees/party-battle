@@ -1,5 +1,5 @@
 import { CollectionSchema, MapSchema, Schema, type } from "@colyseus/schema";
-import { GameHistory } from "./GameHistory";
+import { GameHistory } from "./GameHistory.js";
 
 export class Player extends Schema {
   @type("string") name: string = "";

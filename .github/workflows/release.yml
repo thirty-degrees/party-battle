@@ -57,14 +57,14 @@ jobs:
 
       - uses: useblacksmith/build-push-action@v2
         with:
-          context: ./backend-party-battle
+          context: .
           file: ./backend-party-battle/dockerfile
           push: true
           tags: |
             ghcr.io/thirty-degrees/backend-party-battle:${{ env.IMAGE_VERSION }}
             ghcr.io/thirty-degrees/backend-party-battle:latest
           build-args: |
-            VERSION=alpine
+            NODE_VERSION=24-alpine
           platforms: linux/arm64
           cache-from: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache
           cache-to: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache,mode=max

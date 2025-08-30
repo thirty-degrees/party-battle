@@ -1,3 +1,3 @@
-export * from "./types/CrocGame";
-export * from "./types/Lobby";
-export * from "./types/Game";
+export * from "./types/CrocGame.js";
+export * from "./types/Lobby.js";
+export * from "./types/Game.js";
