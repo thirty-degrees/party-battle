@@ -51,9 +51,7 @@ export default function LobbyScreen() {
       <Text className="text-lg font-semibold">Lobby screen</Text>
 
       <PlayerList
-        players={
-          room?.state?.players ? Array.from(room?.state?.players.values()) : []
-        }
+        players={room?.state?.players}
         currentPlayerId={room?.sessionId}
         onGameStart={onReady}
       />

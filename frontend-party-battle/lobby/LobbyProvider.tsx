@@ -21,7 +21,9 @@ export const useLobbyContext = () => {
   return context;
 };
 
-export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [room, setRoom] = useState<Room<Lobby> | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -45,7 +47,10 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       setIsLoading(true);
       const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const createdRoom = await client.create<Lobby>("lobby_room", playerName);
+      const createdRoom = await client.create<Lobby>("lobby_room", {
+        name: playerName,
+      });
+      console.error("createdRoom", createdRoom);
       setRoom(createdRoom);
     } catch (error) {
       console.error("Failed to create lobby:", error);
@@ -71,8 +76,6 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   return (
-    <LobbyContext.Provider value={value}>
-      {children}
-    </LobbyContext.Provider>
+    <LobbyContext.Provider value={value}>{children}</LobbyContext.Provider>
   );
 };
