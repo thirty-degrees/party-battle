@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.0.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.6.11...backend-party-battle-v2.0.0) (2025-08-30)
+
+
+### Features
+
+* Add es-lint to backend ([cf389c7](https://github.com/thirty-degrees/party-battle/commit/cf389c7771037af7046ce3bb2c2eb35c05f5cd56))
+* reference to shared types ([f5cfea1](https://github.com/thirty-degrees/party-battle/commit/f5cfea1de5dd88f31200133de5c457cec6b27516))
+
+
+### Bug Fixes
+
+* backend pipeline ([2c589ad](https://github.com/thirty-degrees/party-battle/commit/2c589ad97bbd48b8e47c96443dcb43eeeef292c0))
+* build error ([0d9e784](https://github.com/thirty-degrees/party-battle/commit/0d9e78479774959e2fd293a25a66d8150f5fd01d))
+* drop outdated package-lock files ([97c19ff](https://github.com/thirty-degrees/party-battle/commit/97c19ffd17fb4c83db17ba9510224653622bbdea))
+* lint errors ([759996f](https://github.com/thirty-degrees/party-battle/commit/759996ff647377629042e24452cf3032dc8c911e))
+* lint unused vars ([a3525a2](https://github.com/thirty-degrees/party-battle/commit/a3525a247fedae28d35ab475a70309e63c232c00))
+* some backend things ([db1e097](https://github.com/thirty-degrees/party-battle/commit/db1e09784e987c4d2a268d55477901b5ca6c0c01))
+
+
+### Miscellaneous Chores
+
+* release 2.0.0 ([bcd1744](https://github.com/thirty-degrees/party-battle/commit/bcd17446e133f6844bba35b2598f5b8a88df469e))
+
 ## [1.6.11](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v1.6.10...backend-party-battle-v1.6.11) (2025-08-28)
 
 

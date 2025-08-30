@@ -1,5 +1,38 @@
 # Changelog
 
+## [2.0.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.11...frontend-party-battle-v2.0.0) (2025-08-30)
+
+
+### Features
+
+* Add es-lint to backend ([cf389c7](https://github.com/thirty-degrees/party-battle/commit/cf389c7771037af7046ce3bb2c2eb35c05f5cd56))
+* introduce react compiler ([f566340](https://github.com/thirty-degrees/party-battle/commit/f5663408c2fb140c7d6f9685e01160a1dd767103))
+
+
+### Bug Fixes
+
+* build error ([0d9e784](https://github.com/thirty-degrees/party-battle/commit/0d9e78479774959e2fd293a25a66d8150f5fd01d))
+* configure babel to use react-compiler ([5dc5278](https://github.com/thirty-degrees/party-battle/commit/5dc5278eb182025f0508ca1994c8aff5f1203185))
+* controlled input issue ([56aa3e4](https://github.com/thirty-degrees/party-battle/commit/56aa3e4baa1c24f73297b5fcd902428c5d860399))
+* drop outdated package-lock files ([97c19ff](https://github.com/thirty-degrees/party-battle/commit/97c19ffd17fb4c83db17ba9510224653622bbdea))
+* eslint switch case identation ([089688a](https://github.com/thirty-degrees/party-battle/commit/089688a5bd3f30ddd8bc3edba361768c5084916a))
+* frontend pipeline ([0574f77](https://github.com/thirty-degrees/party-battle/commit/0574f774b28a992673251aeef95b2dba38af4c2f))
+* import react to not found page ([ff2f065](https://github.com/thirty-degrees/party-battle/commit/ff2f0650f0db7d9ca7c9e557d5047f30a01baedd))
+* improve eslint ([37063d1](https://github.com/thirty-degrees/party-battle/commit/37063d1eae39a460e0cbb16f053c0cb96cb0eb50))
+* Improve type savety by getting rid of any ([8bc5e51](https://github.com/thirty-degrees/party-battle/commit/8bc5e51908f009f73af2ae6cd81db95d15245564))
+* lint errors ([759996f](https://github.com/thirty-degrees/party-battle/commit/759996ff647377629042e24452cf3032dc8c911e))
+* more lint errors ([72e1c42](https://github.com/thirty-degrees/party-battle/commit/72e1c4251028e77559e794a80257f4ed93f0193d))
+* more types ([6f76f5c](https://github.com/thirty-degrees/party-battle/commit/6f76f5c97b9b7417635b1253ea208fb90dd9bbf9))
+* react error ([a5f2628](https://github.com/thirty-degrees/party-battle/commit/a5f26289b87568549dbef35a6e5d2a0e2fbcb9a3))
+* some backend things ([db1e097](https://github.com/thirty-degrees/party-battle/commit/db1e09784e987c4d2a268d55477901b5ca6c0c01))
+* two room related type errors ([a7fb992](https://github.com/thirty-degrees/party-battle/commit/a7fb992b3cb6be106136f8d4a08a8d1db65ee218))
+* use new context provider ([50e10f9](https://github.com/thirty-degrees/party-battle/commit/50e10f9447e04ba0721b60a283fc83211a459b64))
+
+
+### Miscellaneous Chores
+
+* release 2.0.0 ([bcd1744](https://github.com/thirty-degrees/party-battle/commit/bcd17446e133f6844bba35b2598f5b8a88df469e))
+
 ## [1.6.11](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.10...frontend-party-battle-v1.6.11) (2025-08-28)
 
 
