@@ -20,24 +20,24 @@ export default function LobbyScreen() {
         redirectGame(state.currentGame, state.currentGameRoomId);
       }
     });
-  }, [room]);
 
-  const redirectGame = (gameType: GameType, roomId: string) => {
-    console.log("redirectGame() - gameType:", gameType, "roomId:", roomId);
+    const redirectGame = (gameType: GameType, roomId: string) => {
+      console.log("redirectGame() - gameType:", gameType, "roomId:", roomId);
 
-    switch (gameType) {
-      case "croc":
-        console.log("Croc game redirection");
-        router.push(`/games/croc-game?roomId=${roomId}`);
-        break;
-      case "snake":
-        console.log("Snake game redirection not implemented yet");
-        break;
-      default:
-        console.log("Unknown game type:", gameType);
-        break;
-    }
-  };
+      switch (gameType) {
+        case "croc":
+          console.log("Croc game redirection");
+          router.push(`/games/croc-game?roomId=${roomId}`);
+          break;
+        case "snake":
+          console.log("Snake game redirection not implemented yet");
+          break;
+        default:
+          console.log("Unknown game type:", gameType);
+          break;
+      }
+    };
+  }, [room, router]);
 
   const onReady = () => {
     if (!room) return;
