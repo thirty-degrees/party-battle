@@ -13,6 +13,7 @@ export default function (api) {
     ],
 
     plugins: [
+      "react-compiler",
       "@babel/plugin-transform-class-static-block",
       [
         "module-resolver",
