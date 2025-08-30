@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useLobbyContext } from "@/lobby/LobbyProvider";
-import { Lobby, GameType, LobbyPlayer } from "types-party-battle";
 import { useRouter } from "expo-router";
 import PlayerList from "@/lobby/PlayerList";
 import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
@@ -11,42 +10,30 @@ import useColyseusState from "@/colyseus/useColyseusState";
 
 export default function LobbyScreen() {
   const { room } = useLobbyContext();
-  const selector = (s: Lobby): [string, LobbyPlayer][] => Array.from(s.players?.entries() || []);
-  const players = useColyseusState(room!, selector);
+  const players = useColyseusState(room!, state => Array.from(state.players?.entries() || []));
+  const currentGame = useColyseusState(room!, state => state.currentGame);
+  const currentGameRoomId = useColyseusState(room!, state => state.currentGameRoomId);
+
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const redirectGame = (gameType: GameType, roomId: string) => {
-      switch (gameType) {
+    if (currentGame && currentGameRoomId) {
+      switch (currentGame) {
         case "croc":
-          router.push(`/games/croc-game?roomId=${roomId}`);
+          router.push(`/games/croc-game?roomId=${currentGameRoomId}`);
           break;
         case "snake":
           throw new Error("Snake game redirection not implemented yet");
         default:
-          throw new Error(`Unknown game type: ${gameType}`);
+          throw new Error(`Unknown game type: ${currentGameRoomId}`);
       }
-    };
-
-    const roomOnStateChange = room?.onStateChange((state: Lobby) => {
-      if (state.currentGame && state.currentGameRoomId) {
-        redirectGame(state.currentGame, state.currentGameRoomId);
-      }
-    });
-
-    return () => {
-      if (roomOnStateChange) {
-        roomOnStateChange.clear();
-      }
-    };
-  }, [room, router]);
+    }
+  }, [currentGame, currentGameRoomId, router]);
 
   const onReady = () => {
-    if (!room) return;
-
     try {
-      room.send("ready");
+      room!.send("ready");
       setIsReady(true);
     } catch (error) {
       console.error("Failed to send ready status:", error);

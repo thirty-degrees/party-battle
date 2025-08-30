@@ -19,20 +19,22 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <GluestackUIProvider>
-        <PlayerNameProvider>
-          <LobbyProvider>
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="index" />
-              <Stack.Screen name="lobby" />
-              <Stack.Screen name="games/croc-game" />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-            <StatusBar style="auto" />
-          </LobbyProvider>
-        </PlayerNameProvider>
-      </GluestackUIProvider>
-    </SafeAreaProvider>
+    <React.StrictMode>
+      <SafeAreaProvider>
+        <GluestackUIProvider>
+          <PlayerNameProvider>
+            <LobbyProvider>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" />
+                <Stack.Screen name="lobby" />
+                <Stack.Screen name="games/croc-game" />
+                <Stack.Screen name="+not-found" />
+              </Stack>
+              <StatusBar style="auto" />
+            </LobbyProvider>
+          </PlayerNameProvider>
+        </GluestackUIProvider>
+      </SafeAreaProvider>
+    </React.StrictMode>
   );
 }

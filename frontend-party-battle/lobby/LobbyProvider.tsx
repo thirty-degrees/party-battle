@@ -6,8 +6,8 @@ import { Lobby } from "types-party-battle";
 export type LobbyContextType = {
   room?: Room<Lobby>;
   isLoading: boolean;
-  joinLobby: (roomId: string, playerName: string) => Promise<void>;
-  createLobby: (playerName: string) => Promise<void>;
+  joinLobby: (_roomId: string, _playerName: string) => Promise<void>;
+  createLobby: (_playerName: string) => Promise<void>;
   leaveLobby: () => void;
 };
 
