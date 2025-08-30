@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.0.0...frontend-party-battle-v2.0.1) (2025-08-30)
+
+
+### Bug Fixes
+
+* pipelines ([ad81dbe](https://github.com/thirty-degrees/party-battle/commit/ad81dbeb5b65fcc5e45845625c84a161da73f4b9))
+
 ## [2.0.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v1.6.11...frontend-party-battle-v2.0.0) (2025-08-30)
 
 
