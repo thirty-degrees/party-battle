@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Button, ButtonText } from "@/components/ui/button";
@@ -12,17 +12,22 @@ export default function LobbyScreen() {
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
 
-  room?.onStateChange((state: Lobby) => {
-    if (state.currentGame && state.currentGameRoomId) {
-      redirectGame(state.currentGame, state.currentGameRoomId);
-    }
-  });
+  console.log("Lobby screen");
+  useEffect(() => {
+    room?.onStateChange((state: Lobby) => {
+      console.log("LOBBY State changed:", state);
+      if (state.currentGame && state.currentGameRoomId) {
+        redirectGame(state.currentGame, state.currentGameRoomId);
+      }
+    });
+  }, [room]);
 
   const redirectGame = (gameType: GameType, roomId: string) => {
     console.log("redirectGame() - gameType:", gameType, "roomId:", roomId);
 
     switch (gameType) {
       case "croc":
+        console.log("Croc game redirection");
         router.push(`/games/croc-game?roomId=${roomId}`);
         break;
       case "snake":

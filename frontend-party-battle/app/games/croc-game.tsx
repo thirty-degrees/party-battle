@@ -1,46 +1,26 @@
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useState, useEffect } from "react";
-import { Client, Room } from "colyseus.js";
-import Constants from "expo-constants";
-import { CrocGame } from "types-party-battle";
-import useStorage from "@/index/useStorage";
+import { useEffect } from "react";
+import { CrocGameProvider, useCrocGameContext } from "@/games/CrocGameProvider";
 import { Spinner } from "@/components/ui/spinner";
+import { usePlayerName } from "@/index/PlayerNameProvider";
+import { ButtonText } from "@/components/ui/button";
 
-export default function CrocGameScreen() {
+function CrocGameContent() {
   const { roomId } = useLocalSearchParams<{ roomId: string }>();
-  const [room, setRoom] = useState<Room<CrocGame> | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
-  const [playerName] = useStorage("playerName");
-
-  const joinRoom = () => {
-    if (roomId && playerName && !room) {
-      try {
-        setIsLoading(true);
-        const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-        const joinedRoom = client
-          .joinById<CrocGame>(roomId, {
-            name: playerName,
-          })
-          .then((joinedRoom) => {
-            console.log("Joined room:", joinedRoom.roomId);
-            console.log("Initial state:", joinedRoom.state);
-            console.log("Initial gameState:", joinedRoom.state.gameState);
-            console.log("Initial gameType:", joinedRoom.state.gameType);
-            setRoom(joinedRoom);
-          });
-      } catch (error) {
-        console.error("Failed to join croc game:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  };
+  const { state, isLoading, joinCrocGame } = useCrocGameContext();
 
   useEffect(() => {
-    joinRoom();
-    console.log("useEffect()");
-  }, [roomId, playerName]);
+    if (roomId) {
+      joinCrocGame(roomId);
+    }
+  }, [roomId, joinCrocGame]);
+
+  // useEffect(() => {
+  //   if (roomId && !room) {
+  //     joinCrocGame(roomId);
+  //   }
+  // }, [roomId, room, joinCrocGame]);
 
   if (isLoading) {
     return (
@@ -59,11 +39,22 @@ export default function CrocGameScreen() {
         Croc Mini Game
       </Text>
       <Text className="text-black dark:text-white text-lg">
-        Room State: {room?.state.gameState}
+        Room State: {state?.gameState}
       </Text>
       <Text className="text-black dark:text-white text-lg">
         Room ID: {roomId}
       </Text>
+      <Button action="primary" onPress={() => joinCrocGame(roomId)}>
+        <ButtonText>Join Croc Game</ButtonText>
+      </Button>
     </View>
+  );
+}
+
+export default function CrocGameScreen() {
+  return (
+    <CrocGameProvider>
+      <CrocGameContent />
+    </CrocGameProvider>
   );
 }

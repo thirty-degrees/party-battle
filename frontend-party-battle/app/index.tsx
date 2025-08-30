@@ -9,12 +9,16 @@ import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { JoinRoomModal } from "@/components/ui/modal/join-room-modal";
 
-import useStorage from "@/index/useStorage";
+import { usePlayerName } from "@/index/PlayerNameProvider";
 import { useLobbyContext } from "@/lobby/LobbyProvider";
 
 export default function HomeScreen() {
   const [showJoinModal, setShowJoinModal] = useState(false);
-  const [playerName, setPlayerName, isLoadingPlayerName] = useStorage("playerName");
+  const {
+    playerName,
+    setPlayerName,
+    isLoading: isLoadingPlayerName,
+  } = usePlayerName();
 
   const { createLobby, joinLobby, isLoading } = useLobbyContext();
 
@@ -22,7 +26,7 @@ export default function HomeScreen() {
     const trimmedName = playerName!.trim();
     setPlayerName(trimmedName);
     return trimmedName;
-  }
+  };
 
   const handleCreateRoom = async () => {
     const trimmedName = trimPlayerName();
