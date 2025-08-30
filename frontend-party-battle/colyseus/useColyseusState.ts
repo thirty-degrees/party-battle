@@ -1,4 +1,4 @@
-import { useEffect, useRef, useSyncExternalStore } from 'react'
+import { useEffect, useRef, useSyncExternalStore, useMemo } from 'react'
 import type { Room } from 'colyseus.js'
 import type { Schema } from '@colyseus/schema'
 
@@ -7,7 +7,7 @@ type Selector<S extends Schema, R> = (state: S) => R
 function createRoomStore<S extends Schema>(room: Room<S>) {
   let rev = 0
   const listeners = new Set<() => void>()
-  let off: any | null = null
+  let off: { clear: () => void } | null = null
 
   const notify = () => { rev++; listeners.forEach(l => l()) }
 
@@ -32,14 +32,12 @@ export default function useColyseusState<S extends Schema, R>(
   room: Room<S>,
   selector: Selector<S, R>,
 ) {
-  const store = createRoomStore(room)
+  const store = useMemo(() => createRoomStore(room), [room])
   const selectorRef = useRef(selector)
   useEffect(() => { selectorRef.current = selector }, [selector])
 
   useEffect(() => store.dispose, [store])
   useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot)
-
-  console.log("useColyseusState");
 
   return selectorRef.current(room.state)
 }

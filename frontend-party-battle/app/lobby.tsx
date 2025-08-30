@@ -13,12 +13,8 @@ export default function LobbyScreen() {
   const { room } = useLobbyContext();
   const selector = (s: Lobby): [string, LobbyPlayer][] => Array.from(s.players?.entries() || []);
   const players = useColyseusState(room!, selector);
-  const playersCount = players.length;
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
-
-  console.log(`players (${playersCount}):`);
-  console.log(players);
 
   useEffect(() => {
     const redirectGame = (gameType: GameType, roomId: string) => {
@@ -71,7 +67,6 @@ export default function LobbyScreen() {
         <View className="flex-row flex-1">
           <PlayerList
             players={players}
-            playersCount={playersCount}
             currentPlayerId={room?.sessionId}
             onGameStart={onReady}
           />

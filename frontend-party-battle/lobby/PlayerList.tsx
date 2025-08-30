@@ -5,19 +5,14 @@ import PlayerListEntry from "./PlayerListEntry";
 
 interface LobbyScreenProps {
   players: [string, LobbyPlayer][];
-  playersCount: number;
   currentPlayerId?: string;
   onGameStart?: () => void;
 }
 
 export default function PlayerList({
   players,
-  playersCount,
   currentPlayerId,
 }: LobbyScreenProps) {
-
-  console.log("playersCount:");
-  console.log(playersCount);
   return (
     <View className="flex-1 justify-between p-4 pt-8">
       <View className="w-full max-w-md">
