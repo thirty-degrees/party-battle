@@ -1,10 +1,14 @@
 import { defineConfig } from 'eslint/config';
 import expoConfig from 'eslint-config-expo/flat.js';
+import reactCompiler from "eslint-plugin-react-compiler"
+import reactPlugin from "eslint-plugin-react"
 
 export default defineConfig([
   expoConfig,
+  reactCompiler.configs.recommended,
+  reactPlugin.configs.flat.recommended,
   {
-    ignores: ['dist/*', 'components/ui/**', 'node_modules/*'],
+    ignores: ['dist/**', 'components/ui/**', 'node_modules/**'],
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,

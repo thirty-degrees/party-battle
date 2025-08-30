@@ -19,17 +19,19 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <GluestackUIProvider>
-        <LobbyProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="lobby" />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style="auto" />
-        </LobbyProvider>
-      </GluestackUIProvider>
-    </SafeAreaProvider>
+    <React.StrictMode>
+      <SafeAreaProvider>
+        <GluestackUIProvider>
+          <LobbyProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="lobby" />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+          </LobbyProvider>
+        </GluestackUIProvider>
+      </SafeAreaProvider>
+    </React.StrictMode>
   );
 }
