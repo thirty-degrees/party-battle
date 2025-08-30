@@ -1,111 +1,43 @@
 import { Room, Client } from "@colyseus/core";
 import { matchMaker } from "@colyseus/core";
 import { Lobby, LobbyPlayer } from "types-party-battle";
+import { RoomIds } from "../app.config";
 
 export class LobbyRoom extends Room<Lobby> {
   maxClients = 8;
   private gameRoomId: string | null = null;
   private playersInGame = new Set<string>();
 
-  onCreate(_options: { roomName: string; playerName: number }) {
+  onCreate(options: { name: string }) {
     this.autoDispose = false;
-    console.log("LobbyRoom created:", this.roomId);
 
     this.state = new Lobby();
 
     this.maxClients = 8;
 
-    this.onMessage("ready", (client, _message) => {
+    this.onMessage("ready", (client: Client) => {
       const player = this.state.players.get(client.sessionId);
       if (player) {
-        console.log(`Player ${player.name} is ready for next game`);
         player.ready = true;
-        this.broadcast("player_ready", {
-          playerId: client.sessionId,
-          playerName: player.name,
-        });
+        console.log(`Player ${player.name} is ready`);
 
         this.checkAllPlayersReady();
-      }
-    });
-
-    this.onMessage("create_game_room", (client, _message) => {
-      console.log(`Player ${client.sessionId} requested game room creation`);
-      this.createGameRoomRequest(client);
-    });
-
-    this.onMessage("reset_ready", (client, _message) => {
-      console.log(`Player ${client.sessionId} reset ready state`);
-      const player = this.state.players.get(client.sessionId);
-      if (player) {
-        player.ready = false;
-        console.log(`Player ${player.name} ready state reset to false`);
-      }
-    });
-
-    this.onMessage("return_from_game", (client, _message) => {
-      console.log(`Player ${client.sessionId} returned from game`);
-      const player = this.state.players.get(client.sessionId);
-      if (player) {
-        player.ready = false;
-        this.playersInGame.delete(client.sessionId);
-        console.log(
-          `Player ${player.name} returned from game, ready state reset`
-        );
-
-        this.broadcast("player_returned", {
-          playerId: client.sessionId,
-          playerName: player.name,
-          timestamp: Date.now(),
-        });
+      } else {
+        console.log(`Unknown player ${client.sessionId} is ready`);
       }
     });
   }
 
   onJoin(client: Client, options: { name: string }) {
-    console.log(`Player ${client.sessionId} joined lobby`);
-
     const player = new LobbyPlayer();
-    const requestedName =
-      options.name || `Player_${client.sessionId.substr(0, 5)}`;
-
-    // Check if name is already taken
-    const existingNames = Array.from(this.state.players.values()).map(
-      (p) => p.name
-    );
-    let finalName = requestedName;
-    let counter = 1;
-
-    while (existingNames.includes(finalName)) {
-      finalName = `${requestedName}_${counter}`;
-      counter++;
-    }
-
-    player.name = finalName;
+    player.name = options.name;
     player.ready = false;
-
     this.state.players.set(client.sessionId, player);
-
-    console.log(`Lobby now has ${this.state.players.size} players`);
-    this.broadcast("player_joined", {
-      playerId: client.sessionId,
-      playerName: player.name,
-      totalPlayers: this.state.players.size,
-    });
   }
 
   onLeave(client: Client, consented: boolean) {
-    const player = this.state.players.get(client.sessionId);
+    console.log(`Player ${client.sessionId} left lobby`);
     this.state.players.delete(client.sessionId);
-    if (player) {
-      console.log(`Player ${player.name} left lobby (consented: ${consented})`);
-
-      this.broadcast("player_left", {
-        playerId: client.sessionId,
-        playerName: player.name,
-        totalPlayers: this.state.players.size,
-      });
-    }
   }
 
   onDispose() {
@@ -117,85 +49,25 @@ export class LobbyRoom extends Room<Lobby> {
     const allReady = allPlayers.every((player) => player.ready);
 
     if (allReady && allPlayers.length > 0) {
-      await this.createCrocGameRoom();
+      console.log("All players are ready! Creating croc game room.");
+
+      try {
+        const crocRoom = await matchMaker.createRoom(
+          RoomIds.CROC_GAME_ROOM,
+          {}
+        );
+        this.state.currentGame = "croc";
+        this.state.currentGameRoomId = crocRoom.roomId;
+
+        console.log(`Created croc game room: ${crocRoom.roomId}`);
+
+        this.broadcast("game_room_created", {
+          gameType: "croc",
+          roomId: crocRoom.roomId,
+        });
+      } catch (error) {
+        console.error("Failed to create croc game room:", error);
+      }
     }
-  }
-
-  private async createGameRoomRequest(client: Client) {
-    console.log("Creating game room via matchMaker...");
-
-    try {
-      const gameRoom = await matchMaker.createRoom("croc_mini_game_room", {
-        lobbyRoomId: this.roomId,
-        playerCount: this.state.players.size,
-        requestedBy: client.sessionId,
-      });
-
-      this.gameRoomId = gameRoom.roomId;
-      console.log(`Created croc game room via matchMaker: ${this.gameRoomId}`);
-
-      console.log(`Broadcasting game_started with room ID: ${this.gameRoomId}`);
-      this.broadcast("game_started", {
-        gameRoomId: this.gameRoomId,
-        gameType: "croc",
-        timestamp: Date.now(),
-      });
-    } catch (error) {
-      console.error("Failed to create game room via matchMaker:", error);
-
-      this.broadcast("game_room_error", {
-        error: "Failed to create game room",
-        timestamp: Date.now(),
-      });
-    }
-  }
-
-  private async createCrocGameRoom() {
-    console.log("All players ready! Creating croc game room.");
-
-    try {
-      const gameRoom = await matchMaker.createRoom("croc_mini_game_room", {
-        lobbyRoomId: this.roomId,
-        playerCount: this.state.players.size,
-      });
-
-      this.gameRoomId = gameRoom.roomId;
-      this.playersInGame.clear();
-
-      // Mark all players as in game and reset their ready state
-      this.state.players.forEach((player, sessionId) => {
-        this.playersInGame.add(sessionId);
-        player.ready = false; // Reset ready state when game starts
-      });
-
-      console.log(`Created croc game room via matchMaker: ${this.gameRoomId}`);
-
-      console.log(`Broadcasting game_started with room ID: ${this.gameRoomId}`);
-      this.broadcast("game_started", {
-        gameRoomId: this.gameRoomId,
-        gameType: "croc",
-        timestamp: Date.now(),
-      });
-    } catch (error) {
-      console.error("Failed to create croc game room via matchMaker:", error);
-
-      this.broadcast("game_room_error", {
-        error: "Failed to create game room",
-        timestamp: Date.now(),
-      });
-    }
-  }
-
-  private movePlayersBackToLobby() {
-    console.log("Moving players back to lobby");
-    this.state.players.forEach((player) => {
-      player.ready = false;
-    });
-    this.playersInGame.clear();
-    this.gameRoomId = null;
-
-    this.broadcast("return_to_lobby", {
-      timestamp: Date.now(),
-    });
   }
 }
