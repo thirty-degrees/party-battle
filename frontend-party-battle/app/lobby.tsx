@@ -3,16 +3,22 @@ import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useLobbyContext } from "@/lobby/LobbyProvider";
-import { Lobby, GameType } from "types-party-battle";
+import { Lobby, GameType, LobbyPlayer } from "types-party-battle";
 import { useRouter } from "expo-router";
 import PlayerList from "@/lobby/PlayerList";
 import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
+import useColyseusState from "@/colyseus/useColyseusState";
 
 export default function LobbyScreen() {
   const { room } = useLobbyContext();
+  const selector = (s: Lobby): [string, LobbyPlayer][] => Array.from(s.players?.entries() || []);
+  const players = useColyseusState(room!, selector);
+  const playersCount = players.length;
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
 
+  console.log(`players (${playersCount}):`);
+  console.log(players);
 
   useEffect(() => {
     const redirectGame = (gameType: GameType, roomId: string) => {
@@ -64,7 +70,8 @@ export default function LobbyScreen() {
 
         <View className="flex-row flex-1">
           <PlayerList
-            players={room?.state?.players}
+            players={players}
+            playersCount={playersCount}
             currentPlayerId={room?.sessionId}
             onGameStart={onReady}
           />

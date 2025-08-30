@@ -1,31 +1,32 @@
 import { View, Text, ScrollView } from "react-native";
 
 import { LobbyPlayer, MAX_AMOUNT_OF_PLAYERS } from "types-party-battle";
-import { MapSchema } from "@colyseus/schema";
 import PlayerListEntry from "./PlayerListEntry";
 
 interface LobbyScreenProps {
-  players?: MapSchema<LobbyPlayer, string>;
+  players: [string, LobbyPlayer][];
+  playersCount: number;
   currentPlayerId?: string;
   onGameStart?: () => void;
 }
 
 export default function PlayerList({
   players,
+  playersCount,
   currentPlayerId,
 }: LobbyScreenProps) {
-  const playersArray = players ? Array.from(players.values()) : [];
 
+  console.log("playersCount:");
+  console.log(playersCount);
   return (
     <View className="flex-1 justify-between p-4 pt-8">
       <View className="w-full max-w-md">
         <Text className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-          Players ({playersArray.length} / {MAX_AMOUNT_OF_PLAYERS})
+          Players ({players.length} / {MAX_AMOUNT_OF_PLAYERS})
         </Text>
 
         <ScrollView className="max-h-64">
-          {playersArray.map((player, index) => {
-            const playerId = Array.from(players?.keys() || [])[index];
+          {players.map(([playerId, player]) => {
             const isCurrentPlayer = playerId === currentPlayerId;
             return (
               <PlayerListEntry

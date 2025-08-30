@@ -1,11 +1,12 @@
 import { Room, Client } from "@colyseus/core";
-import { CrocGame } from "types-party-battle";
+import { CrocGame, MAX_AMOUNT_OF_PLAYERS } from "types-party-battle";
 
 export class CrocGameRoom extends Room<CrocGame> {
-  maxClients = 8;
 
   onCreate(options: unknown) {
     this.autoDispose = false;
+
+    this.maxClients = MAX_AMOUNT_OF_PLAYERS;
     this.state = new CrocGame();
     console.log(
       "CrocMiniGameRoom created:",
@@ -24,7 +25,7 @@ export class CrocGameRoom extends Room<CrocGame> {
     console.log(`Player ${client.sessionId} joined croc game`);
   }
 
-  onLeave(_client: Client, _consented: boolean) {}
+  onLeave(_client: Client, _consented: boolean) { }
 
-  onDispose() {}
+  onDispose() { }
 }
