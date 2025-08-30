@@ -8,7 +8,6 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { CrocGameProvider } from "@/games/CrocGameProvider";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -25,15 +24,13 @@ export default function RootLayout() {
         <GluestackUIProvider>
           <PlayerNameProvider>
             <LobbyProvider>
-              <CrocGameProvider>
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="index" />
-                  <Stack.Screen name="lobby" />
-                  <Stack.Screen name="games/croc-game" />
-                  <Stack.Screen name="+not-found" />
-                </Stack>
-                <StatusBar style="auto" />
-              </CrocGameProvider>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" />
+                <Stack.Screen name="lobby" />
+                <Stack.Screen name="games/croc-game" />
+                <Stack.Screen name="+not-found" />
+              </Stack>
+              <StatusBar style="auto" />
             </LobbyProvider>
           </PlayerNameProvider>
         </GluestackUIProvider>

@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 import Constants from "expo-constants";
 import { CrocGame } from "types-party-battle";
 import { usePlayerName } from "@/index/PlayerNameProvider";
+import { router } from "expo-router";
 
 export type CrocGameContextType = {
   state?: CrocGame;
@@ -49,6 +50,9 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
 
         joinedRoom.onStateChange((state) => {
           setState(state);
+          if (state.gameState === "finished") {
+            router.replace("/lobby");
+          }
         });
 
         setRoom(joinedRoom);

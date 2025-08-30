@@ -13,6 +13,11 @@ export class CrocGameRoom extends Room<CrocGame> {
       "with options:",
       options
     );
+
+    setTimeout(() => {
+      this.state.gameState = "finished";
+      console.log("Game state changed to finished after 3 seconds");
+    }, 3000);
   }
 
   onJoin(client: Client, _options: { name: string }) {
