@@ -6,6 +6,7 @@ export class CrocGameRoom extends Room<CrocGame> {
 
   onCreate(options: unknown) {
     this.autoDispose = false;
+    this.state = new CrocGame();
     console.log(
       "CrocMiniGameRoom created:",
       this.roomId,
@@ -18,7 +19,7 @@ export class CrocGameRoom extends Room<CrocGame> {
     console.log(`Player ${client.sessionId} joined croc game`);
   }
 
-  onLeave(_client: Client, _consented: boolean) { }
+  onLeave(_client: Client, _consented: boolean) {}
 
-  onDispose() { }
+  onDispose() {}
 }

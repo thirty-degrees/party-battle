@@ -60,11 +60,6 @@ export class LobbyRoom extends Room<Lobby> {
         this.state.currentGameRoomId = crocRoom.roomId;
 
         console.log(`Created croc game room: ${crocRoom.roomId}`);
-
-        this.broadcast("game_room_created", {
-          gameType: "croc",
-          roomId: crocRoom.roomId,
-        });
       } catch (error) {
         console.error("Failed to create croc game room:", error);
       }
