@@ -1,4 +1,4 @@
-import { MapSchema, Schema, type } from "@colyseus/schema";
+import { CollectionSchema, MapSchema, Schema, type } from "@colyseus/schema";
 import { GameHistory } from "./GameHistory";
 
 export class Player extends Schema {
@@ -13,5 +13,6 @@ export class Lobby extends Schema {
   @type({ map: LobbyPlayer }) players = new MapSchema<LobbyPlayer>();
   @type("string") currentGame?: "croc" | null = null;
   @type("string") currentGameRoomId?: string | null = null;
-  @type({ map: GameHistory }) gameHistory: Array<GameHistory> = [];
+  @type({ collection: GameHistory }) gameHistory =
+    new CollectionSchema<GameHistory>();
 }
