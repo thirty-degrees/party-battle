@@ -19,11 +19,9 @@ export default function LobbyScreen() {
           router.push(`/games/croc-game?roomId=${roomId}`);
           break;
         case "snake":
-          console.log("Snake game redirection not implemented yet");
-          break;
+          throw new Error("Snake game redirection not implemented yet");
         default:
-          console.log("Unknown game type:", gameType);
-          break;
+          throw new Error(`Unknown game type: ${gameType}`);
       }
     };
 
