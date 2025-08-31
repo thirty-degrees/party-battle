@@ -1,7 +1,5 @@
-import { Heading } from "@/components/ui/heading";
-import { View } from "react-native";
+import { Text } from "@/components/ui/text";
 
-// Static rainbow colors (optimized for dark backgrounds)
 const rainbowColors = [
   "#FF6B6B", // Bright Red
   "#FFA500", // Orange
@@ -10,19 +8,23 @@ const rainbowColors = [
   "#4ECDC4", // Bright Cyan
 ];
 
-// Simple rainbow text component
-export default function RainbowText({ text }: { text: string }) {
+interface RainbowTextProps {
+  text: string;
+  className?: string;
+}
+
+export default function RainbowText({ text, className }: RainbowTextProps) {
   return (
-    <View className="flex-row">
+    <>
       {text.split("").map((letter, index) => (
-        <Heading
+        <Text
           key={index}
-          size="xl"
           style={{ color: rainbowColors[index % rainbowColors.length] }}
+          className={`${className ? ` ${className}` : ""}`}
         >
           {letter}
-        </Heading>
+        </Text>
       ))}
-    </View>
+    </>
   );
 }

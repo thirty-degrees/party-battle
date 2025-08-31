@@ -53,8 +53,10 @@ export default function HomeScreen() {
   return (
     <View className="flex-1 justify-center gap-2 items-center p-4 bg-background-0 dark:bg-background-950">
       <View className="flex-row items-center gap-2">
-        <RainbowText text="Party" />
-        <Heading size="xl">Battle</Heading>
+        <Heading size="4xl">
+          <RainbowText text="Party" className="text-6xl" />
+          <Text className="text-6xl"> Battle</Text>
+        </Heading>
       </View>
       <Text>Enter a name and create a room.</Text>
       <Input
@@ -78,7 +80,7 @@ export default function HomeScreen() {
           onPress={handleCreateRoom}
           isDisabled={!playerName?.trim() || isLoading}
         >
-          <ButtonText>{isLoading ? "Loading..." : "Create Room"}</ButtonText>
+          <ButtonText>{isLoading ? "Loading..." : "Create Party"}</ButtonText>
         </Button>
         <Button
           size="md"
@@ -86,7 +88,7 @@ export default function HomeScreen() {
           onPress={() => setShowJoinModal(true)}
           isDisabled={!playerName?.trim() || isLoading}
         >
-          <ButtonText>{isLoading ? "Loading..." : "Join Room"}</ButtonText>
+          <ButtonText>{isLoading ? "Loading..." : "Join Party"}</ButtonText>
         </Button>
       </View>
 
