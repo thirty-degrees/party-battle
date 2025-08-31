@@ -39,12 +39,9 @@ export function JoinRoomModal({
       <ModalBackdrop />
       <ModalContent>
         <ModalHeader>
-          <Heading size="md">Join Room</Heading>
+          <Heading size="md">Join Party with Code</Heading>
         </ModalHeader>
         <ModalBody>
-          <Text className="mb-4 text-typography-600 dark:text-typography-400">
-            Enter the room ID to join an existing room.
-          </Text>
           <Input
             variant="outline"
             size="md"
@@ -55,7 +52,7 @@ export function JoinRoomModal({
             <InputField
               value={roomId}
               onChangeText={setRoomId}
-              placeholder="Enter room ID..."
+              placeholder="Input party code..."
             />
           </Input>
         </ModalBody>
@@ -75,7 +72,7 @@ export function JoinRoomModal({
             onPress={handleJoin}
             isDisabled={!roomId.trim() || isLoading}
           >
-            <ButtonText>{isLoading ? "Joining..." : "Join Room"}</ButtonText>
+            <ButtonText>{isLoading ? "Joining..." : "Join Party"}</ButtonText>
           </Button>
         </ModalFooter>
       </ModalContent>
