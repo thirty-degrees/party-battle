@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 
-import RainbowText from "@/components/rainbow-text";
+import RainbowText from "@/components/RainbowText";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Input, InputField } from "@/components/ui/input";
