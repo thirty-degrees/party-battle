@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.1.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.0.1...frontend-party-battle-v2.1.0) (2025-09-01)
+
+
+### Features
+
+* add linter rule for useMemo and useCallback ([9485ec1](https://github.com/thirty-degrees/party-battle/commit/9485ec10698834ba4d6d608d16e8b744cf773f28))
+* change lobby to scoreboard ([3963d1b](https://github.com/thirty-degrees/party-battle/commit/3963d1bc0c8731e80d28204716be30783a7a2077))
+* improve index and lobby design ([621df60](https://github.com/thirty-degrees/party-battle/commit/621df607515c55e4b258878e6f9839306926991c))
+* improve ux of lobby ([31b44d0](https://github.com/thirty-degrees/party-battle/commit/31b44d09da95489b3809235ac2f866b7fc1d934d))
+* make party-battle title bigger ([5f8772e](https://github.com/thirty-degrees/party-battle/commit/5f8772eab3f0213adba0099dc20478ed3a829de6))
+* redesign index page ([31529d1](https://github.com/thirty-degrees/party-battle/commit/31529d187ea6dee6e558aa0fab002650ace4fe98))
+
+
+### Bug Fixes
+
+* drop outdated theme code ([9c5dcba](https://github.com/thirty-degrees/party-battle/commit/9c5dcba9636a7b931473be2dd7e468d0430acf08))
+* drop references ([a7f6cd6](https://github.com/thirty-degrees/party-battle/commit/a7f6cd647849396cd2b27ad74dce79cbb5f34ec5))
+* lint warnings ([5e3c215](https://github.com/thirty-degrees/party-battle/commit/5e3c2158355b8651da30faec52128b5db321f37a))
+* refresh lobby screen ([c40c9fe](https://github.com/thirty-degrees/party-battle/commit/c40c9feab06cd8808fb127119b042fdca93c9f42))
+* types module ([ffcfa7f](https://github.com/thirty-degrees/party-battle/commit/ffcfa7f532533498eaac957eba5793fee8a13074))
+
 ## [2.0.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.0.0...frontend-party-battle-v2.0.1) (2025-08-30)
 
 
