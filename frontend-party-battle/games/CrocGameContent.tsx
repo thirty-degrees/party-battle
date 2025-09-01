@@ -8,7 +8,7 @@ type CrocGameProps = {
 }
 
 
-export default function CrocGameView({ room }: CrocGameProps) {
+export default function CrocGameContent({ room }: CrocGameProps) {
   const gameState = useColyseusState(room!, state => state.gameState);
 
   return (

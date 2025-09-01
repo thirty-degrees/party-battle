@@ -11,7 +11,7 @@ export class LobbyPlayer extends Player {
 
 export class Lobby extends Schema {
   @type({ map: LobbyPlayer }) players = new MapSchema<LobbyPlayer>();
-  @type("string") currentGame?: "croc" | null = null;
+  @type("string") currentGame?: "croc" | "snake" | null = null;
   @type("string") currentGameRoomId?: string | null = null;
   @type({ collection: GameHistory }) gameHistory =
     new CollectionSchema<GameHistory>();

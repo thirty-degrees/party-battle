@@ -26,7 +26,6 @@ export const PlayerNameProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("PlayerNameProvider() - useEffect() - loading player name");
     let active = true;
     storage.getItem("playerName").then((v) => {
       if (!active) return;
@@ -39,10 +38,6 @@ export const PlayerNameProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   useEffect(() => {
-    console.log(
-      "PlayerNameProvider() - useEffect() - saving player name:",
-      playerName
-    );
     if (!isLoading && playerName && playerName.trim() !== "") {
       storage.setItem("playerName", playerName);
     }
