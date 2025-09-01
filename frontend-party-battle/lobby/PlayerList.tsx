@@ -14,13 +14,13 @@ export default function PlayerList({
   currentPlayerId,
 }: LobbyScreenProps) {
   return (
-    <View className="flex-1 justify-between p-4 pt-8">
+    <View className="flex-1 justify-between pt-8">
       <View className="w-full max-w-md">
         <Text className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
           Players ({players.length} / {MAX_AMOUNT_OF_PLAYERS})
         </Text>
 
-        <ScrollView className="max-h-64">
+        <View className="gap-2">
           {players.map(([playerId, player]) => {
             const isCurrentPlayer = playerId === currentPlayerId;
             return (
@@ -31,7 +31,15 @@ export default function PlayerList({
               />
             );
           })}
-        </ScrollView>
+          {Array.from({ length: MAX_AMOUNT_OF_PLAYERS - players.length }, (_, index) => {
+            return (
+              <PlayerListEntry
+                key={`placeholder-${index}`}
+                isCurrentPlayer={false}
+              />
+            );
+          })}
+        </View>
       </View>
     </View>
   );

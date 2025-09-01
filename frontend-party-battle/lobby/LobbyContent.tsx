@@ -44,35 +44,37 @@ export default function LobbyContent({ room }: LobbyContentProps) {
     }
   };
 
-  const backgroundColorClasses = "bg-background-0 dark:bg-background-950";
 
   return (
-    <View className="flex-1">
-      <SafeAreaPlaceholder position="top" className={backgroundColorClasses} />
-      <View className={`flex-1 justify-between gap-2 p-4 ${backgroundColorClasses}`}>
-        <View className="flex-row">
-          <Text className="text-lg font-semibold">Lobby</Text>
-        </View>
+    <View className="flex-1 bg-background-0 dark:bg-background-950">
+      <SafeAreaPlaceholder position="top" />
+      <View className="flex-1 p-4 justify-center items-center">
+        <View className="flex-1 max-w-md w-full justify-around items-center">
+          <View className="flex-row items-center justify-end w-full">
+            <Text className="text-2xl font-semibold">Lobby</Text>
+          </View>
 
-        <View className="flex-row flex-1">
-          <PlayerList
-            players={players}
-            currentPlayerId={room.sessionId}
-            onGameStart={onReady}
-          />
-        </View>
+          <View className="flex-row w-full">
+            <PlayerList
+              players={players}
+              currentPlayerId={room.sessionId}
+              onGameStart={onReady}
+            />
+          </View>
 
-        <View className="iflex-row">
-          <Button
-            action={isReady ? "positive" : "secondary"}
-            onPress={onReady}
-            disabled={isReady}
-          >
-            <ButtonText>{isReady ? "Ready" : "Set Ready"}</ButtonText>
-          </Button>
+          <View className="flex-row w-full justify-center">
+            <Button
+              size="xl"
+              action={"primary"}
+              onPress={onReady}
+              disabled={isReady}
+            >
+              <ButtonText>{isReady ? "CANCEL" : "PLAY"}</ButtonText>
+            </Button>
+          </View>
         </View>
       </View>
-      <SafeAreaPlaceholder position="bottom" className={backgroundColorClasses} />
+      <SafeAreaPlaceholder position="bottom" />
     </View>
   );
 }
