@@ -1,6 +1,5 @@
 import React from "react";
 import { Heading } from "../heading";
-import { Text } from "../text";
 import { Button, ButtonText } from "../button";
 import { Input, InputField } from "../input";
 import {

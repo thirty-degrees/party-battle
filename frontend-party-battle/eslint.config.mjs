@@ -2,6 +2,7 @@ import { defineConfig } from 'eslint/config';
 import expoConfig from 'eslint-config-expo/flat.js';
 import reactCompiler from "eslint-plugin-react-compiler"
 import reactPlugin from "eslint-plugin-react"
+import babelParser from "@babel/eslint-parser"
 
 export default defineConfig([
   expoConfig,
@@ -10,6 +11,7 @@ export default defineConfig([
   {
     ignores: ['dist/**', 'components/ui/**', 'node_modules/**'],
     languageOptions: {
+      parser: babelParser,
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
       },

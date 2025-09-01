@@ -14,6 +14,7 @@
     "docker:build": "docker build -f ../frontend-party-battle/dockerfile -t frontend-party-battle .."
   },
   "dependencies": {
+    "@babel/eslint-parser": "^7.28.0",
     "@expo/cli": "^0.24.20",
     "@expo/html-elements": "^0.12.5",
     "@expo/vector-icons": "^14.1.0",
