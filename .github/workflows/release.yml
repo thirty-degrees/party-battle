@@ -157,6 +157,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build shared types
+        run: npm run -w types-party-battle build
+
       - name: Cache Expo prebuild
         uses: actions/cache@v4
         id: expo-prebuild-cache
@@ -183,15 +186,6 @@ jobs:
           mkdir -p android/app
           printf %s "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
           echo "KEYSTORE_PATH=$(pwd)/android/app/keystore.jks" >> "$GITHUB_ENV"
-
-          # Optional: specify storetype explicitly; keytool generally auto-detects
-          keytool -list -keystore android/app/keystore.jks \
-            -storepass "$ANDROID_KEYSTORE_PASSWORD" -storetype PKCS12
-
-          # Fingerprint for the specific alias (no -keypass on PKCS12)
-          keytool -list -v -keystore android/app/keystore.jks \
-            -storepass "$ANDROID_KEYSTORE_PASSWORD" -storetype PKCS12 \
-            -alias "$ANDROID_KEY_ALIAS" | grep -E 'SHA1:|SHA-1:'
 
       - name: Cache Gradle packages
         uses: actions/cache@v4
