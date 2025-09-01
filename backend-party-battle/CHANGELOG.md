@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.0.1...backend-party-battle-v2.1.0) (2025-09-01)
+
+
+### Features
+
+* change lobby to scoreboard ([3963d1b](https://github.com/thirty-degrees/party-battle/commit/3963d1bc0c8731e80d28204716be30783a7a2077))
+
+
+### Bug Fixes
+
+* drop references ([a7f6cd6](https://github.com/thirty-degrees/party-battle/commit/a7f6cd647849396cd2b27ad74dce79cbb5f34ec5))
+
 ## [2.0.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.0.0...backend-party-battle-v2.0.1) (2025-08-30)
 
 
