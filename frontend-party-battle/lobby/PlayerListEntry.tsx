@@ -1,9 +1,9 @@
 import { CheckIcon, CloseIcon, Icon } from "@/components/ui/icon";
 import { View, Text } from "react-native";
-import { LobbyPlayer } from "types-party-battle";
+import { PlayerData } from "./LobbyContent";
 
 interface PlayerListEntryProps {
-  player?: LobbyPlayer;
+  player?: PlayerData;
   isCurrentPlayer: boolean;
   place?: number;
   totalScore?: number;

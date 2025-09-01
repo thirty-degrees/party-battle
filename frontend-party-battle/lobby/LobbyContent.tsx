@@ -7,19 +7,37 @@ import PlayerList from "@/lobby/PlayerList";
 import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
 import useColyseusState from "@/colyseus/useColyseusState";
 import { Room } from "colyseus.js";
-import { Lobby } from "types-party-battle";
+import { Lobby, GameType, KeyValuePair } from "types-party-battle";
+
+export interface PlayerData {
+  name: string;
+  ready: boolean;
+}
+
+export interface GameHistoryData {
+  gameType: GameType;
+  scores: KeyValuePair<number>[];
+}
 
 interface LobbyContentProps {
   room: Room<Lobby>;
 }
 
 export default function LobbyContent({ room }: LobbyContentProps) {
-  const players = useColyseusState(room, state => Array.from(state.players?.entries() || []));
-  const gameHistory = useColyseusState(room, state => Array.from(state.gameHistory?.entries() || []));
+  const players = useColyseusState(room, state =>
+    Array.from(state.players?.entries() || []).map(([id, player]) => [
+      id,
+      { name: player.name, ready: player.ready }
+    ] as [string, PlayerData])
+  );
+  const gameHistory = useColyseusState(room, state =>
+    Array.from(state.gameHistory?.entries() || []).map(([id, game]) => [
+      id,
+      { gameType: game.gameType, scores: game.scores }
+    ] as [string | number, GameHistoryData])
+  );
   const currentGame = useColyseusState(room, state => state.currentGame);
   const currentGameRoomId = useColyseusState(room, state => state.currentGameRoomId);
-
-  console.log("players", players);
 
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
@@ -39,12 +57,8 @@ export default function LobbyContent({ room }: LobbyContentProps) {
   }, [currentGame, currentGameRoomId, router]);
 
   const onToggleReady = () => {
-    try {
-      setIsReady(prev => !prev);
-      room.send("ready", isReady);
-    } catch (error) {
-      console.error("Failed to send ready status:", error);
-    }
+    room.send("ready", !isReady);
+    setIsReady(prev => !prev);
   };
 
 

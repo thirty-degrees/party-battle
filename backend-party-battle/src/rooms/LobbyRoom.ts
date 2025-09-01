@@ -18,14 +18,11 @@ export class LobbyRoom extends Room<Lobby> {
 
     this.onMessage("ready", (client: Client, ready: boolean) => {
       const player = this.state.players.get(client.sessionId);
-      if (player) {
-        player.ready = ready;
-        console.log(`Player ${player.name} is ready`);
 
-        this.checkAllPlayersReady();
-      } else {
-        console.log(`Unknown player ${client.sessionId} is ready`);
-      }
+      player.ready = ready;
+      console.log(`Player ${player.name} is ready: ${ready}`);
+
+      this.checkAllPlayersReady();
     });
   }
 

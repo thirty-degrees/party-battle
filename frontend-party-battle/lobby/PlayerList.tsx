@@ -1,11 +1,12 @@
 import { View, Text } from "react-native";
 
-import { LobbyPlayer, MAX_AMOUNT_OF_PLAYERS, GameHistory } from "types-party-battle";
+import { MAX_AMOUNT_OF_PLAYERS } from "types-party-battle";
+import { PlayerData, GameHistoryData } from "./LobbyContent";
 import PlayerListEntry from "./PlayerListEntry";
 
 interface LobbyScreenProps {
-  players: [string, LobbyPlayer][];
-  gameHistory: [string | number, GameHistory][];
+  players: [string, PlayerData][];
+  gameHistory: [string | number, GameHistoryData][];
   currentPlayerId?: string;
 }
 
