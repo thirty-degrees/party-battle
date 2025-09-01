@@ -5,7 +5,7 @@ import {
   ToastDescription,
 } from "@/components/ui/toast";
 
-export const useToastHelper = () => {
+export default function useToastHelper() {
   const toast = useToast();
 
   const showError = (title: string, description: string) => {

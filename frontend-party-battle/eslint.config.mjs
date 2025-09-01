@@ -5,6 +5,13 @@ import reactPlugin from "eslint-plugin-react"
 import babelParser from "@babel/eslint-parser"
 
 export default defineConfig([
+  {
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
   expoConfig,
   reactPlugin.configs.flat['jsx-runtime'],
   reactCompiler.configs.recommended,
@@ -12,9 +19,6 @@ export default defineConfig([
     ignores: ['dist/**', 'components/ui/**', 'node_modules/**'],
     languageOptions: {
       parser: babelParser,
-      parserOptions: {
-        tsconfigRootDir: import.meta.dirname,
-      },
     },
     rules: {
       'indent': ['warn', 2, { SwitchCase: 1 }],
