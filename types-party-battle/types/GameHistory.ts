@@ -5,7 +5,7 @@ import { Schema, type } from "@colyseus/schema";
 
 export class GameHistory extends Schema {
   @type("string") gameType: GameType;
-  @type(["string", "string"]) scores: Array<KeyValuePair<string>> = [];
+  @type(["string", "number"]) scores: Array<KeyValuePair<number>> = [];
 
   constructor(gameType: GameType) {
     super();

@@ -15,8 +15,11 @@ interface LobbyContentProps {
 
 export default function LobbyContent({ room }: LobbyContentProps) {
   const players = useColyseusState(room, state => Array.from(state.players?.entries() || []));
+  const gameHistory = useColyseusState(room, state => Array.from(state.gameHistory?.entries() || []));
   const currentGame = useColyseusState(room, state => state.currentGame);
   const currentGameRoomId = useColyseusState(room, state => state.currentGameRoomId);
+
+  console.log("players", players);
 
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
@@ -35,10 +38,10 @@ export default function LobbyContent({ room }: LobbyContentProps) {
     }
   }, [currentGame, currentGameRoomId, router]);
 
-  const onReady = () => {
+  const onToggleReady = () => {
     try {
-      room.send("ready");
-      setIsReady(true);
+      setIsReady(prev => !prev);
+      room.send("ready", isReady);
     } catch (error) {
       console.error("Failed to send ready status:", error);
     }
@@ -57,8 +60,8 @@ export default function LobbyContent({ room }: LobbyContentProps) {
           <View className="flex-row w-full">
             <PlayerList
               players={players}
+              gameHistory={gameHistory}
               currentPlayerId={room.sessionId}
-              onGameStart={onReady}
             />
           </View>
 
@@ -66,8 +69,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
             <Button
               size="xl"
               action={"primary"}
-              onPress={onReady}
-              disabled={isReady}
+              onPress={onToggleReady}
             >
               <ButtonText>{isReady ? "CANCEL" : "PLAY"}</ButtonText>
             </Button>

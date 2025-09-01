@@ -16,10 +16,10 @@ export class LobbyRoom extends Room<Lobby> {
 
     console.log(`Lobby room created, room id: ${this.roomId}`);
 
-    this.onMessage("ready", (client: Client) => {
+    this.onMessage("ready", (client: Client, ready: boolean) => {
       const player = this.state.players.get(client.sessionId);
       if (player) {
-        player.ready = true;
+        player.ready = ready;
         console.log(`Player ${player.name} is ready`);
 
         this.checkAllPlayersReady();

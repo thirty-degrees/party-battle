@@ -1,18 +1,61 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text } from "react-native";
 
-import { LobbyPlayer, MAX_AMOUNT_OF_PLAYERS } from "types-party-battle";
+import { LobbyPlayer, MAX_AMOUNT_OF_PLAYERS, GameHistory } from "types-party-battle";
 import PlayerListEntry from "./PlayerListEntry";
 
 interface LobbyScreenProps {
   players: [string, LobbyPlayer][];
+  gameHistory: [string | number, GameHistory][];
   currentPlayerId?: string;
-  onGameStart?: () => void;
 }
 
 export default function PlayerList({
   players,
+  gameHistory,
   currentPlayerId,
 }: LobbyScreenProps) {
+  const playerStats = players.map(([playerId, player]) => {
+    let totalScore = 0;
+    let lastRoundScore = 0;
+
+    gameHistory.forEach(([, game]) => {
+      const playerScore = game.scores.find((score) => score.key === player.name);
+      if (playerScore) {
+        totalScore += playerScore.value;
+      }
+    });
+
+    if (gameHistory.length > 0) {
+      const lastGame = gameHistory[gameHistory.length - 1][1];
+      const playerLastScore = lastGame.scores.find((score) => score.key === player.name);
+      if (playerLastScore) {
+        lastRoundScore = playerLastScore.value;
+      }
+    }
+
+    return {
+      playerId,
+      player,
+      totalScore,
+      lastRoundScore,
+    };
+  });
+
+  const sortedPlayers = playerStats.sort((a, b) => b.totalScore - a.totalScore);
+
+  const playersWithPlaces: (typeof sortedPlayers[0] & { place: number })[] = [];
+  for (let i = 0; i < sortedPlayers.length; i++) {
+    let place = i + 1;
+    // If previous player has same score, use same place number
+    if (i > 0 && sortedPlayers[i].totalScore === sortedPlayers[i - 1].totalScore) {
+      place = playersWithPlaces[i - 1].place;
+    }
+    playersWithPlaces.push({
+      ...sortedPlayers[i],
+      place,
+    });
+  }
+
   return (
     <View className="flex-1 justify-between pt-8">
       <View className="w-full max-w-md">
@@ -21,13 +64,16 @@ export default function PlayerList({
         </Text>
 
         <View className="gap-2">
-          {players.map(([playerId, player]) => {
-            const isCurrentPlayer = playerId === currentPlayerId;
+          {playersWithPlaces.map((playerStat) => {
+            const isCurrentPlayer = playerStat.playerId === currentPlayerId;
             return (
               <PlayerListEntry
-                key={playerId}
-                player={player}
+                key={playerStat.playerId}
+                player={playerStat.player}
                 isCurrentPlayer={isCurrentPlayer}
+                place={playerStat.place}
+                totalScore={playerStat.totalScore}
+                lastRoundScore={playerStat.lastRoundScore}
               />
             );
           })}
