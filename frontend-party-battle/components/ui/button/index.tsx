@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { createButton } from '@gluestack-ui/core/button/creator';
-import { tva ,
+import {
+  tva,
   withStyleContext,
   useStyleContext,
 } from '@gluestack-ui/utils/nativewind-utils';
@@ -173,25 +174,25 @@ const buttonTextStyle = tva({
       variant: "outline",
       action: "primary",
       class:
-        "text-primary-500 data-[hover=true]:text-primary-500 data-[active=true]:text-primary-500",
+        "text-primary-500 dark:text-primary-400 data-[hover=true]:text-primary-500 dark:data-[hover=true]:text-primary-300 data-[active=true]:text-primary-500 dark:data-[active=true]:text-primary-300",
     },
     {
       variant: "outline",
       action: "secondary",
       class:
-        "text-typography-500 data-[hover=true]:text-primary-600 data-[active=true]:text-typography-700",
+        "text-typography-500 dark:text-typography-300 data-[hover=true]:text-primary-600 dark:data-[hover=true]:text-typography-200 data-[active=true]:text-typography-700 dark:data-[active=true]:text-typography-200",
     },
     {
       variant: "outline",
       action: "positive",
       class:
-        "text-primary-500 data-[hover=true]:text-primary-500 data-[active=true]:text-primary-500",
+        "text-primary-500 dark:text-primary-400 data-[hover=true]:text-primary-500 dark:data-[hover=true]:text-primary-300 data-[active=true]:text-primary-500 dark:data-[active=true]:text-primary-300",
     },
     {
       variant: "outline",
       action: "negative",
       class:
-        "text-primary-500 data-[hover=true]:text-primary-500 data-[active=true]:text-primary-500",
+        "text-primary-500 dark:text-primary-400 data-[hover=true]:text-primary-500 dark:data-[hover=true]:text-primary-300 data-[active=true]:text-primary-500 dark:data-[active=true]:text-primary-300",
     },
   ],
 });
@@ -214,14 +215,14 @@ const buttonIconStyle = tva({
     },
     action: {
       primary:
-        "text-primary-600 data-[hover=true]:text-primary-600 data-[active=true]:text-primary-700",
+        "text-primary-600 dark:text-primary-400 data-[hover=true]:text-primary-600 dark:data-[hover=true]:text-primary-300 data-[active=true]:text-primary-700 dark:data-[active=true]:text-primary-300",
       secondary:
         "text-tertiary-700 dark:text-tertiary-200 data-[hover=true]:text-tertiary-800 dark:data-[hover=true]:text-tertiary-100 data-[active=true]:text-tertiary-900 dark:data-[active=true]:text-tertiary-50",
       positive:
-        "text-success-600 data-[hover=true]:text-success-600 data-[active=true]:text-success-700",
+        "text-success-600 dark:text-success-400 data-[hover=true]:text-success-600 dark:data-[hover=true]:text-success-300 data-[active=true]:text-success-700 dark:data-[active=true]:text-success-300",
 
       negative:
-        "text-error-600 data-[hover=true]:text-error-600 data-[active=true]:text-error-700",
+        "text-error-600 dark:text-error-400 data-[hover=true]:text-error-600 dark:data-[hover=true]:text-error-300 data-[active=true]:text-error-700 dark:data-[active=true]:text-error-300",
     },
   },
   parentCompoundVariants: [
