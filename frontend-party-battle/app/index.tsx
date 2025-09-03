@@ -56,17 +56,16 @@ export default function HomeScreen() {
     <View className="flex-1 bg-background-0 dark:bg-background-950">
       <SafeAreaPlaceholder position="top" />
       <View className="flex-1 p-4 items-center">
-        <View className="flex-1 max-w-md w-full justify-around items-center">
-          <View className="flex-row items-center justify-between w-full">
-            <Text size="lg">Name</Text>
+        <View className="flex-1 max-w-md w-full justify-evenly items-center">
+          <View className="flex-col items-center gap-4 w-full">
+            <Text size="xl" style={{ width: 200, textAlign: 'center' }}>Name</Text>
             <Input
               variant="outline"
-              size="lg"
+              size="xl"
               isDisabled={isLoadingPlayerName}
               isInvalid={false}
               isReadOnly={false}
-              className="flex-1"
-              style={{ maxWidth: 180 }}
+              style={{ alignItems: "center", justifyContent: "center", width: 200 }}
             >
               <InputField
                 value={playerName}
@@ -74,6 +73,7 @@ export default function HomeScreen() {
                 placeholder="Enter your name..."
                 autoComplete="username"
                 maxLength={PLAYER_NAME_MAX_LENGTH}
+                style={{ width: 200, textAlign: "center" }}
               />
             </Input>
           </View>
@@ -91,7 +91,7 @@ export default function HomeScreen() {
                   action="primary"
                   onPress={() => setShowJoinModal(true)}
                   isDisabled={!playerName?.trim() || isLoading}
-                  style={{ width: 180, paddingHorizontal: 8 }}
+                  style={{ width: 200, paddingHorizontal: 8 }}
                 >
                   <ButtonText>{isLoading ? "Loading..." : "JOIN PARTY"}</ButtonText>
                 </Button>
@@ -104,7 +104,7 @@ export default function HomeScreen() {
                 variant="outline"
                 onPress={handleCreateRoom}
                 isDisabled={!playerName?.trim() || isLoading}
-                style={{ width: 180, paddingHorizontal: 8 }}
+                style={{ width: 200, paddingHorizontal: 8 }}
               >
                 <ButtonText>{isLoading ? "Loading..." : "CREATE PARTY"}</ButtonText>
               </Button>
