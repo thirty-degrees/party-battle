@@ -1599,3 +1599,111 @@ const UnlockIcon = createIcon({
 UnlockIcon.displayName = 'UnlockIcon';
 export { UnlockIcon };
 
+const LogOutIcon = createIcon({
+  Root: Svg,
+  viewBox: '0 0 24 24',
+  path: (
+    <>
+      <Path
+        d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M16 17l5-5-5-5M21 12H9"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </>
+  ),
+});
+
+LogOutIcon.displayName = 'LogOutIcon';
+export { LogOutIcon };
+
+const QrCodeIcon = createIcon({
+  Root: Svg,
+  viewBox: '0 0 24 24',
+  path: (
+    <>
+      <Path
+        d="M3 3h5v5H3z"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M16 3h5v5h-5z"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M3 16h5v5H3z"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M21 16h-3a2 2 0 0 0-2 2v3"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M21 21v.01"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M12 7v3a2 2 0 0 1-2 2H7"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M3 12h.01"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M12 3h.01"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M12 16v.01"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M16 12h1"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M21 12v.01"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M12 21v-1"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </>
+  ),
+});
+
+QrCodeIcon.displayName = 'QrCodeIcon';
+export { QrCodeIcon };
+

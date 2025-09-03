@@ -8,8 +8,7 @@ import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
 import useColyseusState from "@/colyseus/useColyseusState";
 import { Room } from "colyseus.js";
 import { Lobby, GameType, KeyValuePair } from "types-party-battle";
-import { ShareIcon, Icon } from "@/components/ui/icon";
-import { QrCode, Camera, ScanQrCode, LogOutIcon } from "lucide-react-native";
+import { ShareIcon, QrCodeIcon, LogOutIcon } from "@/components/ui/icon";
 import { QrCodeModal } from "@/components/ui/modal/qr-code-modal";
 import { useLobbyContext } from "@/lobby/LobbyProvider";
 import createWebURL from "@/routing/createWebUrl";
@@ -96,6 +95,30 @@ export default function LobbyContent({ room }: LobbyContentProps) {
               <Text className="text-md font-semibold">{partyCode}</Text>
             </View>
             <View className="flex-row items-center justify-end gap-2">
+              <Button
+                size="md"
+                variant="outline"
+                className="p-2.5"
+                onPress={handleShare}
+              >
+                <ButtonIcon as={ShareIcon} />
+              </Button>
+              <Button
+                size="md"
+                variant="outline"
+                className="p-2.5"
+                onPress={() => setIsQrModalOpen(true)}
+              >
+                <ButtonIcon as={QrCodeIcon} />
+              </Button>
+              <Button
+                size="md"
+                action="negative"
+                className="p-2.5"
+                onPress={handleLeaveParty}
+              >
+                <ButtonIcon as={LogOutIcon} />
+              </Button>
             </View>
           </View>
 

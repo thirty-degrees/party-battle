@@ -47,7 +47,6 @@
     "expo-system-ui": "~5.0.11",
     "expo-web-browser": "~14.2.0",
     "isomorphic-ws": "5.0.0",
-    "lucide-react-native": "^0.541.0",
     "nativewind": "^4.1.23",
     "react": "19.0.0",
     "react-compiler-runtime": "^19.1.0-rc.3",
