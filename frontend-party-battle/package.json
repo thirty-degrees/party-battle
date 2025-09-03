@@ -31,7 +31,6 @@
     "babel-plugin-react-compiler": "^19.1.0-rc.3",
     "colyseus.js": "^0.16.19",
     "dotenv": "^17.2.1",
-    "eslint-plugin-react-compiler": "^19.1.0-rc.2",
     "expo": "~53.0.22",
     "expo-blur": "~14.1.5",
     "expo-build-properties": "~0.14.8",
@@ -70,6 +69,7 @@
     "@types/react": "~19.0.10",
     "eslint": "^9.34.0",
     "eslint-config-expo": "~9.2.0",
+    "eslint-plugin-react-compiler": "^19.1.0-rc.2",
     "jscodeshift": "^17.3.0",
     "tsx": "^4.20.5",
     "typescript": "~5.8.3"

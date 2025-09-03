@@ -24,13 +24,6 @@ export default defineConfig([
       'indent': ['warn', 2, { SwitchCase: 1 }],
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'error',
-      "no-restricted-imports": ["warn", {
-        "paths": [{
-          "name": "react",
-          "importNames": ["useMemo", "useCallback"],
-          "message": "React Compiler is enabled here; prefer plain code."
-        }]
-      }]
     },
   },
 ]);
