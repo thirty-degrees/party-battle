@@ -31,16 +31,16 @@ export function QrCodeModal({
       <ModalBackdrop />
       <ModalContent>
         <ModalHeader>
-          <Heading size="md">Join Room QR Code</Heading>
+          <Heading size="md">Join Party QR Code</Heading>
         </ModalHeader>
         <ModalBody>
           <View className="items-center gap-4">
             <View className="items-center gap-2">
               <Text className="text-typography-600 dark:text-typography-400 text-center">
-                Scan this QR code or join via the RoomId:
+                Scan this QR code or join with the code:
               </Text>
               <Badge variant="outline" action="muted" size="sm">
-                <BadgeText>{roomId}</BadgeText>
+                <BadgeText className="normal-case">{roomId}</BadgeText>
               </Badge>
             </View>
             <View className="bg-white p-4 rounded-lg">
@@ -51,9 +51,6 @@ export function QrCodeModal({
                 backgroundColor="white"
               />
             </View>
-            <Text className="text-typography-500 dark:text-typography-400 text-sm text-center">
-              {roomUrl}
-            </Text>
           </View>
         </ModalBody>
         <ModalFooter>

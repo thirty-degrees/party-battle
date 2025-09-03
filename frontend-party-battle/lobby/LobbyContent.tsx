@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, Share } from "react-native";
+import * as Linking from "expo-linking";
 import { Text } from "@/components/ui/text";
-import { Button, ButtonText } from "@/components/ui/button";
+import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { useRouter } from "expo-router";
 import PlayerList from "@/lobby/PlayerList";
 import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
 import useColyseusState from "@/colyseus/useColyseusState";
 import { Room } from "colyseus.js";
 import { Lobby, GameType, KeyValuePair } from "types-party-battle";
+import { ShareIcon, LinkIcon, Icon } from "@/components/ui/icon";
+import { QrCodeModal } from "@/components/ui/modal/qr-code-modal";
+import { useLobbyContext } from "@/lobby/LobbyProvider";
 
 export interface PlayerData {
   name: string;
@@ -40,7 +44,12 @@ export default function LobbyContent({ room }: LobbyContentProps) {
   const currentGameRoomId = useColyseusState(room, state => state.currentGameRoomId);
 
   const [isReady, setIsReady] = useState(false);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const router = useRouter();
+  const { leaveLobby } = useLobbyContext();
+
+  const partyCode = room.roomId;
+  const shareUrl = Linking.createURL("/", { queryParams: { partyCode } });
 
   useEffect(() => {
     if (currentGame && currentGameRoomId) {
@@ -61,14 +70,54 @@ export default function LobbyContent({ room }: LobbyContentProps) {
     setIsReady(prev => !prev);
   };
 
+  const handleShare = async () => {
+    try {
+      await Share.share({
+        url: shareUrl,
+      });
+    } catch {
+    }
+  };
+
+  const handleLeaveParty = () => {
+    leaveLobby();
+    router.push("/");
+  };
 
   return (
     <View className="flex-1 bg-background-0 dark:bg-background-950">
       <SafeAreaPlaceholder position="top" />
       <View className="flex-1 p-4 justify-center items-center">
         <View className="flex-1 max-w-md w-full justify-around items-center">
-          <View className="flex-row items-center justify-end w-full">
-            <Text className="text-2xl font-semibold">Lobby</Text>
+          <View className="flex-row items-center justify-end gap-2 w-full">
+            <View className="flex-col items-center">
+              <Text className="text-sm text-typography-600 dark:text-typography-400">Party Code</Text>
+              <Text className="text-md font-semibold">{partyCode}</Text>
+            </View>
+            <Button
+              size="sm"
+              variant="outline"
+              className="p-2.5"
+              onPress={handleShare}
+            >
+              <ButtonIcon as={ShareIcon} />
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="p-2.5"
+              onPress={() => setIsQrModalOpen(true)}
+            >
+              <ButtonIcon as={LinkIcon} />
+            </Button>
+            <Button
+              size="sm"
+              action="negative"
+              className="p-2.5"
+              onPress={handleLeaveParty}
+            >
+              <ButtonText>LEAVE </ButtonText>
+            </Button>
           </View>
 
           <View className="flex-row w-full">
@@ -91,6 +140,13 @@ export default function LobbyContent({ room }: LobbyContentProps) {
         </View>
       </View>
       <SafeAreaPlaceholder position="bottom" />
+
+      <QrCodeModal
+        isOpen={isQrModalOpen}
+        onClose={() => setIsQrModalOpen(false)}
+        roomId={partyCode}
+        roomUrl={shareUrl}
+      />
     </View>
   );
 }

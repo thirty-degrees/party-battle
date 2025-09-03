@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 
@@ -16,6 +16,7 @@ import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
 
 export default function HomeScreen() {
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const { partyCode } = useLocalSearchParams<{ partyCode?: string }>();
   const {
     playerName,
     setPlayerName,
@@ -68,6 +69,7 @@ export default function HomeScreen() {
               style={{ alignItems: "center", justifyContent: "center", width: 200 }}
             >
               <InputField
+                aria-label="Username"
                 value={playerName}
                 onChangeText={setPlayerName}
                 placeholder="Enter your name..."
@@ -84,6 +86,20 @@ export default function HomeScreen() {
             </Heading>
           </View>
           <View className="flex-col w-full gap-4">
+            {partyCode && (
+              <View className="flex-row items-center justify-center w-full">
+                <Button
+                  size="xl"
+                  action="primary"
+                  variant="solid"
+                  onPress={() => handleJoinRoom(partyCode)}
+                  isDisabled={!playerName?.trim() || isLoading}
+                  style={{ width: 200, paddingHorizontal: 8 }}
+                >
+                  <ButtonText>{isLoading ? "Loading..." : `JOIN ${partyCode}`}</ButtonText>
+                </Button>
+              </View>
+            )}
             <View className="flex-row items-center justify-center w-full">
               <View className="flex-row gap-2">
                 <Button

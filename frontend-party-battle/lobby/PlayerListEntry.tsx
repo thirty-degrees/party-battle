@@ -18,8 +18,8 @@ export default function PlayerListEntry({
   lastRoundScore
 }: PlayerListEntryProps) {
   const containerStyles = (isCurrentPlayer
-    ? "rounded-lg p-3 mb-2 flex-row items-center border bg-blue-100 dark:bg-blue-900 border-blue-400 dark:border-blue-600"
-    : "rounded-lg p-3 mb-2 flex-row items-center border bg-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-700") +
+    ? "rounded-lg p-3 mb-2 flex-row items-center border border-blue-400 dark:border-blue-600"
+    : "rounded-lg p-3 mb-2 flex-row items-center border border-gray-300 dark:border-gray-700") +
     (!player ? " border-dashed" : "");
 
   const textStyles = isCurrentPlayer
