@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { View, Share } from "react-native";
-import * as Linking from "expo-linking";
 import { Text } from "@/components/ui/text";
 import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { useRouter } from "expo-router";
@@ -9,9 +8,11 @@ import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
 import useColyseusState from "@/colyseus/useColyseusState";
 import { Room } from "colyseus.js";
 import { Lobby, GameType, KeyValuePair } from "types-party-battle";
-import { ShareIcon, LinkIcon, Icon } from "@/components/ui/icon";
+import { ShareIcon, Icon } from "@/components/ui/icon";
+import { QrCode, Camera, ScanQrCode, LogOutIcon } from "lucide-react-native";
 import { QrCodeModal } from "@/components/ui/modal/qr-code-modal";
 import { useLobbyContext } from "@/lobby/LobbyProvider";
+import createWebURL from "@/routing/createWebUrl";
 
 export interface PlayerData {
   name: string;
@@ -49,7 +50,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
   const { leaveLobby } = useLobbyContext();
 
   const partyCode = room.roomId;
-  const shareUrl = Linking.createURL("/", { queryParams: { partyCode } });
+  const shareUrl = createWebURL(`/?partyCode=${partyCode}`);
 
   useEffect(() => {
     if (currentGame && currentGameRoomId) {
@@ -88,36 +89,14 @@ export default function LobbyContent({ room }: LobbyContentProps) {
     <View className="flex-1 bg-background-0 dark:bg-background-950">
       <SafeAreaPlaceholder position="top" />
       <View className="flex-1 p-4 justify-center items-center">
-        <View className="flex-1 max-w-md w-full justify-around items-center">
-          <View className="flex-row items-center justify-end gap-2 w-full">
+        <View className="flex-1 max-w-md w-full justify-evenly items-center">
+          <View className="flex-row items-center justify-between gap-2 w-full">
             <View className="flex-col items-center">
               <Text className="text-sm text-typography-600 dark:text-typography-400">Party Code</Text>
               <Text className="text-md font-semibold">{partyCode}</Text>
             </View>
-            <Button
-              size="sm"
-              variant="outline"
-              className="p-2.5"
-              onPress={handleShare}
-            >
-              <ButtonIcon as={ShareIcon} />
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              className="p-2.5"
-              onPress={() => setIsQrModalOpen(true)}
-            >
-              <ButtonIcon as={LinkIcon} />
-            </Button>
-            <Button
-              size="sm"
-              action="negative"
-              className="p-2.5"
-              onPress={handleLeaveParty}
-            >
-              <ButtonText>LEAVE </ButtonText>
-            </Button>
+            <View className="flex-row items-center justify-end gap-2">
+            </View>
           </View>
 
           <View className="flex-row w-full">

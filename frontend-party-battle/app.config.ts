@@ -10,12 +10,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: "frontend-party-battle",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
-  scheme: "frontendpartybattle",
+  scheme: "partybattle",
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
   ios: {
     ...(config.ios ?? {}),
     supportsTablet: true,
+    associatedDomains: ["applinks:party-battle.thirty-degrees.ch"],
   },
   android: {
     ...(config.android ?? {}),
@@ -25,6 +26,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: "#ffffff",
     },
     edgeToEdgeEnabled: true,
+    "intentFilters": [
+      {
+        action: "VIEW",
+        data: [{ scheme: "https", host: "party-battle.thirty-degrees.ch" }],
+        category: ["BROWSABLE", "DEFAULT"],
+      },
+    ],
   },
   web: {
     bundler: "metro",
@@ -60,5 +68,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     backendUrl:
       process.env.EXPO_PUBLIC_BACKEND_URL ||
       `https://party-battle.thirty-degrees.ch/api/v${config.version}`,
+    frontendUrl:
+      process.env.EXPO_PUBLIC_FRONTEND_URL ||
+      `https://party-battle.thirty-degrees.ch`,
   },
 });
