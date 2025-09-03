@@ -1,11 +1,11 @@
-import { KeyValuePair } from "./Common";
+import { KeyValuePairNumber } from "./Common";
 import { GameType } from "./Game";
 
-import { Schema, type } from "@colyseus/schema";
+import { ArraySchema, Schema, type } from "@colyseus/schema";
 
 export class GameHistory extends Schema {
   @type("string") gameType: GameType;
-  @type(["string", "number"]) scores: Array<KeyValuePair<number>> = [];
+  @type([KeyValuePairNumber]) scores = new ArraySchema<KeyValuePairNumber>();
 
   constructor(gameType: GameType) {
     super();

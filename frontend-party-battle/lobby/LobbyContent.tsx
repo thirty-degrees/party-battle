@@ -7,7 +7,11 @@ import PlayerList from "@/lobby/PlayerList";
 import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
 import useColyseusState from "@/colyseus/useColyseusState";
 import { Room } from "colyseus.js";
-import { Lobby, GameType, KeyValuePair } from "types-party-battle";
+import {
+  Lobby,
+  GameType,
+  KeyValuePairNumberInterface,
+} from "types-party-battle";
 import { ShareIcon, QrCodeIcon, LogOutIcon } from "@/components/ui/icon";
 import { QrCodeModal } from "@/components/ui/modal/qr-code-modal";
 import { useLobbyContext } from "@/lobby/LobbyProvider";
@@ -20,7 +24,7 @@ export interface PlayerData {
 
 export interface GameHistoryData {
   gameType: GameType;
-  scores: KeyValuePair<number>[];
+  scores: KeyValuePairNumberInterface[];
 }
 
 interface LobbyContentProps {
@@ -28,20 +32,26 @@ interface LobbyContentProps {
 }
 
 export default function LobbyContent({ room }: LobbyContentProps) {
-  const players = useColyseusState(room, state =>
-    Array.from(state.players?.entries() || []).map(([id, player]) => [
-      id,
-      { name: player.name, ready: player.ready }
-    ] as [string, PlayerData])
+  const players = useColyseusState(room, (state) =>
+    Array.from(state.players?.entries() || []).map(
+      ([id, player]) =>
+        [id, { name: player.name, ready: player.ready }] as [string, PlayerData]
+    )
   );
-  const gameHistory = useColyseusState(room, state =>
-    Array.from(state.gameHistory?.entries() || []).map(([id, game]) => [
-      id,
-      { gameType: game.gameType, scores: game.scores }
-    ] as [string | number, GameHistoryData])
+  const gameHistory = useColyseusState(room, (state) =>
+    Array.from(state.gameHistory?.entries() || []).map(
+      ([id, game]) =>
+        [id, { gameType: game.gameType, scores: game.scores }] as [
+          string | number,
+          GameHistoryData
+        ]
+    )
   );
-  const currentGame = useColyseusState(room, state => state.currentGame);
-  const currentGameRoomId = useColyseusState(room, state => state.currentGameRoomId);
+  const currentGame = useColyseusState(room, (state) => state.currentGame);
+  const currentGameRoomId = useColyseusState(
+    room,
+    (state) => state.currentGameRoomId
+  );
 
   const [isReady, setIsReady] = useState(false);
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
@@ -55,6 +65,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
     if (currentGame && currentGameRoomId) {
       switch (currentGame) {
         case "croc":
+          console.log("redirecting to croc game");
           router.push(`/games/croc?roomId=${currentGameRoomId}`);
           break;
         case "snake":
@@ -67,7 +78,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
 
   const onToggleReady = () => {
     room.send("ready", !isReady);
-    setIsReady(prev => !prev);
+    setIsReady((prev) => !prev);
   };
 
   const handleShare = async () => {
@@ -75,8 +86,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
       await Share.share({
         url: shareUrl,
       });
-    } catch {
-    }
+    } catch {}
   };
 
   const handleLeaveParty = () => {
@@ -91,7 +101,9 @@ export default function LobbyContent({ room }: LobbyContentProps) {
         <View className="flex-1 max-w-md w-full justify-evenly items-center">
           <View className="flex-row items-center justify-between gap-2 w-full">
             <View className="flex-col items-center">
-              <Text className="text-sm text-typography-600 dark:text-typography-400">Party Code</Text>
+              <Text className="text-sm text-typography-600 dark:text-typography-400">
+                Party Code
+              </Text>
               <Text className="text-md font-semibold">{partyCode}</Text>
             </View>
             <View className="flex-row items-center justify-end gap-2">
@@ -131,11 +143,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
           </View>
 
           <View className="flex-row w-full justify-center">
-            <Button
-              size="xl"
-              action={"primary"}
-              onPress={onToggleReady}
-            >
+            <Button size="xl" action={"primary"} onPress={onToggleReady}>
               <ButtonText>{isReady ? "CANCEL" : "PLAY"}</ButtonText>
             </Button>
           </View>

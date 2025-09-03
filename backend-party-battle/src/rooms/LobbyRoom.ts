@@ -1,6 +1,11 @@
 import { Room, Client } from "@colyseus/core";
 import { matchMaker } from "@colyseus/core";
-import { Lobby, LobbyPlayer, MAX_AMOUNT_OF_PLAYERS } from "types-party-battle";
+import {
+  GameHistory,
+  Lobby,
+  LobbyPlayer,
+  MAX_AMOUNT_OF_PLAYERS,
+} from "types-party-battle";
 import { RoomIds } from "../app.config";
 
 export class LobbyRoom extends Room<Lobby> {
@@ -23,6 +28,18 @@ export class LobbyRoom extends Room<Lobby> {
       console.log(`Player ${player.name} is ready: ${ready}`);
 
       this.checkAllPlayersReady();
+    });
+
+    this.presence.subscribe("score-" + this.roomId, (data: GameHistory) => {
+      console.log("received message:", data);
+      console.log("received message:", data.gameType);
+      console.log("received message:", data.scores.length);
+      //this.state.gameHistory.add(data);
+      this.state.currentGame = null;
+      this.state.currentGameRoomId = null;
+      this.state.players.forEach((player) => {
+        player.ready = false;
+      });
     });
   }
 
@@ -51,10 +68,9 @@ export class LobbyRoom extends Room<Lobby> {
       console.log("All players are ready! Creating croc game room.");
 
       try {
-        const crocRoom = await matchMaker.createRoom(
-          RoomIds.CROC_GAME_ROOM,
-          {}
-        );
+        const crocRoom = await matchMaker.createRoom(RoomIds.CROC_GAME_ROOM, {
+          lobbyRoomId: this.roomId,
+        });
         this.state.currentGame = "croc";
         this.state.currentGameRoomId = crocRoom.roomId;
 

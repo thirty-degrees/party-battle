@@ -27,7 +27,7 @@ export default function RootLayout() {
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="index" />
                 <Stack.Screen name="lobby" />
-                <Stack.Screen name="games/croc" />
+                <Stack.Screen name="games/croc-game" />
                 <Stack.Screen name="+not-found" />
               </Stack>
               <StatusBar style="auto" />

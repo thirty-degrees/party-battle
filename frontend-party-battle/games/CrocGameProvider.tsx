@@ -1,5 +1,11 @@
 import { Client, Room } from "colyseus.js";
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import Constants from "expo-constants";
 import { CrocGame } from "types-party-battle";
 import { usePlayerName } from "@/index/PlayerNameProvider";
@@ -8,7 +14,7 @@ import { router } from "expo-router";
 export type CrocGameContextType = {
   room?: Room<CrocGame>;
   isLoading: boolean;
-  joinCrocGame: (roomId: string) => Promise<void>;
+  joinCrocGame: (roomId: string) => void;
   leaveCrocGame: () => void;
 };
 
@@ -34,31 +40,32 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
   const { playerName } = usePlayerName();
 
   const joinCrocGame = useCallback(
-    async (roomId: string) => {
-      if (!playerName) {
-        console.error("Player name not available");
-        return;
-      }
-
+    (roomId: string) => {
       try {
         setIsLoading(true);
         const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-        const joinedRoom = await client.joinById<CrocGame>(roomId, {
-          name: playerName,
-        });
+        client
+          .joinById<CrocGame>(roomId, {
+            name: playerName,
+          })
+          .then((joinedRoom) => {
+            joinedRoom.onStateChange((state) => {
+              if (state.gameState === "finished") {
+                router.replace("/lobby");
+              }
+            });
 
-        joinedRoom.onStateChange((state) => {
-          if (state.gameState === "finished") {
-            router.replace("/");
-          }
-        });
-
-        setRoom(joinedRoom);
+            setRoom(joinedRoom);
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            console.error("Failed to join croc game:", error);
+            setIsLoading(false);
+          });
       } catch (error) {
         console.error("Failed to join croc game:", error);
-        throw error;
-      } finally {
         setIsLoading(false);
+        throw error;
       }
     },
     [playerName]
@@ -71,12 +78,15 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [room]);
 
-  const value: CrocGameContextType = {
-    room,
-    isLoading,
-    joinCrocGame,
-    leaveCrocGame,
-  };
+  const value = useMemo(
+    () => ({
+      room,
+      isLoading,
+      joinCrocGame,
+      leaveCrocGame,
+    }),
+    [room, isLoading, joinCrocGame, leaveCrocGame]
+  );
 
   return (
     <CrocGameContext.Provider value={value}>

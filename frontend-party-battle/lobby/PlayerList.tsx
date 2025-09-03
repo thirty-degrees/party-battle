@@ -1,6 +1,9 @@
 import { View, Text } from "react-native";
 
-import { MAX_AMOUNT_OF_PLAYERS } from "types-party-battle";
+import {
+  KeyValuePairNumberInterface,
+  MAX_AMOUNT_OF_PLAYERS,
+} from "types-party-battle";
 import { PlayerData, GameHistoryData } from "./LobbyContent";
 import PlayerListEntry from "./PlayerListEntry";
 
@@ -20,15 +23,20 @@ export default function PlayerList({
     let lastRoundScore = 0;
 
     gameHistory.forEach(([, game]) => {
-      const playerScore = game.scores.find((score) => score.key === player.name);
+      const playerScore = game.scores.find(
+        (score) => score.key === player.name
+      );
       if (playerScore) {
         totalScore += playerScore.value;
       }
     });
 
     if (gameHistory.length > 0) {
+      console.log("gameHistory", gameHistory);
       const lastGame = gameHistory[gameHistory.length - 1][1];
-      const playerLastScore = lastGame.scores.find((score) => score.key === player.name);
+      const playerLastScore = lastGame.scores.find(
+        (score) => score.key === player.name
+      );
       if (playerLastScore) {
         lastRoundScore = playerLastScore.value;
       }
@@ -44,11 +52,15 @@ export default function PlayerList({
 
   const sortedPlayers = playerStats.sort((a, b) => b.totalScore - a.totalScore);
 
-  const playersWithPlaces: (typeof sortedPlayers[0] & { place: number })[] = [];
+  const playersWithPlaces: ((typeof sortedPlayers)[0] & { place: number })[] =
+    [];
   for (let i = 0; i < sortedPlayers.length; i++) {
     let place = i + 1;
     // If previous player has same score, use same place number
-    if (i > 0 && sortedPlayers[i].totalScore === sortedPlayers[i - 1].totalScore) {
+    if (
+      i > 0 &&
+      sortedPlayers[i].totalScore === sortedPlayers[i - 1].totalScore
+    ) {
       place = playersWithPlaces[i - 1].place;
     }
     playersWithPlaces.push({
@@ -78,14 +90,17 @@ export default function PlayerList({
               />
             );
           })}
-          {Array.from({ length: MAX_AMOUNT_OF_PLAYERS - players.length }, (_, index) => {
-            return (
-              <PlayerListEntry
-                key={`placeholder-${index}`}
-                isCurrentPlayer={false}
-              />
-            );
-          })}
+          {Array.from(
+            { length: MAX_AMOUNT_OF_PLAYERS - players.length },
+            (_, index) => {
+              return (
+                <PlayerListEntry
+                  key={`placeholder-${index}`}
+                  isCurrentPlayer={false}
+                />
+              );
+            }
+          )}
         </View>
       </View>
     </View>
