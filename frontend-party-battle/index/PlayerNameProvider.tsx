@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { storage } from "./storage";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { storage } from './storage';
 
 type PlayerNameContextType = {
   playerName: string;
@@ -14,7 +14,7 @@ const PlayerNameContext = createContext<PlayerNameContextType | undefined>(
 export const usePlayerName = () => {
   const context = useContext(PlayerNameContext);
   if (!context) {
-    throw new Error("usePlayerName must be used within a PlayerNameProvider");
+    throw new Error('usePlayerName must be used within a PlayerNameProvider');
   }
   return context;
 };
@@ -22,12 +22,12 @@ export const usePlayerName = () => {
 export const PlayerNameProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [playerName, setPlayerNameState] = useState<string>("");
+  const [playerName, setPlayerNameState] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
-    storage.getItem("playerName").then((v) => {
+    storage.getItem('playerName').then((v) => {
       if (!active) return;
       if (v !== null) setPlayerNameState(v);
       setIsLoading(false);
@@ -38,8 +38,8 @@ export const PlayerNameProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   useEffect(() => {
-    if (!isLoading && playerName && playerName.trim() !== "") {
-      storage.setItem("playerName", playerName);
+    if (!isLoading && playerName && playerName.trim() !== '') {
+      storage.setItem('playerName', playerName);
     }
   }, [playerName, isLoading]);
 

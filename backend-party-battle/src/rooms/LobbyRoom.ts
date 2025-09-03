@@ -1,5 +1,4 @@
-import { Room, Client } from "@colyseus/core";
-import { matchMaker } from "@colyseus/core";
+import { Client, matchMaker, Room } from "@colyseus/core";
 import {
   GameHistory,
   Lobby,

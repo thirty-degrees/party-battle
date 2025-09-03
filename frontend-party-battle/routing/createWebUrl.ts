@@ -1,4 +1,4 @@
-import Constants from "expo-constants";
+import Constants from 'expo-constants';
 
 export default function createWebURL(path: string) {
   const baseUrl = Constants.expoConfig?.extra?.frontendUrl;

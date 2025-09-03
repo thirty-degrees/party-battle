@@ -1,9 +1,9 @@
-import { Room, Client } from "@colyseus/core";
+import { Client, Room } from "@colyseus/core";
 import {
   CrocGame,
-  MAX_AMOUNT_OF_PLAYERS,
   GameHistory,
   KeyValuePairNumber,
+  MAX_AMOUNT_OF_PLAYERS,
 } from "types-party-battle";
 
 export class CrocGameRoom extends Room<CrocGame> {

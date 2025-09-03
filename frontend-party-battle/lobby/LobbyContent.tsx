@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import { View, Share } from "react-native";
-import { Text } from "@/components/ui/text";
-import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
-import { useRouter } from "expo-router";
-import PlayerList from "@/lobby/PlayerList";
-import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
-import useColyseusState from "@/colyseus/useColyseusState";
-import { Room } from "colyseus.js";
+import useColyseusState from '@/colyseus/useColyseusState';
+import SafeAreaPlaceholder from '@/components/SafeAreaPlaceholder';
+import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
+import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon';
+import { QrCodeModal } from '@/components/ui/modal/qr-code-modal';
+import { Text } from '@/components/ui/text';
+import { useLobbyContext } from '@/lobby/LobbyProvider';
+import PlayerList from '@/lobby/PlayerList';
+import createWebURL from '@/routing/createWebUrl';
+import { Room } from 'colyseus.js';
+import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Share, View } from 'react-native';
 import {
-  Lobby,
   GameType,
   KeyValuePairNumberInterface,
-} from "types-party-battle";
-import { ShareIcon, QrCodeIcon, LogOutIcon } from "@/components/ui/icon";
-import { QrCodeModal } from "@/components/ui/modal/qr-code-modal";
-import { useLobbyContext } from "@/lobby/LobbyProvider";
-import createWebURL from "@/routing/createWebUrl";
+  Lobby,
+} from 'types-party-battle';
 
 export interface PlayerData {
   name: string;
@@ -43,7 +43,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
       ([id, game]) =>
         [id, { gameType: game.gameType, scores: game.scores }] as [
           string | number,
-          GameHistoryData
+          GameHistoryData,
         ]
     )
   );
@@ -64,12 +64,12 @@ export default function LobbyContent({ room }: LobbyContentProps) {
   useEffect(() => {
     if (currentGame && currentGameRoomId) {
       switch (currentGame) {
-        case "croc":
-          console.log("redirecting to croc game");
+        case 'croc':
+          console.log('redirecting to croc game');
           router.push(`/games/croc?roomId=${currentGameRoomId}`);
           break;
-        case "snake":
-          throw new Error("Snake game redirection not implemented yet");
+        case 'snake':
+          throw new Error('Snake game redirection not implemented yet');
         default:
           throw new Error(`Unknown game type: ${currentGameRoomId}`);
       }
@@ -77,7 +77,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
   }, [currentGame, currentGameRoomId, router]);
 
   const onToggleReady = () => {
-    room.send("ready", !isReady);
+    room.send('ready', !isReady);
     setIsReady((prev) => !prev);
   };
 
@@ -91,7 +91,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
 
   const handleLeaveParty = () => {
     leaveLobby();
-    router.push("/");
+    router.push('/');
   };
 
   return (
@@ -143,8 +143,8 @@ export default function LobbyContent({ room }: LobbyContentProps) {
           </View>
 
           <View className="flex-row w-full justify-center">
-            <Button size="xl" action={"primary"} onPress={onToggleReady}>
-              <ButtonText>{isReady ? "CANCEL" : "PLAY"}</ButtonText>
+            <Button size="xl" action={'primary'} onPress={onToggleReady}>
+              <ButtonText>{isReady ? 'CANCEL' : 'PLAY'}</ButtonText>
             </Button>
           </View>
         </View>

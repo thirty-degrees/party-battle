@@ -1,7 +1,7 @@
-import { Client, Room } from "colyseus.js";
-import React, { createContext, useContext, useState, useCallback } from "react";
-import Constants from "expo-constants";
-import { Lobby } from "types-party-battle";
+import { Client, Room } from 'colyseus.js';
+import Constants from 'expo-constants';
+import React, { createContext, useCallback, useContext, useState } from 'react';
+import { Lobby } from 'types-party-battle';
 
 export type LobbyContextType = {
   room?: Room<Lobby>;
@@ -16,7 +16,7 @@ const LobbyContext = createContext<LobbyContextType | undefined>(undefined);
 export const useLobbyContext = () => {
   const context = useContext(LobbyContext);
   if (!context) {
-    throw new Error("useLobbyContext must be used within a LobbyProvider");
+    throw new Error('useLobbyContext must be used within a LobbyProvider');
   }
   return context;
 };
@@ -36,7 +36,7 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({
       });
       setRoom(joinedRoom);
     } catch (error) {
-      console.error("Failed to join lobby:", error);
+      console.error('Failed to join lobby:', error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -47,12 +47,12 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       setIsLoading(true);
       const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-      const createdRoom = await client.create<Lobby>("lobby_room", {
+      const createdRoom = await client.create<Lobby>('lobby_room', {
         name: playerName,
       });
       setRoom(createdRoom);
     } catch (error) {
-      console.error("Failed to create lobby:", error);
+      console.error('Failed to create lobby:', error);
       throw error;
     } finally {
       setIsLoading(false);

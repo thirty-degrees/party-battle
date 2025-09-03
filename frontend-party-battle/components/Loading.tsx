@@ -1,5 +1,5 @@
-import { View } from "react-native";
-import { Spinner } from "@/components/ui/spinner";
+import { Spinner } from '@/components/ui/spinner';
+import { View } from 'react-native';
 
 export default function Loading() {
   return (

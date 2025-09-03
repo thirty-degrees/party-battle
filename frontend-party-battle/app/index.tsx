@@ -1,18 +1,18 @@
-import { router, useLocalSearchParams } from "expo-router";
-import { useState } from "react";
-import { View } from "react-native";
+import { router, useLocalSearchParams } from 'expo-router';
+import { useState } from 'react';
+import { View } from 'react-native';
 
-import RainbowText from "@/components/RainbowText";
-import { Button, ButtonText } from "@/components/ui/button";
-import { Heading } from "@/components/ui/heading";
-import { Input, InputField } from "@/components/ui/input";
-import { Text } from "@/components/ui/text";
-import { JoinRoomModal } from "@/components/ui/modal/join-room-modal";
+import RainbowText from '@/components/RainbowText';
+import { Button, ButtonText } from '@/components/ui/button';
+import { Heading } from '@/components/ui/heading';
+import { Input, InputField } from '@/components/ui/input';
+import { JoinRoomModal } from '@/components/ui/modal/join-room-modal';
+import { Text } from '@/components/ui/text';
 
-import { usePlayerName } from "@/index/PlayerNameProvider";
-import { useLobbyContext } from "@/lobby/LobbyProvider";
-import { PLAYER_NAME_MAX_LENGTH } from "types-party-battle";
-import SafeAreaPlaceholder from "@/components/SafeAreaPlaceholder";
+import SafeAreaPlaceholder from '@/components/SafeAreaPlaceholder';
+import { usePlayerName } from '@/index/PlayerNameProvider';
+import { useLobbyContext } from '@/lobby/LobbyProvider';
+import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle';
 
 export default function HomeScreen() {
   const [showJoinModal, setShowJoinModal] = useState(false);
@@ -37,7 +37,7 @@ export default function HomeScreen() {
     await createLobby(trimmedName);
 
     router.push({
-      pathname: "/lobby",
+      pathname: '/lobby',
     });
   };
 
@@ -47,7 +47,7 @@ export default function HomeScreen() {
     await joinLobby(roomId, trimmedName);
 
     router.push({
-      pathname: "/lobby",
+      pathname: '/lobby',
     });
 
     setShowJoinModal(false);
@@ -59,14 +59,20 @@ export default function HomeScreen() {
       <View className="flex-1 p-4 items-center">
         <View className="flex-1 max-w-md w-full justify-evenly items-center">
           <View className="flex-col items-center gap-4 w-full">
-            <Text size="xl" style={{ width: 200, textAlign: 'center' }}>Name</Text>
+            <Text size="xl" style={{ width: 200, textAlign: 'center' }}>
+              Name
+            </Text>
             <Input
               variant="outline"
               size="xl"
               isDisabled={isLoadingPlayerName}
               isInvalid={false}
               isReadOnly={false}
-              style={{ alignItems: "center", justifyContent: "center", width: 200 }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 200,
+              }}
             >
               <InputField
                 aria-label="Username"
@@ -75,7 +81,7 @@ export default function HomeScreen() {
                 placeholder="Enter your name..."
                 autoComplete="username"
                 maxLength={PLAYER_NAME_MAX_LENGTH}
-                style={{ width: 200, textAlign: "center" }}
+                style={{ width: 200, textAlign: 'center' }}
               />
             </Input>
           </View>
@@ -96,7 +102,9 @@ export default function HomeScreen() {
                   isDisabled={!playerName?.trim() || isLoading}
                   style={{ width: 200, paddingHorizontal: 8 }}
                 >
-                  <ButtonText>{isLoading ? "Loading..." : `JOIN ${partyCode}`}</ButtonText>
+                  <ButtonText>
+                    {isLoading ? 'Loading...' : `JOIN ${partyCode}`}
+                  </ButtonText>
                 </Button>
               </View>
             )}
@@ -109,7 +117,9 @@ export default function HomeScreen() {
                   isDisabled={!playerName?.trim() || isLoading}
                   style={{ width: 200, paddingHorizontal: 8 }}
                 >
-                  <ButtonText>{isLoading ? "Loading..." : "JOIN PARTY"}</ButtonText>
+                  <ButtonText>
+                    {isLoading ? 'Loading...' : 'JOIN PARTY'}
+                  </ButtonText>
                 </Button>
               </View>
             </View>
@@ -122,7 +132,9 @@ export default function HomeScreen() {
                 isDisabled={!playerName?.trim() || isLoading}
                 style={{ width: 200, paddingHorizontal: 8 }}
               >
-                <ButtonText>{isLoading ? "Loading..." : "CREATE PARTY"}</ButtonText>
+                <ButtonText>
+                  {isLoading ? 'Loading...' : 'CREATE PARTY'}
+                </ButtonText>
               </Button>
             </View>
           </View>

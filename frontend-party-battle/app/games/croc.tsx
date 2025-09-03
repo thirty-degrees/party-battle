@@ -1,8 +1,8 @@
-import { useLocalSearchParams } from "expo-router";
-import { useEffect, useRef } from "react";
-import { CrocGameProvider, useCrocGameContext } from "@/games/CrocGameProvider";
-import Loading from "@/components/Loading";
-import CrocGameContent from "@/games/CrocGameContent";
+import Loading from '@/components/Loading';
+import CrocGameContent from '@/games/CrocGameContent';
+import { CrocGameProvider, useCrocGameContext } from '@/games/CrocGameProvider';
+import { useLocalSearchParams } from 'expo-router';
+import { useEffect, useRef } from 'react';
 
 export default function CrocScreen() {
   return (
@@ -14,16 +14,16 @@ export default function CrocScreen() {
 
 function CrocGameView() {
   const { roomId } = useLocalSearchParams<{ roomId: string }>();
-  const { room, isLoading, joinCrocGame, leaveCrocGame } = useCrocGameContext();
+  const { room, isLoading, joinCrocGame } = useCrocGameContext();
   const hasJoinedRef = useRef(false);
 
   useEffect(() => {
     if (roomId && !room && !hasJoinedRef.current) {
-      console.log("joining croc game");
+      console.log('joining croc game');
       hasJoinedRef.current = true;
       joinCrocGame(roomId);
     }
-  }, [roomId, room]);
+  }, [roomId, room, joinCrocGame]);
 
   if (isLoading || !room) {
     return <Loading />;

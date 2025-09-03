@@ -14,7 +14,6 @@
     "docker:build": "docker build -f ../frontend-party-battle/dockerfile -t frontend-party-battle .."
   },
   "dependencies": {
-    "@babel/eslint-parser": "^7.28.0",
     "@expo/cli": "^0.24.20",
     "@expo/html-elements": "^0.12.5",
     "@expo/vector-icons": "^14.1.0",
@@ -65,12 +64,18 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.3",
+    "@babel/eslint-parser": "^7.28.0",
     "@babel/plugin-transform-class-static-block": "^7.28.3",
     "@types/react": "~19.0.10",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^9.34.0",
     "eslint-config-expo": "~9.2.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react-compiler": "^19.1.0-rc.2",
     "jscodeshift": "^17.3.0",
+    "prettier": "^3.6.2",
     "tsx": "^4.20.5",
     "typescript": "~5.8.3"
   }

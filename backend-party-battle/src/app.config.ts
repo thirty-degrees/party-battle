@@ -1,12 +1,12 @@
-import config from "@colyseus/tools";
 import { monitor } from "@colyseus/monitor";
 import { playground } from "@colyseus/playground";
+import config from "@colyseus/tools";
 
 /**
  * Import your Room files
  */
-import { LobbyRoom } from "./rooms/LobbyRoom";
 import { CrocGameRoom } from "./rooms/CrocGameRoom";
+import { LobbyRoom } from "./rooms/LobbyRoom";
 
 export enum RoomIds {
   LOBBY_ROOM = "lobby_room",
@@ -19,9 +19,7 @@ export default config({
      * Define your room handlers:
      */
     gameServer.define(RoomIds.LOBBY_ROOM, LobbyRoom);
-    gameServer.define(RoomIds.CROC_GAME_ROOM, CrocGameRoom, {
-      maxEmptyTime: 0,
-    });
+    gameServer.define(RoomIds.CROC_GAME_ROOM, CrocGameRoom);
   },
 
   initializeExpress: (app) => {

@@ -1,6 +1,6 @@
-import { CheckIcon, CloseIcon, Icon } from "@/components/ui/icon";
-import { View, Text } from "react-native";
-import { PlayerData } from "./LobbyContent";
+import { CheckIcon, CloseIcon, Icon } from '@/components/ui/icon';
+import { Text, View } from 'react-native';
+import { PlayerData } from './LobbyContent';
 
 interface PlayerListEntryProps {
   player?: PlayerData;
@@ -15,43 +15,39 @@ export default function PlayerListEntry({
   isCurrentPlayer,
   place,
   totalScore,
-  lastRoundScore
+  lastRoundScore,
 }: PlayerListEntryProps) {
-  const containerStyles = (isCurrentPlayer
-    ? "rounded-lg p-3 mb-2 flex-row items-center border border-blue-400 dark:border-blue-600"
-    : "rounded-lg p-3 mb-2 flex-row items-center border border-gray-300 dark:border-gray-700") +
-    (!player ? " border-dashed" : "");
+  const containerStyles =
+    (isCurrentPlayer
+      ? 'rounded-lg p-3 mb-2 flex-row items-center border border-blue-400 dark:border-blue-600'
+      : 'rounded-lg p-3 mb-2 flex-row items-center border border-gray-300 dark:border-gray-700') +
+    (!player ? ' border-dashed' : '');
 
   const textStyles = isCurrentPlayer
-    ? "font-medium text-blue-800 dark:text-blue-200"
-    : "font-medium text-black dark:text-white";
+    ? 'font-medium text-blue-800 dark:text-blue-200'
+    : 'font-medium text-black dark:text-white';
 
   return (
     <View className={containerStyles}>
       <View className="flex-[1]">
-        <Text className={textStyles}>
-          {player ? `${place}.` : "..."}
-        </Text>
+        <Text className={textStyles}>{player ? `${place}.` : '...'}</Text>
       </View>
 
       <View className="flex-[3]">
-        <Text className={textStyles}>
-          {player?.name ?? "..."}
-        </Text>
+        <Text className={textStyles}>{player?.name ?? '...'}</Text>
       </View>
 
       <View className="flex-[2] items-center">
         <Text className={`${textStyles} text-center`}>
           {player && lastRoundScore !== undefined
             ? `${lastRoundScore >= 0 ? '+' : ''}${lastRoundScore}`
-            : "..."
-          }
+            : '...'}
         </Text>
       </View>
 
       <View className="flex-[2] items-center">
         <Text className={`${textStyles} text-center`}>
-          {player && totalScore !== undefined ? totalScore : "..."}
+          {player && totalScore !== undefined ? totalScore : '...'}
         </Text>
       </View>
 
@@ -59,7 +55,10 @@ export default function PlayerListEntry({
         {player ? (
           player.ready ? (
             <Text className={`${textStyles} text-center`}>
-              <Icon as={CheckIcon} className="text-green-600 dark:text-green-100" />
+              <Icon
+                as={CheckIcon}
+                className="text-green-600 dark:text-green-100"
+              />
             </Text>
           ) : (
             <Text className={`${textStyles} text-center`}>
@@ -67,9 +66,7 @@ export default function PlayerListEntry({
             </Text>
           )
         ) : (
-          <Text className={`${textStyles} text-center`}>
-            ...
-          </Text>
+          <Text className={`${textStyles} text-center`}>...</Text>
         )}
       </View>
     </View>

@@ -1,11 +1,8 @@
-import { View, Text } from "react-native";
+import { Text, View } from 'react-native';
 
-import {
-  KeyValuePairNumberInterface,
-  MAX_AMOUNT_OF_PLAYERS,
-} from "types-party-battle";
-import { PlayerData, GameHistoryData } from "./LobbyContent";
-import PlayerListEntry from "./PlayerListEntry";
+import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle';
+import { GameHistoryData, PlayerData } from './LobbyContent';
+import PlayerListEntry from './PlayerListEntry';
 
 interface LobbyScreenProps {
   players: [string, PlayerData][];
@@ -32,7 +29,7 @@ export default function PlayerList({
     });
 
     if (gameHistory.length > 0) {
-      console.log("gameHistory", gameHistory);
+      console.log('gameHistory', gameHistory);
       const lastGame = gameHistory[gameHistory.length - 1][1];
       const playerLastScore = lastGame.scores.find(
         (score) => score.key === player.name

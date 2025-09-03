@@ -4,31 +4,31 @@ export default function (api) {
   return {
     presets: [
       [
-        "babel-preset-expo",
+        'babel-preset-expo',
         {
-          jsxImportSource: "nativewind",
+          jsxImportSource: 'nativewind',
         },
       ],
-      "nativewind/babel",
+      'nativewind/babel',
     ],
 
     plugins: [
-      "react-compiler",
-      "@babel/plugin-transform-class-static-block",
+      'react-compiler',
+      '@babel/plugin-transform-class-static-block',
       [
-        "module-resolver",
+        'module-resolver',
         {
-          root: ["./"],
+          root: ['./'],
 
           alias: {
-            "@": "./",
-            "tailwind.config": "./tailwind.config.js",
-            "@colyseus/httpie": "@colyseus/httpie/fetch",
-            "stream": "stream-browserify",
-            "ws": "isomorphic-ws",
+            '@': './',
+            'tailwind.config': './tailwind.config.js',
+            '@colyseus/httpie': '@colyseus/httpie/fetch',
+            stream: 'stream-browserify',
+            ws: 'isomorphic-ws',
           },
         },
       ],
     ],
   };
-};
+}

@@ -1,15 +1,15 @@
-import { router, useLocalSearchParams } from "expo-router";
-import { View } from "react-native";
+import { router, useLocalSearchParams } from 'expo-router';
+import { View } from 'react-native';
 
-import { Button, ButtonText } from "@/components/ui/button";
-import { Heading } from "@/components/ui/heading";
-import { Text } from "@/components/ui/text";
+import { Button, ButtonText } from '@/components/ui/button';
+import { Heading } from '@/components/ui/heading';
+import { Text } from '@/components/ui/text';
 
 export default function ErrorScreen() {
   useLocalSearchParams<{ error: string }>();
 
   const handleGoHome = () => {
-    router.replace("/");
+    router.replace('/');
   };
 
   return (
@@ -25,8 +25,8 @@ export default function ErrorScreen() {
         </Heading>
 
         <Text className="text-gray-300 dark:text-gray-700 text-center mb-8 leading-6">
-          Hey! The room you&apos;re looking for doesn&apos;t exist or is full. Go
-          back home and create a new one! 🎮
+          Hey! The room you&apos;re looking for doesn&apos;t exist or is full.
+          Go back home and create a new one! 🎮
         </Text>
 
         <Button

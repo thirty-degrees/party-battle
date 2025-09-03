@@ -1,5 +1,5 @@
-import { useLobbyContext } from "@/lobby/LobbyProvider";
-import LobbyContent from "@/lobby/LobbyContent";
+import LobbyContent from '@/lobby/LobbyContent';
+import { useLobbyContext } from '@/lobby/LobbyProvider';
 import { Redirect } from 'expo-router';
 
 export default function LobbyScreen() {
