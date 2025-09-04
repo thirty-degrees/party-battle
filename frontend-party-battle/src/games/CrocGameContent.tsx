@@ -4,25 +4,25 @@ import { router } from 'expo-router'
 import { useEffect } from 'react'
 import { Text, View } from 'react-native'
 import { CrocGameSchema } from 'types-party-battle'
+import { useGameRoomContext } from '../colyseus/GameRoomProvider'
 import { useLobbyRoomContext } from '../lobby/LobbyRoomProvider'
-import { useCrocGameContext } from './CrocGameProvider'
 
 type CrocGameProps = {
-  room: Room<CrocGameSchema>
+  gameRoom: Room<CrocGameSchema>
 }
 
-export default function CrocGameContent({ room }: CrocGameProps) {
-  const gameState = useColyseusState(room!, (state) => state.gameState)
-  const { leaveCrocGame } = useCrocGameContext()
+export default function CrocGameContent({ gameRoom }: CrocGameProps) {
+  const gameStatus = useColyseusState(gameRoom, (state) => state.status)
+  const { leaveGameRoom } = useGameRoomContext<CrocGameSchema>()
   const { lobbyRoom } = useLobbyRoomContext()
   const currentGame = useColyseusState(lobbyRoom!, (state) => state.currentGame)
 
   useEffect(() => {
-    if (gameState === 'finished' && !currentGame) {
-      leaveCrocGame()
+    if (gameStatus === 'finished' && !currentGame) {
+      leaveGameRoom()
       router.push('/lobby')
     }
-  }, [gameState, leaveCrocGame, currentGame])
+  }, [gameStatus, leaveGameRoom, currentGame])
 
   return (
     <View className="flex-1 bg-white dark:bg-black justify-center items-center space-y-6">
@@ -30,7 +30,7 @@ export default function CrocGameContent({ room }: CrocGameProps) {
         Croc Mini Game
       </Text>
       <Text className="text-black dark:text-white text-lg">
-        Room State: {JSON.stringify(gameState)}
+        Room State: {JSON.stringify(gameStatus)}
       </Text>
     </View>
   )

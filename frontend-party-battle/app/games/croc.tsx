@@ -1,33 +1,35 @@
 import Loading from '@/components/Loading'
-import CrocGameContent from '@/src/games/CrocGameContent'
 import {
-  CrocGameProvider,
-  useCrocGameContext,
-} from '@/src/games/CrocGameProvider'
+  GameRoomProvider,
+  useGameRoomContext,
+} from '@/src/colyseus/GameRoomProvider'
+import CrocGameContent from '@/src/games/CrocGameContent'
 import { useLocalSearchParams } from 'expo-router'
 import { useEffect } from 'react'
+import { CrocGameSchema } from 'types-party-battle'
 
 export default function CrocScreen() {
   return (
-    <CrocGameProvider>
+    <GameRoomProvider<CrocGameSchema>>
       <CrocGameView />
-    </CrocGameProvider>
+    </GameRoomProvider>
   )
 }
 
 function CrocGameView() {
   const { roomId } = useLocalSearchParams<{ roomId: string }>()
-  const { room, isLoading, joinCrocGame } = useCrocGameContext()
+  const { gameRoom, isLoading, joinGameRoom } =
+    useGameRoomContext<CrocGameSchema>()
 
   useEffect(() => {
-    if (roomId && !isLoading && !room) {
-      joinCrocGame(roomId)
+    if (roomId && !isLoading && !gameRoom) {
+      joinGameRoom(roomId)
     }
-  }, [roomId, joinCrocGame, isLoading, room])
+  }, [roomId, joinGameRoom, isLoading, gameRoom])
 
-  if (isLoading || !room) {
+  if (isLoading || !gameRoom) {
     return <Loading />
   }
 
-  return <CrocGameContent room={room} />
+  return <CrocGameContent gameRoom={gameRoom} />
 }
