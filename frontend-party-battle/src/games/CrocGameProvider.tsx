@@ -7,6 +7,7 @@ import React, {
   useCallback,
   useContext,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import { CrocGame } from 'types-party-battle'
@@ -35,10 +36,17 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [room, setRoom] = useState<Room<CrocGame> | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
+  const hasJoinedRef = useRef(false)
   const { playerName } = usePlayerName()
 
   const joinCrocGame = useCallback(
     (roomId: string) => {
+      if (hasJoinedRef.current || room) {
+        return
+      }
+
+      console.log('joining croc game')
+      hasJoinedRef.current = true
       setIsLoading(true)
       const client = new Client(Constants.expoConfig?.extra?.backendUrl)
       client
@@ -56,7 +64,7 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
           setIsLoading(false)
         })
     },
-    [playerName]
+    [playerName, room]
   )
 
   const leaveCrocGame = useCallback(() => {
