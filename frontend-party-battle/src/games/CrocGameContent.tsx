@@ -3,12 +3,12 @@ import { Room } from 'colyseus.js'
 import { router } from 'expo-router'
 import { useEffect } from 'react'
 import { Text, View } from 'react-native'
-import { CrocGame } from 'types-party-battle'
+import { CrocGameSchema } from 'types-party-battle'
 import { useLobbyContext } from '../lobby/LobbyProvider'
 import { useCrocGameContext } from './CrocGameProvider'
 
 type CrocGameProps = {
-  room: Room<CrocGame>
+  room: Room<CrocGameSchema>
 }
 
 export default function CrocGameContent({ room }: CrocGameProps) {

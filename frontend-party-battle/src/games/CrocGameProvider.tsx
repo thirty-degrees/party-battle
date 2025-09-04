@@ -10,10 +10,10 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { CrocGame } from 'types-party-battle'
+import { CrocGameSchema } from 'types-party-battle'
 
 export type CrocGameContextType = {
-  room?: Room<CrocGame>
+  room?: Room<CrocGameSchema>
   isLoading: boolean
   joinCrocGame: (roomId: string) => void
   leaveCrocGame: () => void
@@ -34,7 +34,7 @@ export const useCrocGameContext = () => {
 export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [room, setRoom] = useState<Room<CrocGame> | undefined>(undefined)
+  const [room, setRoom] = useState<Room<CrocGameSchema> | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const hasJoinedRef = useRef(false)
   const { playerName } = usePlayerName()
@@ -49,7 +49,7 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsLoading(true)
       const client = new Client(Constants.expoConfig?.extra?.backendUrl)
       client
-        .joinById<CrocGame>(roomId, {
+        .joinById<CrocGameSchema>(roomId, {
           name: playerName,
         })
         .then((joinedRoom) => {

@@ -1,7 +1,9 @@
 export * from "./consts/config";
-export * from "./types/CrocGame";
-export * from "./types/Game";
-export * from "./types/GameHistory";
-export * from "./types/Lobby";
-export * from "./types/Score";
+export * from "./types/CrocGameSchema";
+export * from "./types/GameHistorySchema";
+export * from "./types/GameSchema";
+export * from "./types/LobbyPlayerSchema";
+export * from "./types/LobbySchema";
+export * from "./types/PlayerSchema";
+export * from "./types/ScoreSchema";
 

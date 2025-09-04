@@ -7,10 +7,10 @@ import React, {
   useMemo,
   useState,
 } from 'react'
-import { Lobby } from 'types-party-battle'
+import { LobbySchema } from 'types-party-battle'
 
 export type LobbyContextType = {
-  room?: Room<Lobby>
+  room?: Room<LobbySchema>
   isLoading: boolean
   joinLobby: (roomId: string, playerName: string) => Promise<void>
   createLobby: (playerName: string) => Promise<void>
@@ -30,14 +30,14 @@ export const useLobbyContext = () => {
 export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [room, setRoom] = useState<Room<Lobby> | undefined>(undefined)
+  const [room, setRoom] = useState<Room<LobbySchema> | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
 
   const joinLobby = useCallback(async (roomId: string, playerName: string) => {
     try {
       setIsLoading(true)
       const client = new Client(Constants.expoConfig?.extra?.backendUrl)
-      const joinedRoom = await client.joinById<Lobby>(roomId, {
+      const joinedRoom = await client.joinById<LobbySchema>(roomId, {
         name: playerName,
       })
       setRoom(joinedRoom)
@@ -53,7 +53,7 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       setIsLoading(true)
       const client = new Client(Constants.expoConfig?.extra?.backendUrl)
-      const createdRoom = await client.create<Lobby>('lobby_room', {
+      const createdRoom = await client.create<LobbySchema>('lobby_room', {
         name: playerName,
       })
       setRoom(createdRoom)

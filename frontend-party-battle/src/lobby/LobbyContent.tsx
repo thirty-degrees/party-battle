@@ -46,10 +46,6 @@ export default function LobbyContent({ room }: LobbyContentProps) {
     (state) => state.currentGameRoomId
   )
 
-  console.log(
-    `LobbyContent currentGame ${currentGame} currentGameRoomId ${currentGameRoomId}`
-  )
-
   const [isReady, setIsReady] = useState(false)
   const [isQrModalOpen, setIsQrModalOpen] = useState(false)
   const router = useRouter()

@@ -1,12 +1,12 @@
 import { Client, Room } from "@colyseus/core";
 import {
-  CrocGame,
+  CrocGameSchema,
   GameHistory,
   MAX_AMOUNT_OF_PLAYERS,
-  Score,
+  Score
 } from "types-party-battle";
 
-export class CrocGameRoom extends Room<CrocGame> {
+export class CrocGameRoom extends Room<CrocGameSchema> {
   private players = new Map<string, string>();
 
   onCreate(options: { lobbyRoomId: string }) {
@@ -14,7 +14,7 @@ export class CrocGameRoom extends Room<CrocGame> {
     
     this.autoDispose = true;
     this.maxClients = MAX_AMOUNT_OF_PLAYERS;
-    this.state = new CrocGame();
+    this.state = new CrocGameSchema();
 
     setTimeout(() => {
       const gameHistory: GameHistory = {
