@@ -4,7 +4,7 @@ import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon'
 import { QrCodeModal } from '@/components/ui/modal/qr-code-modal'
 import { Text } from '@/components/ui/text'
 import useColyseusState from '@/src/colyseus/useColyseusState'
-import { useLobbyContext } from '@/src/lobby/LobbyProvider'
+import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import PlayerList from '@/src/lobby/PlayerList'
 import createWebURL from '@/src/routing/createWebUrl'
 import { blurActiveElement } from '@/src/utils/focusUtils'
@@ -20,17 +20,17 @@ export interface PlayerData {
 }
 
 interface LobbyContentProps {
-  room: Room<LobbySchema>
+  lobbyRoom: Room<LobbySchema>
 }
 
-export default function LobbyContent({ room }: LobbyContentProps) {
-  const players = useColyseusState(room, (state) =>
+export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
+  const players = useColyseusState(lobbyRoom, (state) =>
     Array.from(state.players?.entries() || []).map(
       ([id, player]) =>
         [id, { name: player.name, ready: player.ready }] as [string, PlayerData]
     )
   )
-  const gameHistories = useColyseusState(room, (state) =>
+  const gameHistories = useColyseusState(lobbyRoom, (state) =>
     Array.from(state.gameHistories?.entries() || []).map(
       ([id, game]) =>
         [id, { gameType: game.gameType, scores: game.scores?.toArray() }] as [
@@ -40,18 +40,18 @@ export default function LobbyContent({ room }: LobbyContentProps) {
     )
   )
 
-  const currentGame = useColyseusState(room, (state) => state.currentGame)
+  const currentGame = useColyseusState(lobbyRoom, (state) => state.currentGame)
   const currentGameRoomId = useColyseusState(
-    room,
+    lobbyRoom,
     (state) => state.currentGameRoomId
   )
 
   const [isReady, setIsReady] = useState(false)
   const [isQrModalOpen, setIsQrModalOpen] = useState(false)
   const router = useRouter()
-  const { leaveLobby } = useLobbyContext()
+  const { leaveLobbyRoom } = useLobbyRoomContext()
 
-  const partyCode = room.roomId
+  const partyCode = lobbyRoom.roomId
   const shareUrl = createWebURL(`/?partyCode=${partyCode}`)
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
   }, [currentGame, currentGameRoomId, router])
 
   const onToggleReady = () => {
-    room.send('SetPlayerReady', !isReady)
+    lobbyRoom.send('SetPlayerReady', !isReady)
     setIsReady((prev) => !prev)
 
     blurActiveElement()
@@ -84,7 +84,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
   }
 
   const handleLeaveParty = () => {
-    leaveLobby()
+    leaveLobbyRoom()
     router.push('/')
   }
 
@@ -133,7 +133,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
               <PlayerList
                 players={players}
                 gameHistories={gameHistories}
-                currentPlayerId={room.sessionId}
+                currentPlayerId={lobbyRoom.sessionId}
               />
             </View>
 

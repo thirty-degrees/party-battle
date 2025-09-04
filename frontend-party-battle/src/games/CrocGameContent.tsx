@@ -4,7 +4,7 @@ import { router } from 'expo-router'
 import { useEffect } from 'react'
 import { Text, View } from 'react-native'
 import { CrocGameSchema } from 'types-party-battle'
-import { useLobbyContext } from '../lobby/LobbyProvider'
+import { useLobbyRoomContext } from '../lobby/LobbyRoomProvider'
 import { useCrocGameContext } from './CrocGameProvider'
 
 type CrocGameProps = {
@@ -14,7 +14,7 @@ type CrocGameProps = {
 export default function CrocGameContent({ room }: CrocGameProps) {
   const gameState = useColyseusState(room!, (state) => state.gameState)
   const { leaveCrocGame } = useCrocGameContext()
-  const { room: lobbyRoom } = useLobbyContext()
+  const { lobbyRoom } = useLobbyRoomContext()
   const currentGame = useColyseusState(lobbyRoom!, (state) => state.currentGame)
 
   useEffect(() => {

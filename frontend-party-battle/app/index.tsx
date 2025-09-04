@@ -11,7 +11,7 @@ import { Text } from '@/components/ui/text'
 
 import SafeAreaPlaceholder from '@/components/SafeAreaPlaceholder'
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
-import { useLobbyContext } from '@/src/lobby/LobbyProvider'
+import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle'
 
 export default function HomeScreen() {
@@ -23,7 +23,7 @@ export default function HomeScreen() {
     isLoading: isLoadingPlayerName,
   } = usePlayerName()
 
-  const { createLobby, joinLobby, isLoading } = useLobbyContext()
+  const { createLobbyRoom, joinLobbyRoom, isLoading } = useLobbyRoomContext()
 
   const trimPlayerName = () => {
     const trimmedName = playerName!.trim()
@@ -34,7 +34,7 @@ export default function HomeScreen() {
   const handleCreateRoom = async () => {
     const trimmedName = trimPlayerName()
 
-    await createLobby(trimmedName)
+    await createLobbyRoom(trimmedName)
 
     router.push({
       pathname: '/lobby',
@@ -44,7 +44,7 @@ export default function HomeScreen() {
   const handleJoinRoom = async (roomId: string) => {
     const trimmedName = trimPlayerName()
 
-    await joinLobby(roomId, trimmedName)
+    await joinLobbyRoom(roomId, trimmedName)
 
     router.push({
       pathname: '/lobby',

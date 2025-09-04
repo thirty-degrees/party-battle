@@ -1,13 +1,13 @@
 import LobbyContent from '@/src/lobby/LobbyContent'
-import { useLobbyContext } from '@/src/lobby/LobbyProvider'
+import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import { Redirect } from 'expo-router'
 
 export default function LobbyScreen() {
-  const { room } = useLobbyContext()
+  const { lobbyRoom } = useLobbyRoomContext()
 
-  if (!room) {
+  if (!lobbyRoom) {
     return <Redirect href="/" />
   }
 
-  return <LobbyContent room={room} />
+  return <LobbyContent lobbyRoom={lobbyRoom} />
 }

@@ -1,7 +1,7 @@
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider'
 import '@/global.css'
 import { PlayerNameProvider } from '@/src/index/PlayerNameProvider'
-import { LobbyProvider } from '@/src/lobby/LobbyProvider'
+import { LobbyRoomProvider } from '@/src/lobby/LobbyRoomProvider'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
@@ -23,7 +23,7 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <GluestackUIProvider>
           <PlayerNameProvider>
-            <LobbyProvider>
+            <LobbyRoomProvider>
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="index" />
                 <Stack.Screen name="lobby" />
@@ -31,7 +31,7 @@ export default function RootLayout() {
                 <Stack.Screen name="+not-found" />
               </Stack>
               <StatusBar style="auto" />
-            </LobbyProvider>
+            </LobbyRoomProvider>
           </PlayerNameProvider>
         </GluestackUIProvider>
       </SafeAreaProvider>
