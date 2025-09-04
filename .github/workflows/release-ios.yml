@@ -8,8 +8,6 @@ jobs:
   # iOS: Local EAS build on macOS using EAS-managed (remote) credentials
   # --------------------------------------------
   build-ios:
-    needs: release
-    if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'frontend-party-battle')
     runs-on: macos-latest
     permissions:
       contents: read
