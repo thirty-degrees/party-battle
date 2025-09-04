@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "ch.thirty_degrees.party_battle",
+    "sha256_cert_fingerprints": [
+      "73:AE:FE:CE:67:C2:DD:B3:1A:EA:16:CD:66:72:59:74:6B:25:6C:B8:F8:33:00:6C:F0:4F:02:A1:6A:07:83:9F"
+    ]
+  }
+}]

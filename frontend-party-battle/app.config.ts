@@ -1,8 +1,8 @@
-import { config as dotenvConfig } from 'dotenv';
-import { ConfigContext, ExpoConfig } from 'expo/config';
-import { resolve } from 'path';
+import { config as dotenvConfig } from 'dotenv'
+import { ConfigContext, ExpoConfig } from 'expo/config'
+import { resolve } from 'path'
 
-dotenvConfig({ path: resolve(__dirname, '.env.development'), quiet: true });
+dotenvConfig({ path: resolve(__dirname, '.env.development'), quiet: true })
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -16,6 +16,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     ...(config.ios ?? {}),
     supportsTablet: true,
+    bundleIdentifier: 'ch.thirtydegrees.partybattle',
     associatedDomains: ['applinks:party-battle.thirty-degrees.ch'],
   },
   android: {
@@ -29,6 +30,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     intentFilters: [
       {
         action: 'VIEW',
+        autoVerify: true,
         data: [{ scheme: 'https', host: 'party-battle.thirty-degrees.ch' }],
         category: ['BROWSABLE', 'DEFAULT'],
       },
@@ -72,4 +74,4 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       process.env.EXPO_PUBLIC_FRONTEND_URL ||
       `https://party-battle.thirty-degrees.ch`,
   },
-});
+})

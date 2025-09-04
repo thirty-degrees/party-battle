@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": ["TEAMID.ch.thirtydegrees.partybattle"],
+        "components": [
+          { "/": "/*" }
+        ]
+      }
+    ]
+  }
+}
