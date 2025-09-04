@@ -39,7 +39,7 @@ jobs:
           path: |
             frontend-party-battle/android
             frontend-party-battle/ios
-          key: expo-prebuild-${{ runner.os }}-${{ hashFiles('frontend-party-battle/package*.json', 'frontend-party-battle/app.config.ts', 'frontend-party-battle/app.json') }}
+          key: expo-prebuild-${{ runner.os }}-${{ hashFiles('frontend-party-battle/package*.json', 'frontend-party-battle/app.config.ts') }}
           restore-keys: |
             expo-prebuild-${{ runner.os }}-
 
