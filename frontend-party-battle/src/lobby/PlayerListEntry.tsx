@@ -1,13 +1,13 @@
-import { CheckIcon, CloseIcon, Icon } from '@/components/ui/icon';
-import { Text, View } from 'react-native';
-import { PlayerData } from './LobbyContent';
+import { CheckIcon, CloseIcon, Icon } from '@/components/ui/icon'
+import { Text, View } from 'react-native'
+import { PlayerData } from './LobbyContent'
 
 interface PlayerListEntryProps {
-  player?: PlayerData;
-  isCurrentPlayer: boolean;
-  place?: number;
-  totalScore?: number;
-  lastRoundScore?: number;
+  player?: PlayerData
+  isCurrentPlayer: boolean
+  place?: number
+  totalScore?: number
+  lastRoundScore?: number
 }
 
 export default function PlayerListEntry({
@@ -21,11 +21,11 @@ export default function PlayerListEntry({
     (isCurrentPlayer
       ? 'rounded-lg p-3 mb-2 flex-row items-center border border-blue-400 dark:border-blue-600'
       : 'rounded-lg p-3 mb-2 flex-row items-center border border-gray-300 dark:border-gray-700') +
-    (!player ? ' border-dashed' : '');
+    (!player ? ' border-dashed' : '')
 
   const textStyles = isCurrentPlayer
     ? 'font-medium text-blue-800 dark:text-blue-200'
-    : 'font-medium text-black dark:text-white';
+    : 'font-medium text-black dark:text-white'
 
   return (
     <View className={containerStyles}>
@@ -70,5 +70,5 @@ export default function PlayerListEntry({
         )}
       </View>
     </View>
-  );
+  )
 }

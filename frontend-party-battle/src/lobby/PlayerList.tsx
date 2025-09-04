@@ -1,13 +1,13 @@
-import { Text, View } from 'react-native';
+import { Text, View } from 'react-native'
 
-import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle';
-import { GameHistoryData, PlayerData } from './LobbyContent';
-import PlayerListEntry from './PlayerListEntry';
+import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle'
+import { GameHistoryData, PlayerData } from './LobbyContent'
+import PlayerListEntry from './PlayerListEntry'
 
 interface LobbyScreenProps {
-  players: [string, PlayerData][];
-  gameHistory: [string | number, GameHistoryData][];
-  currentPlayerId?: string;
+  players: [string, PlayerData][]
+  gameHistory: [string | number, GameHistoryData][]
+  currentPlayerId?: string
 }
 
 export default function PlayerList({
@@ -16,26 +16,24 @@ export default function PlayerList({
   currentPlayerId,
 }: LobbyScreenProps) {
   const playerStats = players.map(([playerId, player]) => {
-    let totalScore = 0;
-    let lastRoundScore = 0;
+    let totalScore = 0
+    let lastRoundScore = 0
 
     gameHistory.forEach(([, game]) => {
-      const playerScore = game.scores.find(
-        (score) => score.key === player.name
-      );
+      const playerScore = game.scores.find((score) => score.key === player.name)
       if (playerScore) {
-        totalScore += playerScore.value;
+        totalScore += playerScore.value
       }
-    });
+    })
 
     if (gameHistory.length > 0) {
-      console.log('gameHistory', gameHistory);
-      const lastGame = gameHistory[gameHistory.length - 1][1];
+      console.log('gameHistory', gameHistory)
+      const lastGame = gameHistory[gameHistory.length - 1][1]
       const playerLastScore = lastGame.scores.find(
         (score) => score.key === player.name
-      );
+      )
       if (playerLastScore) {
-        lastRoundScore = playerLastScore.value;
+        lastRoundScore = playerLastScore.value
       }
     }
 
@@ -44,26 +42,26 @@ export default function PlayerList({
       player,
       totalScore,
       lastRoundScore,
-    };
-  });
+    }
+  })
 
-  const sortedPlayers = playerStats.sort((a, b) => b.totalScore - a.totalScore);
+  const sortedPlayers = playerStats.sort((a, b) => b.totalScore - a.totalScore)
 
   const playersWithPlaces: ((typeof sortedPlayers)[0] & { place: number })[] =
-    [];
+    []
   for (let i = 0; i < sortedPlayers.length; i++) {
-    let place = i + 1;
+    let place = i + 1
     // If previous player has same score, use same place number
     if (
       i > 0 &&
       sortedPlayers[i].totalScore === sortedPlayers[i - 1].totalScore
     ) {
-      place = playersWithPlaces[i - 1].place;
+      place = playersWithPlaces[i - 1].place
     }
     playersWithPlaces.push({
       ...sortedPlayers[i],
       place,
-    });
+    })
   }
 
   return (
@@ -75,7 +73,7 @@ export default function PlayerList({
 
         <View className="gap-2">
           {playersWithPlaces.map((playerStat) => {
-            const isCurrentPlayer = playerStat.playerId === currentPlayerId;
+            const isCurrentPlayer = playerStat.playerId === currentPlayerId
             return (
               <PlayerListEntry
                 key={playerStat.playerId}
@@ -85,7 +83,7 @@ export default function PlayerList({
                 totalScore={playerStat.totalScore}
                 lastRoundScore={playerStat.lastRoundScore}
               />
-            );
+            )
           })}
           {Array.from(
             { length: MAX_AMOUNT_OF_PLAYERS - players.length },
@@ -95,11 +93,11 @@ export default function PlayerList({
                   key={`placeholder-${index}`}
                   isCurrentPlayer={false}
                 />
-              );
+              )
             }
           )}
         </View>
       </View>
     </View>
-  );
+  )
 }
