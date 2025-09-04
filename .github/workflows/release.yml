@@ -1,9 +1,11 @@
 name: release
 
+
 on:
   push:
     branches:
     - main
+
 
 jobs:
   release:
@@ -21,6 +23,7 @@ jobs:
         with:
           token: ${{ secrets.GH_PAT_RELEASE_PLEASE }}
 
+
   build-backend:
     needs: release
     if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'backend-party-battle')
@@ -36,6 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+
       - name: Derive backend version from release outputs
         id: derive_backend_version
         env:
@@ -46,14 +50,17 @@ jobs:
           echo "BACKEND_VERSION=$ver" >> $GITHUB_ENV
           echo "backend_version=$ver" >> $GITHUB_OUTPUT
 
+
       - name: Setup Blacksmith Builder
         uses: useblacksmith/setup-docker-builder@v1
+
 
       - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
 
       - uses: useblacksmith/build-push-action@v2
         with:
@@ -69,6 +76,7 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache
           cache-to: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache,mode=max
 
+
   trigger-backend-deployment:
     needs: build-backend
     runs-on: ubuntu-latest
@@ -80,6 +88,7 @@ jobs:
           repository: Calfur/calfur-dev
           event-type: add-party-battle-backend-version
           client-payload: '{"image_version":"${{ needs.build-backend.outputs.image_version }}","backend_version":"${{ needs.build-backend.outputs.backend_version }}"}'
+
 
   build-web:
     needs: release
@@ -93,14 +102,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+
       - name: Setup Blacksmith Builder
         uses: useblacksmith/setup-docker-builder@v1
+
 
       - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
 
       - uses: useblacksmith/build-push-action@v2
         with:
@@ -114,6 +126,7 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/thirty-degrees/frontend-party-battle-web:buildcache
           cache-to: type=registry,ref=ghcr.io/thirty-degrees/frontend-party-battle-web:buildcache,mode=max
 
+
   build-android:
     needs: release
     if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'frontend-party-battle')
@@ -125,6 +138,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -132,11 +146,13 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
+
       - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
+
 
       - name: Cache Android SDK
         uses: actions/cache@v4
@@ -147,18 +163,23 @@ jobs:
           restore-keys: |
             android-sdk-${{ runner.os }}-
 
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+
 
       - name: Install Android build tools
         if: steps.android-sdk-cache.outputs.cache-hit != 'true'
         run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
+
       - name: Install dependencies
         run: npm ci
 
+
       - name: Build shared types
         run: npm run -w types-party-battle build
+
 
       - name: Cache Expo prebuild
         uses: actions/cache@v4
@@ -171,10 +192,12 @@ jobs:
           restore-keys: |
             expo-prebuild-${{ runner.os }}-
 
+
       - name: Prebuild native Android project
         if: steps.expo-prebuild-cache.outputs.cache-hit != 'true'
         working-directory: ./frontend-party-battle
         run: npx expo prebuild --platform android --non-interactive
+
 
       - name: Decode Android keystore
         working-directory: ./frontend-party-battle
@@ -187,6 +210,7 @@ jobs:
           printf %s "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
           echo "KEYSTORE_PATH=$(pwd)/android/app/keystore.jks" >> "$GITHUB_ENV"
 
+
       - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
@@ -197,6 +221,7 @@ jobs:
           key: gradle-${{ runner.os }}-${{ hashFiles('frontend-party-battle/android/gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
             gradle-${{ runner.os }}-
+
 
       - name: Build Android AAB with Gradle
         working-directory: ./frontend-party-battle/android
@@ -213,6 +238,7 @@ jobs:
             -Pandroid.injected.signing.store.type=PKCS12 \
             --build-cache --no-daemon
 
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -221,6 +247,7 @@ jobs:
             frontend-party-battle/android/app/build/outputs/bundle/release/app-release.aab
             frontend-party-battle/android/app/build/outputs/mapping/release/mapping.txt
           if-no-files-found: error
+
 
   deploy-android:
     needs: build-android
@@ -233,6 +260,7 @@ jobs:
           name: android-release
           path: dist
 
+
       - name: Upload to Google Play (internal)
         uses: r0adkll/upload-google-play@v1
         with:
@@ -242,3 +270,69 @@ jobs:
           mappingFile: dist/mapping/release/mapping.txt
           track: internal
           status: draft
+
+  # --------------------------------------------
+  # iOS: Local EAS build on macOS using EAS-managed (remote) credentials
+  # --------------------------------------------
+  build-ios:
+    needs: release
+    if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'frontend-party-battle')
+    runs-on: macos-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "latest-stable"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build shared types
+        run: npm run -w types-party-battle build
+
+      - name: Cache Expo prebuild
+        uses: actions/cache@v4
+        id: expo-prebuild-cache-ios
+        with:
+          path: |
+            frontend-party-battle/android
+            frontend-party-battle/ios
+          key: expo-prebuild-${{ runner.os }}-${{ hashFiles('frontend-party-battle/package*.json', 'frontend-party-battle/app.config.ts', 'frontend-party-battle/app.json') }}
+          restore-keys: |
+            expo-prebuild-${{ runner.os }}-
+
+      - name: Prebuild native iOS project
+        if: steps.expo-prebuild-cache-ios.outputs.cache-hit != 'true'
+        working-directory: ./frontend-party-battle
+        run: npx expo prebuild --platform ios --non-interactive
+
+      - name: Install EAS CLI
+        run: npm i -g eas-cli
+
+      # Local build that fetches signing from EAS-managed credentials (credentialsSource: remote)
+      - name: EAS local iOS build (managed creds)
+        working-directory: ./frontend-party-battle
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          mkdir -p ../dist/ios
+          npx eas-cli build --platform ios --profile production --local --non-interactive --output ../dist/ios/app.ipa
+
+      - name: Upload iOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-release
+          path: dist/ios/app.ipa
+          if-no-files-found: error
+

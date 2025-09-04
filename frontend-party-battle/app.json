@@ -2,7 +2,8 @@
   "expo": {
     "version": "2.3.0",
     "ios": {
-      "buildNumber": "2.3.0"
+      "buildNumber": "2.3.0",
+      "bundleIdentifier": "ch.thirtydegrees.partybattle"
     },
     "android": {
       "versionCode": 530020300

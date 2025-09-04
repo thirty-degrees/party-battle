@@ -1,0 +1,36 @@
+name: iOS Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact_name:
+        description: 'Name of the iOS artifact to deploy'
+        required: true
+        default: 'ios-release'
+        type: string
+
+jobs:
+  deploy-ios:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          name: ${{ github.event.inputs.artifact_name }}
+          path: dist/ios
+
+      - name: Install EAS CLI
+        run: npm i -g eas-cli
+
+      - name: Prepare ASC API Key
+        env:
+          ASC_API_KEY_JSON_BASE64: ${{ secrets.ASC_API_KEY_JSON_BASE64 }}
+        run: |
+          echo "$ASC_API_KEY_JSON_BASE64" | base64 --decode > asc-api-key.json
+
+      - name: Submit to App Store (draft)
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          npx eas-cli submit -p ios --path dist/ios/app.ipa --non-interactive --asc-api-key-path asc-api-key.json
