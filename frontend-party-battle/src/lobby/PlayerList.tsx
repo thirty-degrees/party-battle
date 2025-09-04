@@ -1,36 +1,37 @@
 import { Text, View } from 'react-native'
 
-import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle'
-import { GameHistoryData, PlayerData } from './LobbyContent'
+import { GameHistory, MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle'
+import { PlayerData } from './LobbyContent'
 import PlayerListEntry from './PlayerListEntry'
 
 interface LobbyScreenProps {
   players: [string, PlayerData][]
-  gameHistory: [string | number, GameHistoryData][]
+  gameHistories: [number, GameHistory][]
   currentPlayerId?: string
 }
 
 export default function PlayerList({
   players,
-  gameHistory,
+  gameHistories,
   currentPlayerId,
 }: LobbyScreenProps) {
   const playerStats = players.map(([playerId, player]) => {
     let totalScore = 0
     let lastRoundScore = 0
 
-    gameHistory.forEach(([, game]) => {
-      const playerScore = game.scores.find((score) => score.key === player.name)
+    gameHistories.forEach(([, gameHistory]) => {
+      const playerScore = gameHistory?.scores?.find(
+        (score) => score.playerName === player.name
+      )
       if (playerScore) {
         totalScore += playerScore.value
       }
     })
 
-    if (gameHistory.length > 0) {
-      console.log('gameHistory', gameHistory)
-      const lastGame = gameHistory[gameHistory.length - 1][1]
-      const playerLastScore = lastGame.scores.find(
-        (score) => score.key === player.name
+    if (gameHistories.length > 0) {
+      const lastGame = gameHistories[gameHistories.length - 1][1]
+      const playerLastScore = lastGame?.scores?.find(
+        (score) => score.playerName === player.name
       )
       if (playerLastScore) {
         lastRoundScore = playerLastScore.value

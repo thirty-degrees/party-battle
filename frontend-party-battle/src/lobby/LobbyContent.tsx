@@ -11,24 +11,15 @@ import { Room } from 'colyseus.js'
 import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Share, View } from 'react-native'
-import {
-  GameType,
-  KeyValuePairNumberInterface,
-  Lobby,
-} from 'types-party-battle'
+import { GameHistory, LobbySchema } from 'types-party-battle'
 
 export interface PlayerData {
   name: string
   ready: boolean
 }
 
-export interface GameHistoryData {
-  gameType: GameType
-  scores: KeyValuePairNumberInterface[]
-}
-
 interface LobbyContentProps {
-  room: Room<Lobby>
+  room: Room<LobbySchema>
 }
 
 export default function LobbyContent({ room }: LobbyContentProps) {
@@ -38,15 +29,16 @@ export default function LobbyContent({ room }: LobbyContentProps) {
         [id, { name: player.name, ready: player.ready }] as [string, PlayerData]
     )
   )
-  const gameHistory = useColyseusState(room, (state) =>
-    Array.from(state.gameHistory?.entries() || []).map(
+  const gameHistories = useColyseusState(room, (state) =>
+    Array.from(state.gameHistories?.entries() || []).map(
       ([id, game]) =>
-        [id, { gameType: game.gameType, scores: game.scores }] as [
-          string | number,
-          GameHistoryData,
+        [id, { gameType: game.gameType, scores: game.scores?.toArray() }] as [
+          number,
+          GameHistory,
         ]
     )
   )
+
   const currentGame = useColyseusState(room, (state) => state.currentGame)
   const currentGameRoomId = useColyseusState(
     room,
@@ -136,7 +128,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
           <View className="flex-row w-full">
             <PlayerList
               players={players}
-              gameHistory={gameHistory}
+              gameHistories={gameHistories}
               currentPlayerId={room.sessionId}
             />
           </View>

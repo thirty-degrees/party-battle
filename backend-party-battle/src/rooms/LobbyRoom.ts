@@ -1,20 +1,22 @@
 import { Client, matchMaker, Room } from "@colyseus/core";
 import {
   GameHistory,
-  Lobby,
+  GameHistorySchema,
   LobbyPlayer,
+  LobbySchema,
   MAX_AMOUNT_OF_PLAYERS,
+  ScoreSchema
 } from "types-party-battle";
 import { RoomIds } from "../app.config";
 
-export class LobbyRoom extends Room<Lobby> {
+export class LobbyRoom extends Room<LobbySchema> {
   private gameRoomId: string | null = null;
   private playersInGame = new Set<string>();
 
   onCreate(_options: { name: string }) {
     this.autoDispose = false;
 
-    this.state = new Lobby();
+    this.state = new LobbySchema();
 
     this.maxClients = MAX_AMOUNT_OF_PLAYERS;
 
@@ -29,8 +31,14 @@ export class LobbyRoom extends Room<Lobby> {
       this.checkAllPlayersReady();
     });
 
-    this.presence.subscribe("score-" + this.roomId, (_data: GameHistory) => {
-      //this.state.gameHistory.add(data);
+    this.presence.subscribe("score-" + this.roomId, (data: GameHistory) => {
+      const gameHistory = new GameHistorySchema(data.gameType);
+      data.scores.forEach((score) => {
+        const scoreSchema = new ScoreSchema(score.playerName, score.value);
+        gameHistory.scores.push(scoreSchema);
+      });
+      this.state.gameHistories.push(gameHistory);
+
       this.state.currentGame = null;
       this.state.currentGameRoomId = null;
       this.state.players.forEach((player) => {

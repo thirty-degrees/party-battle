@@ -1,5 +1,6 @@
-import { CollectionSchema, MapSchema, Schema, type } from "@colyseus/schema";
-import { GameHistory } from "./GameHistory.js";
+import { ArraySchema, MapSchema, Schema, type } from "@colyseus/schema";
+import { GameType } from "./Game";
+import { GameHistorySchema } from "./GameHistory";
 
 export class Player extends Schema {
   @type("string") name: string = "";
@@ -9,10 +10,9 @@ export class LobbyPlayer extends Player {
   @type("boolean") ready: boolean = false;
 }
 
-export class Lobby extends Schema {
+export class LobbySchema extends Schema {
   @type({ map: LobbyPlayer }) players = new MapSchema<LobbyPlayer>();
-  @type("string") currentGame?: "croc" | "snake" | null = null;
-  @type("string") currentGameRoomId?: string | null = null;
-  @type({ collection: GameHistory }) gameHistory =
-    new CollectionSchema<GameHistory>();
+  @type("string") currentGame?: GameType | null;
+  @type("string") currentGameRoomId?: string | null;
+  @type([GameHistorySchema]) gameHistories = new ArraySchema<GameHistorySchema>();
 }

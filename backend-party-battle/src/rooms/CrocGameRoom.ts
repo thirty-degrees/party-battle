@@ -2,8 +2,8 @@ import { Client, Room } from "@colyseus/core";
 import {
   CrocGame,
   GameHistory,
-  KeyValuePairNumber,
   MAX_AMOUNT_OF_PLAYERS,
+  Score,
 } from "types-party-battle";
 
 export class CrocGameRoom extends Room<CrocGame> {
@@ -22,20 +22,23 @@ export class CrocGameRoom extends Room<CrocGame> {
     );
 
     setTimeout(() => {
-      const gameHistory = new GameHistory("croc");
+      const gameHistory: GameHistory = {
+        gameType: "croc",
+        scores: [],
+      };
 
       this.players.forEach((playerName) => {
-        const playerScore: KeyValuePairNumber = new KeyValuePairNumber(
+        const playerScore: Score = {
           playerName,
-          1
-        );
+          value: 33,
+        };
         gameHistory.scores.push(playerScore);
       });
 
       this.presence.publish("score-" + options.lobbyRoomId, gameHistory);
       this.state.gameState = "finished";
-      console.log("Game state changed to finished after 3 seconds");
-    }, 3000);
+      console.log("Game state changed to finished after 2 seconds");
+    }, 2000);
   }
 
   onJoin(client: Client, options: { name: string }) {

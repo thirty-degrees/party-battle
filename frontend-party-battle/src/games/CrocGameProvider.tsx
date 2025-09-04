@@ -45,7 +45,6 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
         return
       }
 
-      console.log('joining croc game')
       hasJoinedRef.current = true
       setIsLoading(true)
       const client = new Client(Constants.expoConfig?.extra?.backendUrl)
