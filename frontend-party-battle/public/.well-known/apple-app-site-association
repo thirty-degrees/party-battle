@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appIDs": ["TEAMID.ch.thirtydegrees.partybattle"],
+        "appIDs": ["LY3VH5HGF5.ch.thirtydegrees.partybattle"],
         "components": [
           { "/": "/*" }
         ]
