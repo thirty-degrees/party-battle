@@ -1,34 +1,34 @@
-import useColyseusState from '@/colyseus/useColyseusState';
-import SafeAreaPlaceholder from '@/components/SafeAreaPlaceholder';
-import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
-import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon';
-import { QrCodeModal } from '@/components/ui/modal/qr-code-modal';
-import { Text } from '@/components/ui/text';
-import { useLobbyContext } from '@/lobby/LobbyProvider';
-import PlayerList from '@/lobby/PlayerList';
-import createWebURL from '@/routing/createWebUrl';
-import { Room } from 'colyseus.js';
-import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Share, View } from 'react-native';
+import SafeAreaPlaceholder from '@/components/SafeAreaPlaceholder'
+import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
+import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon'
+import { QrCodeModal } from '@/components/ui/modal/qr-code-modal'
+import { Text } from '@/components/ui/text'
+import useColyseusState from '@/src/colyseus/useColyseusState'
+import { useLobbyContext } from '@/src/lobby/LobbyProvider'
+import PlayerList from '@/src/lobby/PlayerList'
+import createWebURL from '@/src/routing/createWebUrl'
+import { Room } from 'colyseus.js'
+import { useRouter } from 'expo-router'
+import { useEffect, useState } from 'react'
+import { Share, View } from 'react-native'
 import {
   GameType,
   KeyValuePairNumberInterface,
   Lobby,
-} from 'types-party-battle';
+} from 'types-party-battle'
 
 export interface PlayerData {
-  name: string;
-  ready: boolean;
+  name: string
+  ready: boolean
 }
 
 export interface GameHistoryData {
-  gameType: GameType;
-  scores: KeyValuePairNumberInterface[];
+  gameType: GameType
+  scores: KeyValuePairNumberInterface[]
 }
 
 interface LobbyContentProps {
-  room: Room<Lobby>;
+  room: Room<Lobby>
 }
 
 export default function LobbyContent({ room }: LobbyContentProps) {
@@ -37,7 +37,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
       ([id, player]) =>
         [id, { name: player.name, ready: player.ready }] as [string, PlayerData]
     )
-  );
+  )
   const gameHistory = useColyseusState(room, (state) =>
     Array.from(state.gameHistory?.entries() || []).map(
       ([id, game]) =>
@@ -46,52 +46,52 @@ export default function LobbyContent({ room }: LobbyContentProps) {
           GameHistoryData,
         ]
     )
-  );
-  const currentGame = useColyseusState(room, (state) => state.currentGame);
+  )
+  const currentGame = useColyseusState(room, (state) => state.currentGame)
   const currentGameRoomId = useColyseusState(
     room,
     (state) => state.currentGameRoomId
-  );
+  )
 
-  const [isReady, setIsReady] = useState(false);
-  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
-  const router = useRouter();
-  const { leaveLobby } = useLobbyContext();
+  const [isReady, setIsReady] = useState(false)
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false)
+  const router = useRouter()
+  const { leaveLobby } = useLobbyContext()
 
-  const partyCode = room.roomId;
-  const shareUrl = createWebURL(`/?partyCode=${partyCode}`);
+  const partyCode = room.roomId
+  const shareUrl = createWebURL(`/?partyCode=${partyCode}`)
 
   useEffect(() => {
     if (currentGame && currentGameRoomId) {
       switch (currentGame) {
         case 'croc':
-          router.push(`/games/croc?roomId=${currentGameRoomId}`);
-          break;
+          router.push(`/games/croc?roomId=${currentGameRoomId}`)
+          break
         case 'snake':
-          throw new Error('Snake game redirection not implemented yet');
+          throw new Error('Snake game redirection not implemented yet')
         default:
-          throw new Error(`Unknown game type: ${currentGameRoomId}`);
+          throw new Error(`Unknown game type: ${currentGameRoomId}`)
       }
     }
-  }, [currentGame, currentGameRoomId, router]);
+  }, [currentGame, currentGameRoomId, router])
 
   const onToggleReady = () => {
-    room.send('ready', !isReady);
-    setIsReady((prev) => !prev);
-  };
+    room.send('ready', !isReady)
+    setIsReady((prev) => !prev)
+  }
 
   const handleShare = async () => {
     try {
       await Share.share({
         url: shareUrl,
-      });
+      })
     } catch {}
-  };
+  }
 
   const handleLeaveParty = () => {
-    leaveLobby();
-    router.push('/');
-  };
+    leaveLobby()
+    router.push('/')
+  }
 
   return (
     <View className="flex-1 bg-background-0 dark:bg-background-950">
@@ -157,5 +157,5 @@ export default function LobbyContent({ room }: LobbyContentProps) {
         roomUrl={shareUrl}
       />
     </View>
-  );
+  )
 }

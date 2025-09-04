@@ -10,8 +10,8 @@ import { JoinRoomModal } from '@/components/ui/modal/join-room-modal'
 import { Text } from '@/components/ui/text'
 
 import SafeAreaPlaceholder from '@/components/SafeAreaPlaceholder'
-import { usePlayerName } from '@/index/PlayerNameProvider'
-import { useLobbyContext } from '@/lobby/LobbyProvider'
+import { usePlayerName } from '@/src/index/PlayerNameProvider'
+import { useLobbyContext } from '@/src/lobby/LobbyProvider'
 import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle'
 
 export default function HomeScreen() {

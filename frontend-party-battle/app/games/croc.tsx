@@ -1,6 +1,6 @@
 import Loading from '@/components/Loading'
-import CrocGameContent from '@/games/CrocGameContent'
-import { CrocGameProvider, useCrocGameContext } from '@/games/CrocGameProvider'
+import CrocGameContent from '@/src/games/CrocGameContent'
+import { CrocGameProvider, useCrocGameContext } from '@/src/games/CrocGameProvider'
 import { useLocalSearchParams } from 'expo-router'
 import { useEffect, useRef } from 'react'
 
