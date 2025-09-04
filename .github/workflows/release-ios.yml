@@ -58,6 +58,7 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
           mkdir -p ../dist/ios
+          npm run build
           npx eas-cli build --platform ios --profile production --local --non-interactive --output ../dist/ios/app.ipa
 
       - name: Upload iOS artifact
