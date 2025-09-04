@@ -12,7 +12,7 @@ export default function CrocGameContent({ room }: CrocGameProps) {
 
   return (
     <View className="flex-1 bg-white dark:bg-black justify-center items-center space-y-6">
-      <Text className="text-black dark:text-white text-2xl font-bold">
+     <Text className="text-black dark:text-white text-2xl font-bold">
         Croc Mini Game
       </Text>
       <Text className="text-black dark:text-white text-lg">

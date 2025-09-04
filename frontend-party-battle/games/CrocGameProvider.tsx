@@ -2,7 +2,7 @@ import { usePlayerName } from '@/index/PlayerNameProvider';
 import { Client, Room } from 'colyseus.js';
 import Constants from 'expo-constants';
 import { router } from 'expo-router';
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { CrocGame } from 'types-party-battle';
 
 export type CrocGameContextType = {
@@ -35,32 +35,22 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const joinCrocGame = useCallback(
     (roomId: string) => {
-      try {
-        setIsLoading(true);
-        const client = new Client(Constants.expoConfig?.extra?.backendUrl);
-        client
-          .joinById<CrocGame>(roomId, {
-            name: playerName,
-          })
-          .then((joinedRoom) => {
-            joinedRoom.onStateChange((state) => {
-              if (state.gameState === 'finished') {
-                router.replace('/lobby');
-              }
-            });
-
-            setRoom(joinedRoom);
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            console.error('Failed to join croc game:', error);
-            setIsLoading(false);
+      setIsLoading(true);
+      const client = new Client(Constants.expoConfig?.extra?.backendUrl);
+      client
+        .joinById<CrocGame>(roomId, {
+          name: playerName,
+        })
+        .then((joinedRoom) => {
+          joinedRoom.onStateChange((state) => {
+            if (state.gameState === 'finished') {
+              router.replace('/lobby');
+            }
           });
-      } catch (error) {
-        console.error('Failed to join croc game:', error);
-        setIsLoading(false);
-        throw error;
-      }
+
+          setRoom(joinedRoom);
+          setIsLoading(false);
+        });
     },
     [playerName]
   );
@@ -72,12 +62,15 @@ export const CrocGameProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [room]);
 
-  const value = {
-    room,
-    isLoading,
-    joinCrocGame,
-    leaveCrocGame,
-  };
+  const value = useMemo(
+    () => ({
+      room,
+      isLoading,
+      joinCrocGame,
+      leaveCrocGame,
+    }),
+    [room, isLoading, joinCrocGame, leaveCrocGame]
+  );
 
   return (
     <CrocGameContext.Provider value={value}>

@@ -29,10 +29,7 @@ export class LobbyRoom extends Room<Lobby> {
       this.checkAllPlayersReady();
     });
 
-    this.presence.subscribe("score-" + this.roomId, (data: GameHistory) => {
-      console.log("received message:", data);
-      console.log("received message:", data.gameType);
-      console.log("received message:", data.scores.length);
+    this.presence.subscribe("score-" + this.roomId, (_data: GameHistory) => {
       //this.state.gameHistory.add(data);
       this.state.currentGame = null;
       this.state.currentGameRoomId = null;

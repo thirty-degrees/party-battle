@@ -65,7 +65,6 @@ export default function LobbyContent({ room }: LobbyContentProps) {
     if (currentGame && currentGameRoomId) {
       switch (currentGame) {
         case 'croc':
-          console.log('redirecting to croc game');
           router.push(`/games/croc?roomId=${currentGameRoomId}`);
           break;
         case 'snake':

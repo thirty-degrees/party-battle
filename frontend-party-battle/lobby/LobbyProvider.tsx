@@ -1,6 +1,6 @@
 import { Client, Room } from 'colyseus.js';
 import Constants from 'expo-constants';
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { Lobby } from 'types-party-battle';
 
 export type LobbyContextType = {
@@ -66,13 +66,16 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [room]);
 
-  const value: LobbyContextType = {
-    room,
-    isLoading,
-    joinLobby,
-    createLobby,
-    leaveLobby,
-  };
+  const value: LobbyContextType = useMemo(
+    () => ({
+      room,
+      isLoading,
+      joinLobby,
+      createLobby,
+      leaveLobby,
+    }),
+    [room, isLoading, joinLobby, createLobby, leaveLobby]
+  );
 
   return (
     <LobbyContext.Provider value={value}>{children}</LobbyContext.Provider>

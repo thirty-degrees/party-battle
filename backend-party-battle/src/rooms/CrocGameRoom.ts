@@ -24,7 +24,6 @@ export class CrocGameRoom extends Room<CrocGame> {
     setTimeout(() => {
       const gameHistory = new GameHistory("croc");
 
-      console.log("create gameHistory", gameHistory);
       this.players.forEach((playerName) => {
         const playerScore: KeyValuePairNumber = new KeyValuePairNumber(
           playerName,
@@ -33,7 +32,6 @@ export class CrocGameRoom extends Room<CrocGame> {
         gameHistory.scores.push(playerScore);
       });
 
-      console.log("publish gameHistory", gameHistory);
       this.presence.publish("score-" + options.lobbyRoomId, gameHistory);
       this.state.gameState = "finished";
       console.log("Game state changed to finished after 3 seconds");
