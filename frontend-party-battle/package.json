@@ -2,7 +2,7 @@
   "name": "frontend-party-battle",
   "private": true,
   "main": "expo-router/entry",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "type": "commonjs",
   "scripts": {
     "start": "npx expo start -c",

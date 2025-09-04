@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.2.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.1.1...frontend-party-battle-v2.2.0) (2025-09-04)
+
+
+### Features
+
+* move lobby buttons to the top ([67abd33](https://github.com/thirty-degrees/party-battle/commit/67abd33a90cefc53d3c6122ad70cd8c0e6cf52eb))
+* share buttons on lobby screen ([1bdebb5](https://github.com/thirty-degrees/party-battle/commit/1bdebb568d8b927223b387c2e6d935e13ac33677))
+* share link is always weblink ([d6ccc32](https://github.com/thirty-degrees/party-battle/commit/d6ccc327bb4b2f8cd5239f037b97d2c9f7600153))
+
+
+### Bug Fixes
+
+* aria-focus warning ([25e1df3](https://github.com/thirty-degrees/party-battle/commit/25e1df35b94fd9fe760d4342f5a2376b94fe8099))
+* lint errors ([8f7f4e6](https://github.com/thirty-degrees/party-battle/commit/8f7f4e66f1ccbf60109994365e369016c6aafcc0))
+
 ## [2.1.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.1.0...frontend-party-battle-v2.1.1) (2025-09-01)
 
 
