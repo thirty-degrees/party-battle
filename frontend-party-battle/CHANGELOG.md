@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.2.0...frontend-party-battle-v2.3.0) (2025-09-04)
+
+
+### Features
+
+* well-known files for link redirection to native app ([b83a256](https://github.com/thirty-degrees/party-battle/commit/b83a256c8f7e9242f0e7958cafdeaabd4641e0a4))
+
 ## [2.2.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.1.1...frontend-party-battle-v2.2.0) (2025-09-04)
 
 
