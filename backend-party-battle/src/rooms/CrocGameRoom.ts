@@ -10,16 +10,11 @@ export class CrocGameRoom extends Room<CrocGame> {
   private players = new Map<string, string>();
 
   onCreate(options: { lobbyRoomId: string }) {
-    this.autoDispose = false;
-
+    console.log(`CrocGameRoom.onCreate: roomId: '${this.roomId}', lobbyRoomId: '${options.lobbyRoomId}'`);
+    
+    this.autoDispose = true;
     this.maxClients = MAX_AMOUNT_OF_PLAYERS;
     this.state = new CrocGame();
-    console.log(
-      "CrocMiniGameRoom created:",
-      this.roomId,
-      "from lobby:",
-      options.lobbyRoomId
-    );
 
     setTimeout(() => {
       const gameHistory: GameHistory = {
@@ -37,18 +32,21 @@ export class CrocGameRoom extends Room<CrocGame> {
 
       this.presence.publish("score-" + options.lobbyRoomId, gameHistory);
       this.state.gameState = "finished";
-      console.log("Game state changed to finished after 2 seconds");
+      console.log("TEMP: Game state changed to finished after 2 seconds");
     }, 2000);
   }
 
   onJoin(client: Client, options: { name: string }) {
+    console.log(`CrocGameRoom.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`);
     this.players.set(client.sessionId, options.name);
-    console.log(`Player ${client.sessionId} joined croc game`);
   }
 
   onLeave(client: Client, _consented: boolean) {
+    console.log(`CrocGameRoom.onLeave: roomId: '${this.roomId}', playerId: '${client.sessionId}'`);
     this.players.delete(client.sessionId);
   }
 
-  onDispose() {}
+  onDispose() {
+    console.log(`CrocGameRoom.onDispose: roomId: '${this.roomId}'`);
+  }
 }
