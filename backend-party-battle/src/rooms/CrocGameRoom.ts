@@ -31,8 +31,8 @@ export class CrocGameRoom extends Room<CrocGameSchema> {
       });
 
       this.presence.publish("score-" + options.lobbyRoomId, gameHistory);
-      this.state.gameState = "finished";
-      console.log("TEMP: Game state changed to finished after 2 seconds");
+      this.state.status = "finished";
+      console.log("TEMP: Game status changed to finished after 2 seconds");
     }, 2000);
   }
 

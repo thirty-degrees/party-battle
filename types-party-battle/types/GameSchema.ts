@@ -2,13 +2,13 @@ import { Schema, type } from "@colyseus/schema";
 
 export type GameType = "croc" | "snake";
 
-export type GameState = "waiting" | "playing" | "finished";
+export type GameStatus = "waiting" | "playing" | "finished";
 
 export abstract class GameSchema extends Schema {
-  @type("string") gameState: GameState;
+  @type("string") status: GameStatus;
 
-  constructor(gameState: GameState) {
+  constructor(status: GameStatus) {
     super();
-    this.gameState = gameState;
+    this.status = status;
   }
 }
