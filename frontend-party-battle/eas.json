@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": "16.17.4"
+    "version": "16.17.4",
+    "appVersionSource": "local"
   },
   "build": {
     "production": {
@@ -9,6 +10,11 @@
         "distribution": "store",
         "credentialsSource": "local",
         "gradleCommand": ":app:bundleRelease"
+      },
+      "ios": {
+        "distribution": "store",
+        "credentialsSource": "local",
+        "autoIncrement": false
       }
     }
   },
@@ -21,4 +27,3 @@
     }
   }
 }
-
