@@ -49,7 +49,7 @@ jobs:
         run: npx expo prebuild --platform ios --non-interactive
 
       - name: Install EAS CLI
-        run: npm i -g eas-cli@16.17.4
+        run: npm i -g eas-cli@16.18.0
 
       # Local build that fetches signing from EAS-managed credentials (credentialsSource: remote)
       - name: EAS local iOS build (managed creds)
@@ -82,7 +82,7 @@ jobs:
           path: dist/ios
 
       - name: Install EAS CLI
-        run: npm i -g eas-cli@16.17.4
+        run: npm i -g eas-cli@16.18.0
 
       - name: Prepare ASC API Key
         env:

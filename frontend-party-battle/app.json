@@ -2,11 +2,16 @@
   "expo": {
     "version": "2.3.0",
     "ios": {
-      "buildNumber": "2.3.0",
-      "bundleIdentifier": "ch.thirtydegrees.partybattle"
+      "buildNumber": "2.3.0"
     },
     "android": {
       "versionCode": 530020300
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8907377f-75e3-4efd-9a3a-4556dfda4c47"
+      }
+    },
+    "owner": "thirty-degrees"
   }
 }
