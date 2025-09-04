@@ -92,7 +92,7 @@ export default function LobbyContent({ room }: LobbyContentProps) {
     <View className="flex-1 bg-background-0 dark:bg-background-950">
       <SafeAreaPlaceholder position="top" />
       <View className="flex-1 p-4 justify-center items-center">
-        <View className="flex-1 max-w-md w-full justify-evenly items-center">
+        <View className="flex-1 max-w-md w-full justify-between items-center">
           <View className="flex-row items-center justify-between gap-2 w-full">
             <View className="flex-col items-center">
               <Text className="text-sm text-typography-600 dark:text-typography-400">
@@ -128,18 +128,20 @@ export default function LobbyContent({ room }: LobbyContentProps) {
             </View>
           </View>
 
-          <View className="flex-row w-full">
-            <PlayerList
-              players={players}
-              gameHistories={gameHistories}
-              currentPlayerId={room.sessionId}
-            />
-          </View>
+          <View className="flex-1 w-full justify-evenly items-center">
+            <View className="flex-row w-full">
+              <PlayerList
+                players={players}
+                gameHistories={gameHistories}
+                currentPlayerId={room.sessionId}
+              />
+            </View>
 
-          <View className="flex-row w-full justify-center">
-            <Button size="xl" action={'primary'} onPress={onToggleReady}>
-              <ButtonText>{isReady ? 'CANCEL' : 'PLAY'}</ButtonText>
-            </Button>
+            <View className="flex-row w-full justify-center">
+              <Button size="xl" action={'primary'} onPress={onToggleReady}>
+                <ButtonText>{isReady ? 'CANCEL' : 'PLAY'}</ButtonText>
+              </Button>
+            </View>
           </View>
         </View>
       </View>
