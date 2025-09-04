@@ -14,7 +14,7 @@ export class CrocGameRoom extends Room<CrocGameSchema> {
     
     this.autoDispose = true;
     this.maxClients = MAX_AMOUNT_OF_PLAYERS;
-    this.state = new CrocGameSchema();
+    this.state = new CrocGameSchema("waiting");
 
     setTimeout(() => {
       const gameHistory: GameHistory = {

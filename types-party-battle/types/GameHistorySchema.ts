@@ -9,6 +9,11 @@ export interface GameHistory {
 }
 
 export class GameHistorySchema extends Schema {
-  @type("string") gameType!: GameType;
+  @type("string") gameType: GameType;
   @type([ScoreSchema]) scores = new ArraySchema<ScoreSchema>();
+
+  constructor(gameType: GameType) {
+    super();
+    this.gameType = gameType;
+  }
 }

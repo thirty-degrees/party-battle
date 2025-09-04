@@ -24,9 +24,7 @@ export class LobbyRoom extends Room<LobbySchema> {
 
   onJoin(client: Client, options: { name: string }) {
     console.log(`LobbyRoom.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`);
-    const player = new LobbyPlayerSchema();
-    player.name = options.name;
-    player.ready = false;
+    const player = new LobbyPlayerSchema(options.name, false);
     this.state.players.set(client.sessionId, player);
   }
 
@@ -56,12 +54,9 @@ export class LobbyRoom extends Room<LobbySchema> {
     this.presence.subscribe("score-" + this.roomId, (data: GameHistory) => {
       console.log(`LobbyRoom.presence.subscribe(score-${this.roomId})}`);
 
-      const gameHistory = new GameHistorySchema();
-      gameHistory.gameType = data.gameType;
+      const gameHistory = new GameHistorySchema(data.gameType);
       data.scores.forEach((score) => {
-        const scoreSchema = new ScoreSchema();
-        scoreSchema.playerName = score.playerName;
-        scoreSchema.value = score.value;
+        const scoreSchema = new ScoreSchema(score.playerName, score.value);
         gameHistory.scores.push(scoreSchema);
       });
       this.state.gameHistories.push(gameHistory);
