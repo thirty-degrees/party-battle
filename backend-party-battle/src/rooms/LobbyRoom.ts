@@ -18,33 +18,8 @@ export class LobbyRoom extends Room<LobbySchema> {
     this.maxClients = MAX_AMOUNT_OF_PLAYERS;
     this.state = new LobbySchema();
 
-    this.onMessage('SetPlayerReady', async (client: Client, ready: boolean) => {
-      const player = this.state.players.get(client.sessionId);
-      console.log(`LobbyRoom.onMessage(SetPlayerReady): roomId: '${this.roomId}', playerName: '${player.name}', ready: ${ready}`);
-
-      player.ready = ready;
-
-      if (this.areAllPlayersReady()) {
-        await this.createGameRoom("croc");
-      }
-    });
-
-    this.presence.subscribe("score-" + this.roomId, (data: GameHistory) => {
-      console.log(`LobbyRoom.presence.subscribe(score-${this.roomId})}`);
-
-      const gameHistory = new GameHistorySchema(data.gameType);
-      data.scores.forEach((score) => {
-        const scoreSchema = new ScoreSchema(score.playerName, score.value);
-        gameHistory.scores.push(scoreSchema);
-      });
-      this.state.gameHistories.push(gameHistory);
-
-      this.state.players.forEach((player) => {
-        player.ready = false;
-      });
-      this.state.currentGameRoomId = null;
-      this.state.currentGame = null;
-    });
+    this.registerSetPlayerReady();
+    this.registerScoreSubscription();
   }
 
   onJoin(client: Client, options: { name: string }) {
@@ -62,6 +37,38 @@ export class LobbyRoom extends Room<LobbySchema> {
 
   onDispose() {
     console.log(`LobbyRoom.onDispose: roomId: '${this.roomId}'`);
+  }
+
+  private registerSetPlayerReady() {
+    this.onMessage('SetPlayerReady', async (client: Client, ready: boolean) => {
+      const player = this.state.players.get(client.sessionId);
+      console.log(`LobbyRoom.onMessage(SetPlayerReady): roomId: '${this.roomId}', playerName: '${player.name}', ready: ${ready}`);
+
+      player.ready = ready;
+
+      if (this.areAllPlayersReady()) {
+        await this.createGameRoom("croc");
+      }
+    });
+  }
+
+  private registerScoreSubscription() {
+    this.presence.subscribe("score-" + this.roomId, (data: GameHistory) => {
+      console.log(`LobbyRoom.presence.subscribe(score-${this.roomId})}`);
+
+      const gameHistory = new GameHistorySchema(data.gameType);
+      data.scores.forEach((score) => {
+        const scoreSchema = new ScoreSchema(score.playerName, score.value);
+        gameHistory.scores.push(scoreSchema);
+      });
+      this.state.gameHistories.push(gameHistory);
+
+      this.state.players.forEach((player) => {
+        player.ready = false;
+      });
+      this.state.currentGameRoomId = null;
+      this.state.currentGame = null;
+    });
   }
 
   private areAllPlayersReady(): boolean {
