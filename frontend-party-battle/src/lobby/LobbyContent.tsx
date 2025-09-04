@@ -7,6 +7,7 @@ import useColyseusState from '@/src/colyseus/useColyseusState'
 import { useLobbyContext } from '@/src/lobby/LobbyProvider'
 import PlayerList from '@/src/lobby/PlayerList'
 import createWebURL from '@/src/routing/createWebUrl'
+import { blurActiveElement } from '@/src/utils/focusUtils'
 import { Room } from 'colyseus.js'
 import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
@@ -70,6 +71,8 @@ export default function LobbyContent({ room }: LobbyContentProps) {
   const onToggleReady = () => {
     room.send('ready', !isReady)
     setIsReady((prev) => !prev)
+
+    blurActiveElement()
   }
 
   const handleShare = async () => {
