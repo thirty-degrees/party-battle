@@ -1,57 +1,57 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
-import { View } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router'
+import { useState } from 'react'
+import { View } from 'react-native'
 
-import RainbowText from '@/components/RainbowText';
-import { Button, ButtonText } from '@/components/ui/button';
-import { Heading } from '@/components/ui/heading';
-import { Input, InputField } from '@/components/ui/input';
-import { JoinRoomModal } from '@/components/ui/modal/join-room-modal';
-import { Text } from '@/components/ui/text';
+import RainbowText from '@/components/RainbowText'
+import { Button, ButtonText } from '@/components/ui/button'
+import { Heading } from '@/components/ui/heading'
+import { Input, InputField } from '@/components/ui/input'
+import { JoinRoomModal } from '@/components/ui/modal/join-room-modal'
+import { Text } from '@/components/ui/text'
 
-import SafeAreaPlaceholder from '@/components/SafeAreaPlaceholder';
-import { usePlayerName } from '@/index/PlayerNameProvider';
-import { useLobbyContext } from '@/lobby/LobbyProvider';
-import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle';
+import SafeAreaPlaceholder from '@/components/SafeAreaPlaceholder'
+import { usePlayerName } from '@/index/PlayerNameProvider'
+import { useLobbyContext } from '@/lobby/LobbyProvider'
+import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle'
 
 export default function HomeScreen() {
-  const [showJoinModal, setShowJoinModal] = useState(false);
-  const { partyCode } = useLocalSearchParams<{ partyCode?: string }>();
+  const [showJoinModal, setShowJoinModal] = useState(false)
+  const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
   const {
     playerName,
     setPlayerName,
     isLoading: isLoadingPlayerName,
-  } = usePlayerName();
+  } = usePlayerName()
 
-  const { createLobby, joinLobby, isLoading } = useLobbyContext();
+  const { createLobby, joinLobby, isLoading } = useLobbyContext()
 
   const trimPlayerName = () => {
-    const trimmedName = playerName!.trim();
-    setPlayerName(trimmedName);
-    return trimmedName;
-  };
+    const trimmedName = playerName!.trim()
+    setPlayerName(trimmedName)
+    return trimmedName
+  }
 
   const handleCreateRoom = async () => {
-    const trimmedName = trimPlayerName();
+    const trimmedName = trimPlayerName()
 
-    await createLobby(trimmedName);
+    await createLobby(trimmedName)
 
     router.push({
       pathname: '/lobby',
-    });
-  };
+    })
+  }
 
   const handleJoinRoom = async (roomId: string) => {
-    const trimmedName = trimPlayerName();
+    const trimmedName = trimPlayerName()
 
-    await joinLobby(roomId, trimmedName);
+    await joinLobby(roomId, trimmedName)
 
     router.push({
       pathname: '/lobby',
-    });
+    })
 
-    setShowJoinModal(false);
-  };
+    setShowJoinModal(false)
+  }
 
   return (
     <View className="flex-1 bg-background-0 dark:bg-background-950">
@@ -149,5 +149,5 @@ export default function HomeScreen() {
         isLoading={isLoading}
       />
     </View>
-  );
+  )
 }

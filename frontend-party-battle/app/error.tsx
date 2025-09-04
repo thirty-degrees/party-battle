@@ -1,16 +1,16 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import { View } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router'
+import { View } from 'react-native'
 
-import { Button, ButtonText } from '@/components/ui/button';
-import { Heading } from '@/components/ui/heading';
-import { Text } from '@/components/ui/text';
+import { Button, ButtonText } from '@/components/ui/button'
+import { Heading } from '@/components/ui/heading'
+import { Text } from '@/components/ui/text'
 
 export default function ErrorScreen() {
-  useLocalSearchParams<{ error: string }>();
+  useLocalSearchParams<{ error: string }>()
 
   const handleGoHome = () => {
-    router.replace('/');
-  };
+    router.replace('/')
+  }
 
   return (
     <View className="flex-1 bg-black dark:bg-white justify-center items-center p-4">
@@ -39,5 +39,5 @@ export default function ErrorScreen() {
         </Button>
       </View>
     </View>
-  );
+  )
 }

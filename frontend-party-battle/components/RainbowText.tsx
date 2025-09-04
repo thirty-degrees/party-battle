@@ -1,4 +1,4 @@
-import { Text } from '@/components/ui/text';
+import { Text } from '@/components/ui/text'
 
 const rainbowColors = [
   '#FF6B6B', // Bright Red
@@ -6,11 +6,11 @@ const rainbowColors = [
   '#FFD93D', // Bright Yellow
   '#6BCF7F', // Bright Green
   '#4ECDC4', // Bright Cyan
-];
+]
 
 interface RainbowTextProps {
-  text: string;
-  className?: string;
+  text: string
+  className?: string
 }
 
 export default function RainbowText({ text, className }: RainbowTextProps) {
@@ -26,5 +26,5 @@ export default function RainbowText({ text, className }: RainbowTextProps) {
         </Text>
       ))}
     </>
-  );
+  )
 }
