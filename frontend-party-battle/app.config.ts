@@ -67,11 +67,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     reactCompiler: true,
   },
   extra: {
+    eas: {
+      projectId: '8907377f-75e3-4efd-9a3a-4556dfda4c47',
+    },
     backendUrl:
       process.env.EXPO_PUBLIC_BACKEND_URL ||
       `https://party-battle.thirty-degrees.ch/api/v${config.version}`,
     frontendUrl:
       process.env.EXPO_PUBLIC_FRONTEND_URL ||
       `https://party-battle.thirty-degrees.ch`,
+    router: {},
   },
+  owner: 'thirty-degrees',
 })
