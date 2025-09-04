@@ -13,10 +13,11 @@
     "lint:fix": "expo lint --fix",
     "docker:build": "docker build -f ../frontend-party-battle/dockerfile -t frontend-party-battle ..",
     "build": "npm run -w types-party-battle build",
-    "prebuild": "npm run build"
+    "prebuild": "npm run -w types-party-battle build"
   },
   "dependencies": {
     "@expo/cli": "^0.24.20",
+    "types-party-battle": "workspace:*",
     "@expo/html-elements": "^0.12.5",
     "@expo/vector-icons": "^14.1.0",
     "@gluestack-ui/core": "^3.0.0",
