@@ -1,20 +1,37 @@
 import { Text, View } from 'react-native'
 
-import { GameHistory, MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle'
+import useColyseusState from '@/src/colyseus/useColyseusState'
+import { Room } from 'colyseus.js'
+import {
+  GameHistory,
+  LobbySchema,
+  MAX_AMOUNT_OF_PLAYERS,
+} from 'types-party-battle'
 import { PlayerData } from './LobbyContent'
 import PlayerListEntry from './PlayerListEntry'
 
 interface LobbyScreenProps {
-  players: [string, PlayerData][]
-  gameHistories: [number, GameHistory][]
-  currentPlayerId?: string
+  lobbyRoom: Room<LobbySchema>
 }
 
-export default function PlayerList({
-  players,
-  gameHistories,
-  currentPlayerId,
-}: LobbyScreenProps) {
+export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
+  const players = useColyseusState(lobbyRoom, (state) =>
+    Array.from(state.players?.entries() || []).map(
+      ([id, player]) =>
+        [id, { name: player.name, ready: player.ready }] as [string, PlayerData]
+    )
+  )
+  const gameHistories = useColyseusState(lobbyRoom, (state) =>
+    Array.from(state.gameHistories?.entries() || []).map(
+      ([id, game]) =>
+        [id, { gameType: game.gameType, scores: game.scores?.toArray() }] as [
+          number,
+          GameHistory,
+        ]
+    )
+  )
+  const currentPlayerId = lobbyRoom.sessionId
+
   const playerStats = players.map(([playerId, player]) => {
     let totalScore = 0
     let lastRoundScore = 0

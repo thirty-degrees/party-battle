@@ -12,7 +12,7 @@ import { Room } from 'colyseus.js'
 import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Share, View } from 'react-native'
-import { GameHistory, LobbySchema } from 'types-party-battle'
+import { LobbySchema } from 'types-party-battle'
 
 export interface PlayerData {
   name: string
@@ -24,22 +24,6 @@ interface LobbyContentProps {
 }
 
 export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
-  const players = useColyseusState(lobbyRoom, (state) =>
-    Array.from(state.players?.entries() || []).map(
-      ([id, player]) =>
-        [id, { name: player.name, ready: player.ready }] as [string, PlayerData]
-    )
-  )
-  const gameHistories = useColyseusState(lobbyRoom, (state) =>
-    Array.from(state.gameHistories?.entries() || []).map(
-      ([id, game]) =>
-        [id, { gameType: game.gameType, scores: game.scores?.toArray() }] as [
-          number,
-          GameHistory,
-        ]
-    )
-  )
-
   const currentGame = useColyseusState(lobbyRoom, (state) => state.currentGame)
   const currentGameRoomId = useColyseusState(
     lobbyRoom,
@@ -130,11 +114,7 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
 
           <View className="flex-1 w-full justify-evenly items-center">
             <View className="flex-row w-full">
-              <PlayerList
-                players={players}
-                gameHistories={gameHistories}
-                currentPlayerId={lobbyRoom.sessionId}
-              />
+              <PlayerList lobbyRoom={lobbyRoom} />
             </View>
 
             <View className="flex-row w-full justify-center">
