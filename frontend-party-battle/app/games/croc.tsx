@@ -3,20 +3,23 @@ import {
   GameRoomProvider,
   useGameRoomContext,
 } from '@/src/colyseus/GameRoomProvider'
-import CrocGameContent from '@/src/games/CrocGameContent'
-import { useLocalSearchParams } from 'expo-router'
+import useColyseusState from '@/src/colyseus/useColyseusState'
+import CrocGame from '@/src/games/CrocGame'
+import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
+import { Room } from 'colyseus.js'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect } from 'react'
 import { CrocGameSchema } from 'types-party-battle'
 
 export default function CrocScreen() {
   return (
     <GameRoomProvider<CrocGameSchema>>
-      <CrocGameView />
+      <CrocGameRoomJoiner />
     </GameRoomProvider>
   )
 }
 
-function CrocGameView() {
+function CrocGameRoomJoiner() {
   const { roomId } = useLocalSearchParams<{ roomId: string }>()
   const { gameRoom, isLoading, joinGameRoom } =
     useGameRoomContext<CrocGameSchema>()
@@ -31,5 +34,25 @@ function CrocGameView() {
     return <Loading />
   }
 
-  return <CrocGameContent gameRoom={gameRoom} />
+  return <CrocGameRoomLeaver gameRoom={gameRoom} />
+}
+
+type CrocGameRoomLeaverProps = {
+  gameRoom: Room<CrocGameSchema>
+}
+
+function CrocGameRoomLeaver({ gameRoom }: CrocGameRoomLeaverProps) {
+  const gameStatus = useColyseusState(gameRoom, (state) => state.status)
+  const { leaveGameRoom } = useGameRoomContext<CrocGameSchema>()
+  const { lobbyRoom } = useLobbyRoomContext()
+  const currentGame = useColyseusState(lobbyRoom!, (state) => state.currentGame)
+
+  useEffect(() => {
+    if (gameStatus === 'finished' && !currentGame) {
+      leaveGameRoom()
+      router.push('/lobby')
+    }
+  }, [gameStatus, leaveGameRoom, currentGame])
+
+  return <CrocGame gameRoom={gameRoom} />
 }
