@@ -1,7 +1,9 @@
 {
   "cli": {
     "version": "16.18.0",
-    "appVersionSource": "local"
+    "appVersionSource": "local",
+    "requireCommit": true,
+    "promptToConfigurePushNotifications": false
   },
   "build": {
     "production": {
@@ -14,7 +16,8 @@
       "ios": {
         "distribution": "store",
         "credentialsSource": "remote",
-        "autoIncrement": false
+        "autoIncrement": false,
+        "buildConfiguration": "Release"
       }
     }
   },
@@ -27,7 +30,8 @@
       "ios": {
         "ascApiKeyPath": "./asc-api-key.json",
         "ascApiKeyId": "N74M9ND657",
-        "ascApiKeyIssuerId": "cabca1d1-d243-404e-b95f-f7677c5f67fb"
+        "ascApiKeyIssuerId": "cabca1d1-d243-404e-b95f-f7677c5f67fb",
+        "ascAppId": "6751968403"
       }
     }
   }
