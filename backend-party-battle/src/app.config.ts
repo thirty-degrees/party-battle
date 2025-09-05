@@ -3,23 +3,27 @@ import config from "@colyseus/tools";
 /**
  * Import your Room files
  */
+import { GameType } from "types-party-battle";
 import { CrocGameRoom } from "./rooms/CrocGameRoom";
 import { LobbyRoom } from "./rooms/LobbyRoom";
+import { SnakeGameRoom } from "./rooms/SnakeGameRoom";
 
 export enum RoomName {
   LOBBY_ROOM = "lobby_room",
   CROC_GAME_ROOM = "croc_game_room",
+  SNAKE_GAME_ROOM = "snake_game_room",
 }
 
-export const gameTypeToRoomNameMap: Record<import("types-party-battle").GameType, RoomName> = {
+export const gameTypeToRoomNameMap: Record<GameType, RoomName> = {
   croc: RoomName.CROC_GAME_ROOM,
-  snake: RoomName.CROC_GAME_ROOM,
+  snake: RoomName.SNAKE_GAME_ROOM,
 };
 
 export default config({
   initializeGameServer: (gameServer) => {
     gameServer.define(RoomName.LOBBY_ROOM, LobbyRoom);
     gameServer.define(RoomName.CROC_GAME_ROOM, CrocGameRoom);
+    gameServer.define(RoomName.SNAKE_GAME_ROOM, SnakeGameRoom);
   },
 
   initializeExpress: (_app) => {

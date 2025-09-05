@@ -45,7 +45,8 @@ export class LobbyRoom extends Room<LobbySchema> {
       player.ready = ready;
 
       if (this.areAllPlayersReady()) {
-        await this.createGameRoom("croc");
+        const nextGameType = this.getNextGameType();
+        await this.createGameRoom(nextGameType);
       }
     });
   }
@@ -87,5 +88,20 @@ export class LobbyRoom extends Room<LobbySchema> {
 
     this.state.currentGame = gameType;
     this.state.currentGameRoomId = gameRoom.roomId;
+  }
+
+  private getNextGameType(): GameType {
+    const availableTypes = Object.keys(gameTypeToRoomNameMap) as GameType[];
+
+    const counts = new Map<GameType, number>(availableTypes.map(t => [t, 0]));
+    for (const h of this.state.gameHistories) {
+      if (counts.has(h.gameType)) counts.set(h.gameType, (counts.get(h.gameType) as number) + 1);
+    }
+  
+    let min = Infinity;
+    for (const t of availableTypes) min = Math.min(min, counts.get(t) as number);
+  
+    const least = availableTypes.filter(t => (counts.get(t) as number) === min);
+    return least[Math.floor(Math.random() * least.length)];
   }
 }
