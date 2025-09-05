@@ -39,7 +39,7 @@ jobs:
           path: |
             frontend-party-battle/android
             frontend-party-battle/ios
-          key: expo-prebuild-${{ runner.os }}-${{ hashFiles('frontend-party-battle/package*.json', 'frontend-party-battle/app.config.ts') }}
+          key: expo-prebuild-${{ runner.os }}-${{ hashFiles('package-lock.json', 'frontend-party-battle/package*.json', 'frontend-party-battle/app.config.ts') }}
           restore-keys: |
             expo-prebuild-${{ runner.os }}-
 
@@ -58,9 +58,6 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
           mkdir -p ../dist/ios
-          # Ensure types are built and dependencies are installed
-          npm run -w types-party-battle build
-          npm ci
           npx eas-cli build --platform ios --profile production --local --non-interactive --output ../dist/ios/app.ipa
 
       - name: Upload iOS artifact
@@ -85,6 +82,19 @@ jobs:
           name: ios-release
           path: dist/ios
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build shared types
+        run: npm run -w types-party-battle build
+
       - name: Install EAS CLI
         run: npm i -g eas-cli@16.18.0
 
@@ -93,6 +103,14 @@ jobs:
           ASC_API_KEY_JSON_BASE64: ${{ secrets.ASC_API_KEY_JSON_BASE64 }}
         run: |
           echo "$ASC_API_KEY_JSON_BASE64" | base64 --decode > frontend-party-battle/asc-api-key.json
+
+      - name: Validate build artifact
+        run: |
+          if [ ! -f "dist/ios/app.ipa" ]; then
+            echo "Error: iOS build artifact not found at dist/ios/app.ipa"
+            exit 1
+          fi
+          echo "Build artifact found: $(ls -la dist/ios/app.ipa)"
 
       - name: Submit to App Store Connect
         env:
