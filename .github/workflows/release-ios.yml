@@ -93,7 +93,7 @@ jobs:
         run: |
           echo "$ASC_API_KEY_JSON_BASE64" | base64 --decode > frontend-party-battle/asc-api-key.json
 
-      - name: Submit to App Store (draft)
+      - name: Submit to App Store Connect
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
