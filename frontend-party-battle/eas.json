@@ -2,7 +2,7 @@
   "cli": {
     "version": "16.18.0",
     "appVersionSource": "local",
-    "requireCommit": true,
+    "requireCommit": false, // TODO: set to true
     "promptToConfigurePushNotifications": false
   },
   "build": {
