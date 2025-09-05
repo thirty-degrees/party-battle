@@ -1,7 +1,7 @@
 import { Room } from 'colyseus.js'
 import { Text, View } from 'react-native'
 import { CrocGameSchema } from 'types-party-battle'
-import useColyseusState from '../colyseus/useColyseusState'
+import useColyseusState from '../../colyseus/useColyseusState'
 
 type CrocGameProps = {
   gameRoom: Room<CrocGameSchema>

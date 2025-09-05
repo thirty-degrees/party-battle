@@ -4,25 +4,25 @@ import {
   useGameRoomContext,
 } from '@/src/colyseus/GameRoomProvider'
 import useColyseusState from '@/src/colyseus/useColyseusState'
-import CrocGame from '@/src/games/croc/CrocGame'
+import SnakeGame from '@/src/games/snake/SnakeGame'
 import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import { Room } from 'colyseus.js'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect } from 'react'
-import { CrocGameSchema } from 'types-party-battle'
+import { SnakeGameSchema } from 'types-party-battle'
 
-export default function CrocScreen() {
+export default function SnakeScreen() {
   return (
-    <GameRoomProvider<CrocGameSchema>>
-      <CrocGameRoomJoiner />
+    <GameRoomProvider<SnakeGameSchema>>
+      <SnakeGameRoomJoiner />
     </GameRoomProvider>
   )
 }
 
-function CrocGameRoomJoiner() {
+function SnakeGameRoomJoiner() {
   const { roomId } = useLocalSearchParams<{ roomId: string }>()
   const { gameRoom, isLoading, joinGameRoom } =
-    useGameRoomContext<CrocGameSchema>()
+    useGameRoomContext<SnakeGameSchema>()
 
   useEffect(() => {
     if (roomId && !isLoading && !gameRoom) {
@@ -34,16 +34,16 @@ function CrocGameRoomJoiner() {
     return <Loading />
   }
 
-  return <CrocGameRoomLeaver gameRoom={gameRoom} />
+  return <SnakeGameRoomLeaver gameRoom={gameRoom} />
 }
 
-type CrocGameRoomLeaverProps = {
-  gameRoom: Room<CrocGameSchema>
+type SnakeGameRoomLeaverProps = {
+  gameRoom: Room<SnakeGameSchema>
 }
 
-function CrocGameRoomLeaver({ gameRoom }: CrocGameRoomLeaverProps) {
+function SnakeGameRoomLeaver({ gameRoom }: SnakeGameRoomLeaverProps) {
   const gameStatus = useColyseusState(gameRoom, (state) => state.status)
-  const { leaveGameRoom } = useGameRoomContext<CrocGameSchema>()
+  const { leaveGameRoom } = useGameRoomContext<SnakeGameSchema>()
   const { lobbyRoom } = useLobbyRoomContext()
   const currentGame = useColyseusState(lobbyRoom!, (state) => state.currentGame)
 
@@ -54,5 +54,5 @@ function CrocGameRoomLeaver({ gameRoom }: CrocGameRoomLeaverProps) {
     }
   }, [gameStatus, leaveGameRoom, currentGame])
 
-  return <CrocGame gameRoom={gameRoom} />
+  return <SnakeGame gameRoom={gameRoom} />
 }
