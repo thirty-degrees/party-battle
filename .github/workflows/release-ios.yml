@@ -91,10 +91,11 @@ jobs:
         env:
           ASC_API_KEY_JSON_BASE64: ${{ secrets.ASC_API_KEY_JSON_BASE64 }}
         run: |
-          echo "$ASC_API_KEY_JSON_BASE64" | base64 --decode > asc-api-key.json
+          echo "$ASC_API_KEY_JSON_BASE64" | base64 --decode > frontend-party-battle/asc-api-key.json
 
       - name: Submit to App Store (draft)
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
-          npx eas-cli submit -p ios --path dist/ios/app.ipa --non-interactive --asc-api-key-path asc-api-key.json
+          cd frontend-party-battle
+          npx eas-cli submit -p ios --path ../dist/ios/app.ipa --non-interactive

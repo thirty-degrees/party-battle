@@ -23,6 +23,9 @@
       "android": {
         "track": "internal",
         "serviceAccountKeyPath": "./service-account.json"
+      },
+      "ios": {
+        "ascApiKeyPath": "./asc-api-key.json"
       }
     }
   }
