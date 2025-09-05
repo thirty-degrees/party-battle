@@ -5,7 +5,7 @@
   "version": "2.3.0",
   "type": "commonjs",
   "scripts": {
-    "start": "npx expo start -c",
+    "start": "npm run -w types-party-battle build && npx expo start",
     "android": "expo start --android -c",
     "ios": "expo start --ios -c",
     "web": "expo start --web -c",
@@ -32,7 +32,6 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "babel-plugin-react-compiler": "^19.1.0-rc.3",
     "colyseus.js": "^0.16.19",
-    "dotenv": "^17.2.1",
     "expo": "~53.0.22",
     "expo-blur": "~14.1.5",
     "expo-build-properties": "~0.14.8",

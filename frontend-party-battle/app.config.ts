@@ -1,8 +1,4 @@
-import { config as dotenvConfig } from 'dotenv'
 import { ConfigContext, ExpoConfig } from 'expo/config'
-import { resolve } from 'path'
-
-dotenvConfig({ path: resolve(__dirname, '.env.development'), quiet: true })
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
