@@ -55,10 +55,7 @@ export default function PlayerListEntry({
         {player ? (
           player.ready ? (
             <Text className={`${textStyles} text-center`}>
-              <Icon
-                as={CheckIcon}
-                className="text-green-600 dark:text-green-100"
-              />
+              <Icon as={CheckIcon} className="text-green-600 dark:text-green-100" />
             </Text>
           ) : (
             <Text className={`${textStyles} text-center`}>

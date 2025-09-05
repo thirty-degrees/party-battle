@@ -2,14 +2,7 @@ import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { Client, Room } from 'colyseus.js'
 import Constants from 'expo-constants'
 import { router } from 'expo-router'
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { GameSchema } from 'types-party-battle'
 
 export type GameRoomContextType<TGameSchema extends GameSchema> = {
@@ -19,14 +12,10 @@ export type GameRoomContextType<TGameSchema extends GameSchema> = {
   leaveGameRoom: () => void
 }
 
-const GameRoomContext = createContext<
-  GameRoomContextType<GameSchema> | undefined
->(undefined)
+const GameRoomContext = createContext<GameRoomContextType<GameSchema> | undefined>(undefined)
 
 export const useGameRoomContext = <TGameSchema extends GameSchema>() => {
-  const context = useContext(GameRoomContext) as
-    | GameRoomContextType<TGameSchema>
-    | undefined
+  const context = useContext(GameRoomContext) as GameRoomContextType<TGameSchema> | undefined
   if (!context) {
     throw new Error('useGameRoomContext must be used within a GameRoomProvider')
   }
@@ -38,9 +27,7 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
 }: {
   children: React.ReactNode
 }) => {
-  const [gameRoom, setGameRoom] = useState<Room<TGameSchema> | undefined>(
-    undefined
-  )
+  const [gameRoom, setGameRoom] = useState<Room<TGameSchema> | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const hasJoinedRef = useRef(false)
   const { playerName } = usePlayerName()

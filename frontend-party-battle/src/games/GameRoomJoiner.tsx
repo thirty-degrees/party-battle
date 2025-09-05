@@ -10,9 +10,7 @@ interface GameRoomJoinerProps<T extends GameSchema> {
   GameComponent: (props: { gameRoom: Room<T> }) => ReactElement
 }
 
-export default function GameRoomJoiner<T extends GameSchema>({
-  GameComponent,
-}: GameRoomJoinerProps<T>) {
+export default function GameRoomJoiner<T extends GameSchema>({ GameComponent }: GameRoomJoinerProps<T>) {
   const { roomId } = useLocalSearchParams<{ roomId: string }>()
   const { gameRoom, isLoading, joinGameRoom } = useGameRoomContext<T>()
 

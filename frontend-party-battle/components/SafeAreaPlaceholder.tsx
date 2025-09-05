@@ -6,10 +6,7 @@ interface SafeAreaPlaceholderProps {
   className?: string
 }
 
-export default function SafeAreaPlaceholder({
-  position,
-  className,
-}: SafeAreaPlaceholderProps) {
+export default function SafeAreaPlaceholder({ position, className }: SafeAreaPlaceholderProps) {
   const insets = useSafeAreaInsets()
 
   const height = position === 'top' ? insets.top : insets.bottom

@@ -2,11 +2,7 @@ import { Text, View } from 'react-native'
 
 import useColyseusState from '@/src/colyseus/useColyseusState'
 import { Room } from 'colyseus.js'
-import {
-  GameHistory,
-  LobbySchema,
-  MAX_AMOUNT_OF_PLAYERS,
-} from 'types-party-battle'
+import { GameHistory, LobbySchema, MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle'
 import { PlayerData } from './LobbyContent'
 import PlayerListEntry from './PlayerListEntry'
 
@@ -17,17 +13,13 @@ interface LobbyScreenProps {
 export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
   const players = useColyseusState(lobbyRoom, (state) =>
     Array.from(state.players?.entries() || []).map(
-      ([id, player]) =>
-        [id, { name: player.name, ready: player.ready }] as [string, PlayerData]
+      ([id, player]) => [id, { name: player.name, ready: player.ready }] as [string, PlayerData]
     )
   )
   const gameHistories = useColyseusState(lobbyRoom, (state) =>
     Array.from(state.gameHistories?.entries() || []).map(
       ([id, game]) =>
-        [id, { gameType: game.gameType, scores: game.scores?.toArray() }] as [
-          number,
-          GameHistory,
-        ]
+        [id, { gameType: game.gameType, scores: game.scores?.toArray() }] as [number, GameHistory]
     )
   )
   const currentPlayerId = lobbyRoom.sessionId
@@ -37,9 +29,7 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
     let lastRoundScore = 0
 
     gameHistories.forEach(([, gameHistory]) => {
-      const playerScore = gameHistory?.scores?.find(
-        (score) => score.playerName === player.name
-      )
+      const playerScore = gameHistory?.scores?.find((score) => score.playerName === player.name)
       if (playerScore) {
         totalScore += playerScore.value
       }
@@ -47,9 +37,7 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
 
     if (gameHistories.length > 0) {
       const lastGame = gameHistories[gameHistories.length - 1][1]
-      const playerLastScore = lastGame?.scores?.find(
-        (score) => score.playerName === player.name
-      )
+      const playerLastScore = lastGame?.scores?.find((score) => score.playerName === player.name)
       if (playerLastScore) {
         lastRoundScore = playerLastScore.value
       }
@@ -65,15 +53,11 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
 
   const sortedPlayers = playerStats.sort((a, b) => b.totalScore - a.totalScore)
 
-  const playersWithPlaces: ((typeof sortedPlayers)[0] & { place: number })[] =
-    []
+  const playersWithPlaces: ((typeof sortedPlayers)[0] & { place: number })[] = []
   for (let i = 0; i < sortedPlayers.length; i++) {
     let place = i + 1
     // If previous player has same score, use same place number
-    if (
-      i > 0 &&
-      sortedPlayers[i].totalScore === sortedPlayers[i - 1].totalScore
-    ) {
+    if (i > 0 && sortedPlayers[i].totalScore === sortedPlayers[i - 1].totalScore) {
       place = playersWithPlaces[i - 1].place
     }
     playersWithPlaces.push({
@@ -103,17 +87,9 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
               />
             )
           })}
-          {Array.from(
-            { length: MAX_AMOUNT_OF_PLAYERS - players.length },
-            (_, index) => {
-              return (
-                <PlayerListEntry
-                  key={`placeholder-${index}`}
-                  isCurrentPlayer={false}
-                />
-              )
-            }
-          )}
+          {Array.from({ length: MAX_AMOUNT_OF_PLAYERS - players.length }, (_, index) => {
+            return <PlayerListEntry key={`placeholder-${index}`} isCurrentPlayer={false} />
+          })}
         </View>
       </View>
     </View>
