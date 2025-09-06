@@ -17,11 +17,7 @@ import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle'
 export default function HomeScreen() {
   const [showJoinModal, setShowJoinModal] = useState(false)
   const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
-  const {
-    playerName,
-    setPlayerName,
-    isLoading: isLoadingPlayerName,
-  } = usePlayerName()
+  const { playerName, setPlayerName, isLoading: isLoadingPlayerName } = usePlayerName()
 
   const { createLobbyRoom, joinLobbyRoom, isLoading } = useLobbyRoomContext()
 
@@ -102,9 +98,7 @@ export default function HomeScreen() {
                   isDisabled={!playerName?.trim() || isLoading}
                   style={{ width: 200, paddingHorizontal: 8 }}
                 >
-                  <ButtonText>
-                    {isLoading ? 'Loading...' : `JOIN ${partyCode}`}
-                  </ButtonText>
+                  <ButtonText>{isLoading ? 'Loading...' : `JOIN ${partyCode}`}</ButtonText>
                 </Button>
               </View>
             )}
@@ -117,9 +111,7 @@ export default function HomeScreen() {
                   isDisabled={!playerName?.trim() || isLoading}
                   style={{ width: 200, paddingHorizontal: 8 }}
                 >
-                  <ButtonText>
-                    {isLoading ? 'Loading...' : 'JOIN PARTY'}
-                  </ButtonText>
+                  <ButtonText>{isLoading ? 'Loading...' : 'JOIN PARTY'}</ButtonText>
                 </Button>
               </View>
             </View>
@@ -132,9 +124,7 @@ export default function HomeScreen() {
                 isDisabled={!playerName?.trim() || isLoading}
                 style={{ width: 200, paddingHorizontal: 8 }}
               >
-                <ButtonText>
-                  {isLoading ? 'Loading...' : 'CREATE PARTY'}
-                </ButtonText>
+                <ButtonText>{isLoading ? 'Loading...' : 'CREATE PARTY'}</ButtonText>
               </Button>
             </View>
           </View>

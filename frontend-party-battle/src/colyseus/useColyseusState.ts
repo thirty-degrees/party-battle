@@ -37,10 +37,7 @@ function createRoomStore<S extends Schema>(room: Room<S>) {
   return { subscribe, getSnapshot, dispose }
 }
 
-export default function useColyseusState<S extends Schema, R>(
-  room: Room<S>,
-  selector: Selector<S, R>
-) {
+export default function useColyseusState<S extends Schema, R>(room: Room<S>, selector: Selector<S, R>) {
   const store = useMemo(() => createRoomStore(room), [room])
   const selectorRef = useRef(selector)
   useEffect(() => {

@@ -7,9 +7,7 @@ type PlayerNameContextType = {
   isLoading: boolean
 }
 
-const PlayerNameContext = createContext<PlayerNameContextType | undefined>(
-  undefined
-)
+const PlayerNameContext = createContext<PlayerNameContextType | undefined>(undefined)
 
 export const usePlayerName = () => {
   const context = useContext(PlayerNameContext)
@@ -19,9 +17,7 @@ export const usePlayerName = () => {
   return context
 }
 
-export const PlayerNameProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const PlayerNameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [playerName, setPlayerNameState] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
 
@@ -53,9 +49,5 @@ export const PlayerNameProvider: React.FC<{ children: React.ReactNode }> = ({
     isLoading,
   }
 
-  return (
-    <PlayerNameContext.Provider value={value}>
-      {children}
-    </PlayerNameContext.Provider>
-  )
+  return <PlayerNameContext.Provider value={value}>{children}</PlayerNameContext.Provider>
 }
