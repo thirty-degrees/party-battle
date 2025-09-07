@@ -2,6 +2,7 @@ import { Client, Room } from "@colyseus/core";
 import {
   GameHistory,
   GameSchema,
+  GameType,
   MAX_AMOUNT_OF_PLAYERS,
   Score
 } from "types-party-battle";
@@ -23,7 +24,7 @@ export abstract class BaseGameRoom<T extends GameSchema> extends Room<T> {
 
   protected finishGame(options: { lobbyRoomId: string; playerNames: string[]; }) {
     const gameHistory: GameHistory = {
-      gameType: (this.constructor as any).gameType,
+      gameType: this.getGameType(),
       scores: this.getScores(),
     };
 
@@ -33,6 +34,8 @@ export abstract class BaseGameRoom<T extends GameSchema> extends Room<T> {
   }
 
   abstract getScores(): Score[];
+
+  abstract getGameType(): GameType;
 
   onJoin(client: Client, options: { name: string }) {
     console.log(`${this.constructor.name}.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`);

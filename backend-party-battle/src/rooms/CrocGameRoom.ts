@@ -5,6 +5,10 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   static readonly gameType: GameType = "croc";
   static readonly roomName: string = "croc_game_room";
 
+  override getGameType(): GameType {
+    return CrocGameRoom.gameType;
+  }
+
   onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
     super.onCreate(options);
     this.state = new CrocGameSchema("waiting");
