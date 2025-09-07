@@ -33,8 +33,5 @@
         "ascApiKeyIssuerId": "$EXPO_ASC_ISSUER_ID"
       }
     }
-  },
-  "robot": {
-    "enabled": true
   }
 }
