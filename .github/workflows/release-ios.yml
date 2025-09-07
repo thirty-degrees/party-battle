@@ -100,42 +100,25 @@ jobs:
 
       - name: Prepare ASC API Key
         env:
-          ASC_API_KEY_JSON_BASE64: ${{ secrets.ASC_API_KEY_JSON_BASE64 }}
+          ASC_API_KEY_P8_BASE64: ${{ secrets.ASC_API_KEY_P8_BASE64 }}
         run: |
-          echo "$ASC_API_KEY_JSON_BASE64" | base64 --decode > asc-api-key.json
-          echo "Wrote asc-api-key.json"
+          echo "$ASC_API_KEY_P8_BASE64" | base64 --decode > AuthKey.p8
+          echo "::add-mask::$(head -c 32 AuthKey.p8)"
+          echo "Wrote AuthKey.p8"
 
       - name: Verify ASC API Key file
         run: |
-          set -euo pipefail
-          ls -la .
-          test -f asc-api-key.json || (echo "asc-api-key.json not found" && exit 1)
-          # Validate required fields
-          jq -e 'has("key_id") and has("issuer_id") and has("key")' asc-api-key.json >/dev/null || (echo "asc-api-key.json missing required fields key_id/issuer_id/key" && exit 1)
-          echo "key_id: $(jq -r .key_id asc-api-key.json)"
-          echo "issuer_id: $(jq -r .issuer_id asc-api-key.json)"
-          # Show PEM header/footer and a small sample to confirm literal \n are present
-          jq -r .key asc-api-key.json | head -n1
-          jq -r .key asc-api-key.json | tail -n1
-          echo "First 80 chars:"
-          jq -r .key asc-api-key.json | head -c 80; echo
-          # Optional: OpenSSL sanity check (won't output the key)
           python3 - << 'PY'
-          import json, sys, base64
-          from pathlib import Path
           from cryptography.hazmat.primitives import serialization
-          try:
-              key = json.loads(Path("asc-api-key.json").read_text())["key"].encode()
-              serialization.load_pem_private_key(key, password=None)
-              print("PEM parsed OK")
-          except Exception as e:
-              print(f"PEM parse failed: {e}")
-              sys.exit(1)
+          open('AuthKey.p8','rb').read(); serialization.load_pem_private_key(open('AuthKey.p8','rb').read(), password=None); print('PEM OK')
           PY
 
       - name: Submit to App Store Connect
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          EXPO_ASC_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          EXPO_ASC_KEY_PATH: AuthKey.p8
         run: |
-          npx eas-cli submit -p ios --path dist/ios/app.ipa --non-interactive --profile production
+          npx eas-cli submit -p ios --path dist/ios/app.ipa --non-interactive --verbose
 
