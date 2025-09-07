@@ -114,11 +114,13 @@ jobs:
           PY
 
       - name: Submit to App Store Connect
+        working-directory: ./frontend-party-battle
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           EXPO_ASC_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
           EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          EXPO_ASC_KEY_PATH: AuthKey.p8
+          EXPO_ASC_KEY_PATH: ../AuthKey.p8
         run: |
-          npx eas-cli submit -p ios --path dist/ios/app.ipa --non-interactive --verbose
+          npx eas-cli submit -p ios --path ../dist/ios/app.ipa --non-interactive --verbose
+
 
