@@ -14,9 +14,11 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
     this.state = new CrocGameSchema("waiting");
     this.state.teethCount = 12;
 
-    // setTimeout(() => {
-    //   this.finishGame(options);
-    // }, 2000);
+    this.onMessage("tooth_pressed", (client, message: { index: number }) => {
+      console.log(`Tooth ${message.index} pressed by client ${client.id}`);
+      this.state.pressedTeethIndex.push(message.index);
+    });
+
   }
 
   override getScores(): Score[] {
