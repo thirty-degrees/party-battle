@@ -1,73 +1,23 @@
-import { Client, Room } from "@colyseus/core";
-import {
-  CrocGameSchema,
-  GameHistory,
-  GameType,
-  MAX_AMOUNT_OF_PLAYERS,
-  Score
-} from "types-party-battle";
-import { Player } from "../games/Player";
+import { CrocGameSchema, GameType, Score } from "types-party-battle";
+import { BaseGameRoom } from "./BaseGameRoom";
 
-export class CrocGameRoom extends Room<CrocGameSchema>{
+export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   static readonly gameType: GameType = "croc";
   static readonly roomName: string = "croc_game_room";
-  private players = new Map<string, Player>();
 
   onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
-    console.log(`CrocGameRoom.onCreate: roomId: '${this.roomId}', lobbyRoomId: '${options.lobbyRoomId}'`);
-    
-    this.autoDispose = true;
-    this.maxClients = MAX_AMOUNT_OF_PLAYERS;
+    super.onCreate(options);
     this.state = new CrocGameSchema("waiting");
-
-    options.playerNames.forEach((playerName) => {
-      this.players.set(playerName, {});
-    });
 
     setTimeout(() => {
       this.finishGame(options);
     }, 2000);
   }
 
-  private finishGame(options: { lobbyRoomId: string; playerNames: string[]; }) {
-    const gameHistory: GameHistory = {
-      gameType: CrocGameRoom.gameType,
-      scores: this.getScores(),
-    };
-
-    this.presence.publish("score-" + options.lobbyRoomId, gameHistory);
-    this.state.status = "finished";
-    console.log("TEMP: Game status changed to finished after 2 seconds");
-  }
-
-  private getScores(): Score[] {
+  override getScores(): Score[] {
     return [...this.players.keys()].map(playerName => ({
       playerName,
-      value: 33
+      value: 10
     }));
-  }
-
-  onJoin(client: Client, options: { name: string }) {
-    console.log(`CrocGameRoom.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`);
-
-    const player = this.players.get(options.name)
-    if (player) {
-      player.sessionId = client.sessionId;
-    } else {
-      console.log(`CrocGameRoom.onJoin: playerName: '${options.name}' is not part of the game`);
-    }
-  }
-
-  onLeave(client: Client, _consented: boolean) {
-    console.log(`CrocGameRoom.onLeave: roomId: '${this.roomId}', playerId: '${client.sessionId}'`);
-    this.players?.forEach((player, playerName) => {
-      if (player.sessionId === client.sessionId) {
-        this.players.set(playerName, { ...player, sessionId: null });
-      }
-    });
-  }
-
-  onDispose() {
-    console.log(`CrocGameRoom.onDispose: roomId: '${this.roomId}'`);
   }
 }
