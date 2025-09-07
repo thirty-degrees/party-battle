@@ -1,5 +1,5 @@
 import { CrocGameSchema, GameType, Score } from "types-party-battle";
-import { BaseGameRoom } from "./BaseGameRoom";
+import { BaseGameRoom } from "../games/BaseGameRoom";
 
 export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   static readonly gameType: GameType = "croc";
@@ -9,7 +9,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
     return CrocGameRoom.gameType;
   }
 
-  onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
+  override onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
     super.onCreate(options);
     this.state = new CrocGameSchema("waiting");
 

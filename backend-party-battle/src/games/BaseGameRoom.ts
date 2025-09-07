@@ -6,9 +6,9 @@ import {
   MAX_AMOUNT_OF_PLAYERS,
   Score
 } from "types-party-battle";
-import { Player } from "../games/Player";
+import { Player } from "./Player";
 
-export abstract class BaseGameRoom<T extends GameSchema> extends Room<T> {
+export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
   protected players = new Map<string, Player>();
 
   onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {

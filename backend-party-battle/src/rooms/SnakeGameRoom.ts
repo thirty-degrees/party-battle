@@ -1,5 +1,5 @@
 import { GameType, Score, SnakeGameSchema } from "types-party-battle";
-import { BaseGameRoom } from "./BaseGameRoom";
+import { BaseGameRoom } from "../games/BaseGameRoom";
 
 export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   static readonly gameType: GameType = "snake";
@@ -9,7 +9,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     return SnakeGameRoom.gameType;
   }
 
-  onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
+  override onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
     super.onCreate(options);
     this.state = new SnakeGameSchema("waiting");
 
