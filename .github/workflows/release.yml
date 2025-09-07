@@ -9,7 +9,7 @@ on:
 
 jobs:
   release:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
@@ -79,7 +79,7 @@ jobs:
 
   trigger-backend-deployment:
     needs: build-backend
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     steps:
       - name: Trigger backend image update
         uses: peter-evans/repository-dispatch@v3
@@ -130,7 +130,7 @@ jobs:
   build-android:
     needs: release
     if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'frontend-party-battle')
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     env:
@@ -251,7 +251,7 @@ jobs:
 
   deploy-android:
     needs: build-android
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:

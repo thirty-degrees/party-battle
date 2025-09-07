@@ -8,7 +8,7 @@ jobs:
   # iOS: Local EAS build on macOS using EAS-managed (remote) credentials
   # --------------------------------------------
   build-ios:
-    runs-on: Robins-MacBook-Pro-M4-Pro
+    runs-on: macos-latest
     permissions:
       contents: read
     steps:
@@ -72,7 +72,7 @@ jobs:
   # --------------------------------------------
   deploy-ios:
     needs: build-ios
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
