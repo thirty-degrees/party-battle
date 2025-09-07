@@ -19,7 +19,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   }
 
   override getScores(): Score[] {
-    return [...this.players.keys()].map(playerName => ({
+    return [...this.playerConnections.keys()].map(playerName => ({
       playerName,
       value: 10
     }));

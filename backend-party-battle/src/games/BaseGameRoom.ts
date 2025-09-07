@@ -4,12 +4,15 @@ import {
   GameSchema,
   GameType,
   MAX_AMOUNT_OF_PLAYERS,
+  PlayerSchema,
   Score
 } from "types-party-battle";
-import { Player } from "./Player";
+
+type PlayerName = string;
+type PlayerSessionId = string;
 
 export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
-  protected players = new Map<string, Player>();
+  protected playerConnections = new Map<PlayerName, PlayerSessionId | null>();
 
   onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
     console.log(`${this.constructor.name}.onCreate: roomId: '${this.roomId}', lobbyRoomId: '${options.lobbyRoomId}'`);
@@ -18,7 +21,7 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
     this.maxClients = MAX_AMOUNT_OF_PLAYERS;
 
     options.playerNames.forEach((playerName) => {
-      this.players.set(playerName, {});
+      this.playerConnections.set(playerName, null);
     });
   }
 
@@ -40,9 +43,11 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
   onJoin(client: Client, options: { name: string }) {
     console.log(`${this.constructor.name}.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`);
 
-    const player = this.players.get(options.name)
-    if (player) {
-      player.sessionId = client.sessionId;
+    if(this.playerConnections.has(options.name)) {
+      this.playerConnections.set(options.name, client.sessionId);
+      
+      const playerSchema = new PlayerSchema(options.name);
+      this.state.players.push(playerSchema);
     } else {
       console.log(`${this.constructor.name}.onJoin: playerName: '${options.name}' is not part of the game`);
     }
@@ -50,9 +55,15 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
 
   onLeave(client: Client, _consented: boolean) {
     console.log(`${this.constructor.name}.onLeave: roomId: '${this.roomId}', playerId: '${client.sessionId}'`);
-    this.players?.forEach((player, playerName) => {
-      if (player.sessionId === client.sessionId) {
-        this.players.set(playerName, { ...player, sessionId: null });
+    
+    this.playerConnections?.forEach((sessionId, playerName) => {
+      if (sessionId === client.sessionId) {
+        this.playerConnections.set(playerName, null);
+        
+        const playerIndex = this.state.players.findIndex(player => player.name === playerName);
+        if (playerIndex !== -1) {
+          this.state.players.splice(playerIndex, 1);
+        }
       }
     });
   }
