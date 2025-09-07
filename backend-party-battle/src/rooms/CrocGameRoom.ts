@@ -25,15 +25,19 @@ export class CrocGameRoom extends Room<CrocGameSchema>{
     });
 
     setTimeout(() => {
-      const gameHistory: GameHistory = {
-        gameType: CrocGameRoom.gameType,
-        scores: this.getScores(),
-      };
-
-      this.presence.publish("score-" + options.lobbyRoomId, gameHistory);
-      this.state.status = "finished";
-      console.log("TEMP: Game status changed to finished after 2 seconds");
+      this.finishGame(options);
     }, 2000);
+  }
+
+  private finishGame(options: { lobbyRoomId: string; playerNames: string[]; }) {
+    const gameHistory: GameHistory = {
+      gameType: CrocGameRoom.gameType,
+      scores: this.getScores(),
+    };
+
+    this.presence.publish("score-" + options.lobbyRoomId, gameHistory);
+    this.state.status = "finished";
+    console.log("TEMP: Game status changed to finished after 2 seconds");
   }
 
   private getScores(): Score[] {
