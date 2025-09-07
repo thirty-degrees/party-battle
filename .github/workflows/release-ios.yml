@@ -8,7 +8,7 @@ jobs:
   # iOS: Local EAS build on macOS using EAS-managed (remote) credentials
   # --------------------------------------------
   build-ios:
-    runs-on: Robins-MacBook-Pro-M4-Pro
+    runs-on: self-hosted
     permissions:
       contents: read
     steps:
