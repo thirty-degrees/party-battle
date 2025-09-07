@@ -5,7 +5,7 @@
   "version": "2.3.0",
   "type": "commonjs",
   "scripts": {
-    "start": "npm run -w types-party-battle build && npx expo start",
+    "start": "npm run -w types-party-battle build && npx expo start -c",
     "android": "expo start --android -c",
     "ios": "expo start --ios -c",
     "web": "expo start --web -c",

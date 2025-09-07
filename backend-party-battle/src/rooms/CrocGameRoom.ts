@@ -12,10 +12,11 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   override onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
     super.onCreate(options);
     this.state = new CrocGameSchema("waiting");
+    this.state.teethCount = 12;
 
-    setTimeout(() => {
-      this.finishGame(options);
-    }, 2000);
+    // setTimeout(() => {
+    //   this.finishGame(options);
+    // }, 2000);
   }
 
   override getScores(): Score[] {
