@@ -84,6 +84,7 @@ export class LobbyRoom extends Room<LobbySchema> {
 
     const gameRoom = await matchMaker.createRoom(roomName, {
       lobbyRoomId: this.roomId,
+      playerNames: Array.from(this.state.players.values()).map((player) => player.name),
     });
 
     this.state.currentGame = gameType;

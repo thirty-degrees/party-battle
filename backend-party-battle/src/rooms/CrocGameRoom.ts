@@ -5,16 +5,21 @@ import {
   MAX_AMOUNT_OF_PLAYERS,
   Score
 } from "types-party-battle";
+import { Player } from "../games/Player";
 
 export class CrocGameRoom extends Room<CrocGameSchema> {
-  private players = new Map<string, string>();
+  private players = new Map<string, Player>();
 
-  onCreate(options: { lobbyRoomId: string }) {
+  onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
     console.log(`CrocGameRoom.onCreate: roomId: '${this.roomId}', lobbyRoomId: '${options.lobbyRoomId}'`);
     
     this.autoDispose = true;
     this.maxClients = MAX_AMOUNT_OF_PLAYERS;
     this.state = new CrocGameSchema("waiting");
+
+    options.playerNames.forEach((playerName) => {
+      this.players.set(playerName, {});
+    });
 
     setTimeout(() => {
       const gameHistory: GameHistory = {
@@ -22,9 +27,9 @@ export class CrocGameRoom extends Room<CrocGameSchema> {
         scores: [],
       };
 
-      this.players.forEach((playerName) => {
+      this.players.keys().forEach((playerName) => {
         const playerScore: Score = {
-          playerName,
+          playerName: playerName,
           value: 33,
         };
         gameHistory.scores.push(playerScore);
@@ -38,12 +43,16 @@ export class CrocGameRoom extends Room<CrocGameSchema> {
 
   onJoin(client: Client, options: { name: string }) {
     console.log(`CrocGameRoom.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`);
-    this.players.set(client.sessionId, options.name);
+    this.players.set(options.name, { sessionId: client.sessionId });
   }
 
   onLeave(client: Client, _consented: boolean) {
     console.log(`CrocGameRoom.onLeave: roomId: '${this.roomId}', playerId: '${client.sessionId}'`);
-    this.players.delete(client.sessionId);
+    this.players?.forEach((player, playerName) => {
+      if (player.sessionId === client.sessionId) {
+        this.players.set(playerName, { ...player, sessionId: null });
+      }
+    });
   }
 
   onDispose() {
