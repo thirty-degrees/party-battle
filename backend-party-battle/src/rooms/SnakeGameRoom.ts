@@ -24,16 +24,8 @@ export class SnakeGameRoom extends Room<SnakeGameSchema> {
     setTimeout(() => {
       const gameHistory: GameHistory = {
         gameType: "snake",
-        scores: [],
+        scores: this.getScores(),
       };
-
-      this.players.keys().forEach((playerName) => {
-        const playerScore: Score = {
-          playerName: playerName,
-          value: 33,
-        };
-        gameHistory.scores.push(playerScore);
-      });
 
       this.presence.publish("score-" + options.lobbyRoomId, gameHistory);
       this.state.status = "finished";
@@ -41,9 +33,22 @@ export class SnakeGameRoom extends Room<SnakeGameSchema> {
     }, 2000);
   }
 
+  private getScores(): Score[] {
+    return [...this.players.keys()].map(playerName => ({
+      playerName,
+      value: 33
+    }));
+  }
+
   onJoin(client: Client, options: { name: string }) {
     console.log(`SnakeGameRoom.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`);
-    this.players.set(options.name, { sessionId: client.sessionId });
+
+    const player = this.players.get(options.name)
+    if (player) {
+      player.sessionId = client.sessionId;
+    } else {
+      console.log(`SnakeGameRoom.onJoin: playerName: '${options.name}' is not part of the game`);
+    }
   }
 
   onLeave(client: Client, _consented: boolean) {
