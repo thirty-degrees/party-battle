@@ -30,9 +30,11 @@
       "ios": {
         "ascApiKeyPath": "AuthKey.p8",
         "ascApiKeyId": "$EXPO_ASC_KEY_ID",
-        "ascApiKeyIssuerId": "$EXPO_ASC_ISSUER_ID",
-        "ascAppId": "6751968403"
+        "ascApiKeyIssuerId": "$EXPO_ASC_ISSUER_ID"
       }
     }
+  },
+  "robot": {
+    "enabled": true
   }
 }
