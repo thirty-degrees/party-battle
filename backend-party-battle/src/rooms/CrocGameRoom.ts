@@ -2,12 +2,15 @@ import { Client, Room } from "@colyseus/core";
 import {
   CrocGameSchema,
   GameHistory,
+  GameType,
   MAX_AMOUNT_OF_PLAYERS,
   Score
 } from "types-party-battle";
 import { Player } from "../games/Player";
 
-export class CrocGameRoom extends Room<CrocGameSchema> {
+export class CrocGameRoom extends Room<CrocGameSchema>{
+  static readonly gameType: GameType = "croc";
+  static readonly roomName: string = "croc_game_room";
   private players = new Map<string, Player>();
 
   onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
@@ -23,7 +26,7 @@ export class CrocGameRoom extends Room<CrocGameSchema> {
 
     setTimeout(() => {
       const gameHistory: GameHistory = {
-        gameType: "croc",
+        gameType: CrocGameRoom.gameType,
         scores: this.getScores(),
       };
 

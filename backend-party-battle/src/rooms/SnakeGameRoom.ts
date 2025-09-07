@@ -1,6 +1,7 @@
 import { Client, Room } from "@colyseus/core";
 import {
   GameHistory,
+  GameType,
   MAX_AMOUNT_OF_PLAYERS,
   Score,
   SnakeGameSchema
@@ -8,6 +9,8 @@ import {
 import { Player } from "../games/Player";
 
 export class SnakeGameRoom extends Room<SnakeGameSchema> {
+  static readonly gameType: GameType = "snake";
+  static readonly roomName: string = "snake_game_room";
   private players = new Map<string, Player>();
 
   onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
@@ -23,7 +26,7 @@ export class SnakeGameRoom extends Room<SnakeGameSchema> {
 
     setTimeout(() => {
       const gameHistory: GameHistory = {
-        gameType: "snake",
+        gameType: SnakeGameRoom.gameType,
         scores: this.getScores(),
       };
 

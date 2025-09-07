@@ -8,7 +8,7 @@ import {
   MAX_AMOUNT_OF_PLAYERS,
   ScoreSchema,
 } from "types-party-battle";
-import { gameTypeToRoomNameMap } from "../app.config";
+import { gameRooms } from "../app.config";
 
 export class LobbyRoom extends Room<LobbySchema> {
   onCreate(_options: { name: string }) {
@@ -80,7 +80,7 @@ export class LobbyRoom extends Room<LobbySchema> {
   private async createGameRoom(gameType: GameType): Promise<void> {
     console.log(`LobbyRoom.createGameRoom: lobbyRoomId: '${this.roomId}', gameType: '${gameType}'`);
 
-    const roomName = gameTypeToRoomNameMap[gameType];
+    const roomName = gameRooms.find((gameRoom) => gameRoom.gameType === gameType)?.roomName;
 
     const gameRoom = await matchMaker.createRoom(roomName, {
       lobbyRoomId: this.roomId,
@@ -92,7 +92,7 @@ export class LobbyRoom extends Room<LobbySchema> {
   }
 
   private getNextGameType(): GameType {
-    const availableTypes = Object.keys(gameTypeToRoomNameMap) as GameType[];
+    const availableTypes = gameRooms.map((gameRoom) => gameRoom.gameType);
 
     const counts = new Map<GameType, number>(availableTypes.map(t => [t, 0]));
     for (const h of this.state.gameHistories) {
