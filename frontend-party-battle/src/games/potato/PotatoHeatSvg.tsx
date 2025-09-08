@@ -1,11 +1,5 @@
 import { useEffect } from 'react'
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
-} from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated'
 import Svg, {
   Defs,
   FeGaussianBlur,
@@ -18,7 +12,7 @@ import Svg, {
 } from 'react-native-svg'
 
 export default function PotatoHeatSvg(props: SvgProps) {
-  const scaleAnim = useSharedValue(0.99)
+  const scaleAnim = useSharedValue(0.97)
 
   const animatedStyle = useAnimatedStyle(() => ({
     width: '100%',
@@ -28,7 +22,7 @@ export default function PotatoHeatSvg(props: SvgProps) {
 
   useEffect(() => {
     scaleAnim.value = withRepeat(
-      withSequence(withTiming(1.02, { duration: 800 }), withTiming(0.99, { duration: 800 })),
+      withTiming(1, { duration: 500 }),
       -1, // -1 means infinite loop
       true // reverse the animation on each iteration
     )
