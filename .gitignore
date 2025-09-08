@@ -1,2 +1,6 @@
 node_modules/
 .DS_Store
+
+# Expo managed workflow
+frontend-party-battle/ios/
+frontend-party-battle/android/
