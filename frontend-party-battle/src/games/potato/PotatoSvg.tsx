@@ -2,7 +2,7 @@ import Svg, { Defs, LinearGradient, Path, RadialGradient, Stop, SvgProps } from 
 
 export default function PotatoSvg(props: SvgProps) {
   return (
-    <Svg width={495.3} height={673} viewBox="0 0 495.3 672.999" {...props}>
+    <Svg width="100%" height="100%" viewBox="0 0 495.3 672.999" {...props}>
       <Defs>
         <LinearGradient
           id="a"

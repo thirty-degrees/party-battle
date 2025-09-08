@@ -9,7 +9,7 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
 
   return (
     <View className="flex-1 bg-white dark:bg-black justify-center items-center space-y-6">
-      <PotatoStack />
+      <PotatoStack style={{ width: 300, height: 400 }} />
       <Text className="text-black dark:text-white text-lg">Room State: {JSON.stringify(gameStatus)}</Text>
     </View>
   )

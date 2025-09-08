@@ -35,8 +35,8 @@ export default function PotatoHeatSvg(props: SvgProps) {
 
   return (
     <AnimatedSvg
-      width={492.586}
-      height={656.725}
+      width="100%"
+      height="100%"
       viewBox="0 0 492.586 656.724"
       style={{
         transform: [{ scale: scaleAnim }],
