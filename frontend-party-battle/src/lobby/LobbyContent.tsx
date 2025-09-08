@@ -56,8 +56,8 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
     } catch {}
   }
 
-  const handleLeaveParty = () => {
-    leaveLobbyRoom()
+  const handleLeaveParty = async () => {
+    await leaveLobbyRoom()
     router.push('/')
   }
 

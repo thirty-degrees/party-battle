@@ -3,11 +3,12 @@ import useColyseusState from '@/src/colyseus/useColyseusState'
 import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import { Room } from 'colyseus.js'
 import { router } from 'expo-router'
-import { ReactElement, useEffect } from 'react'
+import { useEffect } from 'react'
 import { GameSchema } from 'types-party-battle'
+import { GameComponent } from './GameComponent'
 
 interface GameRoomLeaverProps<T extends GameSchema> {
-  GameComponent: (props: { gameRoom: Room<T> }) => ReactElement
+  GameComponent: GameComponent<T>
   gameRoom: Room<T>
 }
 

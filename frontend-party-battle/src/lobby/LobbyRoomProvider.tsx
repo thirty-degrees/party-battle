@@ -8,7 +8,7 @@ export type LobbyRoomContextType = {
   isLoading: boolean
   joinLobbyRoom: (roomId: string, playerName: string) => Promise<void>
   createLobbyRoom: (playerName: string) => Promise<void>
-  leaveLobbyRoom: () => void
+  leaveLobbyRoom: () => Promise<void>
 }
 
 const LobbyRoomContext = createContext<LobbyRoomContextType | undefined>(undefined)
@@ -57,9 +57,9 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   }, [])
 
-  const leaveLobbyRoom = useCallback(() => {
+  const leaveLobbyRoom = useCallback(async () => {
     if (lobbyRoom) {
-      lobbyRoom.leave()
+      await lobbyRoom.leave()
       setLobbyRoom(undefined)
     }
   }, [lobbyRoom])

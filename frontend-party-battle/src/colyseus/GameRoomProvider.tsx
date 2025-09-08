@@ -1,14 +1,13 @@
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { Client, Room } from 'colyseus.js'
 import Constants from 'expo-constants'
-import { router } from 'expo-router'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { GameSchema } from 'types-party-battle'
 
 export type GameRoomContextType<TGameSchema extends GameSchema> = {
   gameRoom?: Room<TGameSchema>
   isLoading: boolean
-  joinGameRoom: (roomId: string) => void
+  joinGameRoom: (roomId: string) => Promise<void>
   leaveGameRoom: () => void
 }
 
@@ -33,28 +32,27 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
   const { playerName } = usePlayerName()
 
   const joinGameRoom = useCallback(
-    (roomId: string) => {
+    async (roomId: string) => {
       if (hasJoinedRef.current || gameRoom) {
         return
       }
 
       hasJoinedRef.current = true
       setIsLoading(true)
-      const client = new Client(Constants.expoConfig?.extra?.backendUrl)
-      client
-        .joinById<TGameSchema>(roomId, {
-          name: playerName,
-        })
-        .then((joinedRoom) => {
-          joinedRoom.onStateChange((state) => {
-            if (state.status === 'finished') {
-              router.replace('/lobby')
-            }
-          })
 
-          setGameRoom(joinedRoom)
+      const client = new Client(Constants.expoConfig?.extra?.backendUrl)
+      const joinedRoom = await client.joinById<TGameSchema>(roomId, {
+        name: playerName,
+      })
+
+      setGameRoom(joinedRoom)
+
+      const off = joinedRoom.onStateChange((state) => {
+        if (state.status !== undefined) {
           setIsLoading(false)
-        })
+          off.clear()
+        }
+      })
     },
     [playerName, gameRoom]
   )

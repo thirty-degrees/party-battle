@@ -1,11 +1,10 @@
 import { GameRoomProvider } from '@/src/colyseus/GameRoomProvider'
-import { Room } from 'colyseus.js'
-import { ReactElement } from 'react'
 import { GameSchema } from 'types-party-battle'
+import { GameComponent } from './GameComponent'
 import GameRoomJoiner from './GameRoomJoiner'
 
-interface GameScreenProps<T> {
-  GameComponent: (props: { gameRoom: Room<T> }) => ReactElement
+interface GameScreenProps<T extends GameSchema> {
+  GameComponent: GameComponent<T>
 }
 
 export default function GameScreen<T extends GameSchema>({ GameComponent }: GameScreenProps<T>) {

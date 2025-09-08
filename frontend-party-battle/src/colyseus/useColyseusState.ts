@@ -44,8 +44,8 @@ export default function useColyseusState<S extends Schema, R>(room: Room<S>, sel
     selectorRef.current = selector
   }, [selector])
 
-  useEffect(() => store.dispose, [store.dispose])
-  useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot)
+  useEffect(() => store.dispose, [store])
+  useSyncExternalStore<number>(store.subscribe, store.getSnapshot, store.getSnapshot)
 
   return selectorRef.current(room.state)
 }
