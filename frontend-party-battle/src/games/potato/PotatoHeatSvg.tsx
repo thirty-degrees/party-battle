@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react'
+import { Animated } from 'react-native'
 import Svg, {
   Defs,
   FeGaussianBlur,
@@ -9,9 +11,38 @@ import Svg, {
   SvgProps,
 } from 'react-native-svg'
 
+const AnimatedSvg = Animated.createAnimatedComponent(Svg)
+
 export default function PotatoHeatSvg(props: SvgProps) {
+  const scaleAnim = useRef(new Animated.Value(0.99)).current
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scaleAnim, {
+          toValue: 1.02,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: 0.99,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start()
+  }, [scaleAnim])
+
   return (
-    <Svg width={492.586} height={656.725} viewBox="0 0 492.586 656.724" {...props}>
+    <AnimatedSvg
+      width={492.586}
+      height={656.725}
+      viewBox="0 0 492.586 656.724"
+      style={{
+        transform: [{ scale: scaleAnim }],
+      }}
+      {...props}
+    >
       <Defs>
         <RadialGradient
           id="b"
@@ -49,6 +80,6 @@ export default function PotatoHeatSvg(props: SvgProps) {
         filter="url(#c)"
         transform="matrix(.965 0 0 .965 7.398 3.725)"
       />
-    </Svg>
+    </AnimatedSvg>
   )
 }
