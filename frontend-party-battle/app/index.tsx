@@ -9,9 +9,9 @@ import { Input, InputField } from '@/components/ui/input'
 import { JoinRoomModal } from '@/components/ui/modal/join-room-modal'
 import { Text } from '@/components/ui/text'
 
-import SafeAreaPlaceholder from '@/components/SafeAreaPlaceholder'
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle'
 
 export default function HomeScreen() {
@@ -50,8 +50,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background-0 dark:bg-background-950">
-      <SafeAreaPlaceholder position="top" />
+    <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
       <View className="flex-1 p-4 items-center">
         <View className="flex-1 max-w-md w-full justify-evenly items-center">
           <View className="flex-col items-center gap-4 w-full">
@@ -130,7 +129,6 @@ export default function HomeScreen() {
           </View>
         </View>
       </View>
-      <SafeAreaPlaceholder position="bottom" />
 
       <JoinRoomModal
         isOpen={showJoinModal}
@@ -138,6 +136,6 @@ export default function HomeScreen() {
         onJoin={handleJoinRoom}
         isLoading={isLoading}
       />
-    </View>
+    </SafeAreaView>
   )
 }

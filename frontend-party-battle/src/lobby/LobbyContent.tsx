@@ -1,4 +1,3 @@
-import SafeAreaPlaceholder from '@/components/SafeAreaPlaceholder'
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon'
 import { QrCodeModal } from '@/components/ui/modal/qr-code-modal'
@@ -12,6 +11,7 @@ import { Room } from 'colyseus.js'
 import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Share, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { LobbySchema } from 'types-party-battle'
 
 export interface PlayerData {
@@ -62,8 +62,7 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
   }
 
   return (
-    <View className="flex-1 bg-background-0 dark:bg-background-950">
-      <SafeAreaPlaceholder position="top" />
+    <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
       <View className="flex-1 p-4 justify-center items-center">
         <View className="flex-1 max-w-md w-full justify-between items-center">
           <View className="flex-row items-center justify-between gap-2 w-full">
@@ -97,7 +96,6 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
           </View>
         </View>
       </View>
-      <SafeAreaPlaceholder position="bottom" />
 
       <QrCodeModal
         isOpen={isQrModalOpen}
@@ -105,6 +103,6 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
         roomId={partyCode}
         roomUrl={shareUrl}
       />
-    </View>
+    </SafeAreaView>
   )
 }
