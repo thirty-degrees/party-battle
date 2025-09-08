@@ -1,7 +1,6 @@
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { Client, Room } from 'colyseus.js'
 import Constants from 'expo-constants'
-import { router } from 'expo-router'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { GameSchema } from 'types-party-battle'
 
@@ -46,12 +45,6 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
           name: playerName,
         })
         .then((joinedRoom) => {
-          joinedRoom.onStateChange((state) => {
-            if (state.status === 'finished') {
-              router.replace('/lobby')
-            }
-          })
-
           setGameRoom(joinedRoom)
           setIsLoading(false)
         })
