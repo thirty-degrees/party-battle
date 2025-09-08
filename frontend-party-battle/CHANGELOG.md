@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.4.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.3.0...frontend-party-battle-v2.4.0) (2025-09-08)
+
+
+### Features
+
+* add appId for ios link redirection ([d45bb96](https://github.com/thirty-degrees/party-battle/commit/d45bb96ec296403a385004263d0f99921fe8ae42))
+* add potato game ([2624081](https://github.com/thirty-degrees/party-battle/commit/26240811cd35058ff4ed044cccc21b85e4e1b5d7))
+* create snake game ([661b8aa](https://github.com/thirty-degrees/party-battle/commit/661b8aaacfad3da7df25613eaeb518c27d9161c1))
+* PotatoSvg.tsx with heat animation ([3a0b067](https://github.com/thirty-degrees/party-battle/commit/3a0b06780b4bee6674fe86cc2ee5d2b3873390b8))
+
+
+### Bug Fixes
+
+* game room finished log ([28df803](https://github.com/thirty-degrees/party-battle/commit/28df80335e7ecccad71e38cdfecbab092b2e8e4c))
+* loading issue ([72ab43f](https://github.com/thirty-degrees/party-battle/commit/72ab43f248eb6a7f69c759b11f37fa0d0b16a458))
+* use official SafeAreaView ([83a71a1](https://github.com/thirty-degrees/party-battle/commit/83a71a18b51fd786bcc73e9abc039788d65d001b))
+
 ## [2.3.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.2.0...frontend-party-battle-v2.3.0) (2025-09-04)
 
 
