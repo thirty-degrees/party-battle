@@ -33,7 +33,6 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
 
     this.presence.publish("score-" + options.lobbyRoomId, gameHistory);
     this.state.status = "finished";
-    console.log("TEMP: Game status changed to finished after 2 seconds");
   }
 
   abstract getScores(): Score[];

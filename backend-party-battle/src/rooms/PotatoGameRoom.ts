@@ -15,7 +15,8 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
 
     setTimeout(() => {
       this.finishGame(options);
-    }, 2000);
+      console.log("TEMP: Game status changed to finished after 10 seconds");
+    }, 10000);
   }
 
   override getScores(): Score[] {
