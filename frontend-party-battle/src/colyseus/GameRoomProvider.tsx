@@ -39,12 +39,20 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
 
       hasJoinedRef.current = true
       setIsLoading(true)
+
       const client = new Client(Constants.expoConfig?.extra?.backendUrl)
       const joinedRoom = await client.joinById<TGameSchema>(roomId, {
         name: playerName,
       })
+
       setGameRoom(joinedRoom)
-      setIsLoading(false)
+
+      const off = joinedRoom.onStateChange((state) => {
+        if (state.status !== undefined) {
+          setIsLoading(false)
+          off.clear()
+        }
+      })
     },
     [playerName, gameRoom]
   )
