@@ -270,3 +270,120 @@ jobs:
           mappingFile: dist/mapping/release/mapping.txt
           track: internal
           status: draft
+
+
+  build-ios:
+    needs: release
+    if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'frontend-party-battle')
+    runs-on: macos-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "latest-stable"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build shared types
+        run: npm run -w types-party-battle build
+
+      - name: Cache Expo prebuild
+        uses: actions/cache@v4
+        id: expo-prebuild-cache-ios
+        with:
+          path: |
+            frontend-party-battle/android
+            frontend-party-battle/ios
+          key: expo-prebuild-${{ runner.os }}-${{ hashFiles('package-lock.json', 'frontend-party-battle/package*.json', 'frontend-party-battle/app.config.ts') }}
+          restore-keys: |
+            expo-prebuild-${{ runner.os }}-
+
+      - name: Prebuild native iOS project
+        if: steps.expo-prebuild-cache-ios.outputs.cache-hit != 'true'
+        working-directory: ./frontend-party-battle
+        run: npx expo prebuild --platform ios --non-interactive
+
+      - name: Install EAS CLI
+        run: npm i -g eas-cli@16.18.0
+
+      - name: EAS local iOS build (managed creds)
+        working-directory: ./frontend-party-battle
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          mkdir -p ../dist/ios
+          npx eas-cli build --platform ios --profile production --local --non-interactive --output ../dist/ios/app.ipa
+
+      - name: Upload iOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-release
+          path: dist/ios/app.ipa
+          if-no-files-found: error
+
+
+  deploy-ios:
+    needs: build-ios
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: ios-release
+          path: dist/ios
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build shared types
+        run: npm run -w types-party-battle build
+
+      - name: Install EAS CLI
+        run: npm i -g eas-cli@16.18.0
+
+      - name: Prepare ASC API Key
+        env:
+          ASC_API_KEY_P8_BASE64: ${{ secrets.ASC_API_KEY_P8_BASE64 }}
+        run: |
+          cd frontend-party-battle
+          echo "$ASC_API_KEY_P8_BASE64" | base64 --decode > AuthKey.p8
+          echo "::add-mask::$(head -c 32 AuthKey.p8)"
+          echo "Wrote AuthKey.p8"
+
+      - name: Verify ASC API Key file
+        run: |
+          cd frontend-party-battle
+          python3 - << 'PY'
+          from cryptography.hazmat.primitives import serialization
+          open('AuthKey.p8','rb').read(); serialization.load_pem_private_key(open('AuthKey.p8','rb').read(), password=None); print('PEM OK')
+          PY
+
+      - name: Submit to App Store Connect
+        working-directory: ./frontend-party-battle
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          EXPO_ASC_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          npx eas-cli submit -p ios --path ../dist/ios/app.ipa --non-interactive --verbose
