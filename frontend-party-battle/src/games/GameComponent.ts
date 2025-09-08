@@ -2,7 +2,7 @@ import { Room } from 'colyseus.js'
 import { ReactElement } from 'react'
 import { GameSchema } from 'types-party-battle'
 
-export interface GameComponentProps<T extends GameSchema = GameSchema> {
+interface GameComponentProps<T extends GameSchema = GameSchema> {
   gameRoom: Room<T>
 }
 
