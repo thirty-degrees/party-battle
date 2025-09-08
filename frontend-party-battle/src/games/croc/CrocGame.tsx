@@ -2,10 +2,10 @@ import { Text, View } from 'react-native'
 import { CrocGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { usePlayerName } from '../../index/PlayerNameProvider'
-import { GameComponentProps } from '../GameComponent'
+import { GameComponent } from '../GameComponent'
 import ToothButtons from './ToothButtons'
 
-export default function CrocGame({ gameRoom }: GameComponentProps<CrocGameSchema>) {
+export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
   const gameStatus = useColyseusState(gameRoom, (state) => state.status)
   const teethCount = useColyseusState(gameRoom, (state) => state.teethCount)
   const pressedTeethIndex = useColyseusState(gameRoom, (state) => Array.from(state.pressedTeethIndex || []))

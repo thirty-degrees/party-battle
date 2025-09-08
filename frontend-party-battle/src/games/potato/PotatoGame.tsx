@@ -1,10 +1,10 @@
 import { Text, View } from 'react-native'
 import { PotatoGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
-import { GameComponentProps } from '../GameComponent'
+import { GameComponent } from '../GameComponent'
 import PotatoSvg from './PotatoSvg'
 
-export default function PotatoGame({ gameRoom }: GameComponentProps<PotatoGameSchema>) {
+export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
   const gameStatus = useColyseusState(gameRoom, (state) => state.status)
 
   return (

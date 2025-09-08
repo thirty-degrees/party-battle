@@ -1,9 +1,9 @@
 import { Text, View } from 'react-native'
 import { SnakeGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
-import { GameComponentProps } from '../GameComponent'
+import { GameComponent } from '../GameComponent'
 
-export default function SnakeGame({ gameRoom }: GameComponentProps<SnakeGameSchema>) {
+export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
   const gameStatus = useColyseusState(gameRoom, (state) => state.status)
 
   return (
