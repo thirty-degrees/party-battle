@@ -2,11 +2,14 @@
   "cli": {
     "version": "16.18.0",
     "appVersionSource": "local",
-    "requireCommit": false, // TODO: set to true
     "promptToConfigurePushNotifications": false
   },
   "build": {
+    "base": {
+      "config": "app.config.ts"
+    },
     "production": {
+      "extends": "base",
       "android": {
         "buildType": "app-bundle",
         "distribution": "store",
