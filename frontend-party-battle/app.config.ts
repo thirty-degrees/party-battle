@@ -2,7 +2,7 @@ import { ConfigContext, ExpoConfig } from 'expo/config'
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: 'frontend-party-battle',
+  name: 'Party Battle',
   slug: 'frontend-party-battle',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
@@ -12,7 +12,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     ...(config.ios ?? {}),
     supportsTablet: true,
-    bundleIdentifier: 'ch.thirtydegrees.partybattle',
+    bundleIdentifier: 'ch.thirty-degrees.party-battle',
     associatedDomains: ['applinks:party-battle.thirty-degrees.ch'],
   },
   android: {
@@ -67,11 +67,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: '8907377f-75e3-4efd-9a3a-4556dfda4c47',
     },
     backendUrl:
-      process.env.EXPO_PUBLIC_BACKEND_URL ||
-      `https://party-battle.thirty-degrees.ch/api/v${config.version}`,
-    frontendUrl:
-      process.env.EXPO_PUBLIC_FRONTEND_URL ||
-      `https://party-battle.thirty-degrees.ch`,
+      process.env.EXPO_PUBLIC_BACKEND_URL || `https://party-battle.thirty-degrees.ch/api/v${config.version}`,
+    frontendUrl: process.env.EXPO_PUBLIC_FRONTEND_URL || `https://party-battle.thirty-degrees.ch`,
     router: {},
   },
   owner: 'thirty-degrees',

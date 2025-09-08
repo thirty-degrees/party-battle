@@ -3,10 +3,12 @@
     "apps": [],
     "details": [
       {
-        "appIDs": ["LY3VH5HGF5.ch.thirtydegrees.partybattle"],
-        "components": [
-          { "/": "/*" }
-        ]
+        "appIDs": ["LY3VH5HGF5.ch.thirty-degrees.party-battle"],
+        "components": [{ "/": "/*" }]
+      },
+      {
+        "appID": "LY3VH5HGF5.ch.thirty-degrees.party-battle",
+        "paths": ["*"]
       }
     ]
   }
