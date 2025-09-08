@@ -1,13 +1,13 @@
 import Loading from '@/components/Loading'
 import { useGameRoomContext } from '@/src/colyseus/GameRoomProvider'
-import { Room } from 'colyseus.js'
 import { useLocalSearchParams } from 'expo-router'
-import { ReactElement, useEffect } from 'react'
+import { useEffect } from 'react'
 import { GameSchema } from 'types-party-battle'
+import { GameComponent } from './GameComponent'
 import GameRoomLeaver from './GameRoomLeaver'
 
 interface GameRoomJoinerProps<T extends GameSchema> {
-  GameComponent: (props: { gameRoom: Room<T> }) => ReactElement
+  GameComponent: GameComponent<T>
 }
 
 export default function GameRoomJoiner<T extends GameSchema>({ GameComponent }: GameRoomJoinerProps<T>) {
