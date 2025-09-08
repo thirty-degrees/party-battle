@@ -102,12 +102,14 @@ jobs:
         env:
           ASC_API_KEY_P8_BASE64: ${{ secrets.ASC_API_KEY_P8_BASE64 }}
         run: |
+          cd frontend-party-battle
           echo "$ASC_API_KEY_P8_BASE64" | base64 --decode > AuthKey.p8
           echo "::add-mask::$(head -c 32 AuthKey.p8)"
           echo "Wrote AuthKey.p8"
 
       - name: Verify ASC API Key file
         run: |
+          cd frontend-party-battle
           python3 - << 'PY'
           from cryptography.hazmat.primitives import serialization
           open('AuthKey.p8','rb').read(); serialization.load_pem_private_key(open('AuthKey.p8','rb').read(), password=None); print('PEM OK')
@@ -119,7 +121,6 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           EXPO_ASC_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
           EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          EXPO_ASC_KEY_PATH: ../AuthKey.p8
           EXPO_ASC_APP_ID: ${{ secrets.ASC_APP_ID }}
         run: |
           npx eas-cli submit -p ios --path ../dist/ios/app.ipa --non-interactive --verbose
