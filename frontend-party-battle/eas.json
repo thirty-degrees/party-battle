@@ -5,11 +5,7 @@
     "promptToConfigurePushNotifications": false
   },
   "build": {
-    "base": {
-      "config": "app.config.ts"
-    },
     "production": {
-      "extends": "base",
       "android": {
         "buildType": "app-bundle",
         "distribution": "store",
