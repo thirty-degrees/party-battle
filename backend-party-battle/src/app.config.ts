@@ -5,6 +5,7 @@ import { Room } from "colyseus";
 import { GameSchema, GameType } from "types-party-battle";
 import { CrocGameRoom } from "./rooms/CrocGameRoom";
 import { LobbyRoom } from "./rooms/LobbyRoom";
+import { PotatoGameRoom } from "./rooms/PotatoGameRoom";
 import { SnakeGameRoom } from "./rooms/SnakeGameRoom";
 
 const LOBBY_ROOM_NAME = "lobby_room"
@@ -12,7 +13,7 @@ const LOBBY_ROOM_NAME = "lobby_room"
 export const gameRooms: ({
   readonly gameType: GameType;
   readonly roomName: string;
-} & Type<Room<GameSchema>>)[] = [CrocGameRoom, SnakeGameRoom];
+} & Type<Room<GameSchema>>)[] = [CrocGameRoom, SnakeGameRoom, PotatoGameRoom];
 
 export default config({
   initializeGameServer: (gameServer) => {
