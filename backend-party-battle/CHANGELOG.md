@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.4.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.3.0...backend-party-battle-v2.4.0) (2025-09-08)
+
+
+### Features
+
+* add potato game ([2624081](https://github.com/thirty-degrees/party-battle/commit/26240811cd35058ff4ed044cccc21b85e4e1b5d7))
+
+
+### Bug Fixes
+
+* game room finished log ([28df803](https://github.com/thirty-degrees/party-battle/commit/28df80335e7ecccad71e38cdfecbab092b2e8e4c))
+
 ## [2.3.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.2.0...backend-party-battle-v2.3.0) (2025-09-04)
 
 
