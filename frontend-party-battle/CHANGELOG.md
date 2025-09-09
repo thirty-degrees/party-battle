@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.6.0...frontend-party-battle-v2.7.0) (2025-09-09)
+
+
+### Features
+
+* improve environment variable usage ([1f079b7](https://github.com/thirty-degrees/party-battle/commit/1f079b7d375f331dabbdf96095b82771050a20e4))
+
 ## [2.6.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.5.0...frontend-party-battle-v2.6.0) (2025-09-09)
 
 
