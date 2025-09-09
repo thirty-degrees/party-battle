@@ -334,5 +334,6 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           EXPO_ASC_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
           EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          EXPO_PUBLIC_ENV: prod
         run: |
           npx eas-cli submit -p ios --path ../dist/ios/app.ipa --non-interactive --verbose
