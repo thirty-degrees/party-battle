@@ -74,7 +74,7 @@ export class LobbyRoom extends Room<LobbySchema> {
     const allPlayers = Array.from(this.state.players.values());
     const allReady = allPlayers.every((player) => player.ready);
 
-    return allReady && allPlayers.length > 0;
+    return allReady && allPlayers.length >= 2;
   }
 
   private async createGameRoom(gameType: GameType): Promise<void> {
