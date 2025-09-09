@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.5.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.4.0...backend-party-battle-v2.5.0) (2025-09-09)
+
+
+### Features
+
+* create ci pipeline ([6414d09](https://github.com/thirty-degrees/party-battle/commit/6414d095970b0fee564bcfb5f94f12a19c0ba875))
+* Create getAdjoiningPlayers with test ([4b60a1d](https://github.com/thirty-degrees/party-battle/commit/4b60a1d3a88b5366bf3ac4ccfb5d6e9b939e3d96))
+* Rework player adjacency logic into left, right, and across ([78762cc](https://github.com/thirty-degrees/party-battle/commit/78762ccb984024321f212808c2c31eb89a7ec32e))
+
+
+### Bug Fixes
+
+* backend lint scripts ([263920f](https://github.com/thirty-degrees/party-battle/commit/263920ff8a003d44cb08e0402281f6aadeb3f3d0))
+* lint issue ([2cdd306](https://github.com/thirty-degrees/party-battle/commit/2cdd306e2a9ae93bba7bde1ca003b978f0f6437c))
+
 ## [2.4.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.3.0...backend-party-battle-v2.4.0) (2025-09-08)
 
 
