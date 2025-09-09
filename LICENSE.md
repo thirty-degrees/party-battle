@@ -2,10 +2,10 @@ Business Source License 1.1
 
 Parameters
 
-Licensor: Damian Hug & Robin Nater
-Licensed Work: Party Battle
-Change Date: The fourth anniversary of the first publicly available distribution
-Change License: MIT
+Licensor: Damian Hug & Robin Nater  
+Licensed Work: Party Battle  
+Change Date: The fourth anniversary of the first publicly available distribution  
+Change License: MIT  
 
 The Licensed Work is provided under the terms of this Business Source License.
 
