@@ -17,9 +17,9 @@ jobs:
         id: vars
         run: |
           if [ -z "${{ github.event.inputs.image_version }}" ]; then
-            echo "IMAGE_VERSION=${GITHUB_SHA}" >> $GITHUB_ENV
+            echo "image_version=${GITHUB_SHA}" >> $GITHUB_OUTPUT
           else
-            echo "IMAGE_VERSION=${{ github.event.inputs.image_version }}" >> $GITHUB_ENV
+            echo "image_version=${{ github.event.inputs.image_version }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Trigger frontend image update
@@ -28,4 +28,4 @@ jobs:
           token: ${{ secrets.GH_PAT_ACTIONS_TRIGGER }}
           repository: Calfur/calfur-dev
           event-type: new-party-battle-frontend-image
-          client-payload: '{"image_version":"${{ env.IMAGE_VERSION }}"}'
+          client-payload: '{"image_version":"${{ steps.vars.outputs.image_version }}"}'
