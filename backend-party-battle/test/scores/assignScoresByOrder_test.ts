@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { assignScoresByOrder } from "../src/scores/assignScoresByOrder";
+import { assignScoresByOrder } from "../../src/scores/assignScoresByOrder";
 
 describe("assignScoresByOrder", () => {
   describe("with multiple players in different ranks", () => {

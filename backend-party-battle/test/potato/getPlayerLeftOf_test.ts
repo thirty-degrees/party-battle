@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { getPlayerLeftOf } from "../src/games/potato/getPlayerLeftOf";
+import { getPlayerLeftOf } from "../../src/games/potato/getPlayerLeftOf";
 
 describe("getPlayerLeftOf", () => {
   describe("when currentPlayer is in the players array", () => {

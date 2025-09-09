@@ -4,6 +4,7 @@ ARG EXPO_PUBLIC_ENV=dev
 FROM node:${NODE_VERSION} AS builder
 WORKDIR /app
 
+ARG EXPO_PUBLIC_ENV
 ENV EXPO_PUBLIC_ENV=${EXPO_PUBLIC_ENV}
 
 COPY package.json package-lock.json ./

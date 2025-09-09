@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.7.0...backend-party-battle-v2.7.1) (2025-09-09)
+
+
+### Miscellaneous Chores
+
+* **backend-party-battle:** Synchronize party-battle versions
+
 ## [2.7.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.6.0...backend-party-battle-v2.7.0) (2025-09-09)
 
 

@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { getPlayerAcrossOf } from "../src/games/potato/getPlayerAcrossOf";
+import { getPlayerAcrossOf } from "../../src/games/potato/getPlayerAcrossOf";
 
 describe("getPlayerAcrossOf", () => {
   describe("when there are 4 players", () => {
