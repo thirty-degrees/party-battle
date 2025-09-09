@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.6.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.5.0...backend-party-battle-v2.6.0) (2025-09-09)
+
+
+### Features
+
+* add assignScoresByOrder ([06ac4c8](https://github.com/thirty-degrees/party-battle/commit/06ac4c8304aa40d4d2a08dbd3d9dd01390d237d8))
+* basic potato game cycle ([4e8e7ca](https://github.com/thirty-degrees/party-battle/commit/4e8e7cab0e19b4b229a9fc6a90e4cd1ea887f327))
+
+
+### Bug Fixes
+
+* remove not used vars in CrocGameRoom ([0efbc33](https://github.com/thirty-degrees/party-battle/commit/0efbc33c4e82d5b9d7b6efe5b0651362aac88ae9))
+* remove options from croc game room finish ([16440e1](https://github.com/thirty-degrees/party-battle/commit/16440e103f8a4ec7d94614ae2b2d32cec035be36))
+
 ## [2.5.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.4.0...backend-party-battle-v2.5.0) (2025-09-09)
 
 
