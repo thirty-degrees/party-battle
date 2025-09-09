@@ -4,4 +4,4 @@ globs:
 alwaysApply: true
 ---
 
-Never write comments in code. Write self-documenting code instead.
+NEVER write comments in code. Write self-documenting code instead!
