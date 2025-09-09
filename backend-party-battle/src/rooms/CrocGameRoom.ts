@@ -1,6 +1,7 @@
 import { Client } from "@colyseus/core";
 import { CrocGameSchema, GameType, PlayerSchema, Score } from "types-party-battle";
 import { BaseGameRoom } from "../games/BaseGameRoom";
+import { assignScoresByOrder } from "../scores/assignScoresByOrder";
 
 export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   static readonly gameType: GameType = "croc";
@@ -9,7 +10,6 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   private currentPlayerIndex = 0;
   private playerTurnTimer: NodeJS.Timeout | null = null;
   private eliminatedPlayers: string[] = [];
-  private playerScores: Map<string, number> = new Map();
 
   override getGameType(): GameType {
     return CrocGameRoom.gameType;
@@ -99,8 +99,6 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
 
   private handleHotToothPressed(playerName: string) {
     this.eliminatedPlayers.push(playerName);
-    const eliminationOrder = this.eliminatedPlayers.length - 1;
-    this.playerScores.set(playerName, eliminationOrder);
 
     const playerIndex = this.state.inGamePlayers.findIndex(player => player.name === playerName);
     if (playerIndex !== -1) {
@@ -108,8 +106,6 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
     }
 
     if (this.state.inGamePlayers.length === 1) {
-      const lastPlayer = this.state.inGamePlayers[0].name;
-      this.playerScores.set(lastPlayer, this.eliminatedPlayers.length);
       this.finishGame();
     } else {
       this.resetForNextRound();
@@ -125,19 +121,18 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   }
 
   override getScores(): Score[] {
-    const scores: Score[] = [];
-    
-    this.playerScores.forEach((score, playerName) => {
-      scores.push({ playerName, value: score });
-    });
+    const playerGroups: string[][] = [];
 
-    this.state.inGamePlayers.forEach(player => {
-      if (!this.playerScores.has(player.name)) {
-        scores.push({ playerName: player.name, value: this.eliminatedPlayers.length });
-      }
-    });
+    for (const playerName of this.eliminatedPlayers) {
+      playerGroups.push([playerName]);
+    }
 
-    return scores;
+    if (this.state.inGamePlayers.length > 0) {
+      const remainingPlayers = this.state.inGamePlayers.map(player => player.name);
+      playerGroups.push(remainingPlayers);
+    }
+
+    return assignScoresByOrder(playerGroups);
   }
 
   override onDispose() {
