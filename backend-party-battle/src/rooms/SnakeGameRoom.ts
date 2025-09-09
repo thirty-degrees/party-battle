@@ -13,7 +13,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     super.onCreate(options);
     this.state = new SnakeGameSchema("waiting");
 
-    setTimeout(() => {
+    this.clock.setTimeout(() => {
       this.finishGame();
       console.log("TEMP: Game status changed to finished after 2 seconds");
     }, 2000);

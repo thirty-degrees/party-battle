@@ -1,6 +1,9 @@
 import { GameType, PotatoGameSchema, Score } from "types-party-battle";
 import { BaseGameRoom } from "../games/BaseGameRoom";
 
+const POTATO_COUNTDOWN_MIN_SECONDS = 8;
+const POTATO_COUNTDOWN_MAX_SECONDS = 15;
+
 export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
   static readonly gameType: GameType = "potato";
   static readonly roomName: string = "potato_game_room";
@@ -13,34 +16,37 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
     super.onCreate(options);
     this.state = new PotatoGameSchema("waiting");
 
-    setTimeout(() => {
+    this.clock.setTimeout(() => {
       this.startRound();
     }, 500);
   }
 
+  private getRandomCountdownSeconds(): number {
+    return Math.floor(Math.random() * (POTATO_COUNTDOWN_MAX_SECONDS - POTATO_COUNTDOWN_MIN_SECONDS + 1)) + POTATO_COUNTDOWN_MIN_SECONDS;
+  }
+
   private startRound() {
-    // Set random countdown between 8-15 seconds
-    const countdownSeconds = Math.floor(Math.random() * 8) + 8; // 8-15 inclusive
+    const countdownSeconds = this.getRandomCountdownSeconds();
     this.state.message = countdownSeconds.toString();
     this.state.status = "playing";
 
-    setTimeout(() => {
+    this.clock.setTimeout(() => {
       this.state.message = (countdownSeconds - 1).toString();
     }, 1000);
 
-    setTimeout(() => {
+    this.clock.setTimeout(() => {
       this.state.message = (countdownSeconds - 2).toString();
     }, 2000);
 
-    setTimeout(() => {
+    this.clock.setTimeout(() => {
       this.state.message = "";
     }, 3000);
 
-    setTimeout(() => {
+    this.clock.setTimeout(() => {
       this.state.message = "BOOM!";
       this.state.status = "waiting";
 
-      setTimeout(() => {
+      this.clock.setTimeout(() => {
         this.finishGame();
       }, 1000);
     }, countdownSeconds * 1000);
