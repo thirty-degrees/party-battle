@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.7.0...frontend-party-battle-v2.7.1) (2025-09-09)
+
+
+### Bug Fixes
+
+* dockerfile warning related with missing env ([8071a78](https://github.com/thirty-degrees/party-battle/commit/8071a78f8d8941a4dd4d207b98abc71d87387c2e))
+
 ## [2.7.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.6.0...frontend-party-battle-v2.7.0) (2025-09-09)
 
 
