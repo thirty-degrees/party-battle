@@ -11,13 +11,13 @@
     "web": "expo start --web -c",
     "lint": "expo lint",
     "lint:fix": "expo lint --fix",
+    "lint:ci": "expo lint --format junit --output-file lint-results.xml",
     "docker:build": "docker build -f ../frontend-party-battle/dockerfile -t frontend-party-battle ..",
     "build": "npm run -w types-party-battle build",
     "prebuild": "npm run -w types-party-battle build"
   },
   "dependencies": {
     "@expo/cli": "^0.24.20",
-    "types-party-battle": "file:../types-party-battle",
     "@expo/html-elements": "^0.12.5",
     "@expo/vector-icons": "^14.1.0",
     "@gluestack-ui/core": "^3.0.0",
@@ -62,13 +62,15 @@
     "react-native-web": "^0.20.0",
     "react-native-webview": "13.13.5",
     "stream-browserify": "3.0.0",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "types-party-battle": "file:../types-party-battle"
   },
   "devDependencies": {
     "@babel/core": "^7.28.3",
     "@babel/plugin-transform-class-static-block": "^7.28.3",
     "@types/react": "~19.0.10",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-formatter-junit": "^8.40.0",
     "eslint-plugin-prettier": "^5.5.4",
     "jscodeshift": "^17.3.0",
     "prettier": "^3.6.2",

@@ -1,6 +1,10 @@
 node_modules/
 .DS_Store
 
+# Test and lint results
+**/test-results.json
+**/lint-results.xml
+
 # Expo managed workflow
 frontend-party-battle/ios/
 frontend-party-battle/android/

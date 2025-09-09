@@ -11,9 +11,11 @@
     "loadtest": "tsx loadtest/example.ts --room my_room --numClients 2",
     "build": "npm run clean && tsc",
     "clean": "rimraf build",
-    "test": "mocha -r tsx test/**_test.ts --exit --timeout 15000",
+    "test": "mocha -r tsx test/**_test.ts --exit --timeout 15000 --reporter spec",
+    "test:ci": "mocha -r tsx test/**_test.ts --exit --timeout 15000 --reporter json > test-results.json",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "lint:ci": "eslint src --ext .ts,.tsx --format junit --output-file lint-results.xml",
     "docker:build": "docker build -f ../backend-party-battle/dockerfile -t backend-party-battle .."
   },
   "devDependencies": {
@@ -24,6 +26,7 @@
     "@types/mocha": "^10.0.10",
     "eslint": "^9.34.0",
     "eslint-config-expo": "~9.2.0",
+    "eslint-formatter-junit": "^8.40.0",
     "mocha": "^11.7.1",
     "rimraf": "^6.0.1",
     "tsx": "^4.20.5",

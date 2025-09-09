@@ -8,6 +8,9 @@
   "type": "module",
   "scripts": {
     "lint": "npm run --workspaces lint",
-    "lint:fix": "npm run --workspaces lint:fix"
+    "lint:fix": "npm run --workspaces lint:fix",
+    "lint:ci": "npm run --workspaces lint:ci",
+    "test": "npm run --workspaces --if-present test",
+    "test:ci": "npm run --workspaces --if-present test:ci"
   }
 }
