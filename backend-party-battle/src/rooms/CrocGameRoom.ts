@@ -32,7 +32,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
         this.state.pressedTeethIndex.push(message.index);
         
         if (message.index === this.hotToothIndex) {
-          this.handleHotToothPressed(playerName, options);
+          this.handleHotToothPressed(playerName);
         } else {
           this.advanceToNextPlayer(options);
         }
@@ -97,7 +97,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
     return null;
   }
 
-  private handleHotToothPressed(playerName: string, options: { lobbyRoomId: string, playerNames: string[] }) {
+  private handleHotToothPressed(playerName: string) {
     this.eliminatedPlayers.push(playerName);
     const eliminationOrder = this.eliminatedPlayers.length - 1;
     this.playerScores.set(playerName, eliminationOrder);
