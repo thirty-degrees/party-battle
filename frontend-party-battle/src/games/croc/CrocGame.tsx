@@ -3,6 +3,7 @@ import { CrocGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { usePlayerName } from '../../index/PlayerNameProvider'
 import { GameComponent } from '../GameComponent'
+import TimerProgressBar from './TimerProgressBar'
 import ToothButtons from './ToothButtons'
 
 export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
@@ -11,6 +12,7 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
   const pressedTeethIndex = useColyseusState(gameRoom, (state) => Array.from(state.pressedTeethIndex || []))
   const currentPlayer = useColyseusState(gameRoom, (state) => state.currentPlayer)
   const inGamePlayers = useColyseusState(gameRoom, (state) => Array.from(state.inGamePlayers || []))
+  const timeWhenTimerIsOver = useColyseusState(gameRoom, (state) => state.timeWhenTimerIsOver)
   const { playerName } = usePlayerName()
 
   const isCurrentPlayer = currentPlayer === playerName
@@ -33,7 +35,13 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
       )}
 
       {isCurrentPlayer && isPlayerInGame && (
-        <Text className="text-green-500 dark:text-green-400 text-xl font-bold">It&apos;s your turn!</Text>
+        <>
+          <Text className="text-green-500 dark:text-green-400 text-xl font-bold">It&apos;s your turn!</Text>
+          <TimerProgressBar
+            timeWhenTimerIsOver={timeWhenTimerIsOver}
+            isActive={isCurrentPlayer && isPlayerInGame}
+          />
+        </>
       )}
 
       {!isCurrentPlayer && currentPlayer && isPlayerInGame && (
