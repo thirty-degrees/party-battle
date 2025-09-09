@@ -1,4 +1,4 @@
-import { Client } from "@colyseus/core";
+import { Client, Delayed } from "@colyseus/core";
 import { CrocGameSchema, GameType, PlayerSchema, Score } from "types-party-battle";
 import { BaseGameRoom } from "../games/BaseGameRoom";
 import { assignScoresByOrder } from "../scores/assignScoresByOrder";
@@ -8,7 +8,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   static readonly roomName: string = "croc_game_room";
   hotToothIndex = 0;
   private currentPlayerIndex = 0;
-  private playerTurnTimer: NodeJS.Timeout | null = null;
+  private playerTurnTimer: Delayed | null = null;
   private eliminatedPlayers: string[] = [];
 
   override getGameType(): GameType {
@@ -17,6 +17,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
 
   override onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
     super.onCreate(options);
+    this.clock.start();
     this.state = new CrocGameSchema("waiting");
     this.hotToothIndex = Math.floor(Math.random() * 12);
     this.state.teethCount = 12;
@@ -63,7 +64,10 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
 
   private startPlayerTurn() {
     this.clearPlayerTurnTimer();
-    this.playerTurnTimer = setTimeout(() => {
+    
+    this.state.timeWhenTimerIsOver = this.clock.currentTime + 5000;
+    
+    this.playerTurnTimer = this.clock.setTimeout(() => {
       this.handlePlayerTimeout();
     }, 5000);
   }
@@ -77,13 +81,15 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
 
   private handlePlayerTimeout() {
     this.clearPlayerTurnTimer();
-    // will be changed later to just the player loses the game, not everyone
-    this.finishGame();
+    const currentPlayerName = this.state.currentPlayer;
+    if (currentPlayerName) {
+      this.handleHotToothPressed(currentPlayerName);
+    }
   }
 
   private clearPlayerTurnTimer() {
     if (this.playerTurnTimer) {
-      clearTimeout(this.playerTurnTimer);
+      this.playerTurnTimer.clear();
       this.playerTurnTimer = null;
     }
   }
