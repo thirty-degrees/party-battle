@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.5.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.4.0...frontend-party-battle-v2.5.0) (2025-09-09)
+
+
+### Features
+
+* create ci pipeline ([6414d09](https://github.com/thirty-degrees/party-battle/commit/6414d095970b0fee564bcfb5f94f12a19c0ba875))
+
+
+### Bug Fixes
+
+* frontend lint:ci ([06b86e7](https://github.com/thirty-degrees/party-battle/commit/06b86e7cb4619f81e592a7a8f6fe7360b436b8db))
+
 ## [2.4.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.3.0...frontend-party-battle-v2.4.0) (2025-09-08)
 
 
