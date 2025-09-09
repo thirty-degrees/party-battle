@@ -26,6 +26,7 @@ interface LobbyContentProps {
 export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
   const currentGame = useColyseusState(lobbyRoom, (state) => state.currentGame)
   const currentGameRoomId = useColyseusState(lobbyRoom, (state) => state.currentGameRoomId)
+  const playerCount = useColyseusState(lobbyRoom, (state) => Array.from(state.players?.values() || []).length)
 
   const [isReady, setIsReady] = useState(false)
   const [isQrModalOpen, setIsQrModalOpen] = useState(false)
@@ -92,6 +93,14 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
               <Button size="xl" action={'primary'} onPress={handleToggleReady}>
                 <ButtonText>{isReady ? 'CANCEL' : 'PLAY'}</ButtonText>
               </Button>
+            </View>
+
+            <View className="mt-3 h-5 justify-center items-center">
+              {isReady && playerCount < 2 ? (
+                <Text className="text-sm text-typography-600 dark:text-typography-400">
+                  Need 1 more player to start.
+                </Text>
+              ) : null}
             </View>
           </View>
         </View>
