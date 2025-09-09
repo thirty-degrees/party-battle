@@ -110,7 +110,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
     if (this.state.inGamePlayers.length === 1) {
       const lastPlayer = this.state.inGamePlayers[0].name;
       this.playerScores.set(lastPlayer, this.eliminatedPlayers.length);
-      this.finishGame(options);
+      this.finishGame();
     } else {
       this.resetForNextRound();
     }
