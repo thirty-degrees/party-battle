@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.6.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.5.0...frontend-party-battle-v2.6.0) (2025-09-09)
+
+
+### Features
+
+* basic potato game cycle ([4e8e7ca](https://github.com/thirty-degrees/party-battle/commit/4e8e7cab0e19b4b229a9fc6a90e4cd1ea887f327))
+
+
+### Bug Fixes
+
+* react-native-svg version ([bda61d3](https://github.com/thirty-degrees/party-battle/commit/bda61d3343601d4cdcdd00a5aba9913aebe1f7a5))
+
 ## [2.5.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.4.0...frontend-party-battle-v2.5.0) (2025-09-09)
 
 
