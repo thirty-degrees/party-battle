@@ -37,8 +37,7 @@ jobs:
         uses: dorny/test-reporter@v1
         with:
           name: Test Results
-          path: |
-            backend-party-battle/test-results.json
+          path: backend-party-battle/test-results.json
           reporter: mocha-json
           fail-on-error: true
 
@@ -46,9 +45,6 @@ jobs:
         uses: dorny/test-reporter@v1
         with:
           name: Lint Results
-          path: |
-            backend-party-battle/lint-results.xml
-            frontend-party-battle/lint-results.xml
-            types-party-battle/lint-results.xml
+          path: backend-party-battle/lint-results.xml,frontend-party-battle/lint-results.xml,types-party-battle/lint-results.xml
           reporter: java-junit
           fail-on-error: true
