@@ -10,13 +10,19 @@
         "buildType": "app-bundle",
         "distribution": "store",
         "credentialsSource": "local",
-        "gradleCommand": ":app:bundleRelease"
+        "gradleCommand": ":app:bundleRelease",
+        "env": {
+          "EXPO_PUBLIC_ENV": "prod"
+        }
       },
       "ios": {
         "distribution": "store",
         "credentialsSource": "remote",
         "autoIncrement": false,
-        "buildConfiguration": "Release"
+        "buildConfiguration": "Release",
+        "env": {
+          "EXPO_PUBLIC_ENV": "prod"
+        }
       }
     }
   },
