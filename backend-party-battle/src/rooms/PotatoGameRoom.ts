@@ -21,10 +21,6 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
     }, 500);
   }
 
-  private getRandomCountdownSeconds(): number {
-    return Math.floor(Math.random() * (POTATO_COUNTDOWN_MAX_SECONDS - POTATO_COUNTDOWN_MIN_SECONDS + 1)) + POTATO_COUNTDOWN_MIN_SECONDS;
-  }
-
   private startRound() {
     const countdownSeconds = this.getRandomCountdownSeconds();
     this.state.message = countdownSeconds.toString();
@@ -43,13 +39,21 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
     }, 3000);
 
     this.clock.setTimeout(() => {
-      this.state.message = "BOOM!";
-      this.state.status = "waiting";
-
-      this.clock.setTimeout(() => {
-        this.finishGame();
-      }, 1000);
+      this.endRound();
     }, countdownSeconds * 1000);
+  }
+
+  private endRound() {
+    this.state.message = "BOOM!";
+    this.state.status = "waiting";
+
+    this.clock.setTimeout(() => {
+      this.finishGame();
+    }, 1000);
+  }
+
+  private getRandomCountdownSeconds(): number {
+    return Math.floor(Math.random() * (POTATO_COUNTDOWN_MAX_SECONDS - POTATO_COUNTDOWN_MIN_SECONDS + 1)) + POTATO_COUNTDOWN_MIN_SECONDS;
   }
 
   override getScores(): Score[] {
