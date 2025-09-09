@@ -11,7 +11,7 @@
     "web": "expo start --web -c",
     "lint": "expo lint",
     "lint:fix": "expo lint --fix",
-    "lint:ci": "expo lint --format junit --output-file lint-results.xml",
+    "lint:ci": "expo lint -- --format junit --output-file lint-results.xml",
     "docker:build": "docker build -f ../frontend-party-battle/dockerfile -t frontend-party-battle ..",
     "build": "npm run -w types-party-battle build",
     "prebuild": "npm run -w types-party-battle build"
