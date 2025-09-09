@@ -5,12 +5,12 @@ import { GameComponent } from '../GameComponent'
 import PotatoStack from './PotatoStack'
 
 export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
-  const gameStatus = useColyseusState(gameRoom, (state) => state.status)
+  const message = useColyseusState(gameRoom, (state) => state.message)
 
   return (
     <View className="flex-1 bg-white dark:bg-black justify-center items-center space-y-6">
+      <Text className="text-black dark:text-white text-xl">{message}</Text>
       <PotatoStack style={{ width: 300, height: 400 }} />
-      <Text className="text-black dark:text-white text-lg">Room State: {JSON.stringify(gameStatus)}</Text>
     </View>
   )
 }

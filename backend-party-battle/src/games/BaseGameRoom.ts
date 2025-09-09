@@ -13,6 +13,7 @@ type PlayerSessionId = string;
 
 export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
   protected playerConnections = new Map<PlayerName, PlayerSessionId | null>();
+  private lobbyRoomId: string;
 
   onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
     console.log(`${this.constructor.name}.onCreate: roomId: '${this.roomId}', lobbyRoomId: '${options.lobbyRoomId}'`);
@@ -20,18 +21,20 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
     this.autoDispose = true;
     this.maxClients = MAX_AMOUNT_OF_PLAYERS;
 
+    this.lobbyRoomId = options.lobbyRoomId;
+
     options.playerNames.forEach((playerName) => {
       this.playerConnections.set(playerName, null);
     });
   }
 
-  protected finishGame(options: { lobbyRoomId: string; playerNames: string[]; }) {
+  protected finishGame() {
     const gameHistory: GameHistory = {
       gameType: this.getGameType(),
       scores: this.getScores(),
     };
 
-    this.presence.publish("score-" + options.lobbyRoomId, gameHistory);
+    this.presence.publish("score-" + this.lobbyRoomId, gameHistory);
     this.state.status = "finished";
   }
 

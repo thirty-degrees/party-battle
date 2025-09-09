@@ -14,9 +14,36 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
     this.state = new PotatoGameSchema("waiting");
 
     setTimeout(() => {
-      this.finishGame(options);
-      console.log("TEMP: Game status changed to finished after 10 seconds");
-    }, 10000);
+      this.startRound();
+    }, 500);
+  }
+
+  private startRound() {
+    // Set random countdown between 8-15 seconds
+    const countdownSeconds = Math.floor(Math.random() * 8) + 8; // 8-15 inclusive
+    this.state.message = countdownSeconds.toString();
+    this.state.status = "playing";
+
+    setTimeout(() => {
+      this.state.message = (countdownSeconds - 1).toString();
+    }, 1000);
+
+    setTimeout(() => {
+      this.state.message = (countdownSeconds - 2).toString();
+    }, 2000);
+
+    setTimeout(() => {
+      this.state.message = "";
+    }, 3000);
+
+    setTimeout(() => {
+      this.state.message = "BOOM!";
+      this.state.status = "waiting";
+
+      setTimeout(() => {
+        this.finishGame();
+      }, 1000);
+    }, countdownSeconds * 1000);
   }
 
   override getScores(): Score[] {

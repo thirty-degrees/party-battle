@@ -78,7 +78,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   private handlePlayerTimeout() {
     this.clearPlayerTurnTimer();
     // will be changed later to just the player loses the game, not everyone
-    this.finishGame({ lobbyRoomId: "", playerNames: [] });
+    this.finishGame();
   }
 
   private clearPlayerTurnTimer() {
