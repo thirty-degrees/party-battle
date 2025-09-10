@@ -1,11 +1,11 @@
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { useEffect, useState } from 'react'
-import { Dimensions, SafeAreaView, View } from 'react-native'
+import { Dimensions, SafeAreaView, Text, View } from 'react-native'
 import { PotatoGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { GameComponent } from '../GameComponent'
 import { assignPlayerSlotPositions } from './assignPlayerSlotPositions'
-import HalfCircleRibbon from './HalfCircleRibbon'
+import HalfCircleRibbon, { ArcItem } from './HalfCircleRibbon'
 import { PlayerSlot } from './PlayerSlot'
 import PotatoStack from './PotatoStack'
 
@@ -15,6 +15,29 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
   const playerWithPotato = useColyseusState(gameRoom, (state) => state.playerWithPotato)
   const remainingPlayers = useColyseusState(gameRoom, (state) => [...state.remainingPlayers])
   const playerSlotAssignments = assignPlayerSlotPositions(remainingPlayers, trimmedPlayerName)
+
+  const topItems: ArcItem[] = [
+    {
+      id: 'topLeft',
+      element: <PlayerSlot playerName={'123456789012345'} playerWithPotato={'123456789012345'} />,
+    },
+    {
+      id: 'topCenterLeft',
+      element: <PlayerSlot playerName={'123456789012345'} playerWithPotato={'123456789012345'} />,
+    },
+    {
+      id: 'top',
+      element: <PlayerSlot playerName={'123456789012345'} playerWithPotato={'123456789012345'} />,
+    },
+    {
+      id: 'topCenterRight',
+      element: <PlayerSlot playerName={'123456789012345'} playerWithPotato={'123456789012345'} />,
+    },
+    {
+      id: 'topRight',
+      element: <PlayerSlot playerName={'123456789012345'} playerWithPotato={'123456789012345'} />,
+    },
+  ]
 
   const [dimensions, setDimensions] = useState(Dimensions.get('window'))
   const maxWidth = 448 // max-w-md in Tailwind is 448px
@@ -31,7 +54,6 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
   }, [])
 
   console.log(playerSlotAssignments, message)
-  console.log(Dimensions.get('window'))
 
   return (
     <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
@@ -40,21 +62,32 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
           <HalfCircleRibbon
             radius={radius}
             itemSize={itemSize}
-            items={[
-              { id: 'tl', label: 'top\nleft' },
-              { id: 'tcl', label: 'top\ncenter\nleft' },
-              { id: 't', label: 'top' },
-              { id: 'tcr', label: 'top\ncenter\nright' },
-              { id: 'tr', label: 'top\nright' },
-            ]}
+            items={topItems}
+            centerItem={<Text className="text-5xl font-bold dark:text-white text-black">{13}</Text>}
           />
 
-          <View className="flex-row justify-center w-full">
-            <PlayerSlot playerName={'left'} playerWithPotato={'left'} />
-            <View className="flex-1 items-center">
-              {playerWithPotato === trimmedPlayerName && <PotatoStack style={{ width: 200 }} />}
+          <View className="absolute inset-x-4 top-1/2 flex-row justify-between">
+            <PlayerSlot playerName={'left'} playerWithPotato={'left'} className="transform -rotate-90" />
+            <PlayerSlot playerName={'right'} playerWithPotato={'right'} className="transform rotate-90" />
+          </View>
+
+          <View className="flex-1 items-center">
+            <View
+              className="bg-red-500 relative overflow-hidden flex-1"
+              style={{ width: safeAreaWidth - itemSize }}
+            >
+              {playerWithPotato === trimmedPlayerName && (
+                <View
+                  className="absolute"
+                  style={{
+                    left: Math.random() * (safeAreaWidth - itemSize - 150),
+                    top: Math.random() * (dimensions.height - (radius + itemSize / 2) - 240),
+                  }}
+                >
+                  <PotatoStack style={{ width: 150 }} />
+                </View>
+              )}
             </View>
-            <PlayerSlot playerName={'right'} playerWithPotato={'right'} />
           </View>
         </View>
       </View>
