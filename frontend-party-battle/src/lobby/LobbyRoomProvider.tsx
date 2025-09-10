@@ -4,12 +4,13 @@ import Constants from 'expo-constants'
 import { router } from 'expo-router'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { LobbySchema } from 'types-party-battle'
+import { usePlayerName } from '../index/PlayerNameProvider'
 
 export type LobbyRoomContextType = {
   lobbyRoom?: Room<LobbySchema>
   isLoading: boolean
-  joinLobbyRoom: (roomId: string, playerName: string) => Promise<void>
-  createLobbyRoom: (playerName: string) => Promise<void>
+  joinLobbyRoom: (roomId: string) => Promise<void>
+  createLobbyRoom: () => Promise<void>
   leaveLobbyRoom: () => Promise<void>
 }
 
@@ -24,6 +25,7 @@ export const useLobbyRoomContext = () => {
 }
 
 export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { trimmedPlayerName } = usePlayerName()
   const [lobbyRoom, setLobbyRoom] = useState<Room<LobbySchema> | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const [storedRoomId, setStoredRoomId] = useState<string | undefined>(undefined)
@@ -44,12 +46,12 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, [])
 
   const joinLobbyRoom = useCallback(
-    async (roomId: string, playerName: string) => {
+    async (roomId: string) => {
       try {
         setIsLoading(true)
         const client = new Client(Constants.expoConfig?.extra?.backendUrl)
         const joinedRoom = await client.joinById<LobbySchema>(roomId, {
-          name: playerName,
+          name: trimmedPlayerName,
         })
         setLobbyRoom(joinedRoom)
         setStoredRoomId(joinedRoom.roomId)
@@ -63,31 +65,28 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setIsLoading(false)
       }
     },
-    [attachListeners]
+    [attachListeners, trimmedPlayerName]
   )
 
-  const createLobbyRoom = useCallback(
-    async (playerName: string) => {
-      try {
-        setIsLoading(true)
-        const client = new Client(Constants.expoConfig?.extra?.backendUrl)
-        const createdRoom = await client.create<LobbySchema>('lobby_room', {
-          name: playerName,
-        })
-        setLobbyRoom(createdRoom)
-        setStoredRoomId(createdRoom.roomId)
-        attachListeners(createdRoom)
-        setConnectionLost(false)
-        setCanRetry(false)
-      } catch (error) {
-        console.error('Failed to create lobby:', error)
-        throw error
-      } finally {
-        setIsLoading(false)
-      }
-    },
-    [attachListeners]
-  )
+  const createLobbyRoom = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      const client = new Client(Constants.expoConfig?.extra?.backendUrl)
+      const createdRoom = await client.create<LobbySchema>('lobby_room', {
+        name: trimmedPlayerName,
+      })
+      setLobbyRoom(createdRoom)
+      setStoredRoomId(createdRoom.roomId)
+      attachListeners(createdRoom)
+      setConnectionLost(false)
+      setCanRetry(false)
+    } catch (error) {
+      console.error('Failed to create lobby:', error)
+      throw error
+    } finally {
+      setIsLoading(false)
+    }
+  }, [attachListeners, trimmedPlayerName])
 
   const leaveLobbyRoom = useCallback(async () => {
     if (lobbyRoom) {
@@ -103,29 +102,21 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     setCanRetry(false)
   }, [lobbyRoom])
 
-  const retryLobbyRoom = useCallback(async () => {
-    if (!storedRoomId) return
+  const handleConnectionLostRetry = useCallback(async () => {
     try {
-      setIsLoading(true)
-      const client = new Client(Constants.expoConfig?.extra?.backendUrl)
-      const room = await client.reconnect<LobbySchema>(storedRoomId)
-      setLobbyRoom(room)
-      setStoredRoomId(room.roomId)
-      attachListeners(room)
-      setConnectionLost(false)
-      setCanRetry(false)
+      await joinLobbyRoom(storedRoomId!)
     } catch {
-      setConnectionLost(true)
       setCanRetry(false)
-    } finally {
-      setIsLoading(false)
     }
-  }, [storedRoomId, attachListeners])
+  }, [storedRoomId, joinLobbyRoom])
 
-  const handleLeaveParty = useCallback(async () => {
-    await leaveLobbyRoom()
+  const handleConnectionLostLeave = useCallback(async () => {
+    setLobbyRoom(undefined)
+    setStoredRoomId(undefined)
+    setConnectionLost(false)
+    setCanRetry(false)
     router.replace('/')
-  }, [leaveLobbyRoom])
+  }, [setConnectionLost])
 
   const value: LobbyRoomContextType = useMemo(
     () => ({
@@ -143,8 +134,8 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       {children}
       <ConnectionLostModal
         isOpen={connectionLost}
-        onRetry={retryLobbyRoom}
-        onLeave={handleLeaveParty}
+        onRetry={handleConnectionLostRetry}
+        onLeave={handleConnectionLostLeave}
         canRetry={canRetry}
         isLoading={isLoading}
       />

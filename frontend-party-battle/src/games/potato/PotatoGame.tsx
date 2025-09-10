@@ -8,12 +8,12 @@ import PotatoStack from './PotatoStack'
 export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
   const message = useColyseusState(gameRoom, (state) => state.message)
   const playerWithPotato = useColyseusState(gameRoom, (state) => state.playerWithPotato)
-  const { playerName } = usePlayerName()
+  const { trimmedPlayerName } = usePlayerName()
 
   return (
     <View className="flex-1 bg-white dark:bg-black justify-center items-center space-y-6">
       <Text className="text-black dark:text-white text-xl">{message}</Text>
-      {playerWithPotato === playerName.trim() && <PotatoStack style={{ width: 300, height: 400 }} />}
+      {playerWithPotato === trimmedPlayerName && <PotatoStack style={{ width: 300, height: 400 }} />}
     </View>
   )
 }

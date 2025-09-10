@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { storage } from './storage'
 
 type PlayerNameContextType = {
   playerName: string
+  trimmedPlayerName: string
   setPlayerName: (name: string) => void
   isLoading: boolean
 }
@@ -18,14 +19,14 @@ export const usePlayerName = () => {
 }
 
 export const PlayerNameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [playerName, setPlayerNameState] = useState<string>('')
+  const [playerName, setPlayerName] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     let active = true
     storage.getItem('playerName').then((v) => {
       if (!active) return
-      if (v !== null) setPlayerNameState(v)
+      if (v !== null) setPlayerName(v)
       setIsLoading(false)
     })
     return () => {
@@ -39,15 +40,17 @@ export const PlayerNameProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }, [playerName, isLoading])
 
-  const setPlayerName = (name: string) => {
-    setPlayerNameState(name)
-  }
+  const trimmedPlayerName = useMemo(() => playerName.trim(), [playerName])
 
-  const value: PlayerNameContextType = {
-    playerName,
-    setPlayerName,
-    isLoading,
-  }
+  const value = useMemo<PlayerNameContextType>(
+    () => ({
+      playerName,
+      trimmedPlayerName,
+      setPlayerName,
+      isLoading,
+    }),
+    [playerName, trimmedPlayerName, isLoading]
+  )
 
   return <PlayerNameContext.Provider value={value}>{children}</PlayerNameContext.Provider>
 }
