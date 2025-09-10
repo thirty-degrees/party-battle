@@ -38,8 +38,8 @@ export default function TimerProgressBar({ timeWhenTimerIsOver, isActive }: Time
   }
 
   return (
-    <Progress value={progress} size="sm" className="w-full max-w-xs">
-      <ProgressFilledTrack />
+    <Progress value={progress} size="sm" className="w-full max-w-sm">
+      <ProgressFilledTrack className="bg-red-500" />
     </Progress>
   )
 }

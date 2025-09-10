@@ -1,48 +1,53 @@
-import { View } from 'react-native'
-import { Button, ButtonText } from '../../../components/ui/button'
+import { TouchableOpacity, View } from 'react-native'
+import CardSvgComponent from './cardSvgComponent'
 
 type ToothButtonsProps = {
   teethCount: number
   pressedTeethIndex: number[]
   onToothPress: (toothIndex: number) => void
+  disabled?: boolean
 }
 
-export default function ToothButtons({ teethCount, pressedTeethIndex, onToothPress }: ToothButtonsProps) {
+export default function ToothButtons({ teethCount, pressedTeethIndex, onToothPress, disabled = false }: ToothButtonsProps) {
   return (
-    <View className="w-80">
-      <View className="flex-row justify-center gap-2 mb-2">
+    <View className="w-full items-center px-4">
+      <View className="flex-row justify-center mb-2 gap-1">
         {Array.from({ length: Math.min(6, teethCount) }, (_, index) => {
           const isPressed = pressedTeethIndex.includes(index)
           return (
-            <Button
+            <TouchableOpacity
               key={index}
-              size="sm"
-              action="primary"
-              variant="solid"
-              isDisabled={isPressed}
-              onPress={isPressed ? undefined : () => onToothPress(index)}
+              onPress={isPressed || disabled ? undefined : () => onToothPress(index)}
+              disabled={isPressed || disabled}
+              style={{
+                opacity: isPressed ? 0 : 1,
+                width: '15%',
+                aspectRatio: 0.7,
+              }}
             >
-              <ButtonText></ButtonText>
-            </Button>
+              <CardSvgComponent />
+            </TouchableOpacity>
           )
         })}
       </View>
       {teethCount > 6 && (
-        <View className="flex-row justify-center gap-2">
+        <View className="flex-row justify-center gap-1">
           {Array.from({ length: Math.min(6, teethCount - 6) }, (_, index) => {
             const toothIndex = index + 6
             const isPressed = pressedTeethIndex.includes(toothIndex)
             return (
-              <Button
+              <TouchableOpacity
                 key={toothIndex}
-                size="sm"
-                action="primary"
-                variant="solid"
-                isDisabled={isPressed}
-                onPress={isPressed ? undefined : () => onToothPress(toothIndex)}
+                onPress={isPressed || disabled ? undefined : () => onToothPress(toothIndex)}
+                disabled={isPressed || disabled}
+                style={{
+                  opacity: isPressed ? 0 : 1,
+                  width: '15%',
+                  aspectRatio: 0.7,
+                }}
               >
-                <ButtonText></ButtonText>
-              </Button>
+                <CardSvgComponent />
+              </TouchableOpacity>
             )
           })}
         </View>

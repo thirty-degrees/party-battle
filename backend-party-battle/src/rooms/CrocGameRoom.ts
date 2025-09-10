@@ -10,6 +10,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   private currentPlayerIndex = 0;
   private playerTurnTimer: Delayed | null = null;
   private eliminatedPlayers: string[] = [];
+  private readonly playerTurnTimeout = 20000;
 
   override getGameType(): GameType {
     return CrocGameRoom.gameType;
@@ -65,11 +66,11 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   private startPlayerTurn() {
     this.clearPlayerTurnTimer();
     
-    this.state.timeWhenTimerIsOver = this.clock.currentTime + 5000;
+    this.state.timeWhenTimerIsOver = this.clock.currentTime + this.playerTurnTimeout;
     
     this.playerTurnTimer = this.clock.setTimeout(() => {
       this.handlePlayerTimeout();
-    }, 5000);
+    }, this.playerTurnTimeout);
   }
 
   private advanceToNextPlayer(_options: { lobbyRoomId: string, playerNames: string[] }) {
