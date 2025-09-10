@@ -1,29 +1,38 @@
 import { PlayerSlot } from './PlayerSlot'
 
-export const assignPlayerSlots = (
+export function assignPlayerSlots(
   remainingPlayers: string[],
   currentPlayer: string
-): Record<PlayerSlot, string> => {
-  const opponents = remainingPlayers.filter((player) => player !== currentPlayer)
-  const slotAssignments: Record<PlayerSlot, string> = {} as Record<PlayerSlot, string>
-
-  const topRowSlots: PlayerSlot[] = ['topLeft', 'topRight', 'topCenterLeft', 'topCenterRight', 'top']
-
-  let opponentIndex = 0
-
-  if (opponents.length === 1) {
-    slotAssignments.top = opponents[0]
-    return slotAssignments
+): Partial<Record<PlayerSlot, string>> {
+  const slotsByCount: Record<number, PlayerSlot[]> = {
+    0: [],
+    1: ['top'],
+    2: ['right', 'left'],
+    3: ['right', 'top', 'left'],
+    4: ['right', 'topRight', 'top', 'left'],
+    5: ['right', 'topRight', 'top', 'topLeft', 'left'],
+    6: ['right', 'topRight', 'topCenterRight', 'top', 'topLeft', 'left'],
+    7: ['right', 'topRight', 'topCenterRight', 'top', 'topCenterLeft', 'topLeft', 'left'],
   }
 
-  if (opponents.length >= 2) {
-    slotAssignments.left = opponents[opponentIndex++]
-    slotAssignments.right = opponents[opponentIndex++]
+  const opponents = getOpponents(remainingPlayers, currentPlayer)
+
+  const maxSlots = 7
+  const slots = slotsByCount[Math.min(opponents.length, maxSlots)]
+  const result: Partial<Record<PlayerSlot, string>> = {}
+
+  for (let i = 0; i < Math.min(slots.length, opponents.length); i++) {
+    result[slots[i]] = opponents[i]
   }
 
-  for (let i = 0; i < topRowSlots.length && opponentIndex < opponents.length; i++) {
-    slotAssignments[topRowSlots[i]] = opponents[opponentIndex++]
-  }
+  return result
+}
 
-  return slotAssignments
+function getOpponents(remainingPlayers: string[], currentPlayer: string): string[] {
+  if (remainingPlayers.includes(currentPlayer)) {
+    const i = remainingPlayers.indexOf(currentPlayer)
+    return remainingPlayers.slice(i + 1).concat(remainingPlayers.slice(0, i))
+  } else {
+    return remainingPlayers.slice()
+  }
 }
