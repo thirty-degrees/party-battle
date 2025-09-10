@@ -1,4 +1,4 @@
-export type PlayerSlot =
+export type PlayerSlotPosition =
   | 'left'
   | 'right'
   | 'top'

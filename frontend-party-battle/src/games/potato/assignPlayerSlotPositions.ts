@@ -1,10 +1,10 @@
-import { PlayerSlot } from './PlayerSlot'
+import { PlayerSlotPosition } from './PlayerSlotPosition'
 
-export function assignPlayerSlots(
+export function assignPlayerSlotPositions(
   remainingPlayers: string[],
   currentPlayer: string
-): Partial<Record<PlayerSlot, string>> {
-  const slotsByCount: Record<number, PlayerSlot[]> = {
+): Partial<Record<PlayerSlotPosition, string>> {
+  const slotsByCount: Record<number, PlayerSlotPosition[]> = {
     0: [],
     1: ['top'],
     2: ['right', 'left'],
@@ -19,7 +19,7 @@ export function assignPlayerSlots(
 
   const maxSlots = 7
   const slots = slotsByCount[Math.min(opponents.length, maxSlots)]
-  const result: Partial<Record<PlayerSlot, string>> = {}
+  const result: Partial<Record<PlayerSlotPosition, string>> = {}
 
   for (let i = 0; i < Math.min(slots.length, opponents.length); i++) {
     result[slots[i]] = opponents[i]
