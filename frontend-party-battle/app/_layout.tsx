@@ -4,6 +4,7 @@ import { PlayerNameProvider } from '@/src/index/PlayerNameProvider'
 import { LobbyRoomProvider } from '@/src/lobby/LobbyRoomProvider'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
+import Head from 'expo-router/head'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import 'react-native-reanimated'
@@ -24,6 +25,9 @@ export default function RootLayout() {
         <GluestackUIProvider>
           <PlayerNameProvider>
             <LobbyRoomProvider>
+              <Head>
+                <title>Party Battle</title>
+              </Head>
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="index" />
                 <Stack.Screen name="lobby" />
