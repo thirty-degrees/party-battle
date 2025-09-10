@@ -38,6 +38,7 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
 
   useEffect(() => {
     if (currentGame && currentGameRoomId) {
+      setIsQrModalOpen(false)
       router.push(`/games/${currentGame}?roomId=${currentGameRoomId}`)
     }
   }, [currentGame, currentGameRoomId, router])
