@@ -1,5 +1,5 @@
 import { Text } from '@/components/ui/text'
-import { View } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 import { CrocGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { usePlayerName } from '../../index/PlayerNameProvider'
@@ -25,8 +25,8 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
   }
 
   return (
-    <View className="flex-1 bg-white dark:bg-black p-4">
-      <View className="flex-1 items-center justify-center space-y-3">
+    <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
+      <View className="flex-1 justify-center items-center space-y-3">
         <TimerProgressBar
           timeWhenTimerIsOver={timeWhenTimerIsOver}
           isActive={isCurrentPlayer && isPlayerInGame}
@@ -54,6 +54,6 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
           onToothPress={handleToothPress}
         />
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
