@@ -5,9 +5,10 @@ type ToothButtonsProps = {
   teethCount: number
   pressedTeethIndex: number[]
   onToothPress: (toothIndex: number) => void
+  disabled?: boolean
 }
 
-export default function ToothButtons({ teethCount, pressedTeethIndex, onToothPress }: ToothButtonsProps) {
+export default function ToothButtons({ teethCount, pressedTeethIndex, onToothPress, disabled = false }: ToothButtonsProps) {
   return (
     <View className="w-full items-center px-4">
       <View className="flex-row justify-center mb-2 gap-1">
@@ -16,7 +17,8 @@ export default function ToothButtons({ teethCount, pressedTeethIndex, onToothPre
           return (
             <TouchableOpacity
               key={index}
-              onPress={isPressed ? undefined : () => onToothPress(index)}
+              onPress={isPressed || disabled ? undefined : () => onToothPress(index)}
+              disabled={isPressed || disabled}
               style={{
                 opacity: isPressed ? 0 : 1,
                 width: '15%',
@@ -36,7 +38,8 @@ export default function ToothButtons({ teethCount, pressedTeethIndex, onToothPre
             return (
               <TouchableOpacity
                 key={toothIndex}
-                onPress={isPressed ? undefined : () => onToothPress(toothIndex)}
+                onPress={isPressed || disabled ? undefined : () => onToothPress(toothIndex)}
+                disabled={isPressed || disabled}
                 style={{
                   opacity: isPressed ? 0 : 1,
                   width: '15%',
