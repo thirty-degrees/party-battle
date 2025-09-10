@@ -25,6 +25,9 @@ jobs:
       - name: Build shared types
         run: npm run -w types-party-battle build
 
+      - name: Run type check
+        run: npm run check-types
+
       - name: Run linting for CI
         run: npm run lint:ci
         continue-on-error: true
