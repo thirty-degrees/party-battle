@@ -23,7 +23,6 @@
     "@expo/vector-icons": "^14.1.0",
     "@gluestack-ui/core": "^3.0.5",
     "@gluestack-ui/utils": "^3.0.6",
-    "@gluestack/ui-next-adapter": "^3.0.2",
     "@legendapp/motion": "^2.4.0",
     "@react-native-async-storage/async-storage": "2.1.2",
     "@react-navigation/bottom-tabs": "^7.3.10",
