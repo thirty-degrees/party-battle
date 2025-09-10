@@ -1,6 +1,16 @@
 import { assignPlayerSlots } from '../assignPlayerSlots'
 
 describe('assignPlayerSlots', () => {
+  describe('when no opponents', () => {
+    it('should assign no players to any slots', () => {
+      const remainingPlayers = ['player1']
+      const currentPlayer = 'player1'
+      const result = assignPlayerSlots(remainingPlayers, currentPlayer)
+
+      expect(result).toEqual({})
+    })
+  })
+
   describe('when one opponent', () => {
     it('should assign the single opponent to the top slot when current player is the first player', () => {
       const remainingPlayers = ['player1', 'player2']
@@ -301,6 +311,99 @@ describe('assignPlayerSlots', () => {
         topCenterLeft: 'player5',
         topLeft: 'player6',
         left: 'player7',
+      })
+    })
+  })
+
+  describe('when current player is not in the remaining players', () => {
+    it('should assign the remaining player to the top slot when one player is remaining', () => {
+      const remainingPlayers = ['player1']
+      const currentPlayer = 'player2'
+      const result = assignPlayerSlots(remainingPlayers, currentPlayer)
+
+      expect(result).toEqual({
+        top: 'player1',
+      })
+    })
+
+    it('should assign the remaining players to the left and right slots when two players are remaining', () => {
+      const remainingPlayers = ['player1', 'player3']
+      const currentPlayer = 'player2'
+      const result = assignPlayerSlots(remainingPlayers, currentPlayer)
+
+      expect(result).toEqual({
+        right: 'player1',
+        left: 'player3',
+      })
+    })
+
+    it('should assign the remaining players to the left, right and top slots when three players are remaining', () => {
+      const remainingPlayers = ['player1', 'player3', 'player4']
+      const currentPlayer = 'player2'
+      const result = assignPlayerSlots(remainingPlayers, currentPlayer)
+
+      expect(result).toEqual({
+        right: 'player1',
+        top: 'player3',
+        left: 'player4',
+      })
+    })
+
+    it('should assign the remaining players to the left, right, top and topRight slots when four players are remaining', () => {
+      const remainingPlayers = ['player1', 'player3', 'player4', 'player5']
+      const currentPlayer = 'player2'
+      const result = assignPlayerSlots(remainingPlayers, currentPlayer)
+
+      expect(result).toEqual({
+        right: 'player1',
+        topRight: 'player3',
+        top: 'player4',
+        left: 'player5',
+      })
+    })
+
+    it('should assign the remaining players to the left, right, top, topRight and topLeft slots when five players are remaining', () => {
+      const remainingPlayers = ['player1', 'player3', 'player4', 'player5', 'player6']
+      const currentPlayer = 'player2'
+      const result = assignPlayerSlots(remainingPlayers, currentPlayer)
+
+      expect(result).toEqual({
+        right: 'player1',
+        topRight: 'player3',
+        top: 'player4',
+        topLeft: 'player5',
+        left: 'player6',
+      })
+    })
+
+    it('should assign the remaining players to the left, right, top, topRight, topLeft and topCenterRight slots when six players are remaining', () => {
+      const remainingPlayers = ['player1', 'player3', 'player4', 'player5', 'player6', 'player7']
+      const currentPlayer = 'player2'
+      const result = assignPlayerSlots(remainingPlayers, currentPlayer)
+
+      expect(result).toEqual({
+        right: 'player1',
+        topRight: 'player3',
+        topCenterRight: 'player4',
+        top: 'player5',
+        topLeft: 'player6',
+        left: 'player7',
+      })
+    })
+
+    it('should assign the remaining players to the left, right, top, topRight, topLeft, topCenterRight, and topCenterLeft slots when seven players are remaining', () => {
+      const remainingPlayers = ['player1', 'player3', 'player4', 'player5', 'player6', 'player7', 'player8']
+      const currentPlayer = 'player2'
+      const result = assignPlayerSlots(remainingPlayers, currentPlayer)
+
+      expect(result).toEqual({
+        right: 'player1',
+        topRight: 'player3',
+        topCenterRight: 'player4',
+        top: 'player5',
+        topCenterLeft: 'player6',
+        topLeft: 'player7',
+        left: 'player8',
       })
     })
   })
