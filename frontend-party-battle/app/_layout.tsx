@@ -8,7 +8,7 @@ import Head from 'expo-router/head'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import 'react-native-reanimated'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context'
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -21,7 +21,7 @@ export default function RootLayout() {
 
   return (
     <React.StrictMode>
-      <SafeAreaProvider>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <GluestackUIProvider>
           <PlayerNameProvider>
             <LobbyRoomProvider>
