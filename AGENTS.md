@@ -39,9 +39,6 @@ npm run start --workspace=frontend-party-battle
 ### Testing Framework
 ```bash
 npm test
-
-npm test --workspace=backend-party-battle
-npm test --workspace=frontend-party-battle
 ```
 
 ### Linting & Code Quality
