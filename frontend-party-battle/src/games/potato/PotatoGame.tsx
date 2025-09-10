@@ -19,11 +19,23 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
   const topItems: ArcItem[] = [
     {
       id: 'topLeft',
-      element: <PlayerSlot playerName={'123456789012345'} playerWithPotato={'123456789012345'} />,
+      element: (
+        <PlayerSlot
+          className="opacity-50"
+          playerName={'123456789012345'}
+          playerWithPotato={'123456789012345'}
+        />
+      ),
     },
     {
       id: 'topCenterLeft',
-      element: <PlayerSlot playerName={'123456789012345'} playerWithPotato={'123456789012345'} />,
+      element: (
+        <PlayerSlot
+          className="opacity-50"
+          playerName={'123456789012345'}
+          playerWithPotato={'123456789012345'}
+        />
+      ),
     },
     {
       id: 'top',
@@ -31,11 +43,23 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
     },
     {
       id: 'topCenterRight',
-      element: <PlayerSlot playerName={'123456789012345'} playerWithPotato={'123456789012345'} />,
+      element: (
+        <PlayerSlot
+          className="opacity-50"
+          playerName={'123456789012345'}
+          playerWithPotato={'123456789012345'}
+        />
+      ),
     },
     {
       id: 'topRight',
-      element: <PlayerSlot playerName={'123456789012345'} playerWithPotato={'123456789012345'} />,
+      element: (
+        <PlayerSlot
+          className="opacity-50"
+          playerName={'123456789012345'}
+          playerWithPotato={'123456789012345'}
+        />
+      ),
     },
   ]
 

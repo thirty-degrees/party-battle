@@ -22,7 +22,7 @@ export default function PotatoHeatSvg(props: SvgProps) {
 
   useEffect(() => {
     scaleAnim.value = withRepeat(
-      withTiming(0.99, { duration: 430 }),
+      withTiming(1.02, { duration: 430 }),
       -1, // -1 means infinite loop
       true // reverse the animation on each iteration
     )
