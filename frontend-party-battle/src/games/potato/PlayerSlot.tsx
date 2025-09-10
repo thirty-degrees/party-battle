@@ -15,8 +15,12 @@ export const PlayerSlot = ({ playerName, playerWithPotato, className }: PlayerSl
   return (
     <View className={className}>
       <View className="items-center">
-        <Text className="text-black dark:text-white text-2xs">{playerName}</Text>
-        {hasPotato && <PotatoStack style={{ width: 50 }} />}
+        <Text className="text-black dark:text-white text-2xs whitespace-nowrap">{playerName}</Text>
+        {hasPotato ? (
+          <PotatoStack style={{ width: 50, height: 67 }} />
+        ) : (
+          <View style={{ width: 50, height: 67 }} />
+        )}
       </View>
     </View>
   )

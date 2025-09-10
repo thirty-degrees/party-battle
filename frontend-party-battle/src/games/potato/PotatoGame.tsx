@@ -22,8 +22,8 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
       element: (
         <PlayerSlot
           className="opacity-50"
-          playerName={'123456789012345'}
-          playerWithPotato={'123456789012345'}
+          playerName={playerSlotAssignments.topLeft}
+          playerWithPotato={playerWithPotato}
         />
       ),
     },
@@ -32,22 +32,22 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
       element: (
         <PlayerSlot
           className="opacity-50"
-          playerName={'123456789012345'}
-          playerWithPotato={'123456789012345'}
+          playerName={playerSlotAssignments.topCenterLeft}
+          playerWithPotato={playerWithPotato}
         />
       ),
     },
     {
       id: 'top',
-      element: <PlayerSlot playerName={'123456789012345'} playerWithPotato={'123456789012345'} />,
+      element: <PlayerSlot playerName={playerSlotAssignments.top} playerWithPotato={playerWithPotato} />,
     },
     {
       id: 'topCenterRight',
       element: (
         <PlayerSlot
           className="opacity-50"
-          playerName={'123456789012345'}
-          playerWithPotato={'123456789012345'}
+          playerName={playerSlotAssignments.topCenterRight}
+          playerWithPotato={playerWithPotato}
         />
       ),
     },
@@ -56,8 +56,8 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
       element: (
         <PlayerSlot
           className="opacity-50"
-          playerName={'123456789012345'}
-          playerWithPotato={'123456789012345'}
+          playerName={playerSlotAssignments.topRight}
+          playerWithPotato={playerWithPotato}
         />
       ),
     },
@@ -77,8 +77,6 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
     return () => subscription?.remove()
   }, [])
 
-  console.log(playerSlotAssignments, message)
-
   return (
     <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
       <View className="flex-1 p-4 justify-center items-center">
@@ -87,19 +85,24 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
             radius={radius}
             itemSize={itemSize}
             items={topItems}
-            centerItem={<Text className="text-5xl font-bold dark:text-white text-black">{13}</Text>}
+            centerItem={<Text className="text-5xl font-bold dark:text-white text-black">{message}</Text>}
           />
 
           <View className="absolute inset-x-4 top-1/2 flex-row justify-between">
-            <PlayerSlot playerName={'left'} playerWithPotato={'left'} className="transform -rotate-90" />
-            <PlayerSlot playerName={'right'} playerWithPotato={'right'} className="transform rotate-90" />
+            <PlayerSlot
+              playerName={playerSlotAssignments.left}
+              playerWithPotato={playerWithPotato}
+              className="transform -rotate-90"
+            />
+            <PlayerSlot
+              playerName={playerSlotAssignments.right}
+              playerWithPotato={playerWithPotato}
+              className="transform rotate-90"
+            />
           </View>
 
           <View className="flex-1 items-center">
-            <View
-              className="bg-red-500 relative overflow-hidden flex-1"
-              style={{ width: safeAreaWidth - itemSize }}
-            >
+            <View className="relative overflow-hidden flex-1" style={{ width: safeAreaWidth - itemSize }}>
               {playerWithPotato === trimmedPlayerName && (
                 <View
                   className="absolute"
