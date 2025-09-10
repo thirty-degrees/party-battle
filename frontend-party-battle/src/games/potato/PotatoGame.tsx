@@ -1,6 +1,7 @@
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { useEffect, useState } from 'react'
 import { Dimensions, SafeAreaView, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { PotatoGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { GameComponent } from '../GameComponent'
@@ -63,11 +64,18 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
     },
   ]
 
+  const safeAreaInsets = useSafeAreaInsets()
   const [dimensions, setDimensions] = useState(Dimensions.get('window'))
-  const maxWidth = 448 // max-w-md in Tailwind is 448px
-  const safeAreaWidth = Math.min(dimensions.width - 32, maxWidth) // Subtract padding (p-4 = 16px * 2)
+  const maxWidth = 448 // max-w-md is 448px
+  const padding = 32 // p-4 is 16px * 2
+  const safeAreaWidth = Math.min(
+    dimensions.width - padding - safeAreaInsets.left - safeAreaInsets.right,
+    maxWidth
+  )
+  const safeAreaHeight = dimensions.height - safeAreaInsets.top - safeAreaInsets.bottom
   const radius = safeAreaWidth / 2
   const itemSize = safeAreaWidth / 5
+  const halfCircleRibbonHeight = radius + itemSize / 2
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
@@ -105,12 +113,12 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
             <View className="relative flex-1" style={{ width: safeAreaWidth - itemSize }}>
               {playerWithPotato === trimmedPlayerName && (
                 <View
-                  className="absolute"
+                  className="absolute "
                   style={{
                     left: Math.random() * (safeAreaWidth - itemSize - 100),
-                    top: Math.random() * (dimensions.height - (radius + itemSize / 2) - 170),
+                    top: Math.random() * (safeAreaHeight - halfCircleRibbonHeight - 134 - padding),
                     width: 100,
-                    height: 200,
+                    height: 134,
                   }}
                 >
                   <PotatoStack style={{ width: 100 }} />
