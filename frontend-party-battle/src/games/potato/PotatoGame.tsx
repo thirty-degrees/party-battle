@@ -102,13 +102,15 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
           </View>
 
           <View className="flex-1 items-center">
-            <View className="relative overflow-hidden flex-1" style={{ width: safeAreaWidth - itemSize }}>
+            <View className="relative flex-1" style={{ width: safeAreaWidth - itemSize }}>
               {playerWithPotato === trimmedPlayerName && (
                 <View
                   className="absolute"
                   style={{
                     left: Math.random() * (safeAreaWidth - itemSize - 100),
-                    top: dimensions.height - (radius + itemSize / 2) - 170,
+                    top: Math.random() * (dimensions.height - (radius + itemSize / 2) - 170),
+                    width: 100,
+                    height: 200,
                   }}
                 >
                   <PotatoStack style={{ width: 100 }} />

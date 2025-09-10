@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-import { View } from 'react-native'
 
 export type ArcItem = { id: string; element: ReactNode }
 type Props = {
@@ -27,7 +25,6 @@ export default function HalfCircleRibbon({ radius, itemSize, items, centerItem }
               key={it.id}
               className="absolute"
               style={{
-                width: itemSize,
                 height: itemSize,
                 left: x,
                 top: y,
@@ -41,9 +38,9 @@ export default function HalfCircleRibbon({ radius, itemSize, items, centerItem }
         <View
           className="absolute items-center justify-center"
           style={{
-            width: itemSize,
+            width: 2 * itemSize,
             height: itemSize,
-            left: radius - itemSize / 2,
+            left: radius - itemSize,
             top: radius - itemSize / 2,
           }}
         >
