@@ -1,4 +1,4 @@
-type PlayerSlot = 'left' | 'right' | 'top' | 'topLeft' | 'topCenterLeft' | 'topRight' | 'topCenterRight'
+import { PlayerSlot } from './PlayerSlot'
 
 export const assignPlayerSlots = (
   remainingPlayers: string[],
