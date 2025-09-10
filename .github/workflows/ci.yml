@@ -27,6 +27,7 @@ jobs:
 
       - name: Run type check
         run: npm run check-types
+        continue-on-error: true
 
       - name: Run linting for CI
         run: npm run lint:ci

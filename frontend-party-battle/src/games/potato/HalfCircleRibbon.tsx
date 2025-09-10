@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+import { View } from 'react-native'
 
 export type ArcItem = { id: string; element: ReactNode }
 type Props = {

@@ -8,7 +8,12 @@ type ToothButtonsProps = {
   disabled?: boolean
 }
 
-export default function ToothButtons({ teethCount, pressedTeethIndex, onToothPress, disabled = false }: ToothButtonsProps) {
+export default function ToothButtons({
+  teethCount,
+  pressedTeethIndex,
+  onToothPress,
+  disabled = false,
+}: ToothButtonsProps) {
   return (
     <View className="w-full items-center px-4">
       <View className="flex-row justify-center mb-2 gap-1">
