@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { LayoutChangeEvent, Platform } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated'
 import Svg, {
   Defs,
@@ -11,7 +12,12 @@ import Svg, {
   SvgProps,
 } from 'react-native-svg'
 
+const VB_W = 492.586
+const VB_H = 656.724
+const BASE_STDDEV = 7.613
+
 export default function PotatoHeatSvg(props: SvgProps) {
+  const [stdDev, setStdDev] = useState(BASE_STDDEV)
   const scaleAnim = useSharedValue(0.98)
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -19,6 +25,13 @@ export default function PotatoHeatSvg(props: SvgProps) {
     height: '100%',
     transform: [{ scale: scaleAnim.value }],
   }))
+
+  const onLayout = useCallback((e: LayoutChangeEvent) => {
+    const { width, height } = e.nativeEvent.layout
+    const scale = Math.min(width / VB_W, height / VB_H)
+    const v = Platform.OS === 'ios' ? BASE_STDDEV * scale : BASE_STDDEV
+    setStdDev(v)
+  }, [])
 
   useEffect(() => {
     scaleAnim.value = withRepeat(
@@ -29,8 +42,8 @@ export default function PotatoHeatSvg(props: SvgProps) {
   }, [scaleAnim])
 
   return (
-    <Animated.View style={animatedStyle}>
-      <Svg width="100%" height="100%" viewBox="0 0 492.586 656.724" {...props}>
+    <Animated.View style={animatedStyle} onLayout={onLayout}>
+      <Svg width="100%" height="100%" viewBox={`0 0 ${VB_W} ${VB_H}`} {...props}>
         <Defs>
           <RadialGradient
             id="b"
@@ -57,10 +70,20 @@ export default function PotatoHeatSvg(props: SvgProps) {
             <Stop offset={0.395} stopColor="#e03f1c" />
             <Stop offset={1} stopColor="#f28922" />
           </LinearGradient>
-          <Filter id="c" width={1.077} height={1.057} x={-0.039} y={-0.028}>
-            <FeGaussianBlur stdDeviation={7.613} />
+
+          <Filter
+            id="c"
+            x={-0.5}
+            y={-0.5}
+            width={2}
+            height={2}
+            filterUnits="objectBoundingBox"
+            primitiveUnits="userSpaceOnUse"
+          >
+            <FeGaussianBlur stdDeviation={stdDev} />
           </Filter>
         </Defs>
+
         <Path
           fill="url(#b)"
           fillRule="evenodd"
