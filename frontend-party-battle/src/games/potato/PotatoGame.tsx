@@ -25,6 +25,11 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
           <PlayerSlot playerName={playerSlotAssignments.topRight} playerWithPotato={playerWithPotato} />
         </View>
 
+        <View className="flex-row items-center pt-6">
+          <PlayerSlot playerName={playerSlotAssignments.left} playerWithPotato={playerWithPotato} />
+          <PlayerSlot playerName={playerSlotAssignments.right} playerWithPotato={playerWithPotato} />
+        </View>
+
         <View className="flex-1 justify-center items-center space-y-6">
           <Text className="text-black dark:text-white text-xl">{message}</Text>
           {playerWithPotato === trimmedPlayerName && <PotatoStack style={{ width: 200 }} />}
