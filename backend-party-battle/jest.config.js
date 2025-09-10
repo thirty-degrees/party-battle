@@ -10,7 +10,4 @@ export default {
   },
   setupFilesAfterEnv: [],
   testTimeout: 10000,
-  reporters: [
-    'default'
-  ]
 };
