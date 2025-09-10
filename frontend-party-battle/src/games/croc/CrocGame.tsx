@@ -13,10 +13,10 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
   const currentPlayer = useColyseusState(gameRoom, (state) => state.currentPlayer)
   const inGamePlayers = useColyseusState(gameRoom, (state) => Array.from(state.inGamePlayers || []))
   const timeWhenTimerIsOver = useColyseusState(gameRoom, (state) => state.timeWhenTimerIsOver)
-  const { playerName } = usePlayerName()
+  const { trimmedPlayerName } = usePlayerName()
 
-  const isCurrentPlayer = currentPlayer === playerName
-  const isPlayerInGame = inGamePlayers.some((player) => player.name === playerName)
+  const isCurrentPlayer = currentPlayer === trimmedPlayerName
+  const isPlayerInGame = inGamePlayers.some((player) => player.name === trimmedPlayerName)
 
   const handleToothPress = (toothIndex: number) => {
     if (isCurrentPlayer) {

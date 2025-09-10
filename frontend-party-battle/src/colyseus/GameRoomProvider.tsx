@@ -29,7 +29,7 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
   const [gameRoom, setGameRoom] = useState<Room<TGameSchema> | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const hasJoinedRef = useRef(false)
-  const { playerName } = usePlayerName()
+  const { trimmedPlayerName } = usePlayerName()
 
   const joinGameRoom = useCallback(
     async (roomId: string) => {
@@ -42,7 +42,7 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
 
       const client = new Client(Constants.expoConfig?.extra?.backendUrl)
       const joinedRoom = await client.joinById<TGameSchema>(roomId, {
-        name: playerName,
+        name: trimmedPlayerName,
       })
 
       setGameRoom(joinedRoom)
@@ -54,7 +54,7 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
         }
       })
     },
-    [playerName, gameRoom]
+    [trimmedPlayerName, gameRoom]
   )
 
   const leaveGameRoom = useCallback(() => {

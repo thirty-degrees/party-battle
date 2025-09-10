@@ -17,20 +17,12 @@ import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle'
 export default function HomeScreen() {
   const [showJoinModal, setShowJoinModal] = useState(false)
   const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
-  const { playerName, setPlayerName, isLoading: isLoadingPlayerName } = usePlayerName()
+  const { playerName, trimmedPlayerName, setPlayerName, isLoading: isLoadingPlayerName } = usePlayerName()
 
   const { createLobbyRoom, joinLobbyRoom, isLoading } = useLobbyRoomContext()
 
-  const trimPlayerName = () => {
-    const trimmedName = playerName!.trim()
-    setPlayerName(trimmedName)
-    return trimmedName
-  }
-
   const handleCreateRoom = async () => {
-    const trimmedName = trimPlayerName()
-
-    await createLobbyRoom(trimmedName)
+    await createLobbyRoom()
 
     router.push({
       pathname: '/lobby',
@@ -38,9 +30,7 @@ export default function HomeScreen() {
   }
 
   const handleJoinRoom = async (roomId: string) => {
-    const trimmedName = trimPlayerName()
-
-    await joinLobbyRoom(roomId, trimmedName)
+    await joinLobbyRoom(roomId)
 
     router.push({
       pathname: '/lobby',
@@ -94,7 +84,7 @@ export default function HomeScreen() {
                   action="primary"
                   variant="solid"
                   onPress={() => handleJoinRoom(partyCode)}
-                  isDisabled={!playerName?.trim() || isLoading}
+                  isDisabled={!trimmedPlayerName || isLoading}
                   style={{ width: 200, paddingHorizontal: 8 }}
                 >
                   <ButtonText>{isLoading ? 'Loading...' : `JOIN ${partyCode}`}</ButtonText>
@@ -107,7 +97,7 @@ export default function HomeScreen() {
                   size="xl"
                   action="primary"
                   onPress={() => setShowJoinModal(true)}
-                  isDisabled={!playerName?.trim() || isLoading}
+                  isDisabled={!trimmedPlayerName || isLoading}
                   style={{ width: 200, paddingHorizontal: 8 }}
                 >
                   <ButtonText>{isLoading ? 'Loading...' : 'JOIN PARTY'}</ButtonText>
@@ -120,7 +110,7 @@ export default function HomeScreen() {
                 action="primary"
                 variant="outline"
                 onPress={handleCreateRoom}
-                isDisabled={!playerName?.trim() || isLoading}
+                isDisabled={!trimmedPlayerName || isLoading}
                 style={{ width: 200, paddingHorizontal: 8 }}
               >
                 <ButtonText>{isLoading ? 'Loading...' : 'CREATE PARTY'}</ButtonText>
