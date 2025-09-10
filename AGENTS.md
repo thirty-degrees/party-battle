@@ -34,17 +34,15 @@ npm run dev --workspace=backend-party-battle
 npm run start --workspace=frontend-party-battle
 ```
 
-## Test & Lint
+## Test, Lint & Type check
 
-### Testing Framework
 ```bash
 npm test
-```
 
-### Linting & Code Quality
-```bash
 npm run lint
 npm run lint:fix
+
+npm run check-types
 ```
 
 ## PR instructions
