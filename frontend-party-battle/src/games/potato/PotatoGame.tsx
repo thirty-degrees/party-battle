@@ -80,11 +80,11 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
                 <View
                   className="absolute"
                   style={{
-                    left: Math.random() * (safeAreaWidth - itemSize - 150),
-                    top: Math.random() * (dimensions.height - (radius + itemSize / 2) - 240),
+                    left: Math.random() * (safeAreaWidth - itemSize - 100),
+                    top: dimensions.height - (radius + itemSize / 2) - 170,
                   }}
                 >
-                  <PotatoStack style={{ width: 150 }} />
+                  <PotatoStack style={{ width: 100 }} />
                 </View>
               )}
             </View>
