@@ -1,11 +1,4 @@
-type PlayerSlot =
-  | 'verticalLeft'
-  | 'verticalRight'
-  | 'top'
-  | 'topLeft'
-  | 'topCenterLeft'
-  | 'topRight'
-  | 'topCenterRight'
+type PlayerSlot = 'left' | 'right' | 'top' | 'topLeft' | 'topCenterLeft' | 'topRight' | 'topCenterRight'
 
 export const assignPlayerSlots = (
   remainingPlayers: string[],
@@ -24,8 +17,8 @@ export const assignPlayerSlots = (
   }
 
   if (opponents.length >= 2) {
-    slotAssignments.verticalLeft = opponents[opponentIndex++]
-    slotAssignments.verticalRight = opponents[opponentIndex++]
+    slotAssignments.left = opponents[opponentIndex++]
+    slotAssignments.right = opponents[opponentIndex++]
   }
 
   for (let i = 0; i < topRowSlots.length && opponentIndex < opponents.length; i++) {
