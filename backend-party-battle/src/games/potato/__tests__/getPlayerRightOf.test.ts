@@ -1,5 +1,4 @@
-import * as assert from "assert";
-import { getPlayerRightOf } from "../../src/games/potato/getPlayerRightOf";
+import { getPlayerRightOf } from "../getPlayerRightOf";
 
 describe("getPlayerRightOf", () => {
   describe("when currentPlayer is in the players array", () => {
@@ -9,7 +8,7 @@ describe("getPlayerRightOf", () => {
 
       const result = getPlayerRightOf(players, currentPlayer);
 
-      assert.strictEqual(result, "player2");
+      expect(result).toBe("player2");
     });
   });
 
@@ -20,7 +19,7 @@ describe("getPlayerRightOf", () => {
 
       const result = getPlayerRightOf(players, currentPlayer);
 
-      assert.strictEqual(result, "player0");
+      expect(result).toBe("player0");
     });
   });
 
@@ -31,7 +30,7 @@ describe("getPlayerRightOf", () => {
 
       const result = getPlayerRightOf(players, currentPlayer);
 
-      assert.strictEqual(result, null);
+      expect(result).toBe(null);
     });
   });
 
@@ -42,7 +41,7 @@ describe("getPlayerRightOf", () => {
 
       const result = getPlayerRightOf(players, currentPlayer);
 
-      assert.strictEqual(result, null);
+      expect(result).toBe(null);
     });
   });
 
@@ -51,9 +50,9 @@ describe("getPlayerRightOf", () => {
       const players = ["player0", "player1", "player2"];
       const currentPlayer = "player3";
 
-      assert.throws(() => getPlayerRightOf(players, currentPlayer), {
-        message: "Current player must be in the players array"
-      });
+      expect(() => getPlayerRightOf(players, currentPlayer)).toThrow(
+        "Current player must be in the players array"
+      );
     });
   });
 
@@ -62,9 +61,9 @@ describe("getPlayerRightOf", () => {
       const players: string[] = [];
       const currentPlayer = "player0";
 
-      assert.throws(() => getPlayerRightOf(players, currentPlayer), {
-        message: "Current player must be in the players array"
-      });
+      expect(() => getPlayerRightOf(players, currentPlayer)).toThrow(
+        "Current player must be in the players array"
+      );
     });
   });
 });

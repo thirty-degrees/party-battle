@@ -1,5 +1,4 @@
-import * as assert from "assert";
-import { getPlayerLeftOf } from "../../src/games/potato/getPlayerLeftOf";
+import { getPlayerLeftOf } from "../getPlayerLeftOf";
 
 describe("getPlayerLeftOf", () => {
   describe("when currentPlayer is in the players array", () => {
@@ -9,7 +8,7 @@ describe("getPlayerLeftOf", () => {
 
       const result = getPlayerLeftOf(players, currentPlayer);
 
-      assert.strictEqual(result, "player0");
+      expect(result).toBe("player0");
     });
   });
 
@@ -20,7 +19,7 @@ describe("getPlayerLeftOf", () => {
 
       const result = getPlayerLeftOf(players, currentPlayer);
 
-      assert.strictEqual(result, "player2");
+      expect(result).toBe("player2");
     });
   });
 
@@ -31,7 +30,7 @@ describe("getPlayerLeftOf", () => {
 
       const result = getPlayerLeftOf(players, currentPlayer);
 
-      assert.strictEqual(result, null);
+      expect(result).toBe(null);
     });
   });
 
@@ -42,7 +41,7 @@ describe("getPlayerLeftOf", () => {
 
       const result = getPlayerLeftOf(players, currentPlayer);
 
-      assert.strictEqual(result, null);
+      expect(result).toBe(null);
     });
   });
 
@@ -51,9 +50,9 @@ describe("getPlayerLeftOf", () => {
       const players = ["player0", "player1", "player2"];
       const currentPlayer = "player3";
 
-      assert.throws(() => getPlayerLeftOf(players, currentPlayer), {
-        message: "Current player must be in the players array"
-      });
+      expect(() => getPlayerLeftOf(players, currentPlayer)).toThrow(
+        "Current player must be in the players array"
+      );
     });
   });
 
@@ -62,9 +61,9 @@ describe("getPlayerLeftOf", () => {
       const players: string[] = [];
       const currentPlayer = "player0";
 
-      assert.throws(() => getPlayerLeftOf(players, currentPlayer), {
-        message: "Current player must be in the players array"
-      });
+      expect(() => getPlayerLeftOf(players, currentPlayer)).toThrow(
+        "Current player must be in the players array"
+      );
     });
   });
 });

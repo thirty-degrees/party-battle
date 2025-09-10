@@ -13,6 +13,8 @@
     "lint": "expo lint",
     "lint:fix": "expo lint --fix",
     "lint:ci": "expo lint -- --format junit --output-file lint-results.xml",
+    "test": "jest",
+    "test:ci": "jest --ci --testResultsProcessor=jest-junit",
     "docker:build": "docker build -f ../frontend-party-battle/dockerfile -t frontend-party-battle ..",
     "build": "npm run -w types-party-battle build",
     "prebuild": "npm run -w types-party-battle build"
@@ -68,10 +70,14 @@
   "devDependencies": {
     "@babel/core": "^7.28.3",
     "@babel/plugin-transform-class-static-block": "^7.28.3",
+    "@types/jest": "^30.0.0",
     "@types/react": "~19.0.10",
     "eslint-config-prettier": "^10.1.8",
     "eslint-formatter-junit": "^8.40.0",
     "eslint-plugin-prettier": "^5.5.4",
+    "jest": "~29.7.0",
+    "jest-expo": "~53.0.10",
+    "jest-junit": "^16.0.0",
     "jscodeshift": "^17.3.0",
     "prettier": "^3.6.2",
     "tsx": "^4.20.5",

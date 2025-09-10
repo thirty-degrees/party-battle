@@ -1,5 +1,4 @@
-import * as assert from "assert";
-import { getPlayerAcrossOf } from "../../src/games/potato/getPlayerAcrossOf";
+import { getPlayerAcrossOf } from "../getPlayerAcrossOf";
 
 describe("getPlayerAcrossOf", () => {
   describe("when there are 4 players", () => {
@@ -9,7 +8,7 @@ describe("getPlayerAcrossOf", () => {
 
       const result = getPlayerAcrossOf(players, currentPlayer);
 
-      assert.strictEqual(result, "player2");
+      expect(result).toBe("player2");
     });
   });
 
@@ -20,7 +19,7 @@ describe("getPlayerAcrossOf", () => {
 
       const result = getPlayerAcrossOf(players, currentPlayer);
 
-      assert.strictEqual(result, "player3");
+      expect(result).toBe("player3");
     });
   });
 
@@ -31,7 +30,7 @@ describe("getPlayerAcrossOf", () => {
 
       const result = getPlayerAcrossOf(players, currentPlayer);
 
-      assert.strictEqual(result, "player3");
+      expect(result).toBe("player3");
     });
   });
 
@@ -42,7 +41,7 @@ describe("getPlayerAcrossOf", () => {
 
       const result = getPlayerAcrossOf(players, currentPlayer);
 
-      assert.strictEqual(result, "player2");
+      expect(result).toBe("player2");
     });
   });
 
@@ -53,7 +52,7 @@ describe("getPlayerAcrossOf", () => {
 
       const result = getPlayerAcrossOf(players, currentPlayer);
 
-      assert.strictEqual(result, "player1");
+      expect(result).toBe("player1");
     });
   });
 
@@ -64,7 +63,7 @@ describe("getPlayerAcrossOf", () => {
 
       const result = getPlayerAcrossOf(players, currentPlayer);
 
-      assert.strictEqual(result, null);
+      expect(result).toBe(null);
     });
   });
 
@@ -73,9 +72,9 @@ describe("getPlayerAcrossOf", () => {
       const players: string[] = [];
       const currentPlayer = "player0";
 
-      assert.throws(() => getPlayerAcrossOf(players, currentPlayer), {
-        message: "Current player must be in the players array"
-      });
+      expect(() => getPlayerAcrossOf(players, currentPlayer)).toThrow(
+        "Current player must be in the players array"
+      );
     });
   });
 
@@ -84,9 +83,9 @@ describe("getPlayerAcrossOf", () => {
       const players = ["player0", "player1", "player2"];
       const currentPlayer = "player3";
 
-      assert.throws(() => getPlayerAcrossOf(players, currentPlayer), {
-        message: "Current player must be in the players array"
-      });
+      expect(() => getPlayerAcrossOf(players, currentPlayer)).toThrow(
+        "Current player must be in the players array"
+      );
     });
   });
 });

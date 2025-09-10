@@ -1,5 +1,4 @@
-import * as assert from "assert";
-import { assignScoresByOrder } from "../../src/scores/assignScoresByOrder";
+import { assignScoresByOrder } from "../assignScoresByOrder";
 
 describe("assignScoresByOrder", () => {
   describe("with multiple players in different ranks", () => {
@@ -8,8 +7,8 @@ describe("assignScoresByOrder", () => {
 
       const result = assignScoresByOrder(players);
 
-      assert.strictEqual(result.length, 3);
-      assert.deepStrictEqual(result, [
+      expect(result.length).toBe(3);
+      expect(result).toEqual([
         { playerName: "Alice", value: 0 },
         { playerName: "Bob", value: 1 },
         { playerName: "Charlie", value: 2 },
@@ -23,8 +22,8 @@ describe("assignScoresByOrder", () => {
 
       const result = assignScoresByOrder(players);
 
-      assert.strictEqual(result.length, 0);
-      assert.deepStrictEqual(result, []);
+      expect(result.length).toBe(0);
+      expect(result).toEqual([]);
     });
   });
 
@@ -34,8 +33,8 @@ describe("assignScoresByOrder", () => {
 
       const result = assignScoresByOrder(players);
 
-      assert.strictEqual(result.length, 1);
-      assert.deepStrictEqual(result, [
+      expect(result.length).toBe(1);
+      expect(result).toEqual([
         { playerName: "Alice", value: 0 },
       ]);
     });
@@ -47,8 +46,8 @@ describe("assignScoresByOrder", () => {
 
       const result = assignScoresByOrder(players);
 
-      assert.strictEqual(result.length, 3);
-      assert.deepStrictEqual(result, [
+      expect(result.length).toBe(3);
+      expect(result).toEqual([
         { playerName: "Alice", value: 0 },
         { playerName: "Bob", value: 2 },
         { playerName: "Charlie", value: 2 },
@@ -62,8 +61,8 @@ describe("assignScoresByOrder", () => {
 
       const result = assignScoresByOrder(players);
 
-      assert.strictEqual(result.length, 4);
-      assert.deepStrictEqual(result, [
+      expect(result.length).toBe(4);
+      expect(result).toEqual([
         { playerName: "Alice", value: 2 },
         { playerName: "Bob", value: 2 },
         { playerName: "Charlie", value: 2 },
@@ -78,8 +77,8 @@ describe("assignScoresByOrder", () => {
 
       const result = assignScoresByOrder(players);
 
-      assert.strictEqual(result.length, 6);
-      assert.deepStrictEqual(result, [
+      expect(result.length).toBe(6);
+      expect(result).toEqual([
         { playerName: "Alice", value: 3 },
         { playerName: "Bob", value: 3 },
         { playerName: "Charlie", value: 3 },
