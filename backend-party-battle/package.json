@@ -11,6 +11,7 @@
     "loadtest": "tsx loadtest/example.ts --room my_room --numClients 2",
     "build": "npm run clean && tsc",
     "clean": "rimraf build",
+    "check-types": "tsc --noEmit",
     "test": "mocha -r tsx test/**/**_test.ts --exit --timeout 15000 --reporter spec",
     "test:ci": "mocha -r tsx test/**/**_test.ts --exit --timeout 15000 --reporter json > test-results.json",
     "lint": "eslint . --ext .ts",

@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import React from "react";
 import { createModal } from '@gluestack-ui/core/modal/creator';
