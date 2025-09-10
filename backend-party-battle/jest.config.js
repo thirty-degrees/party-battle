@@ -11,9 +11,6 @@ export default {
   setupFilesAfterEnv: [],
   testTimeout: 10000,
   reporters: [
-    'default',
-    ['jest-junit', {
-      outputName: 'test-results.xml'
-    }]
+    'default'
   ]
 };

@@ -2,7 +2,7 @@ node_modules/
 .DS_Store
 
 # Test and lint results
-**/test-results.json
+**/test-results.xml
 **/lint-results.xml
 
 # Expo managed workflow

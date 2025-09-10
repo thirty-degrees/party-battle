@@ -14,7 +14,7 @@
     "lint:fix": "expo lint --fix",
     "lint:ci": "expo lint -- --format junit --output-file lint-results.xml",
     "test": "jest",
-    "test:ci": "jest --ci --testResultsProcessor=jest-junit",
+    "test:ci": "JEST_JUNIT_OUTPUT_NAME=test-results.xml jest --ci --testResultsProcessor=jest-junit",
     "docker:build": "docker build -f ../frontend-party-battle/dockerfile -t frontend-party-battle ..",
     "build": "npm run -w types-party-battle build",
     "prebuild": "npm run -w types-party-battle build"
