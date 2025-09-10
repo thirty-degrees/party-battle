@@ -1,9 +1,9 @@
+import { ConnectionLostModal } from '@/components/ui/modal/connection-lost-modal'
 import { Client, Room } from 'colyseus.js'
 import Constants from 'expo-constants'
-import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { router } from 'expo-router'
+import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { LobbySchema } from 'types-party-battle'
-import { ConnectionLostModal } from '@/components/ui/modal/connection-lost-modal'
 
 export type LobbyRoomContextType = {
   lobbyRoom?: Room<LobbySchema>
@@ -27,7 +27,6 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [lobbyRoom, setLobbyRoom] = useState<Room<LobbySchema> | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const [storedRoomId, setStoredRoomId] = useState<string | undefined>(undefined)
-  const [storedPlayerId, setStoredPlayerId] = useState<string | undefined>(undefined)
   const [connectionLost, setConnectionLost] = useState(false)
   const [canRetry, setCanRetry] = useState(false)
   const isLeaving = useRef(false)
@@ -54,7 +53,6 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         })
         setLobbyRoom(joinedRoom)
         setStoredRoomId(joinedRoom.roomId)
-        setStoredPlayerId(joinedRoom.sessionId)
         attachListeners(joinedRoom)
         setConnectionLost(false)
         setCanRetry(false)
@@ -78,7 +76,6 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         })
         setLobbyRoom(createdRoom)
         setStoredRoomId(createdRoom.roomId)
-        setStoredPlayerId(createdRoom.sessionId)
         attachListeners(createdRoom)
         setConnectionLost(false)
         setCanRetry(false)
@@ -102,20 +99,18 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
     setLobbyRoom(undefined)
     setStoredRoomId(undefined)
-    setStoredPlayerId(undefined)
     setConnectionLost(false)
     setCanRetry(false)
   }, [lobbyRoom])
 
   const retryLobbyRoom = useCallback(async () => {
-    if (!storedRoomId || !storedPlayerId) return
+    if (!storedRoomId) return
     try {
       setIsLoading(true)
       const client = new Client(Constants.expoConfig?.extra?.backendUrl)
-      const room = await client.reconnect<LobbySchema>(storedRoomId, storedPlayerId)
+      const room = await client.reconnect<LobbySchema>(storedRoomId)
       setLobbyRoom(room)
       setStoredRoomId(room.roomId)
-      setStoredPlayerId(room.sessionId)
       attachListeners(room)
       setConnectionLost(false)
       setCanRetry(false)
@@ -125,7 +120,7 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     } finally {
       setIsLoading(false)
     }
-  }, [storedRoomId, storedPlayerId, attachListeners])
+  }, [storedRoomId, attachListeners])
 
   const handleLeaveParty = useCallback(async () => {
     await leaveLobbyRoom()
