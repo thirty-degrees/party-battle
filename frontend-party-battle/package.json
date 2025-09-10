@@ -9,6 +9,7 @@
     "android": "expo start --android -c",
     "ios": "expo start --ios -c",
     "web": "expo start --web -c",
+    "check-types": "tsc --noEmit",
     "lint": "expo lint",
     "lint:fix": "expo lint --fix",
     "lint:ci": "expo lint -- --format junit --output-file lint-results.xml",
