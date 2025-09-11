@@ -2,7 +2,7 @@ import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { useEffect, useState } from 'react'
 import { Dimensions, Pressable, SafeAreaView, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { PotatoDirection, PotatoGameSchema } from 'types-party-battle'
+import { POTATO_DIRECTIONS, PotatoDirection, PotatoGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { GameComponent } from '../GameComponent'
 import { assignPlayerSlotPositions } from './assignPlayerSlotPositions'
@@ -121,8 +121,8 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
                     height: 134,
                   }}
                   onPress={() => {
-                    const directions: PotatoDirection[] = ['left', 'right', 'across'] as const
-                    const randomDirection = directions[Math.floor(Math.random() * directions.length)]
+                    const randomDirection =
+                      POTATO_DIRECTIONS[Math.floor(Math.random() * POTATO_DIRECTIONS.length)]
                     gameRoom.send<PotatoDirection>('PassPotato', randomDirection)
                   }}
                 >

@@ -1,9 +1,19 @@
-import { GameType, PotatoDirection, PotatoGameSchema, Score } from "types-party-battle";
+import { GameType, POTATO_DIRECTIONS, PotatoDirection, PotatoGameSchema, Score } from "types-party-battle";
 import { BaseGameRoom } from "../games/BaseGameRoom";
 import { getPlayerAcrossOf } from "../games/potato/getPlayerAcrossOf";
 import { getPlayerLeftOf } from "../games/potato/getPlayerLeftOf";
 import { getPlayerRightOf } from "../games/potato/getPlayerRightOf";
 import { assignScoresByOrder } from "../scores/assignScoresByOrder";
+
+const DIRECTION_FUNCTIONS: Record<PotatoDirection, (players: string[], currentPlayer: string) => string | null> = {
+  left: getPlayerLeftOf,
+  right: getPlayerRightOf,
+  across: getPlayerAcrossOf,
+};
+
+function isValidPotatoDirection(value: unknown): value is PotatoDirection {
+  return typeof value === "string" && value in POTATO_DIRECTIONS;
+}
 
 const POTATO_COUNTDOWN_MIN_SECONDS = 8;
 const POTATO_COUNTDOWN_MAX_SECONDS = 15;
@@ -54,7 +64,7 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
 
       this.state.playerWithPotato = newPlayerWithPotato;
     }, (payload) => {
-      if (payload !== "left" && payload !== "right" && payload !== "across") {
+      if (!isValidPotatoDirection(payload)) {
         throw new Error("Invalid payload");
       }
       return payload;
@@ -75,14 +85,9 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
   }
 
   private getAdjacentPlayer(playerName: string, direction: PotatoDirection): string | null {
-    switch (direction) {
-    case "left":
-      return getPlayerLeftOf(this.state.remainingPlayers, playerName);
-    case "right":
-      return getPlayerRightOf(this.state.remainingPlayers, playerName);
-    case "across":
-      return getPlayerAcrossOf(this.state.remainingPlayers, playerName);
-    }
+    const directionFunction = DIRECTION_FUNCTIONS[direction];
+
+    return directionFunction(this.state.remainingPlayers, playerName);
   }
 
   private startRound() {
