@@ -7,7 +7,6 @@ type Props = {
   potatoPos: { left: number; top: number } | null
   translateX: Animated.Value
   translateY: Animated.Value
-  opacity: Animated.Value
   panHandlers: GestureResponderHandlers
 }
 
@@ -16,7 +15,6 @@ export default function DraggablePotato({
   potatoPos,
   translateX,
   translateY,
-  opacity,
   panHandlers,
 }: Props) {
   if (!shouldShow || !potatoPos) return null
@@ -30,7 +28,6 @@ export default function DraggablePotato({
         width: POTATO_WIDTH,
         height: POTATO_HEIGHT,
         transform: [{ translateX }, { translateY }],
-        opacity,
       }}
       {...panHandlers}
     >

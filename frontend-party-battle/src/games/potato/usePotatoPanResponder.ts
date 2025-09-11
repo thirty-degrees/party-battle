@@ -12,7 +12,6 @@ type Args = {
   safeAreaHeight: number
   translateX: Animated.Value
   translateY: Animated.Value
-  opacity: Animated.Value
 }
 
 export function usePotatoPanResponder({
@@ -25,7 +24,6 @@ export function usePotatoPanResponder({
   safeAreaHeight,
   translateX,
   translateY,
-  opacity,
 }: Args) {
   const panResponder = useMemo(
     () =>
@@ -42,30 +40,17 @@ export function usePotatoPanResponder({
             const toX = dir === 'right' ? safeAreaWidth : -safeAreaWidth
             Animated.parallel([
               Animated.timing(translateX, { toValue: toX, duration: 500, useNativeDriver: true }),
-              Animated.timing(opacity, { toValue: 0.2, duration: 500, useNativeDriver: true }),
             ]).start()
           } else if (g.dy < 0) {
             if (!canAcross) return
             gameRoom.send<PotatoDirection>('PassPotato', 'across')
             Animated.parallel([
               Animated.timing(translateY, { toValue: -safeAreaHeight, duration: 500, useNativeDriver: true }),
-              Animated.timing(opacity, { toValue: 0.2, duration: 500, useNativeDriver: true }),
             ]).start()
           }
         },
       }),
-    [
-      status,
-      canLeft,
-      canRight,
-      canAcross,
-      gameRoom,
-      safeAreaWidth,
-      safeAreaHeight,
-      translateX,
-      translateY,
-      opacity,
-    ]
+    [status, canLeft, canRight, canAcross, gameRoom, safeAreaWidth, safeAreaHeight, translateX, translateY]
   )
 
   return panResponder

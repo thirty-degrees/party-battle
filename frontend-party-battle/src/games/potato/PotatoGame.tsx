@@ -1,8 +1,9 @@
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { useRef } from 'react'
-import { Animated, SafeAreaView, View } from 'react-native'
+import { Animated, View } from 'react-native'
 import { PotatoGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
+import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
 import { assignPlayerSlotPositions } from './assignPlayerSlotPositions'
 import DraggablePotato from './DraggablePotato'
@@ -22,7 +23,6 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
 
   const translateX = useRef(new Animated.Value(0)).current
   const translateY = useRef(new Animated.Value(0)).current
-  const opacity = useRef(new Animated.Value(1)).current
 
   const { safeAreaWidth, safeAreaHeight, radius, itemSize, halfCircleRibbonHeight } = usePotatoLayout()
 
@@ -34,8 +34,7 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
     halfCircleRibbonHeight,
     itemSize,
     translateX,
-    translateY,
-    opacity
+    translateY
   )
 
   const panResponder = usePotatoPanResponder({
@@ -48,37 +47,31 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
     safeAreaHeight,
     translateX,
     translateY,
-    opacity,
   })
 
   return (
-    <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
-      <View className="flex-1 p-4 justify-center items-center">
-        <View className="flex-1 max-w-md w-full">
-          <TopRibbon
-            radius={radius}
-            itemSize={itemSize}
-            message={message}
-            playerSlotAssignments={playerSlotAssignments}
-            playerWithPotato={playerWithPotato}
-          />
-
-          <SideSlots playerSlotAssignments={playerSlotAssignments} playerWithPotato={playerWithPotato} />
-
-          <View className="flex-1 items-center">
-            <View className="relative flex-1" style={{ width: safeAreaWidth - itemSize }}>
-              <DraggablePotato
-                shouldShow={shouldShow}
-                potatoPos={potatoPos}
-                translateX={translateX}
-                translateY={translateY}
-                opacity={opacity}
-                panHandlers={panResponder.panHandlers}
-              />
-            </View>
+    <BasicGameView>
+      <View className="flex-1 relative overflow-hidden">
+        <TopRibbon
+          radius={radius}
+          itemSize={itemSize}
+          message={message}
+          playerSlotAssignments={playerSlotAssignments}
+          playerWithPotato={playerWithPotato}
+        />
+        <SideSlots playerSlotAssignments={playerSlotAssignments} playerWithPotato={playerWithPotato} />
+        <View className="flex-1 items-center">
+          <View className="relative flex-1" style={{ width: safeAreaWidth - itemSize }}>
+            <DraggablePotato
+              shouldShow={shouldShow}
+              potatoPos={potatoPos}
+              translateX={translateX}
+              translateY={translateY}
+              panHandlers={panResponder.panHandlers}
+            />
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </BasicGameView>
   )
 }
