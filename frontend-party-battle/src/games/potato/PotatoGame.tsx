@@ -54,7 +54,7 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
 
   return (
     <BasicGameView>
-      <View className="flex-1 relative">
+      <View className="flex-1 relative overflow-hidden">
         <TopRibbon
           radius={radius}
           itemSize={itemSize}
