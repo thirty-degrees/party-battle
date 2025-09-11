@@ -1,6 +1,6 @@
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
-import { useEffect, useMemo, useState } from 'react'
-import { Dimensions, PanResponder, SafeAreaView, Text, View } from 'react-native'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Animated, Dimensions, PanResponder, SafeAreaView, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { PotatoDirection, PotatoGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
@@ -14,23 +14,14 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
   const { trimmedPlayerName } = usePlayerName()
   const message = useColyseusState(gameRoom, (state) => state.message)
   const playerWithPotato = useColyseusState(gameRoom, (state) => state.playerWithPotato)
+  const status = useColyseusState(gameRoom, (state) => state.status)
   const remainingPlayers = useColyseusState(gameRoom, (state) => [...state.remainingPlayers])
   const playerSlotAssignments = assignPlayerSlotPositions(remainingPlayers, trimmedPlayerName)
-
-  const panResponder = useMemo(
-    () =>
-      PanResponder.create({
-        onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dx) > 20 || Math.abs(g.dy) > 20,
-        onPanResponderRelease: (_, g) => {
-          if (Math.abs(g.dx) > Math.abs(g.dy)) {
-            gameRoom.send<PotatoDirection>('PassPotato', g.dx > 0 ? 'right' : 'left')
-          } else if (g.dy < 0) {
-            gameRoom.send<PotatoDirection>('PassPotato', 'across')
-          }
-        },
-      }),
-    [gameRoom]
-  )
+  const translateX = useRef(new Animated.Value(0)).current
+  const translateY = useRef(new Animated.Value(0)).current
+  const opacity = useRef(new Animated.Value(1)).current
+  const [potatoPos, setPotatoPos] = useState<{ left: number; top: number } | null>(null)
+  const prevPlayerWithPotato = useRef<string | undefined>(undefined)
 
   const topItems: ArcItem[] = [
     {
@@ -92,6 +83,51 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
   const itemSize = safeAreaWidth / 5
   const halfCircleRibbonHeight = radius + itemSize / 2
 
+  const panResponder = useMemo(
+    () =>
+      PanResponder.create({
+        onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dx) > 20 || Math.abs(g.dy) > 20,
+        onPanResponderRelease: (_, g) => {
+          if (status !== 'playing') return
+
+          const canLeft = !!playerSlotAssignments.left
+          const canRight = !!playerSlotAssignments.right
+          const canAcross = !!playerSlotAssignments.top
+
+          if (Math.abs(g.dx) > Math.abs(g.dy)) {
+            const dir: PotatoDirection = g.dx > 0 ? 'right' : 'left'
+            const allowed = dir === 'right' ? canRight : canLeft
+            if (!allowed) return
+            gameRoom.send<PotatoDirection>('PassPotato', dir)
+            const toX = dir === 'right' ? safeAreaWidth : -safeAreaWidth
+            Animated.parallel([
+              Animated.timing(translateX, { toValue: toX, duration: 500, useNativeDriver: true }),
+              Animated.timing(opacity, { toValue: 0.2, duration: 500, useNativeDriver: true }),
+            ]).start()
+          } else if (g.dy < 0) {
+            if (!canAcross) return
+            gameRoom.send<PotatoDirection>('PassPotato', 'across')
+            Animated.parallel([
+              Animated.timing(translateY, { toValue: -safeAreaHeight, duration: 500, useNativeDriver: true }),
+              Animated.timing(opacity, { toValue: 0.2, duration: 500, useNativeDriver: true }),
+            ]).start()
+          }
+        },
+      }),
+    [
+      gameRoom,
+      opacity,
+      playerSlotAssignments.left,
+      playerSlotAssignments.right,
+      playerSlotAssignments.top,
+      safeAreaHeight,
+      safeAreaWidth,
+      status,
+      translateX,
+      translateY,
+    ]
+  )
+
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
       setDimensions(window)
@@ -99,6 +135,34 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
 
     return () => subscription?.remove()
   }, [])
+
+  useEffect(() => {
+    const justReceived =
+      playerWithPotato === trimmedPlayerName && prevPlayerWithPotato.current !== trimmedPlayerName
+
+    if (justReceived) {
+      translateX.setValue(0)
+      translateY.setValue(0)
+      opacity.setValue(1)
+
+      const left = Math.random() * (safeAreaWidth - itemSize - 100)
+      const top = Math.random() * (safeAreaHeight - halfCircleRibbonHeight - 134 - padding)
+      setPotatoPos({ left, top })
+    }
+
+    prevPlayerWithPotato.current = playerWithPotato
+  }, [
+    halfCircleRibbonHeight,
+    itemSize,
+    opacity,
+    padding,
+    playerWithPotato,
+    safeAreaHeight,
+    safeAreaWidth,
+    translateX,
+    translateY,
+    trimmedPlayerName,
+  ])
 
   return (
     <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
@@ -126,20 +190,24 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
 
           <View className="flex-1 items-center">
             <View className="relative flex-1" style={{ width: safeAreaWidth - itemSize }}>
-              {playerWithPotato === trimmedPlayerName && (
-                <View
-                  className="absolute"
-                  style={{
-                    left: Math.random() * (safeAreaWidth - itemSize - 100),
-                    top: Math.random() * (safeAreaHeight - halfCircleRibbonHeight - 134 - padding),
-                    width: 100,
-                    height: 134,
-                  }}
-                  {...panResponder.panHandlers}
-                >
-                  <PotatoStack style={{ width: 100 }} />
-                </View>
-              )}
+              {(playerWithPotato === trimmedPlayerName ||
+                prevPlayerWithPotato.current === trimmedPlayerName) &&
+                potatoPos && (
+                  <Animated.View
+                    className="absolute"
+                    style={{
+                      left: potatoPos.left,
+                      top: potatoPos.top,
+                      width: 100,
+                      height: 134,
+                      transform: [{ translateX }, { translateY }],
+                      opacity,
+                    }}
+                    {...panResponder.panHandlers}
+                  >
+                    <PotatoStack style={{ width: 100 }} />
+                  </Animated.View>
+                )}
             </View>
           </View>
         </View>
