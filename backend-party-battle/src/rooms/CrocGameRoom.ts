@@ -6,7 +6,8 @@ import { assignScoresByOrder } from "../scores/assignScoresByOrder";
 export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   static readonly gameType: GameType = "croc";
   static readonly roomName: string = "croc_game_room";
-  hotToothIndex = 0;
+  private readonly cardCount = 12;
+  hotCardIndex = 0;
   private currentPlayerIndex = 0;
   private playerTurnTimer: Delayed | null = null;
   private eliminatedPlayers: string[] = [];
@@ -20,21 +21,21 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
     super.onCreate(options);
     this.clock.start();
     this.state = new CrocGameSchema("waiting");
-    this.hotToothIndex = Math.floor(Math.random() * 12);
-    this.state.teethCount = 12;
+    this.hotCardIndex = Math.floor(Math.random() * this.cardCount);
+    this.state.cardCount = this.cardCount;
     
     options.playerNames.forEach(playerName => {
       const playerSchema = new PlayerSchema(playerName);
       this.state.inGamePlayers.push(playerSchema);
     });
 
-    this.onMessage("ToothPressed", (client, message: { index: number }) => {
+    this.onMessage("CardPressed", (client, message: { index: number }) => {
       const playerName = this.getPlayerNameBySessionId(client.sessionId);
       if (playerName && playerName === this.state.currentPlayer) {
-        this.state.pressedTeethIndex.push(message.index);
+        this.state.pressedCardIndex.push(message.index);
         
-        if (message.index === this.hotToothIndex) {
-          this.handleHotToothPressed(playerName);
+        if (message.index === this.hotCardIndex) {
+          this.handleHotCardPressed(playerName);
         } else {
           this.advanceToNextPlayer(options);
         }
@@ -84,7 +85,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
     this.clearPlayerTurnTimer();
     const currentPlayerName = this.state.currentPlayer;
     if (currentPlayerName) {
-      this.handleHotToothPressed(currentPlayerName);
+      this.handleHotCardPressed(currentPlayerName);
     }
   }
 
@@ -104,7 +105,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
     return null;
   }
 
-  private handleHotToothPressed(playerName: string) {
+  private handleHotCardPressed(playerName: string) {
     this.eliminatedPlayers.push(playerName);
 
     const playerIndex = this.state.inGamePlayers.findIndex(player => player.name === playerName);
@@ -120,8 +121,8 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
   }
 
   private resetForNextRound() {
-    this.hotToothIndex = Math.floor(Math.random() * 12);
-    this.state.pressedTeethIndex.clear();
+    this.hotCardIndex = Math.floor(Math.random() * this.cardCount);
+    this.state.pressedCardIndex.clear();
     this.currentPlayerIndex = 0;
     this.setCurrentPlayer();
     this.startPlayerTurn();

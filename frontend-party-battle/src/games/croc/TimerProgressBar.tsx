@@ -8,30 +8,35 @@ type TimerProgressBarProps = {
 
 export default function TimerProgressBar({ timeWhenTimerIsOver, isActive }: TimerProgressBarProps) {
   const [progress, setProgress] = useState(100)
+  const [startTime, setStartTime] = useState<number | null>(null)
 
   useEffect(() => {
     if (!isActive || timeWhenTimerIsOver === 0) {
       setProgress(100)
+      setStartTime(null)
       return
+    }
+
+    if (startTime === null) {
+      setStartTime(Date.now())
     }
 
     const updateProgress = () => {
       const currentTime = Date.now()
       const remainingTime = Math.max(timeWhenTimerIsOver - currentTime, 0)
-      const totalDuration = 5000 // 5 seconds in milliseconds
+
+      const totalDuration = timeWhenTimerIsOver - (startTime || currentTime)
       const newProgress = (remainingTime / totalDuration) * 100
 
       setProgress(Math.max(newProgress, 0))
     }
 
-    // Update immediately
     updateProgress()
 
-    // Update every ~16ms for 60fps smooth animation
     const interval = setInterval(updateProgress, 16)
 
     return () => clearInterval(interval)
-  }, [timeWhenTimerIsOver, isActive])
+  }, [timeWhenTimerIsOver, isActive, startTime])
 
   if (!isActive) {
     return null

@@ -5,14 +5,16 @@ import useColyseusState from '../../colyseus/useColyseusState'
 import { usePlayerName } from '../../index/PlayerNameProvider'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
-import TimerProgressBar from './TimerProgressBar'
-import ToothButtons from './ToothButtons'
+import Cards from './Cards'
 import SkullExplodingSvgComponent from './skullExplodingSvgComponent'
 import SkullSvgComponent from './skullSvgComponent'
+import TimerProgressBar from './TimerProgressBar'
 
 export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
-  const teethCount = useColyseusState(gameRoom, (state) => state.teethCount)
-  const pressedTeethIndex = useColyseusState(gameRoom, (state) => Array.from(state.pressedTeethIndex || []))
+  const cardCount = useColyseusState(gameRoom, (state: CrocGameSchema) => state.cardCount)
+  const pressedCardIndex = useColyseusState(gameRoom, (state: CrocGameSchema) =>
+    Array.from(state.pressedCardIndex || [])
+  )
   const currentPlayer = useColyseusState(gameRoom, (state) => state.currentPlayer)
   const inGamePlayers = useColyseusState(gameRoom, (state) => Array.from(state.inGamePlayers || []))
   const timeWhenTimerIsOver = useColyseusState(gameRoom, (state) => state.timeWhenTimerIsOver)
@@ -24,9 +26,9 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
   const isCurrentPlayer = currentPlayer === trimmedPlayerName
   const isPlayerInGame = inGamePlayers.some((player) => player.name === trimmedPlayerName)
 
-  const handleToothPress = (toothIndex: number) => {
+  const handleCardPress = (toothIndex: number) => {
     if (isCurrentPlayer) {
-      gameRoom.send('ToothPressed', { index: toothIndex })
+      gameRoom.send('CardPressed', { index: toothIndex })
     }
   }
 
@@ -51,16 +53,14 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
           </View>
           <View
             style={{
-              width: Math.min(screenWidth * 0.8, 320),
-              height: Math.min(screenHeight * 0.4, 400),
+              width: Math.min(screenWidth * 0.7, 320),
+              height: Math.min(screenHeight * 0.3, 350),
             }}
           >
             {isPlayerInGame ? <SkullSvgComponent /> : <SkullExplodingSvgComponent />}
           </View>
         </View>
       </View>
-
-      <View className="items-center mb-2"></View>
 
       <View className="items-center h-12">
         <TimerProgressBar
@@ -75,14 +75,12 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
       </View>
 
       <View className="items-center mb-8">
-        <View style={{ opacity: isPlayerInGame ? 1 : 0.5 }}>
-          <ToothButtons
-            teethCount={teethCount}
-            pressedTeethIndex={pressedTeethIndex}
-            onToothPress={handleToothPress}
-            disabled={!isPlayerInGame}
-          />
-        </View>
+        <Cards
+          cardCount={cardCount}
+          pressedCardIndex={pressedCardIndex}
+          onCardPress={handleCardPress}
+          disabled={!isPlayerInGame || !isCurrentPlayer}
+        />
       </View>
     </BasicGameView>
   )
