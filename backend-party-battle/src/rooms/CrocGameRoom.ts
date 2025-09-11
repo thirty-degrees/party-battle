@@ -28,7 +28,7 @@ export class CrocGameRoom extends BaseGameRoom<CrocGameSchema> {
       this.state.inGamePlayers.push(playerSchema);
     });
 
-    this.onMessage("tooth_pressed", (client, message: { index: number }) => {
+    this.onMessage("ToothPressed", (client, message: { index: number }) => {
       const playerName = this.getPlayerNameBySessionId(client.sessionId);
       if (playerName && playerName === this.state.currentPlayer) {
         this.state.pressedTeethIndex.push(message.index);

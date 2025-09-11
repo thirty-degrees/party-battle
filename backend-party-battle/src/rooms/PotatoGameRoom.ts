@@ -1,9 +1,13 @@
-import { GameType, PotatoGameSchema, Score } from "types-party-battle";
+import { GameType, PotatoDirection, PotatoGameSchema, Score } from "types-party-battle";
 import { BaseGameRoom } from "../games/BaseGameRoom";
+import { getPlayerAcrossOf } from "../games/potato/getPlayerAcrossOf";
+import { getPlayerLeftOf } from "../games/potato/getPlayerLeftOf";
+import { getPlayerRightOf } from "../games/potato/getPlayerRightOf";
 import { assignScoresByOrder } from "../scores/assignScoresByOrder";
 
 const POTATO_COUNTDOWN_MIN_SECONDS = 8;
 const POTATO_COUNTDOWN_MAX_SECONDS = 15;
+
 
 export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
   static readonly gameType: GameType = "potato";
@@ -26,6 +30,59 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
     this.clock.setTimeout(() => {
       this.startRound();
     }, 500);
+
+    this.onMessage<PotatoDirection>("PassPotato", (client, message) => {
+      const playerName = this.findPlayerBySessionId(client.sessionId);
+
+      if (!this.isPlayerInGame(playerName)) {
+        return;
+      }
+
+      if (this.state.status !== "playing") {
+        return;
+      }
+
+      if (this.state.playerWithPotato !== playerName) {
+        return;
+      }
+
+      const newPlayerWithPotato = this.getAdjacentPlayer(playerName, message);
+
+      if (newPlayerWithPotato === null) {
+        return;
+      }
+
+      this.state.playerWithPotato = newPlayerWithPotato;
+    }, (payload) => {
+      if (payload !== "left" && payload !== "right" && payload !== "across") {
+        throw new Error("Invalid payload");
+      }
+      return payload;
+    });
+  }
+
+  private findPlayerBySessionId(sessionId: string): string | undefined {
+    for (const [name, session] of this.playerConnections.entries()) {
+      if (session === sessionId) {
+        return name;
+      }
+    }
+    return undefined;
+  }
+
+  private isPlayerInGame(playerName: string | undefined): boolean {
+    return playerName !== undefined && this.state.remainingPlayers.includes(playerName);
+  }
+
+  private getAdjacentPlayer(playerName: string, direction: PotatoDirection): string | null {
+    switch (direction) {
+    case "left":
+      return getPlayerLeftOf(this.state.remainingPlayers, playerName);
+    case "right":
+      return getPlayerRightOf(this.state.remainingPlayers, playerName);
+    case "across":
+      return getPlayerAcrossOf(this.state.remainingPlayers, playerName);
+    }
   }
 
   private startRound() {

@@ -1,8 +1,8 @@
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { useEffect, useState } from 'react'
-import { Dimensions, SafeAreaView, Text, View } from 'react-native'
+import { Dimensions, Pressable, SafeAreaView, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { PotatoGameSchema } from 'types-party-battle'
+import { PotatoDirection, PotatoGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { GameComponent } from '../GameComponent'
 import { assignPlayerSlotPositions } from './assignPlayerSlotPositions'
@@ -112,17 +112,22 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
           <View className="flex-1 items-center">
             <View className="relative flex-1" style={{ width: safeAreaWidth - itemSize }}>
               {playerWithPotato === trimmedPlayerName && (
-                <View
-                  className="absolute "
+                <Pressable
+                  className="absolute"
                   style={{
                     left: Math.random() * (safeAreaWidth - itemSize - 100),
                     top: Math.random() * (safeAreaHeight - halfCircleRibbonHeight - 134 - padding),
                     width: 100,
                     height: 134,
                   }}
+                  onPress={() => {
+                    const directions: PotatoDirection[] = ['left', 'right', 'across'] as const
+                    const randomDirection = directions[Math.floor(Math.random() * directions.length)]
+                    gameRoom.send<PotatoDirection>('PassPotato', randomDirection)
+                  }}
                 >
                   <PotatoStack style={{ width: 100 }} />
-                </View>
+                </Pressable>
               )}
             </View>
           </View>

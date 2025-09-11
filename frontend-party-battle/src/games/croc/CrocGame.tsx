@@ -25,7 +25,7 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
 
   const handleToothPress = (toothIndex: number) => {
     if (isCurrentPlayer) {
-      gameRoom.send('tooth_pressed', { index: toothIndex })
+      gameRoom.send('ToothPressed', { index: toothIndex })
     }
   }
 
