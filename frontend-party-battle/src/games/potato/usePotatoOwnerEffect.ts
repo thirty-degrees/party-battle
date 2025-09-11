@@ -10,8 +10,7 @@ export function usePotatoOwnerEffect(
   halfCircleRibbonHeight: number,
   itemSize: number,
   translateX: Animated.Value,
-  translateY: Animated.Value,
-  opacity: Animated.Value
+  translateY: Animated.Value
 ) {
   const [potatoPos, setPotatoPos] = useState<{ left: number; top: number } | null>(null)
   const prevPlayerWithPotato = useRef<string | undefined>(undefined)
@@ -23,7 +22,6 @@ export function usePotatoOwnerEffect(
     if (justReceived) {
       translateX.setValue(0)
       translateY.setValue(0)
-      opacity.setValue(1)
 
       const left = Math.random() * (safeAreaWidth - itemSize - POTATO_WIDTH)
       const top = Math.random() * (safeAreaHeight - halfCircleRibbonHeight - POTATO_HEIGHT - PADDING)
@@ -34,7 +32,6 @@ export function usePotatoOwnerEffect(
   }, [
     halfCircleRibbonHeight,
     itemSize,
-    opacity,
     playerWithPotato,
     safeAreaHeight,
     safeAreaWidth,

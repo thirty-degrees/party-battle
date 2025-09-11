@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
-import { SafeAreaView, View } from 'react-native'
+import { View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface BasicGameViewProps {
   children: ReactNode

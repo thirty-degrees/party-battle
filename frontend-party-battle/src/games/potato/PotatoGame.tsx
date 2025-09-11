@@ -23,7 +23,6 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
 
   const translateX = useRef(new Animated.Value(0)).current
   const translateY = useRef(new Animated.Value(0)).current
-  const opacity = useRef(new Animated.Value(1)).current
 
   const { safeAreaWidth, safeAreaHeight, radius, itemSize, halfCircleRibbonHeight } = usePotatoLayout()
 
@@ -35,8 +34,7 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
     halfCircleRibbonHeight,
     itemSize,
     translateX,
-    translateY,
-    opacity
+    translateY
   )
 
   const panResponder = usePotatoPanResponder({
@@ -49,7 +47,6 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
     safeAreaHeight,
     translateX,
     translateY,
-    opacity,
   })
 
   return (
@@ -70,7 +67,6 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
               potatoPos={potatoPos}
               translateX={translateX}
               translateY={translateY}
-              opacity={opacity}
               panHandlers={panResponder.panHandlers}
             />
           </View>
