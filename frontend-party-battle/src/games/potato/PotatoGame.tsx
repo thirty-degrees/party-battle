@@ -1,8 +1,8 @@
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
-import { useEffect, useState } from 'react'
-import { Dimensions, Pressable, SafeAreaView, Text, View } from 'react-native'
+import { useEffect, useMemo, useState } from 'react'
+import { Dimensions, PanResponder, SafeAreaView, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { POTATO_DIRECTIONS, PotatoDirection, PotatoGameSchema } from 'types-party-battle'
+import { PotatoDirection, PotatoGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { GameComponent } from '../GameComponent'
 import { assignPlayerSlotPositions } from './assignPlayerSlotPositions'
@@ -16,6 +16,21 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
   const playerWithPotato = useColyseusState(gameRoom, (state) => state.playerWithPotato)
   const remainingPlayers = useColyseusState(gameRoom, (state) => [...state.remainingPlayers])
   const playerSlotAssignments = assignPlayerSlotPositions(remainingPlayers, trimmedPlayerName)
+
+  const panResponder = useMemo(
+    () =>
+      PanResponder.create({
+        onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dx) > 20 || Math.abs(g.dy) > 20,
+        onPanResponderRelease: (_, g) => {
+          if (Math.abs(g.dx) > Math.abs(g.dy)) {
+            gameRoom.send<PotatoDirection>('PassPotato', g.dx > 0 ? 'right' : 'left')
+          } else if (g.dy < 0) {
+            gameRoom.send<PotatoDirection>('PassPotato', 'across')
+          }
+        },
+      }),
+    [gameRoom]
+  )
 
   const topItems: ArcItem[] = [
     {
@@ -112,7 +127,7 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
           <View className="flex-1 items-center">
             <View className="relative flex-1" style={{ width: safeAreaWidth - itemSize }}>
               {playerWithPotato === trimmedPlayerName && (
-                <Pressable
+                <View
                   className="absolute"
                   style={{
                     left: Math.random() * (safeAreaWidth - itemSize - 100),
@@ -120,14 +135,10 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
                     width: 100,
                     height: 134,
                   }}
-                  onPress={() => {
-                    const randomDirection =
-                      POTATO_DIRECTIONS[Math.floor(Math.random() * POTATO_DIRECTIONS.length)]
-                    gameRoom.send<PotatoDirection>('PassPotato', randomDirection)
-                  }}
+                  {...panResponder.panHandlers}
                 >
                   <PotatoStack style={{ width: 100 }} />
-                </Pressable>
+                </View>
               )}
             </View>
           </View>

@@ -12,7 +12,7 @@ const DIRECTION_FUNCTIONS: Record<PotatoDirection, (players: string[], currentPl
 };
 
 function isValidPotatoDirection(value: unknown): value is PotatoDirection {
-  return typeof value === "string" && value in POTATO_DIRECTIONS;
+  return typeof value === "string" && POTATO_DIRECTIONS.includes(value as PotatoDirection);
 }
 
 const POTATO_COUNTDOWN_MIN_SECONDS = 8;
@@ -128,7 +128,7 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
       } else {
         this.finishGame();
       }
-    }, 1000);
+    }, 3000);
   }
 
   private getRandomCountdownSeconds(): number {
