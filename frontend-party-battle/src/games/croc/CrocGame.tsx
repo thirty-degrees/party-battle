@@ -1,8 +1,9 @@
 import { Text } from '@/components/ui/text'
-import { Dimensions, SafeAreaView, View } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import { CrocGameSchema } from 'types-party-battle'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { usePlayerName } from '../../index/PlayerNameProvider'
+import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
 import TimerProgressBar from './TimerProgressBar'
 import ToothButtons from './ToothButtons'
@@ -30,7 +31,7 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
+    <BasicGameView>
       <View className="flex-1 items-center justify-center">
         <View className="flex-1 items-center justify-center">
           <View style={{ height: 80 }} className="items-center justify-center">
@@ -83,6 +84,6 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </BasicGameView>
   )
 }
