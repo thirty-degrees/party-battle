@@ -1,4 +1,5 @@
 import { Client, matchMaker, Room } from "@colyseus/core";
+import { humanId } from 'human-id';
 import {
   GameHistory,
   GameHistorySchema,
@@ -11,7 +12,20 @@ import {
 import { gameRooms } from "../app.config";
 
 export class LobbyRoom extends Room<LobbySchema> {
-  onCreate(_options: { name: string }) {
+  private readonly IDS_CHANNEL = "$lobby-ids";
+
+  private async generateRoomId(): Promise<string> {
+    const current = await this.presence.smembers(this.IDS_CHANNEL);
+    let id: string;
+    do {
+      id = humanId();
+    } while (current.includes(id));
+    await this.presence.sadd(this.IDS_CHANNEL, id);
+    return id;
+  }
+
+  async onCreate(_options: { name: string }) {
+    this.roomId = await this.generateRoomId();
     console.log(`LobbyRoom.onCreate: roomId: '${this.roomId}'`);
 
     this.autoDispose = true;
@@ -33,8 +47,9 @@ export class LobbyRoom extends Room<LobbySchema> {
     this.state.players.delete(client.sessionId);
   }
 
-  onDispose() {
+  async onDispose() {
     console.log(`LobbyRoom.onDispose: roomId: '${this.roomId}'`);
+    await this.presence.srem(this.IDS_CHANNEL, this.roomId);
   }
 
   private registerSetPlayerReady() {
