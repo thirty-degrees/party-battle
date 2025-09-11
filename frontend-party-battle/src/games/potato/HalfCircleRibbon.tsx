@@ -13,10 +13,7 @@ export default function HalfCircleRibbon({ radius, itemSize, items, centerItem }
   const degrees = [150, 120, 90, 60, 30]
   return (
     <View className="w-full items-center">
-      <View
-        className="relative overflow-visible"
-        style={{ width: 2 * radius, height: radius + itemSize / 2 }}
-      >
+      <View className="relative" style={{ width: 2 * radius, height: radius + itemSize / 2 }}>
         {items.map((it, i) => {
           const a = (degrees[i] * Math.PI) / 180
           const x = radius + (radius - itemSize / 2) * Math.cos(a) - itemSize / 2

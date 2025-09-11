@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { Animated } from 'react-native';
-import { PADDING, POTATO_HEIGHT, POTATO_WIDTH } from './constants';
+import { useEffect, useRef, useState } from 'react'
+import { Animated } from 'react-native'
+import { PADDING, POTATO_HEIGHT, POTATO_WIDTH } from './constants'
 
 export function usePotatoOwnerEffect(
   playerWithPotato: string | undefined,
