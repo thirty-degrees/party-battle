@@ -54,6 +54,7 @@
     "react-compiler-runtime": "^19.1.0-rc.3",
     "react-dom": "19.0.0",
     "react-native": "0.79.5",
+    "react-native-animatable": "^1.4.0",
     "react-native-css-interop": "^0.1.22",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-qrcode-svg": "^6.3.15",

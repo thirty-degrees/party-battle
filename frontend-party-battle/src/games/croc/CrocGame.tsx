@@ -1,6 +1,7 @@
 import { Text } from '@/components/ui/text'
 import { Dimensions, View } from 'react-native'
 import { CrocGameSchema } from 'types-party-battle'
+import { ShakingScreen } from '../../../components/ShakingScreen'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { usePlayerName } from '../../index/PlayerNameProvider'
 import { BasicGameView } from '../BasicGameView'
@@ -33,55 +34,57 @@ export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
   }
 
   return (
-    <BasicGameView>
-      <View className="flex-1 items-center justify-center">
+    <ShakingScreen run={!isPlayerInGame}>
+      <BasicGameView>
         <View className="flex-1 items-center justify-center">
-          <View style={{ height: 80 }} className="items-center justify-center">
-            {!isPlayerInGame && (
-              <Text className="text-red-500 dark:text-red-400 text-2xl font-bold">
-                You picked the WRONG card!
-              </Text>
-            )}
-            {isPlayerInGame && isCurrentPlayer && (
-              <Text className="text-green-500 dark:text-green-400 text-xl font-bold">
-                It&apos;s your turn!
-              </Text>
-            )}
-            {isPlayerInGame && !isCurrentPlayer && currentPlayer && (
-              <Text className="text-gray-500 dark:text-gray-400 text-lg">{currentPlayer}&apos;s turn</Text>
-            )}
-          </View>
-          <View
-            style={{
-              width: Math.min(screenWidth * 0.7, 320),
-              height: Math.min(screenHeight * 0.3, 350),
-            }}
-          >
-            {isPlayerInGame ? <SkullSvgComponent /> : <SkullExplodingSvgComponent />}
+          <View className="flex-1 items-center justify-center">
+            <View style={{ height: 80 }} className="items-center justify-center">
+              {!isPlayerInGame && (
+                <Text className="text-red-500 dark:text-red-400 text-2xl font-bold">
+                  You picked the WRONG card!
+                </Text>
+              )}
+              {isPlayerInGame && isCurrentPlayer && (
+                <Text className="text-green-500 dark:text-green-400 text-xl font-bold">
+                  It&apos;s your turn!
+                </Text>
+              )}
+              {isPlayerInGame && !isCurrentPlayer && currentPlayer && (
+                <Text className="text-gray-500 dark:text-gray-400 text-lg">{currentPlayer}&apos;s turn</Text>
+              )}
+            </View>
+            <View
+              style={{
+                width: Math.min(screenWidth * 0.7, 320),
+                height: Math.min(screenHeight * 0.3, 350),
+              }}
+            >
+              {isPlayerInGame ? <SkullSvgComponent /> : <SkullExplodingSvgComponent />}
+            </View>
           </View>
         </View>
-      </View>
 
-      <View className="items-center h-12">
-        <TimerProgressBar
-          timeWhenTimerIsOver={timeWhenTimerIsOver}
-          isActive={isCurrentPlayer && isPlayerInGame}
-        />
-        {!isPlayerInGame && (
-          <Text className="text-gray-600 dark:text-gray-400 text-lg mb-5">
-            The other players are still trying their luck
-          </Text>
-        )}
-      </View>
+        <View className="items-center h-12">
+          <TimerProgressBar
+            timeWhenTimerIsOver={timeWhenTimerIsOver}
+            isActive={isCurrentPlayer && isPlayerInGame}
+          />
+          {!isPlayerInGame && (
+            <Text className="text-gray-600 dark:text-gray-400 text-lg mb-5">
+              The other players are still trying their luck
+            </Text>
+          )}
+        </View>
 
-      <View className="items-center mb-8">
-        <Cards
-          cardCount={cardCount}
-          pressedCardIndex={pressedCardIndex}
-          onCardPress={handleCardPress}
-          disabled={!isPlayerInGame || !isCurrentPlayer}
-        />
-      </View>
-    </BasicGameView>
+        <View className="items-center mb-8">
+          <Cards
+            cardCount={cardCount}
+            pressedCardIndex={pressedCardIndex}
+            onCardPress={handleCardPress}
+            disabled={!isPlayerInGame || !isCurrentPlayer}
+          />
+        </View>
+      </BasicGameView>
+    </ShakingScreen>
   )
 }
