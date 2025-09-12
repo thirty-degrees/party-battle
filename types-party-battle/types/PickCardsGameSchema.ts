@@ -2,7 +2,7 @@ import { ArraySchema, type } from "@colyseus/schema";
 import { GameSchema } from "./GameSchema";
 import { PlayerSchema } from "./PlayerSchema";
 
-export class CrocGameSchema extends GameSchema {
+export class PickCardsGameSchema extends GameSchema {
   @type("number") cardCount: number = 0;
   @type(["number"]) pressedCardIndex = new ArraySchema<number>();
   @type([PlayerSchema]) inGamePlayers = new ArraySchema<PlayerSchema>();

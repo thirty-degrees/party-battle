@@ -1,6 +1,6 @@
 import { Text } from '@/components/ui/text'
 import { Dimensions, View } from 'react-native'
-import { CrocGameSchema } from 'types-party-battle'
+import { PickCardsGameSchema } from 'types-party-battle'
 import { ShakingScreen } from '../../../components/ShakingScreen'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { usePlayerName } from '../../index/PlayerNameProvider'
@@ -11,9 +11,9 @@ import SkullExplodingSvgComponent from './skullExplodingSvgComponent'
 import SkullSvgComponent from './skullSvgComponent'
 import TimerProgressBar from './TimerProgressBar'
 
-export const CrocGame: GameComponent<CrocGameSchema> = ({ gameRoom }) => {
-  const cardCount = useColyseusState(gameRoom, (state: CrocGameSchema) => state.cardCount)
-  const pressedCardIndex = useColyseusState(gameRoom, (state: CrocGameSchema) =>
+export const PickCardsGame: GameComponent<PickCardsGameSchema> = ({ gameRoom }) => {
+  const cardCount = useColyseusState(gameRoom, (state: PickCardsGameSchema) => state.cardCount)
+  const pressedCardIndex = useColyseusState(gameRoom, (state: PickCardsGameSchema) =>
     Array.from(state.pressedCardIndex || [])
   )
   const currentPlayer = useColyseusState(gameRoom, (state) => state.currentPlayer)
