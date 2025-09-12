@@ -32,6 +32,7 @@ export default function RootLayout() {
                 <Stack.Screen name="index" />
                 <Stack.Screen name="lobby" />
                 <Stack.Screen name="games/croc" />
+                <Stack.Screen name="games/pick-cards" />
                 <Stack.Screen name="games/snake" />
                 <Stack.Screen name="games/potato" />
                 <Stack.Screen name="+not-found" />
