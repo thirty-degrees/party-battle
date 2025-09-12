@@ -1,7 +1,7 @@
 import { Text } from '@/components/ui/text'
 import { Dimensions, View } from 'react-native'
 import { PickCardsGameSchema } from 'types-party-battle'
-import { ShakingScreen } from '../../../components/ShakingScreen'
+import { ShakingScreen } from '../../../components/shaking-screen'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { usePlayerName } from '../../index/PlayerNameProvider'
 import { BasicGameView } from '../BasicGameView'

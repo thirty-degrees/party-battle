@@ -1,42 +1,41 @@
 import Constants from 'expo-constants'
 import * as Device from 'expo-device'
 import { Platform, View } from 'react-native'
-import StoreBadge from 'react-store-badge'
+import StoreBadge from '../../components/store-badge'
 
 export function StoreBadges() {
-  const APPLE_APP_ID = '6751968403'
-  const ANDROID_PACKAGE = Constants.expoConfig?.android?.package
+  const ANDROID_MARKET_WEB_URL = Constants.expoConfig?.extra?.androidMarketWebUrl
+  const IOS_MARKET_WEB_URL = Constants.expoConfig?.extra?.iosMarketWebUrl
 
   const isWeb = Platform.OS === 'web'
-  const isAndroidWebBrowser = isWeb && Device.osName === 'Android'
-  const isIOSWebBrowser = isWeb && Device.osName === 'iOS'
+  const osName = Device.osName
+  const isAndroidWebBrowser = isWeb && osName === 'Android'
+  const isIOSWebBrowser = isWeb && osName === 'iOS'
 
-  if (!isWeb) {
+  if (!isWeb || !osName) {
     return null
   }
 
-  if (isAndroidWebBrowser || isIOSWebBrowser) {
+  if (isAndroidWebBrowser) {
     return (
       <View className="w-full items-center mb-4">
-        <StoreBadge
-          name="Party Battle"
-          googlePlayUrl={`https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`}
-          appStoreUrl={`https://apps.apple.com/us/app/party-battle/id${APPLE_APP_ID}`}
-        />
+        <StoreBadge os="android" url={ANDROID_MARKET_WEB_URL} />
+      </View>
+    )
+  }
+
+  if (isIOSWebBrowser) {
+    return (
+      <View className="w-full items-center mb-4">
+        <StoreBadge os="ios" url={IOS_MARKET_WEB_URL} />
       </View>
     )
   }
 
   return (
-    <View className="w-full items-center mb-4 flex-row justify-center gap-4">
-      <StoreBadge
-        name="Party Battle"
-        appStoreUrl={`https://apps.apple.com/us/app/party-battle/id${APPLE_APP_ID}`}
-      />
-      <StoreBadge
-        name="Party Battle"
-        googlePlayUrl={`https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`}
-      />
+    <View className="w-full mb-4 flex-row justify-center gap-4">
+      <StoreBadge os="ios" url={IOS_MARKET_WEB_URL} />
+      <StoreBadge os="android" url={ANDROID_MARKET_WEB_URL} />
     </View>
   )
 }

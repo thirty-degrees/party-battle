@@ -21,6 +21,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
 
   const { backendUrl, frontendUrl, owner, easProjectId } = envMap[env as keyof typeof envMap]
 
+  const androidPackage = 'ch.thirty_degrees.party_battle'
+  const appleAppId = '6751968403'
+
   return {
     ...config,
     name: 'Party Battle',
@@ -38,7 +41,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     android: {
       ...(config.android ?? {}),
-      package: 'ch.thirty_degrees.party_battle',
+      package: androidPackage,
       adaptiveIcon: {
         foregroundImage: './assets/images/adaptive-icon.png',
         backgroundColor: '#ffffff',
@@ -91,6 +94,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       }),
       backendUrl: backendUrl,
       frontendUrl: frontendUrl,
+      androidMarketUrl: `market://details?id=${androidPackage}`,
+      androidMarketWebUrl: `https://play.google.com/store/apps/details?id=${androidPackage}`,
+      iosMarketUrl: `itms-apps://itunes.apple.com/app/id${appleAppId}`,
+      iosMarketWebUrl: `https://apps.apple.com/us/app/party-battle/id${appleAppId}`,
       router: {},
     },
     ...(owner && { owner }),

@@ -2,7 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
 import { View } from 'react-native'
 
-import RainbowText from '@/components/RainbowText'
+import RainbowText from '@/components/rainbow-text'
 import { Button, ButtonText } from '@/components/ui/button'
 import { Heading } from '@/components/ui/heading'
 import { Input, InputField } from '@/components/ui/input'
@@ -41,9 +41,9 @@ export default function HomeScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
-      <View className="flex-1 p-4 items-center">
-        <View className="flex-1 max-w-md w-full justify-evenly items-center">
+    <SafeAreaView className="flex-1 items-center bg-background-0 dark:bg-background-950">
+      <View className="flex-1 max-w-md p-4 items-center">
+        <View className="flex-1 w-full justify-evenly items-center">
           <View className="flex-col items-center gap-4 w-full">
             <Text size="xl" style={{ width: 200, textAlign: 'center' }}>
               Name
@@ -119,6 +119,9 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
+        <View className="h-10">
+          <StoreBadges />
+        </View>
       </View>
 
       <JoinRoomModal
@@ -127,7 +130,6 @@ export default function HomeScreen() {
         onJoin={handleJoinRoom}
         isLoading={isLoading}
       />
-      <StoreBadges />
     </SafeAreaView>
   )
 }
