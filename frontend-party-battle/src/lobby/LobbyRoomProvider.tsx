@@ -31,6 +31,7 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [storedRoomId, setStoredRoomId] = useState<string | undefined>(undefined)
   const [connectionLost, setConnectionLost] = useState(false)
   const [canRetry, setCanRetry] = useState(false)
+  const [error, setError] = useState<Error | undefined>(undefined)
   const isLeaving = useRef(false)
 
   const attachListeners = useCallback((room: Room<LobbySchema>) => {
@@ -47,8 +48,8 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const joinLobbyRoom = useCallback(
     async (roomId: string) => {
+      setIsLoading(true)
       try {
-        setIsLoading(true)
         const client = new Client(Constants.expoConfig?.extra?.backendUrl)
         const joinedRoom = await client.joinById<LobbySchema>(roomId, {
           name: trimmedPlayerName,
@@ -59,8 +60,7 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setConnectionLost(false)
         setCanRetry(false)
       } catch (error) {
-        console.error('Failed to join lobby:', error)
-        throw error
+        setError(new Error('Failed to join lobby', { cause: error }))
       } finally {
         setIsLoading(false)
       }
@@ -69,8 +69,8 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   )
 
   const createLobbyRoom = useCallback(async () => {
+    setIsLoading(true)
     try {
-      setIsLoading(true)
       const client = new Client(Constants.expoConfig?.extra?.backendUrl)
       const createdRoom = await client.create<LobbySchema>('lobby_room', {
         name: trimmedPlayerName,
@@ -81,8 +81,7 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setConnectionLost(false)
       setCanRetry(false)
     } catch (error) {
-      console.error('Failed to create lobby:', error)
-      throw error
+      setError(new Error('Failed to create lobby', { cause: error }))
     } finally {
       setIsLoading(false)
     }
@@ -128,6 +127,10 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }),
     [lobbyRoom, isLoading, joinLobbyRoom, createLobbyRoom, leaveLobbyRoom]
   )
+
+  if (error) {
+    throw error
+  }
 
   return (
     <LobbyRoomContext.Provider value={value}>

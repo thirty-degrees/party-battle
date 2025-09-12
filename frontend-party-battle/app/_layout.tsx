@@ -2,8 +2,9 @@ import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider'
 import '@/global.css'
 import { PlayerNameProvider } from '@/src/index/PlayerNameProvider'
 import { LobbyRoomProvider } from '@/src/lobby/LobbyRoomProvider'
+import { VersionUpdateScreen } from '@/src/VersionUpdateScreen'
 import { useFonts } from 'expo-font'
-import { Stack } from 'expo-router'
+import { ErrorBoundary as DefaultErrorBoundary, ErrorBoundaryProps, Stack } from 'expo-router'
 import Head from 'expo-router/head'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
@@ -31,7 +32,6 @@ export default function RootLayout() {
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="index" />
                 <Stack.Screen name="lobby" />
-                <Stack.Screen name="games/croc" />
                 <Stack.Screen name="games/pick-cards" />
                 <Stack.Screen name="games/snake" />
                 <Stack.Screen name="games/potato" />
@@ -44,4 +44,17 @@ export default function RootLayout() {
       </SafeAreaProvider>
     </React.StrictMode>
   )
+}
+
+export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+  if (
+    error.cause &&
+    typeof error.cause === 'object' &&
+    'code' in error.cause &&
+    error.cause.code === 'API_VERSION_UNSUPPORTED'
+  ) {
+    return <VersionUpdateScreen />
+  }
+
+  return <DefaultErrorBoundary retry={retry} error={error} />
 }

@@ -28,6 +28,7 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
 }) => {
   const [gameRoom, setGameRoom] = useState<Room<TGameSchema> | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<Error | undefined>(undefined)
   const hasJoinedRef = useRef(false)
   const { trimmedPlayerName } = usePlayerName()
 
@@ -40,19 +41,23 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
       hasJoinedRef.current = true
       setIsLoading(true)
 
-      const client = new Client(Constants.expoConfig?.extra?.backendUrl)
-      const joinedRoom = await client.joinById<TGameSchema>(roomId, {
-        name: trimmedPlayerName,
-      })
+      try {
+        const client = new Client(Constants.expoConfig?.extra?.backendUrl)
+        const joinedRoom = await client.joinById<TGameSchema>(roomId, {
+          name: trimmedPlayerName,
+        })
 
-      setGameRoom(joinedRoom)
+        setGameRoom(joinedRoom)
 
-      const off = joinedRoom.onStateChange((state) => {
-        if (state.status !== undefined) {
-          setIsLoading(false)
-          off.clear()
-        }
-      })
+        const off = joinedRoom.onStateChange((state) => {
+          if (state.status !== undefined) {
+            setIsLoading(false)
+            off.clear()
+          }
+        })
+      } catch (error) {
+        setError(new Error('Failed to join game room', { cause: error }))
+      }
     },
     [trimmedPlayerName, gameRoom]
   )
