@@ -1,4 +1,4 @@
-import Loading from '@/components/Loading'
+import Loading from '@/components/loading'
 import { useGameRoomContext } from '@/src/colyseus/GameRoomProvider'
 import { useLocalSearchParams } from 'expo-router'
 import { useEffect } from 'react'

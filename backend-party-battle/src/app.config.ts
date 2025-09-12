@@ -3,17 +3,21 @@ import config from "@colyseus/tools";
 import { Type } from "@colyseus/core/build/utils/types";
 import { Room } from "colyseus";
 import { GameSchema, GameType } from "types-party-battle";
-import { CrocGameRoom } from "./rooms/CrocGameRoom";
 import { LobbyRoom } from "./rooms/LobbyRoom";
+import { PickCardsGameRoom } from "./rooms/PickCardsGameRoom";
 import { PotatoGameRoom } from "./rooms/PotatoGameRoom";
 import { SnakeGameRoom } from "./rooms/SnakeGameRoom";
 
-const LOBBY_ROOM_NAME = "lobby_room"
+const LOBBY_ROOM_NAME = "lobby_room";
 
 export const gameRooms: ({
   readonly gameType: GameType;
   readonly roomName: string;
-} & Type<Room<GameSchema>>)[] = [CrocGameRoom, SnakeGameRoom, PotatoGameRoom];
+} & Type<Room<GameSchema>>)[] = [
+  PickCardsGameRoom,
+  SnakeGameRoom,
+  PotatoGameRoom,
+];
 
 export default config({
   initializeGameServer: (gameServer) => {
@@ -33,7 +37,6 @@ export default config({
       res.send("It's time to kick ass and chew bubblegum!");
     });
     */
-
     /**
      * Use @colyseus/playground
      * (It is not recommended to expose this route in a production environment)
@@ -43,7 +46,6 @@ export default config({
       app.use("/", playground());
     }
     */
-
     /**
      * Use @colyseus/monitor
      * It is recommended to protect this route with a password
