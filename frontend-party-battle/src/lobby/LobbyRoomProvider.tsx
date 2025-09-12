@@ -118,7 +118,7 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     router.replace('/')
   }, [setConnectionLost])
 
-  const value: LobbyRoomContextType = useMemo(
+  const value = useMemo<LobbyRoomContextType>(
     () => ({
       lobbyRoom,
       isLoading,

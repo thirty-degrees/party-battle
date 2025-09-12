@@ -64,7 +64,7 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
     }
   }, [gameRoom])
 
-  const value = useMemo(
+  const value = useMemo<GameRoomContextType<TGameSchema>>(
     () => ({
       gameRoom,
       isLoading,
@@ -75,7 +75,7 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
   )
 
   return (
-    <GameRoomContext.Provider value={value as GameRoomContextType<GameSchema>}>
+    <GameRoomContext.Provider value={value as unknown as GameRoomContextType<GameSchema>}>
       {children}
     </GameRoomContext.Provider>
   )
