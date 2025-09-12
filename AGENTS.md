@@ -1,6 +1,6 @@
 # Project Overview
 
-**Party Battle** is a real-time multiplayer game platform built as an npm workspace with distinct backend and frontend packages. The architecture supports multiple mini-games (Potato, Snake, Croc) with live player interactions via WebSocket connections.
+**Party Battle** is a real-time multiplayer game platform built as an npm workspace with distinct backend and frontend packages. The architecture supports multiple mini-games (Potato, Snake, Pick-Cards) with live player interactions via WebSocket connections.
 
 ### Architecture
 
@@ -18,6 +18,7 @@
 ## Setup
 
 ### Workspace Installation
+
 ```bash
 npm ci
 
@@ -26,6 +27,7 @@ npm run build --workspace=types-party-battle
 ```
 
 ### Development Environment
+
 ```bash
 # Start backend development server (stays open until canceled)
 npm run dev --workspace=backend-party-battle
@@ -51,6 +53,7 @@ npm run check-types
 - PR Title format: type: description
 
 types
+
 - `feat`: New features
 - `fix`: Bug fixes
 - `deps`: Dependencies
