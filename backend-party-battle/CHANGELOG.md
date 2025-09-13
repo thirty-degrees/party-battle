@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.8.0...backend-party-battle-v2.8.1) (2025-09-13)
+
+
+### Bug Fixes
+
+* exclude tests from backend build ([#57](https://github.com/thirty-degrees/party-battle/issues/57)) ([3dba831](https://github.com/thirty-degrees/party-battle/commit/3dba8313227c52ac9590cddb0c999704bf545606))
+
 ## [2.8.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.7.1...backend-party-battle-v2.8.0) (2025-09-13)
 
 
