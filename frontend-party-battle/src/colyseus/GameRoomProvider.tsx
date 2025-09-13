@@ -79,6 +79,10 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
     [gameRoom, isLoading, joinGameRoom, leaveGameRoom]
   )
 
+  if (error) {
+    throw error
+  }
+
   return (
     <GameRoomContext.Provider value={value as unknown as GameRoomContextType<GameSchema>}>
       {children}
