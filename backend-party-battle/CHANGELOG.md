@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.8.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.7.1...backend-party-battle-v2.8.0) (2025-09-13)
+
+
+### Features
+
+* added ios and android store buttons for web instances ([391fe3a](https://github.com/thirty-degrees/party-battle/commit/391fe3a37060b0f2cfdfdf8a8c01860ccb0ad7ad))
+* eliminate potato players until only one is left ([dda6a42](https://github.com/thirty-degrees/party-battle/commit/dda6a425ea3311dfed6a2387c483dde19c20c3fb))
+* introduce check-types ([69cd836](https://github.com/thirty-degrees/party-battle/commit/69cd83665131b1ac5734e62ce6269bcd839ccfed))
+* introduce jest, migrate away from mocha ([df8e08b](https://github.com/thirty-degrees/party-battle/commit/df8e08b05394067f1117a43963de8995765ed998))
+* PassPotato message ([82cdab3](https://github.com/thirty-degrees/party-battle/commit/82cdab3d498b7524b8a607fa1d99da1407e9fa20))
+* renamed crocgame to pickCardsGame; now the game is completly ready ([38396fa](https://github.com/thirty-degrees/party-battle/commit/38396fa33de9e4f89d45c2c3cb48a2b8fc169402))
+* swipe potato ([1711b51](https://github.com/thirty-degrees/party-battle/commit/1711b51e7b60551ace12785417c8097774a4d400))
+
+
+### Bug Fixes
+
+* jest output files ([5a0f434](https://github.com/thirty-degrees/party-battle/commit/5a0f4346bcbb983efee25d63a722d82c7ddac8f9))
+
 ## [2.7.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.7.0...backend-party-battle-v2.7.1) (2025-09-09)
 
 
