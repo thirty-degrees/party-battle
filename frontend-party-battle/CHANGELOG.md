@@ -1,5 +1,43 @@
 # Changelog
 
+## [2.8.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.7.1...frontend-party-battle-v2.8.0) (2025-09-13)
+
+
+### Features
+
+* Add +html.tsx ([28eef20](https://github.com/thirty-degrees/party-battle/commit/28eef20af82db7234590a5f0c6a617a2a0a9c6eb))
+* add connection lost modal ([#56](https://github.com/thirty-degrees/party-battle/issues/56)) ([9eab621](https://github.com/thirty-degrees/party-battle/commit/9eab621ca1aac9d2c0b3501deae235a5a32b2461))
+* added ios and android store buttons for web instances ([391fe3a](https://github.com/thirty-degrees/party-battle/commit/391fe3a37060b0f2cfdfdf8a8c01860ccb0ad7ad))
+* eliminate potato players until only one is left ([dda6a42](https://github.com/thirty-degrees/party-battle/commit/dda6a425ea3311dfed6a2387c483dde19c20c3fb))
+* half circle ribbon ([5d05eb4](https://github.com/thirty-degrees/party-battle/commit/5d05eb4d0675f9274a9648ad782e5613059a0b52))
+* implement assignPlayerSlots ([850bddd](https://github.com/thirty-degrees/party-battle/commit/850bddd04e1b1f715e104a16fb33c30b46616613))
+* introduce check-types ([69cd836](https://github.com/thirty-degrees/party-battle/commit/69cd83665131b1ac5734e62ce6269bcd839ccfed))
+* introduce jest, migrate away from mocha ([df8e08b](https://github.com/thirty-degrees/party-battle/commit/df8e08b05394067f1117a43963de8995765ed998))
+* PassPotato message ([82cdab3](https://github.com/thirty-degrees/party-battle/commit/82cdab3d498b7524b8a607fa1d99da1407e9fa20))
+* potato game positioning ([8712812](https://github.com/thirty-degrees/party-battle/commit/871281216808fcb565d5efd499892588434e9d9c))
+* potato swipe animation ([d408390](https://github.com/thirty-degrees/party-battle/commit/d40839063432ac020084fb960a0bd739ee03f3d4))
+* renamed crocgame to pickCardsGame; now the game is completly ready ([38396fa](https://github.com/thirty-degrees/party-battle/commit/38396fa33de9e4f89d45c2c3cb48a2b8fc169402))
+* swipe potato ([1711b51](https://github.com/thirty-degrees/party-battle/commit/1711b51e7b60551ace12785417c8097774a4d400))
+* VersionUpdateScreen ([c2e4d48](https://github.com/thirty-degrees/party-battle/commit/c2e4d4867e4251eba0d47220fd1bf7b3ae93eebf))
+
+
+### Bug Fixes
+
+* add ts-nocheck for gluestack-ui components ([9d1cf86](https://github.com/thirty-degrees/party-battle/commit/9d1cf86ddb7191a76a167d086f49fb9bd408a556))
+* background colors ([df2fa72](https://github.com/thirty-degrees/party-battle/commit/df2fa729583d2e25d61f54e4c53dd9dab3051f2f))
+* blur effect on ios ([274adb0](https://github.com/thirty-degrees/party-battle/commit/274adb0d636b33856467f48017c7482d3deaf1fc))
+* close QR code modal on redirection ([090365d](https://github.com/thirty-degrees/party-battle/commit/090365dfecac3616c215816fb4928294aee7f8f7))
+* downgrade gluestack to fix text size ([46e793f](https://github.com/thirty-degrees/party-battle/commit/46e793f061e8e6a38dc80dea26cf3247dfb81a13))
+* hide potato after animation for web ([3961b98](https://github.com/thirty-degrees/party-battle/commit/3961b98b11dce7f5518977bc40e9d12446859635))
+* jest output files ([5a0f434](https://github.com/thirty-degrees/party-battle/commit/5a0f4346bcbb983efee25d63a722d82c7ddac8f9))
+* lint errors & ci improvements ([0bbd525](https://github.com/thirty-degrees/party-battle/commit/0bbd5257e139e1813e98d3c385a1e2e8412b5e48))
+* not thrown GameRoomProvider error ([979a9bb](https://github.com/thirty-degrees/party-battle/commit/979a9bb461d07899eaed002b92091e56d9b02f22))
+* placing of potato ([d0c2d35](https://github.com/thirty-degrees/party-battle/commit/d0c2d3538505a959f982a8243bcbe83754e908d3))
+* potato game on really small displays issues ([2a91a73](https://github.com/thirty-degrees/party-battle/commit/2a91a7378faf26a0e65149c590e5f97bb44bc8fd))
+* potato native styling issues ([a16ac01](https://github.com/thirty-degrees/party-battle/commit/a16ac016564cc7f4e2ca117033f01884b9105e4f))
+* rename pick-cards ([2b6069f](https://github.com/thirty-degrees/party-battle/commit/2b6069fcacf04fbcdf53b5862bf291cae7eeb4af))
+* small potato game issues ([e9fce95](https://github.com/thirty-degrees/party-battle/commit/e9fce95b69cd23e75bdd4f69aab7a13df9f37c82))
+
 ## [2.7.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.7.0...frontend-party-battle-v2.7.1) (2025-09-09)
 
 
