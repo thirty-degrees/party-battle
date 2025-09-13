@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.2](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.8.1...backend-party-battle-v2.8.2) (2025-09-13)
+
+
+### Miscellaneous Chores
+
+* release 2.8.2 ([3978c91](https://github.com/thirty-degrees/party-battle/commit/3978c91e5da3df4cd611075e360bc6627568517a))
+
 ## [2.8.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.8.0...backend-party-battle-v2.8.1) (2025-09-13)
 
 
