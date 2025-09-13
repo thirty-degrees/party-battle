@@ -3,7 +3,7 @@ name: release
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   release:
@@ -131,7 +131,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: package-lock.json
 
       - name: Setup Java 21
@@ -224,7 +224,6 @@ jobs:
           name: android-release
           path: dist
 
-
       - name: Upload to Google Play (internal)
         uses: r0adkll/upload-google-play@v1
         with:
@@ -247,13 +246,13 @@ jobs:
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "latest-stable"
+          xcode-version: 16.4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
@@ -300,7 +299,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
