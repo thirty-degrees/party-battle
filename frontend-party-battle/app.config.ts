@@ -37,7 +37,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       ...(config.ios ?? {}),
       supportsTablet: true,
       bundleIdentifier: 'ch.thirty-degrees.party-battle',
-      associatedDomains: ['applinks:party-battle.thirty-degrees.ch'],
+      associatedDomains: [
+        'applinks:party-battle.thirty-degrees.ch',
+        'activitycontinuation:party-battle.thirty-degrees.ch',
+      ],
     },
     android: {
       ...(config.android ?? {}),
@@ -62,7 +65,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       favicon: './assets/images/favicon.png',
     },
     plugins: [
-      'expo-router',
+      [
+        'expo-router',
+        {
+          origin: 'https://party-battle.thirty-degrees.ch',
+        },
+      ],
       [
         'expo-splash-screen',
         {
