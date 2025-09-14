@@ -1,37 +1,24 @@
-import React from "react";
-import { Heading } from "../heading";
-import { Button, ButtonText } from "../button";
-import { Input, InputField } from "../input";
-import {
-  Modal,
-  ModalBackdrop,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "./index";
+import { useState } from 'react'
+import { Button, ButtonText } from '../button'
+import { Heading } from '../heading'
+import { Input, InputField } from '../input'
+import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader } from './index'
 
 interface JoinRoomModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onJoin: (roomId: string) => void;
-  isLoading?: boolean;
+  isOpen: boolean
+  onClose: () => void
+  onJoin: (roomId: string) => void
+  isLoading?: boolean
 }
 
-export function JoinRoomModal({
-  isOpen,
-  onClose,
-  onJoin,
-  isLoading = false,
-}: JoinRoomModalProps) {
-  const [roomId, setRoomId] = React.useState("");
+export function JoinRoomModal({ isOpen, onClose, onJoin, isLoading = false }: JoinRoomModalProps) {
+  const [roomId, setRoomId] = useState<string>('')
 
   const handleJoin = () => {
     if (roomId.trim()) {
-      onJoin(roomId.trim());
-      setRoomId("");
+      onJoin(roomId.trim())
     }
-  };
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -41,40 +28,19 @@ export function JoinRoomModal({
           <Heading size="md">Join Party with Code</Heading>
         </ModalHeader>
         <ModalBody>
-          <Input
-            variant="outline"
-            size="md"
-            isDisabled={isLoading}
-            isInvalid={false}
-            isReadOnly={false}
-          >
-            <InputField
-              value={roomId}
-              onChangeText={setRoomId}
-              placeholder="Input party code..."
-            />
+          <Input variant="outline" size="md" isDisabled={isLoading} isInvalid={false} isReadOnly={false}>
+            <InputField value={roomId} onChangeText={setRoomId} placeholder="Input party code..." />
           </Input>
         </ModalBody>
         <ModalFooter>
-          <Button
-            size="sm"
-            action="secondary"
-            onPress={onClose}
-            className="mr-2"
-            isDisabled={isLoading}
-          >
+          <Button size="sm" action="secondary" onPress={onClose} className="mr-2" isDisabled={isLoading}>
             <ButtonText>Cancel</ButtonText>
           </Button>
-          <Button
-            size="sm"
-            action="primary"
-            onPress={handleJoin}
-            isDisabled={!roomId.trim() || isLoading}
-          >
-            <ButtonText>{isLoading ? "Joining..." : "Join Party"}</ButtonText>
+          <Button size="sm" action="primary" onPress={handleJoin} isDisabled={!roomId.trim() || isLoading}>
+            <ButtonText>{isLoading ? 'Joining...' : 'Join Party'}</ButtonText>
           </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
+  )
 }

@@ -8,6 +8,7 @@ import { Heading } from '@/components/ui/heading'
 import { Input, InputField } from '@/components/ui/input'
 import { JoinRoomModal } from '@/components/ui/modal/join-room-modal'
 import { Text } from '@/components/ui/text'
+import useToastHelper from '@/components/ui/useToastHelper'
 
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { StoreBadges } from '@/src/index/StoreBadges'
@@ -21,6 +22,8 @@ export default function HomeScreen() {
   const { playerName, trimmedPlayerName, setPlayerName, isLoading: isLoadingPlayerName } = usePlayerName()
 
   const { createLobbyRoom, joinLobbyRoom, isLoading } = useLobbyRoomContext()
+  const [validationError, setValidationError] = useState<string | undefined>(undefined)
+  const { showError } = useToastHelper()
 
   const handleCreateRoom = async () => {
     await createLobbyRoom()
@@ -31,13 +34,24 @@ export default function HomeScreen() {
   }
 
   const handleJoinRoom = async (roomId: string) => {
-    await joinLobbyRoom(roomId)
+    const validationError = await joinLobbyRoom(roomId)
+
+    setShowJoinModal(false)
+
+    if (validationError) {
+      setValidationError(validationError)
+      showError('Failed to join party', validationError)
+      return
+    }
 
     router.push({
       pathname: '/lobby',
     })
+  }
 
-    setShowJoinModal(false)
+  const onChangePlayerName = (name: string) => {
+    setPlayerName(name)
+    setValidationError(undefined)
   }
 
   return (
@@ -51,8 +65,7 @@ export default function HomeScreen() {
             variant="outline"
             size="xl"
             isDisabled={isLoadingPlayerName}
-            isInvalid={false}
-            isReadOnly={false}
+            isInvalid={!!validationError}
             style={{
               alignItems: 'center',
               justifyContent: 'center',
@@ -62,7 +75,7 @@ export default function HomeScreen() {
             <InputField
               aria-label="Username"
               value={playerName}
-              onChangeText={setPlayerName}
+              onChangeText={onChangePlayerName}
               placeholder="Enter your name..."
               autoComplete="username"
               maxLength={PLAYER_NAME_MAX_LENGTH}

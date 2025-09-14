@@ -1,4 +1,4 @@
-import { Client, matchMaker, Room } from '@colyseus/core'
+import { Client, matchMaker, Room, ServerError } from '@colyseus/core'
 import { humanId } from 'human-id'
 import {
   GameHistory,
@@ -7,6 +7,7 @@ import {
   LobbyPlayerSchema,
   LobbySchema,
   MAX_AMOUNT_OF_PLAYERS,
+  PLAYER_NAME_MAX_LENGTH,
   ScoreSchema,
 } from 'types-party-battle'
 import { gameRooms } from '../app.config'
@@ -38,6 +39,12 @@ export class LobbyRoom extends Room<LobbySchema> {
 
   onJoin(client: Client, options: { name: string }) {
     console.log(`LobbyRoom.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`)
+    if (options.name.length > PLAYER_NAME_MAX_LENGTH) {
+      throw new ServerError(4111, 'Player name too long')
+    }
+    if ([...this.state.players.values()].some((player) => player.name === options.name)) {
+      throw new ServerError(4111, 'Player name already taken')
+    }
     const player = new LobbyPlayerSchema(options.name, false)
     this.state.players.set(client.sessionId, player)
   }
