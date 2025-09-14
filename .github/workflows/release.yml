@@ -266,7 +266,7 @@ jobs:
         run: npx expo prebuild --platform ios --non-interactive
 
       - name: Install EAS CLI
-        run: npm i -g eas-cli@16.18.0
+        run: npm i -g eas-cli@16.19.1
 
       - name: EAS local iOS build (managed creds)
         working-directory: ./frontend-party-battle
@@ -309,7 +309,7 @@ jobs:
         run: npm run -w types-party-battle build
 
       - name: Install EAS CLI
-        run: npm i -g eas-cli@16.18.0
+        run: npm i -g eas-cli@16.19.1
 
       - name: Prepare ASC API Key
         env:

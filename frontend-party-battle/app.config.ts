@@ -14,12 +14,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     dev: {
       backendUrl: process.env.EXPO_PUBLIC_BACKEND_URL || `http://localhost:2567`,
       frontendUrl: process.env.EXPO_PUBLIC_FRONTEND_URL || `http://localhost:8081`,
-      owner: process.env.EXPO_PUBLIC_OWNER,
-      easProjectId: process.env.EXPO_PUBLIC_EAS_PROJECT_ID,
     },
   } as const
 
-  const { backendUrl, frontendUrl, owner, easProjectId } = envMap[env as keyof typeof envMap]
+  const { backendUrl, frontendUrl } = envMap[env as keyof typeof envMap]
 
   const androidPackage = 'ch.thirty_degrees.party_battle'
   const appleAppId = '6751968403'
@@ -97,11 +95,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       reactCompiler: true,
     },
     extra: {
-      ...(easProjectId && {
-        eas: {
-          projectId: easProjectId,
-        },
-      }),
+      eas: {
+        projectId: '8907377f-75e3-4efd-9a3a-4556dfda4c47',
+      },
       backendUrl: backendUrl,
       frontendUrl: frontendUrl,
       androidMarketUrl: `market://details?id=${androidPackage}`,
@@ -110,6 +106,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       iosMarketWebUrl: `https://apps.apple.com/us/app/party-battle/id${appleAppId}`,
       router: {},
     },
-    ...(owner && { owner }),
+    owner: 'thirty-degrees',
   }
 }
