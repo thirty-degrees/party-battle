@@ -1,5 +1,5 @@
 export default function (api) {
-  api.cache(true);
+  api.cache(true)
 
   return {
     presets: [
@@ -30,5 +30,5 @@ export default function (api) {
         },
       ],
     ],
-  };
+  }
 }
