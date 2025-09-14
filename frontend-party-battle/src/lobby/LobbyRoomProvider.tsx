@@ -1,4 +1,4 @@
-import { ConnectionLostModal } from '@/components/ui/modal/connection-lost-modal'
+import { ConnectionLostModal } from '@/src/lobby/connection-lost-modal'
 import { Client, Room, ServerError } from 'colyseus.js'
 import Constants from 'expo-constants'
 import { router } from 'expo-router'
