@@ -51,7 +51,10 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
     error.cause &&
     typeof error.cause === 'object' &&
     'code' in error.cause &&
-    error.cause.code === 'API_VERSION_UNSUPPORTED'
+    (error.cause.code === 'API_VERSION_UNSUPPORTED' ||
+      (error.cause.code === 404 &&
+        'message' in error.cause &&
+        error.cause.message === 'API_VERSION_UNSUPPORTED'))
   ) {
     return <VersionUpdateScreen />
   }
