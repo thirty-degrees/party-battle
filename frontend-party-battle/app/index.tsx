@@ -42,81 +42,79 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView className="flex-1 items-center bg-background-0 dark:bg-background-950">
-      <View className="flex-1 max-w-md p-4 items-center">
-        <View className="flex-1 w-full justify-evenly items-center">
-          <View className="flex-col items-center gap-4 w-full">
-            <Text size="xl" style={{ width: 200, textAlign: 'center' }}>
-              Name
-            </Text>
-            <Input
-              variant="outline"
-              size="xl"
-              isDisabled={isLoadingPlayerName}
-              isInvalid={false}
-              isReadOnly={false}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 200,
-              }}
-            >
-              <InputField
-                aria-label="Username"
-                value={playerName}
-                onChangeText={setPlayerName}
-                placeholder="Enter your name..."
-                autoComplete="username"
-                maxLength={PLAYER_NAME_MAX_LENGTH}
-                style={{ width: 200, textAlign: 'center' }}
-              />
-            </Input>
-          </View>
-          <View className="flex-row items-center gap-2">
-            <Heading size="4xl">
-              <RainbowText text="Party" className="text-6xl" />
-              <Text className="text-6xl"> Battle</Text>
-            </Heading>
-          </View>
-          <View className="flex-col w-full gap-4">
-            {partyCode && (
-              <View className="flex-row items-center justify-center w-full">
-                <Button
-                  size="xl"
-                  action="primary"
-                  variant="solid"
-                  onPress={() => handleJoinRoom(partyCode)}
-                  isDisabled={!trimmedPlayerName || isLoading}
-                  style={{ width: 200, paddingHorizontal: 8 }}
-                >
-                  <ButtonText>{isLoading ? 'Loading...' : `JOIN ${partyCode}`}</ButtonText>
-                </Button>
-              </View>
-            )}
-            <View className="flex-row items-center justify-center w-full">
-              <View className="flex-row gap-2">
-                <Button
-                  size="xl"
-                  action="primary"
-                  onPress={() => setShowJoinModal(true)}
-                  isDisabled={!trimmedPlayerName || isLoading}
-                  style={{ width: 200, paddingHorizontal: 8 }}
-                >
-                  <ButtonText>{isLoading ? 'Loading...' : 'JOIN PARTY'}</ButtonText>
-                </Button>
-              </View>
-            </View>
+      <View className="flex-1 w-full max-w-md justify-evenly  p-4 items-center">
+        <View className="flex-col items-center gap-4 w-full">
+          <Text size="xl" style={{ width: 200, textAlign: 'center' }}>
+            Name
+          </Text>
+          <Input
+            variant="outline"
+            size="xl"
+            isDisabled={isLoadingPlayerName}
+            isInvalid={false}
+            isReadOnly={false}
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 200,
+            }}
+          >
+            <InputField
+              aria-label="Username"
+              value={playerName}
+              onChangeText={setPlayerName}
+              placeholder="Enter your name..."
+              autoComplete="username"
+              maxLength={PLAYER_NAME_MAX_LENGTH}
+              style={{ width: 200, textAlign: 'center' }}
+            />
+          </Input>
+        </View>
+        <View className="flex-row items-center gap-2">
+          <Heading size="4xl">
+            <RainbowText text="Party" className="text-6xl" />
+            <Text className="text-6xl"> Battle</Text>
+          </Heading>
+        </View>
+        <View className="flex-col w-full gap-4">
+          {partyCode && (
             <View className="flex-row items-center justify-center w-full">
               <Button
                 size="xl"
                 action="primary"
-                variant="outline"
-                onPress={handleCreateRoom}
+                variant="solid"
+                onPress={() => handleJoinRoom(partyCode)}
                 isDisabled={!trimmedPlayerName || isLoading}
                 style={{ width: 200, paddingHorizontal: 8 }}
               >
-                <ButtonText>{isLoading ? 'Loading...' : 'CREATE PARTY'}</ButtonText>
+                <ButtonText>{isLoading ? 'Loading...' : `JOIN ${partyCode}`}</ButtonText>
               </Button>
             </View>
+          )}
+          <View className="flex-row items-center justify-center w-full">
+            <View className="flex-row gap-2">
+              <Button
+                size="xl"
+                action="primary"
+                onPress={() => setShowJoinModal(true)}
+                isDisabled={!trimmedPlayerName || isLoading}
+                style={{ width: 200, paddingHorizontal: 8 }}
+              >
+                <ButtonText>{isLoading ? 'Loading...' : 'JOIN PARTY'}</ButtonText>
+              </Button>
+            </View>
+          </View>
+          <View className="flex-row items-center justify-center w-full">
+            <Button
+              size="xl"
+              action="primary"
+              variant="outline"
+              onPress={handleCreateRoom}
+              isDisabled={!trimmedPlayerName || isLoading}
+              style={{ width: 200, paddingHorizontal: 8 }}
+            >
+              <ButtonText>{isLoading ? 'Loading...' : 'CREATE PARTY'}</ButtonText>
+            </Button>
           </View>
         </View>
         <View className="h-10">
