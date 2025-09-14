@@ -1,8 +1,15 @@
 import { useState } from 'react'
-import { Button, ButtonText } from '../button'
-import { Heading } from '../heading'
-import { Input, InputField } from '../input'
-import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader } from './index'
+import { Button, ButtonText } from '../../components/ui/button'
+import { Heading } from '../../components/ui/heading'
+import { Input, InputField } from '../../components/ui/input'
+import {
+  Modal,
+  ModalBackdrop,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from '../../components/ui/modal/index'
 
 interface JoinRoomModalProps {
   isOpen: boolean

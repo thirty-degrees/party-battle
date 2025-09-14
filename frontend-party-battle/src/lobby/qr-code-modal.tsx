@@ -1,31 +1,26 @@
-import { View } from "react-native";
-import { Heading } from "../heading";
-import { Text } from "../text";
-import { Button, ButtonText } from "../button";
-import { Badge, BadgeText } from "../badge";
+import { View } from 'react-native'
+import QRCode from 'react-native-qrcode-svg'
+import { Badge, BadgeText } from '../../components/ui/badge'
+import { Button, ButtonText } from '../../components/ui/button'
+import { Heading } from '../../components/ui/heading'
 import {
   Modal,
   ModalBackdrop,
-  ModalContent,
-  ModalHeader,
   ModalBody,
+  ModalContent,
   ModalFooter,
-} from "./index";
-import QRCode from "react-native-qrcode-svg";
+  ModalHeader,
+} from '../../components/ui/modal/index'
+import { Text } from '../../components/ui/text'
 
 interface QrCodeModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  roomId: string;
-  roomUrl: string;
+  isOpen: boolean
+  onClose: () => void
+  roomId: string
+  roomUrl: string
 }
 
-export function QrCodeModal({
-  isOpen,
-  onClose,
-  roomId,
-  roomUrl,
-}: QrCodeModalProps) {
+export function QrCodeModal({ isOpen, onClose, roomId, roomUrl }: QrCodeModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalBackdrop />
@@ -44,12 +39,7 @@ export function QrCodeModal({
               </Badge>
             </View>
             <View className="bg-white p-4 rounded-lg">
-              <QRCode
-                value={roomUrl}
-                size={200}
-                color="black"
-                backgroundColor="white"
-              />
+              <QRCode value={roomUrl} size={200} color="black" backgroundColor="white" />
             </View>
           </View>
         </ModalBody>
@@ -60,5 +50,5 @@ export function QrCodeModal({
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
+  )
 }
