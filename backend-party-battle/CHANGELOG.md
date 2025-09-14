@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.8.2...backend-party-battle-v2.9.0) (2025-09-14)
+
+
+### Features
+
+* add prettier for the backend ([83b0f53](https://github.com/thirty-degrees/party-battle/commit/83b0f534460d66cbf2df1c5ff600e94083c63c2d))
+
 ## [2.8.2](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.8.1...backend-party-battle-v2.8.2) (2025-09-13)
 
 
