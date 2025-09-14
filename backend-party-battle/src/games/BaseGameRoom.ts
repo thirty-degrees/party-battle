@@ -1,76 +1,78 @@
-import { Client, Room } from "@colyseus/core";
+import { Client, Room } from '@colyseus/core'
 import {
   GameHistory,
   GameSchema,
   GameType,
   MAX_AMOUNT_OF_PLAYERS,
   PlayerSchema,
-  Score
-} from "types-party-battle";
+  Score,
+} from 'types-party-battle'
 
-type PlayerName = string;
-type PlayerSessionId = string;
+type PlayerName = string
+type PlayerSessionId = string
 
 export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
-  protected playerConnections = new Map<PlayerName, PlayerSessionId | null>();
-  private lobbyRoomId: string;
+  protected playerConnections = new Map<PlayerName, PlayerSessionId | null>()
+  private lobbyRoomId: string
 
-  onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
-    console.log(`${this.constructor.name}.onCreate: roomId: '${this.roomId}', lobbyRoomId: '${options.lobbyRoomId}'`);
+  onCreate(options: { lobbyRoomId: string; playerNames: string[] }) {
+    console.log(
+      `${this.constructor.name}.onCreate: roomId: '${this.roomId}', lobbyRoomId: '${options.lobbyRoomId}'`
+    )
 
-    this.autoDispose = true;
-    this.maxClients = MAX_AMOUNT_OF_PLAYERS;
+    this.autoDispose = true
+    this.maxClients = MAX_AMOUNT_OF_PLAYERS
 
-    this.lobbyRoomId = options.lobbyRoomId;
+    this.lobbyRoomId = options.lobbyRoomId
 
     options.playerNames.forEach((playerName) => {
-      this.playerConnections.set(playerName, null);
-    });
+      this.playerConnections.set(playerName, null)
+    })
   }
 
   protected finishGame() {
     const gameHistory: GameHistory = {
       gameType: this.getGameType(),
       scores: this.getScores(),
-    };
+    }
 
-    this.presence.publish("score-" + this.lobbyRoomId, gameHistory);
-    this.state.status = "finished";
+    this.presence.publish('score-' + this.lobbyRoomId, gameHistory)
+    this.state.status = 'finished'
   }
 
-  abstract getScores(): Score[];
+  abstract getScores(): Score[]
 
-  abstract getGameType(): GameType;
+  abstract getGameType(): GameType
 
   onJoin(client: Client, options: { name: string }) {
-    console.log(`${this.constructor.name}.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`);
+    console.log(`${this.constructor.name}.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`)
 
-    if(this.playerConnections.has(options.name)) {
-      this.playerConnections.set(options.name, client.sessionId);
-      
-      const playerSchema = new PlayerSchema(options.name);
-      this.state.players.push(playerSchema);
+    if (this.playerConnections.has(options.name)) {
+      this.playerConnections.set(options.name, client.sessionId)
+
+      const playerSchema = new PlayerSchema(options.name)
+      this.state.players.push(playerSchema)
     } else {
-      console.log(`${this.constructor.name}.onJoin: playerName: '${options.name}' is not part of the game`);
+      console.log(`${this.constructor.name}.onJoin: playerName: '${options.name}' is not part of the game`)
     }
   }
 
   onLeave(client: Client, _consented: boolean) {
-    console.log(`${this.constructor.name}.onLeave: roomId: '${this.roomId}', playerId: '${client.sessionId}'`);
-    
+    console.log(`${this.constructor.name}.onLeave: roomId: '${this.roomId}', playerId: '${client.sessionId}'`)
+
     this.playerConnections?.forEach((sessionId, playerName) => {
       if (sessionId === client.sessionId) {
-        this.playerConnections.set(playerName, null);
-        
-        const playerIndex = this.state.players.findIndex(player => player.name === playerName);
+        this.playerConnections.set(playerName, null)
+
+        const playerIndex = this.state.players.findIndex((player) => player.name === playerName)
         if (playerIndex !== -1) {
-          this.state.players.splice(playerIndex, 1);
+          this.state.players.splice(playerIndex, 1)
         }
       }
-    });
+    })
   }
 
   onDispose() {
-    console.log(`${this.constructor.name}.onDispose: roomId: '${this.roomId}'`);
+    console.log(`${this.constructor.name}.onDispose: roomId: '${this.roomId}'`)
   }
 }

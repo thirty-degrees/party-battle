@@ -1,91 +1,91 @@
-import { getPlayerAcrossOf } from "../getPlayerAcrossOf";
+import { getPlayerAcrossOf } from '../getPlayerAcrossOf'
 
-describe("getPlayerAcrossOf", () => {
-  describe("when there are 4 players", () => {
-    it("should return the player directly opposite", () => {
-      const players = ["player0", "player1", "player2", "player3"];
-      const currentPlayer = "player0";
+describe('getPlayerAcrossOf', () => {
+  describe('when there are 4 players', () => {
+    it('should return the player directly opposite', () => {
+      const players = ['player0', 'player1', 'player2', 'player3']
+      const currentPlayer = 'player0'
 
-      const result = getPlayerAcrossOf(players, currentPlayer);
+      const result = getPlayerAcrossOf(players, currentPlayer)
 
-      expect(result).toBe("player2");
-    });
-  });
+      expect(result).toBe('player2')
+    })
+  })
 
-  describe("when there are 5 players", () => {
-    it("should return the player floor(length/2) steps left", () => {
-      const players = ["player0", "player1", "player2", "player3", "player4"];
-      const currentPlayer = "player0";
+  describe('when there are 5 players', () => {
+    it('should return the player floor(length/2) steps left', () => {
+      const players = ['player0', 'player1', 'player2', 'player3', 'player4']
+      const currentPlayer = 'player0'
 
-      const result = getPlayerAcrossOf(players, currentPlayer);
+      const result = getPlayerAcrossOf(players, currentPlayer)
 
-      expect(result).toBe("player3");
-    });
-  });
+      expect(result).toBe('player3')
+    })
+  })
 
-  describe("when there are 6 players", () => {
-    it("should return the player floor(length/2) steps left", () => {
-      const players = ["player0", "player1", "player2", "player3", "player4", "player5"];
-      const currentPlayer = "player0";
+  describe('when there are 6 players', () => {
+    it('should return the player floor(length/2) steps left', () => {
+      const players = ['player0', 'player1', 'player2', 'player3', 'player4', 'player5']
+      const currentPlayer = 'player0'
 
-      const result = getPlayerAcrossOf(players, currentPlayer);
+      const result = getPlayerAcrossOf(players, currentPlayer)
 
-      expect(result).toBe("player3");
-    });
-  });
+      expect(result).toBe('player3')
+    })
+  })
 
-  describe("when there are 3 players", () => {
-    it("should return the player floor(length/2) steps left", () => {
-      const players = ["player0", "player1", "player2"];
-      const currentPlayer = "player0";
+  describe('when there are 3 players', () => {
+    it('should return the player floor(length/2) steps left', () => {
+      const players = ['player0', 'player1', 'player2']
+      const currentPlayer = 'player0'
 
-      const result = getPlayerAcrossOf(players, currentPlayer);
+      const result = getPlayerAcrossOf(players, currentPlayer)
 
-      expect(result).toBe("player2");
-    });
-  });
+      expect(result).toBe('player2')
+    })
+  })
 
-  describe("when there are 2 players", () => {
-    it("should return the other player", () => {
-      const players = ["player0", "player1"];
-      const currentPlayer = "player0";
+  describe('when there are 2 players', () => {
+    it('should return the other player', () => {
+      const players = ['player0', 'player1']
+      const currentPlayer = 'player0'
 
-      const result = getPlayerAcrossOf(players, currentPlayer);
+      const result = getPlayerAcrossOf(players, currentPlayer)
 
-      expect(result).toBe("player1");
-    });
-  });
+      expect(result).toBe('player1')
+    })
+  })
 
-  describe("when there is 1 player", () => {
-    it("should return null", () => {
-      const players = ["player0"];
-      const currentPlayer = "player0";
+  describe('when there is 1 player', () => {
+    it('should return null', () => {
+      const players = ['player0']
+      const currentPlayer = 'player0'
 
-      const result = getPlayerAcrossOf(players, currentPlayer);
+      const result = getPlayerAcrossOf(players, currentPlayer)
 
-      expect(result).toBe(null);
-    });
-  });
+      expect(result).toBe(null)
+    })
+  })
 
-  describe("when players array is empty", () => {
-    it("should throw an error", () => {
-      const players: string[] = [];
-      const currentPlayer = "player0";
-
-      expect(() => getPlayerAcrossOf(players, currentPlayer)).toThrow(
-        "Current player must be in the players array"
-      );
-    });
-  });
-
-  describe("when currentPlayer is not in the players array", () => {
-    it("should throw an error", () => {
-      const players = ["player0", "player1", "player2"];
-      const currentPlayer = "player3";
+  describe('when players array is empty', () => {
+    it('should throw an error', () => {
+      const players: string[] = []
+      const currentPlayer = 'player0'
 
       expect(() => getPlayerAcrossOf(players, currentPlayer)).toThrow(
-        "Current player must be in the players array"
-      );
-    });
-  });
-});
+        'Current player must be in the players array'
+      )
+    })
+  })
+
+  describe('when currentPlayer is not in the players array', () => {
+    it('should throw an error', () => {
+      const players = ['player0', 'player1', 'player2']
+      const currentPlayer = 'player3'
+
+      expect(() => getPlayerAcrossOf(players, currentPlayer)).toThrow(
+        'Current player must be in the players array'
+      )
+    })
+  })
+})

@@ -1,11 +1,11 @@
-import { Score } from "types-party-battle";
+import { Score } from 'types-party-battle'
 
 export function assignScoresByOrder(players: string[][]): Score[] {
-  let offset = 0;
+  let offset = 0
 
   return players.flatMap((group) => {
-    const value = offset + group.length - 1;
-    offset += group.length;
-    return group.map((playerName) => ({ playerName, value }));
-  });
+    const value = offset + group.length - 1
+    offset += group.length
+    return group.map((playerName) => ({ playerName, value }))
+  })
 }
