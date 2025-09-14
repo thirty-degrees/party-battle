@@ -8,7 +8,7 @@ import { Heading } from '@/components/ui/heading'
 import { Input, InputField } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
 import useToastHelper from '@/components/ui/useToastHelper'
-import { JoinRoomModal } from '@/src/index/join-room-modal'
+import { JoinRoomModal } from '@/src/index/JoinRoomModal'
 
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { StoreBadges } from '@/src/index/StoreBadges'
