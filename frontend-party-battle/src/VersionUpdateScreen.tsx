@@ -1,9 +1,10 @@
 import { Button, ButtonText } from '@/components/ui/button'
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider'
 import { Heading } from '@/components/ui/heading'
 import { Text } from '@/components/ui/text'
 import Constants from 'expo-constants'
 import { Linking, Platform, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaProvider, SafeAreaView, initialWindowMetrics } from 'react-native-safe-area-context'
 
 export function VersionUpdateScreen() {
   const handleReload = async () => {
@@ -32,20 +33,24 @@ export function VersionUpdateScreen() {
   const isWeb = Platform.OS === 'web'
 
   return (
-    <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
-      <View className="flex-1 p-6 items-center justify-center gap-6">
-        <Heading size="4xl">New version available</Heading>
-        <Text size="md">Update to the latest version to continue playing</Text>
-        {isWeb ? (
-          <Button size="xl" action="primary" onPress={handleReload} style={{ width: 200 }}>
-            <ButtonText>Reload</ButtonText>
-          </Button>
-        ) : (
-          <Button size="xl" action="primary" onPress={handleUpdate} style={{ width: 200 }}>
-            <ButtonText>Update now</ButtonText>
-          </Button>
-        )}
-      </View>
-    </SafeAreaView>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <GluestackUIProvider>
+        <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
+          <View className="flex-1 p-6 items-center justify-center gap-6">
+            <Heading size="4xl">New version available</Heading>
+            <Text size="md">Update to the latest version to continue playing</Text>
+            {isWeb ? (
+              <Button size="xl" action="primary" onPress={handleReload} style={{ width: 200 }}>
+                <ButtonText>Reload</ButtonText>
+              </Button>
+            ) : (
+              <Button size="xl" action="primary" onPress={handleUpdate} style={{ width: 200 }}>
+                <ButtonText>Update now</ButtonText>
+              </Button>
+            )}
+          </View>
+        </SafeAreaView>
+      </GluestackUIProvider>
+    </SafeAreaProvider>
   )
 }
