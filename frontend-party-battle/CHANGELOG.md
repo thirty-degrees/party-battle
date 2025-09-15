@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.10.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.9.0...frontend-party-battle-v2.10.0) (2025-09-15)
+
+
+### Features
+
+* added icons ([89c0a65](https://github.com/thirty-degrees/party-battle/commit/89c0a653112a8df03744fc358fd3ad522802b292))
+* duplicate name validation ([eaa8e3d](https://github.com/thirty-degrees/party-battle/commit/eaa8e3da79f8559b53d30e42a52b920e2a7d43ac))
+
+
+### Bug Fixes
+
+* VersionUpdateScreen UI ([49dd745](https://github.com/thirty-degrees/party-battle/commit/49dd745e388c6fe0e329ad006d7d0e2307221c76))
+
 ## [2.9.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.8.2...frontend-party-battle-v2.9.0) (2025-09-14)
 
 

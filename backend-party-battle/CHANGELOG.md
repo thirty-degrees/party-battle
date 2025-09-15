@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.10.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.9.0...backend-party-battle-v2.10.0) (2025-09-15)
+
+
+### Features
+
+* duplicate name validation ([eaa8e3d](https://github.com/thirty-degrees/party-battle/commit/eaa8e3da79f8559b53d30e42a52b920e2a7d43ac))
+* initial loading state for potato game ([cf6534a](https://github.com/thirty-degrees/party-battle/commit/cf6534acba52f1e27c10268cb34efd63d4938cc1))
+
 ## [2.9.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.8.2...backend-party-battle-v2.9.0) (2025-09-14)
 
 
