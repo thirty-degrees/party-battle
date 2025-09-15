@@ -39,9 +39,11 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
       this.state.remainingPlayers.push(playerName)
     })
 
+    this.state.message = '...'
+
     this.clock.setTimeout(() => {
       this.startRound()
-    }, 500)
+    }, 1000)
 
     this.onMessage<PotatoDirection>(
       'PassPotato',
