@@ -1,28 +1,28 @@
-import { GameType, Score, SnakeGameSchema } from "types-party-battle";
-import { BaseGameRoom } from "../games/BaseGameRoom";
+import { GameType, Score, SnakeGameSchema } from 'types-party-battle'
+import { BaseGameRoom } from '../games/BaseGameRoom'
 
 export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
-  static readonly gameType: GameType = "snake";
-  static readonly roomName: string = "snake_game_room";
+  static readonly gameType: GameType = 'snake'
+  static readonly roomName: string = 'snake_game_room'
 
   override getGameType(): GameType {
-    return SnakeGameRoom.gameType;
+    return SnakeGameRoom.gameType
   }
 
-  override onCreate(options: { lobbyRoomId: string, playerNames: string[] }) {
-    super.onCreate(options);
-    this.state = new SnakeGameSchema("waiting");
+  override onCreate(options: { lobbyRoomId: string; playerNames: string[] }) {
+    super.onCreate(options)
+    this.state = new SnakeGameSchema('waiting')
 
     this.clock.setTimeout(() => {
-      this.finishGame();
-      console.log("TEMP: Game status changed to finished after 2 seconds");
-    }, 2000);
+      this.finishGame()
+      console.log('TEMP: Game status changed to finished after 2 seconds')
+    }, 2000)
   }
 
   override getScores(): Score[] {
-    return [...this.playerConnections.keys()].map(playerName => ({
+    return [...this.playerConnections.keys()].map((playerName) => ({
       playerName,
-      value: 5
-    }));
+      value: 5,
+    }))
   }
 }

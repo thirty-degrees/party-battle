@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.9.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.8.2...frontend-party-battle-v2.9.0) (2025-09-14)
+
+
+### Features
+
+* handle colyseus error format differently ([69fb0ee](https://github.com/thirty-degrees/party-battle/commit/69fb0eec64df299b09dee392a0d42be7a402c4ba))
+
+
+### Bug Fixes
+
+* added config for Apple Handoff ([f9b1276](https://github.com/thirty-degrees/party-battle/commit/f9b12765eed6f4fee190bb7359decec270ac751d))
+
 ## [2.8.2](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.8.1...frontend-party-battle-v2.8.2) (2025-09-13)
 
 

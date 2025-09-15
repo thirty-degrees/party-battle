@@ -1,5 +1,5 @@
-import { ConnectionLostModal } from '@/components/ui/modal/connection-lost-modal'
-import { Client, Room } from 'colyseus.js'
+import { ConnectionLostModal } from '@/src/lobby/ConnectionLostModal'
+import { Client, Room, ServerError } from 'colyseus.js'
 import Constants from 'expo-constants'
 import { router } from 'expo-router'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
@@ -9,7 +9,7 @@ import { usePlayerName } from '../index/PlayerNameProvider'
 export type LobbyRoomContextType = {
   lobbyRoom?: Room<LobbySchema>
   isLoading: boolean
-  joinLobbyRoom: (roomId: string) => Promise<void>
+  joinLobbyRoom: (roomId: string) => Promise<string | undefined>
   createLobbyRoom: () => Promise<void>
   leaveLobbyRoom: () => Promise<void>
 }
@@ -60,6 +60,10 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setConnectionLost(false)
         setCanRetry(false)
       } catch (error) {
+        if (error instanceof ServerError && error.code === 4111) {
+          return error.message
+        }
+
         setError(new Error('Failed to join lobby', { cause: error }))
       } finally {
         setIsLoading(false)

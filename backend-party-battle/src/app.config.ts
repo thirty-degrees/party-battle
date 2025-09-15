@@ -1,30 +1,26 @@
-import config from "@colyseus/tools";
+import config from '@colyseus/tools'
 
-import { Type } from "@colyseus/core/build/utils/types";
-import { Room } from "colyseus";
-import { GameSchema, GameType } from "types-party-battle";
-import { LobbyRoom } from "./rooms/LobbyRoom";
-import { PickCardsGameRoom } from "./rooms/PickCardsGameRoom";
-import { PotatoGameRoom } from "./rooms/PotatoGameRoom";
-import { SnakeGameRoom } from "./rooms/SnakeGameRoom";
+import { Type } from '@colyseus/core/build/utils/types'
+import { Room } from 'colyseus'
+import { GameSchema, GameType } from 'types-party-battle'
+import { LobbyRoom } from './rooms/LobbyRoom'
+import { PickCardsGameRoom } from './rooms/PickCardsGameRoom'
+import { PotatoGameRoom } from './rooms/PotatoGameRoom'
+import { SnakeGameRoom } from './rooms/SnakeGameRoom'
 
-const LOBBY_ROOM_NAME = "lobby_room";
+const LOBBY_ROOM_NAME = 'lobby_room'
 
 export const gameRooms: ({
-  readonly gameType: GameType;
-  readonly roomName: string;
-} & Type<Room<GameSchema>>)[] = [
-  PickCardsGameRoom,
-  SnakeGameRoom,
-  PotatoGameRoom,
-];
+  readonly gameType: GameType
+  readonly roomName: string
+} & Type<Room<GameSchema>>)[] = [PickCardsGameRoom, SnakeGameRoom, PotatoGameRoom]
 
 export default config({
   initializeGameServer: (gameServer) => {
-    gameServer.define(LOBBY_ROOM_NAME, LobbyRoom);
+    gameServer.define(LOBBY_ROOM_NAME, LobbyRoom)
     gameRooms.forEach((gameRoom) => {
-      gameServer.define(gameRoom.roomName, gameRoom);
-    });
+      gameServer.define(gameRoom.roomName, gameRoom)
+    })
   },
 
   initializeExpress: (_app) => {
@@ -59,4 +55,4 @@ export default config({
      * Before before gameServer.listen() is called.
      */
   },
-});
+})

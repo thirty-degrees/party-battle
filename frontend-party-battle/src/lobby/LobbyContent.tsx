@@ -1,10 +1,10 @@
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon'
-import { QrCodeModal } from '@/components/ui/modal/qr-code-modal'
 import { Text } from '@/components/ui/text'
 import useColyseusState from '@/src/colyseus/useColyseusState'
 import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import PlayerList from '@/src/lobby/PlayerList'
+import { QrCodeModal } from '@/src/lobby/QrCodeModal'
 import createWebURL from '@/src/utils/createWebUrl'
 import { blurActiveElement } from '@/src/utils/focusUtils'
 import { Room } from 'colyseus.js'
@@ -64,48 +64,50 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
-      <View className="flex-1 p-4 justify-center items-center">
-        <View className="flex-1 max-w-md w-full justify-between items-center">
-          <View className="flex-row items-center justify-between gap-2 w-full">
-            <View className="flex-col items-center">
-              <Text className="text-sm text-typography-600 dark:text-typography-400">Party Code</Text>
-              <Text className="text-md font-semibold">{partyCode}</Text>
-            </View>
-            <View className="flex-row items-center justify-end gap-2">
-              <Button size="md" variant="outline" className="p-2.5" onPress={handleShare}>
-                <ButtonIcon as={ShareIcon} />
-              </Button>
-              <Button size="md" variant="outline" className="p-2.5" onPress={() => setIsQrModalOpen(true)}>
-                <ButtonIcon as={QrCodeIcon} />
-              </Button>
-              <Button size="md" action="negative" className="p-2.5" onPress={handleLeaveParty}>
-                <ButtonIcon as={LogOutIcon} />
-              </Button>
-            </View>
-          </View>
-
-          <View className="flex-1 w-full justify-evenly items-center">
-            <View className="flex-row w-full">
-              <PlayerList lobbyRoom={lobbyRoom} />
+    <>
+      <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
+        <View className="flex-1 p-4 justify-center items-center">
+          <View className="flex-1 max-w-md w-full justify-between items-center">
+            <View className="flex-row items-center justify-between gap-2 w-full">
+              <View className="flex-col items-center">
+                <Text className="text-sm text-typography-600 dark:text-typography-400">Party Code</Text>
+                <Text className="text-md font-semibold">{partyCode}</Text>
+              </View>
+              <View className="flex-row items-center justify-end gap-2">
+                <Button size="md" variant="outline" className="p-2.5" onPress={handleShare}>
+                  <ButtonIcon as={ShareIcon} />
+                </Button>
+                <Button size="md" variant="outline" className="p-2.5" onPress={() => setIsQrModalOpen(true)}>
+                  <ButtonIcon as={QrCodeIcon} />
+                </Button>
+                <Button size="md" action="negative" className="p-2.5" onPress={handleLeaveParty}>
+                  <ButtonIcon as={LogOutIcon} />
+                </Button>
+              </View>
             </View>
 
-            <View className="flex-row w-full justify-center">
-              <Button size="xl" action={'primary'} onPress={handleToggleReady}>
-                <ButtonText>{isReady ? 'CANCEL' : 'PLAY'}</ButtonText>
-              </Button>
-            </View>
+            <View className="flex-1 w-full justify-evenly items-center">
+              <View className="flex-row w-full">
+                <PlayerList lobbyRoom={lobbyRoom} />
+              </View>
 
-            <View className="mt-3 h-5 justify-center items-center">
-              {isReady && playerCount < 2 ? (
-                <Text className="text-sm text-typography-600 dark:text-typography-400">
-                  Need 1 more player to start.
-                </Text>
-              ) : null}
+              <View className="flex-row w-full justify-center">
+                <Button size="xl" action={'primary'} onPress={handleToggleReady}>
+                  <ButtonText>{isReady ? 'CANCEL' : 'PLAY'}</ButtonText>
+                </Button>
+              </View>
+
+              <View className="mt-3 h-5 justify-center items-center">
+                {isReady && playerCount < 2 ? (
+                  <Text className="text-sm text-typography-600 dark:text-typography-400">
+                    Need 1 more player to start.
+                  </Text>
+                ) : null}
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
 
       <QrCodeModal
         isOpen={isQrModalOpen}
@@ -113,6 +115,6 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
         roomId={partyCode}
         roomUrl={shareUrl}
       />
-    </SafeAreaView>
+    </>
   )
 }
