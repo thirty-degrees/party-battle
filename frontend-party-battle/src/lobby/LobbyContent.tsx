@@ -1,3 +1,4 @@
+import BlurredText from '@/components/blurred-text'
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon'
 import { Text } from '@/components/ui/text'
@@ -69,9 +70,11 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
         <View className="flex-1 p-4 justify-center items-center">
           <View className="flex-1 max-w-md w-full justify-between items-center">
             <View className="flex-row items-center justify-between gap-2 w-full">
-              <View className="flex-col items-center">
-                <Text className="text-sm text-typography-600 dark:text-typography-400">Party Code</Text>
-                <Text className="text-md font-semibold">{partyCode}</Text>
+              <View className="flex-col items-left">
+                <Text className="text-sm text-typography-600 dark:text-typography-400 text-left">
+                  Party Code
+                </Text>
+                <BlurredText text={partyCode} />
               </View>
               <View className="flex-row items-center justify-end gap-2">
                 <Button size="md" variant="outline" className="p-2.5" onPress={handleShare}>
