@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Dimensions } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { MAX_SAFE_WIDTH, PADDING } from './constants'
+import { GAME_VIEW_PADDING, MAX_GAME_WIDTH } from '../constants'
 
 export default function usePotatoLayout() {
   const insets = useSafeAreaInsets()
@@ -14,7 +14,10 @@ export default function usePotatoLayout() {
     return () => subscription?.remove()
   }, [])
 
-  const safeAreaWidth = Math.min(dimensions.width - PADDING - insets.left - insets.right, MAX_SAFE_WIDTH)
+  const safeAreaWidth = Math.min(
+    dimensions.width - GAME_VIEW_PADDING - insets.left - insets.right,
+    MAX_GAME_WIDTH
+  )
   const safeAreaHeight = dimensions.height - insets.top - insets.bottom
   const radius = safeAreaWidth / 2
   const itemSize = safeAreaWidth / 5

@@ -1,6 +1,7 @@
 import { Dimensions, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
+import { GAME_VIEW_PADDING, MAX_GAME_WIDTH } from '../constants'
 
 function getCellClassName(cellKind: CellKind): string {
   switch (cellKind) {
@@ -24,12 +25,8 @@ export const Board = ({ board, width, height }: BoardProps) => {
   const screenWidth = Dimensions.get('window').width
   const screenHeight = Dimensions.get('window').height
 
-  // Calculate available space accounting for safe area insets and parent padding
-  // BasicGameView: SafeAreaView with insets + p-2 (8px padding = 0.5rem on all sides = 16px total)
-  // SnakeGame: pt-4 (16px = 1rem top padding)
-  // BasicGameView: max-w-md (448px = 28rem) constraint
-  const availableWidth = Math.min(screenWidth - left - right - 16, 448) // 16px for BasicGameView p-2
-  const availableHeight = screenHeight - top - bottom - 16 // 16px for BasicGameView p-2
+  const availableWidth = Math.min(screenWidth - left - right - GAME_VIEW_PADDING, MAX_GAME_WIDTH)
+  const availableHeight = screenHeight - top - bottom - GAME_VIEW_PADDING
 
   const cellSize = Math.min(availableWidth / width, availableHeight / height)
 

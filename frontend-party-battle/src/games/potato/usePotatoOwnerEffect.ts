@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
-import { PADDING, POTATO_HEIGHT, POTATO_WIDTH } from './constants'
+import { GAME_VIEW_PADDING } from '../constants'
+import { POTATO_HEIGHT, POTATO_WIDTH } from './constants'
 
 export function usePotatoOwnerEffect(
   playerWithPotato: string | undefined,
@@ -24,7 +25,8 @@ export function usePotatoOwnerEffect(
       translateY.setValue(0)
 
       const left = Math.random() * (safeAreaWidth - itemSize - POTATO_WIDTH)
-      const top = Math.random() * (safeAreaHeight - halfCircleRibbonHeight - POTATO_HEIGHT - PADDING)
+      const top =
+        Math.random() * (safeAreaHeight - halfCircleRibbonHeight - POTATO_HEIGHT - GAME_VIEW_PADDING)
       setPotatoPos({ left, top })
     }
 
