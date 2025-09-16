@@ -1,6 +1,6 @@
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
-import { SnakeGameSchema } from 'types-party-battle/types/SnakeGameSchema'
+import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { assignScoresByOrder } from '../scores/assignScoresByOrder'
 

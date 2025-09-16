@@ -6,15 +6,6 @@
     "declarationMap": false,
     "sourceMap": false
   },
-  "include": [
-    "index.ts",
-    "types/**/*.ts",
-    "consts/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ]
+  "include": ["types/**/*.ts", "consts/**/*.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }

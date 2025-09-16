@@ -3,7 +3,7 @@ import {
   POTATO_DIRECTIONS,
   PotatoDirection,
   PotatoGameSchema,
-} from 'types-party-battle/types/PotatoGameSchema'
+} from 'types-party-battle/types/potato/PotatoGameSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { getPlayerAcrossOf } from '../games/potato/getPlayerAcrossOf'

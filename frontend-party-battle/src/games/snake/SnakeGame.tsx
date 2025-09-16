@@ -1,5 +1,5 @@
 import { Text } from 'react-native'
-import { SnakeGameSchema } from 'types-party-battle/types/SnakeGameSchema'
+import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'

@@ -2,7 +2,6 @@
   "name": "types-party-battle",
   "version": "1.0.0",
   "type": "commonjs",
-  "types": "dist/index.d.ts",
   "exports": {
     "./types/*": "./dist/types/*.js",
     "./consts/*": "./dist/consts/*.js"

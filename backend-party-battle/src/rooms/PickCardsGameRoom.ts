@@ -1,6 +1,6 @@
 import { Client, Delayed } from '@colyseus/core'
 import { GameType } from 'types-party-battle/types/GameSchema'
-import { PickCardsGameSchema } from 'types-party-battle/types/PickCardsGameSchema'
+import { PickCardsGameSchema } from 'types-party-battle/types/pick-cards/PickCardsGameSchema'
 import { PlayerSchema } from 'types-party-battle/types/PlayerSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'

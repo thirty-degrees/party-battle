@@ -1,7 +1,7 @@
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { useRef } from 'react'
 import { Animated, View } from 'react-native'
-import { PotatoGameSchema } from 'types-party-battle/types/PotatoGameSchema'
+import { PotatoGameSchema } from 'types-party-battle/types/potato/PotatoGameSchema'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'

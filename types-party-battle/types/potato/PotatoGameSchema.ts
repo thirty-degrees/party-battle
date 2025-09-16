@@ -1,5 +1,5 @@
 import { ArraySchema, type } from "@colyseus/schema";
-import { GameSchema } from "./GameSchema";
+import { GameSchema } from "../GameSchema";
 
 export const POTATO_DIRECTIONS = ["left", "right", "across"] as const;
 

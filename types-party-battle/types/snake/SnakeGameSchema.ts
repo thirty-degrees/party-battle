@@ -1,6 +1,6 @@
 import { ArraySchema, type } from "@colyseus/schema";
+import { GameSchema } from "../GameSchema";
 import { Cell } from "./Cell";
-import { GameSchema } from "./GameSchema";
 
 export class SnakeGameSchema extends GameSchema {
   @type(["string"]) remainingPlayers = new ArraySchema<string>();

@@ -1,6 +1,6 @@
 import { ArraySchema, type } from "@colyseus/schema";
-import { GameSchema } from "./GameSchema";
-import { PlayerSchema } from "./PlayerSchema";
+import { GameSchema } from "../GameSchema";
+import { PlayerSchema } from "../PlayerSchema";
 
 export class PickCardsGameSchema extends GameSchema {
   @type("number") cardCount: number = 0;
