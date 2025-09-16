@@ -1,15 +1,11 @@
 import { Client, matchMaker, Room, ServerError } from '@colyseus/core'
 import { humanId } from 'human-id'
-import {
-  GameHistory,
-  GameHistorySchema,
-  GameType,
-  LobbyPlayerSchema,
-  LobbySchema,
-  MAX_AMOUNT_OF_PLAYERS,
-  PLAYER_NAME_MAX_LENGTH,
-  ScoreSchema,
-} from 'types-party-battle'
+import { MAX_AMOUNT_OF_PLAYERS, PLAYER_NAME_MAX_LENGTH } from 'types-party-battle/consts/config'
+import { GameHistory, GameHistorySchema } from 'types-party-battle/types/GameHistorySchema'
+import { GameType } from 'types-party-battle/types/GameSchema'
+import { LobbyPlayerSchema } from 'types-party-battle/types/LobbyPlayerSchema'
+import { LobbySchema } from 'types-party-battle/types/LobbySchema'
+import { ScoreSchema } from 'types-party-battle/types/ScoreSchema'
 import { gameRooms } from '../app.config'
 
 export class LobbyRoom extends Room<LobbySchema> {

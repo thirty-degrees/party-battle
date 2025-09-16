@@ -2,7 +2,7 @@ import Loading from '@/components/loading'
 import { useGameRoomContext } from '@/src/colyseus/GameRoomProvider'
 import { useLocalSearchParams } from 'expo-router'
 import { useEffect } from 'react'
-import { GameSchema } from 'types-party-battle'
+import { GameSchema } from 'types-party-battle/types/GameSchema'
 import { GameComponent } from './GameComponent'
 import GameRoomLeaver from './GameRoomLeaver'
 

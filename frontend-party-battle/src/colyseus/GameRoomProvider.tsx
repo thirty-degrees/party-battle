@@ -2,7 +2,7 @@ import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { Client, Room } from 'colyseus.js'
 import Constants from 'expo-constants'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
-import { GameSchema } from 'types-party-battle'
+import { GameSchema } from 'types-party-battle/types/GameSchema'
 
 export type GameRoomContextType<TGameSchema extends GameSchema> = {
   gameRoom?: Room<TGameSchema>

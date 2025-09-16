@@ -2,7 +2,9 @@ import { Text, View } from 'react-native'
 
 import useColyseusState from '@/src/colyseus/useColyseusState'
 import { Room } from 'colyseus.js'
-import { GameHistory, LobbySchema, MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle'
+import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle/consts/config'
+import { GameHistory } from 'types-party-battle/types/GameHistorySchema'
+import { LobbySchema } from 'types-party-battle/types/LobbySchema'
 import { PlayerData } from './LobbyContent'
 import PlayerListEntry from './PlayerListEntry'
 

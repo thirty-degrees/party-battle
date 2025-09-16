@@ -1,16 +1,23 @@
-import { Text } from 'react-native'
-import { SnakeGameSchema } from 'types-party-battle'
+import { View } from 'react-native'
+import { toCell } from 'types-party-battle/types/snake/CellSchema'
+import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
+import { Board } from './Board'
 
 export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
-  const gameStatus = useColyseusState(gameRoom, (state) => state.status)
+  const { board, width, height } = useColyseusState(gameRoom, (state) => ({
+    board: Array.from(state.board, (cell) => toCell(cell)),
+    width: state.width,
+    height: state.height,
+  }))
 
   return (
     <BasicGameView>
-      <Text className="text-black dark:text-white text-2xl font-bold">Snake Mini Game</Text>
-      <Text className="text-black dark:text-white text-lg">Room State: {JSON.stringify(gameStatus)}</Text>
+      <View className="flex-1 justify-start items-center">
+        <Board board={board} width={width} height={height} />
+      </View>
     </BasicGameView>
   )
 }

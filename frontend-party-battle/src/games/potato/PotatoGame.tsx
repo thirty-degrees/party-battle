@@ -1,7 +1,7 @@
 import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { useRef } from 'react'
 import { Animated, View } from 'react-native'
-import { PotatoGameSchema } from 'types-party-battle'
+import { PotatoGameSchema } from 'types-party-battle/types/potato/PotatoGameSchema'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
@@ -24,13 +24,13 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
   const translateX = useRef(new Animated.Value(0)).current
   const translateY = useRef(new Animated.Value(0)).current
 
-  const { safeAreaWidth, safeAreaHeight, radius, itemSize, halfCircleRibbonHeight } = usePotatoLayout()
+  const { availableWidth, availableHeight, radius, itemSize, halfCircleRibbonHeight } = usePotatoLayout()
 
   const { potatoPos, shouldShow } = usePotatoOwnerEffect(
     playerWithPotato,
     trimmedPlayerName,
-    safeAreaWidth,
-    safeAreaHeight,
+    availableWidth,
+    availableHeight,
     halfCircleRibbonHeight,
     itemSize,
     translateX,
@@ -43,8 +43,8 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
     canRight: !!playerSlotAssignments.right,
     canAcross: !!playerSlotAssignments.top,
     gameRoom,
-    safeAreaWidth,
-    safeAreaHeight,
+    availableWidth,
+    availableHeight,
     translateX,
     translateY,
   })
@@ -61,7 +61,7 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
         />
         <SideSlots playerSlotAssignments={playerSlotAssignments} playerWithPotato={playerWithPotato} />
         <View className="flex-1 items-center">
-          <View className="relative flex-1" style={{ width: safeAreaWidth - itemSize }}>
+          <View className="relative flex-1" style={{ width: availableWidth - itemSize }}>
             <DraggablePotato
               shouldShow={shouldShow}
               potatoPos={potatoPos}

@@ -1,4 +1,10 @@
-import { GameType, POTATO_DIRECTIONS, PotatoDirection, PotatoGameSchema, Score } from 'types-party-battle'
+import { GameType } from 'types-party-battle/types/GameSchema'
+import {
+  POTATO_DIRECTIONS,
+  PotatoDirection,
+  PotatoGameSchema,
+} from 'types-party-battle/types/potato/PotatoGameSchema'
+import { Score } from 'types-party-battle/types/ScoreSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { getPlayerAcrossOf } from '../games/potato/getPlayerAcrossOf'
 import { getPlayerLeftOf } from '../games/potato/getPlayerLeftOf'
@@ -39,9 +45,11 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
       this.state.remainingPlayers.push(playerName)
     })
 
+    this.state.message = '...'
+
     this.clock.setTimeout(() => {
       this.startRound()
-    }, 500)
+    }, 1000)
 
     this.onMessage<PotatoDirection>(
       'PassPotato',

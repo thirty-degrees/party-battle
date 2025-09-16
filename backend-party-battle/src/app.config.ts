@@ -2,7 +2,7 @@ import config from '@colyseus/tools'
 
 import { Type } from '@colyseus/core/build/utils/types'
 import { Room } from 'colyseus'
-import { GameSchema, GameType } from 'types-party-battle'
+import { GameSchema, GameType } from 'types-party-battle/types/GameSchema'
 import { LobbyRoom } from './rooms/LobbyRoom'
 import { PickCardsGameRoom } from './rooms/PickCardsGameRoom'
 import { PotatoGameRoom } from './rooms/PotatoGameRoom'
