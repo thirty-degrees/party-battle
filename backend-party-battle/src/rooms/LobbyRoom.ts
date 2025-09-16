@@ -47,6 +47,9 @@ export class LobbyRoom extends Room<LobbySchema> {
 
   onLeave(client: Client, _consented: boolean) {
     console.log(`LobbyRoom.onLeave: roomId: '${this.roomId}', playerId: '${client.sessionId}'`)
+    if (!this.state.players.has(client.sessionId)) {
+      return
+    }
     this.state.players.delete(client.sessionId)
   }
 
