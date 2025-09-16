@@ -1,6 +1,7 @@
 import config from '@colyseus/tools'
 
 import { Type } from '@colyseus/core/build/utils/types'
+import { Encoder } from '@colyseus/schema'
 import { Room } from 'colyseus'
 import { GameSchema, GameType } from 'types-party-battle/types/GameSchema'
 import { LobbyRoom } from './rooms/LobbyRoom'
@@ -54,5 +55,6 @@ export default config({
     /**
      * Before before gameServer.listen() is called.
      */
+    Encoder.BUFFER_SIZE = 16 * 1024 // 16 KB
   },
 })
