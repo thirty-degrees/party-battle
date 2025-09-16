@@ -1,25 +1,16 @@
 import { View } from 'react-native'
-import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
+import { Cell } from 'types-party-battle/types/snake/CellSchema'
 import useBasicGameViewDimensions from '../useBasicGameViewDimensions'
-
-function getCellClassName(cellKind: CellKind): string {
-  switch (cellKind) {
-    case CellKind.Snake:
-      return ' bg-green-500'
-    case CellKind.Empty:
-      return ' bg-gray-100 dark:bg-gray-800'
-    case CellKind.Collectible:
-      return ' bg-red-500'
-  }
-}
+import { CellContent } from './CellContent'
 
 interface BoardProps {
   board: Cell[]
   width: number
   height: number
+  players: string[]
 }
 
-export const Board = ({ board, width, height }: BoardProps) => {
+export const Board = ({ board, width, height, players }: BoardProps) => {
   const { availableWidth, availableHeight } = useBasicGameViewDimensions()
 
   const cellSize = Math.min(availableWidth / width, availableHeight / height)
@@ -31,12 +22,9 @@ export const Board = ({ board, width, height }: BoardProps) => {
     const x = index % width
     const y = Math.floor(index / width)
 
-    const cellClassName = 'border border-gray-300' + getCellClassName(cell.kind)
-
     return (
       <View
         key={index}
-        className={cellClassName}
         style={{
           width: cellSize,
           height: cellSize,
@@ -44,7 +32,9 @@ export const Board = ({ board, width, height }: BoardProps) => {
           left: x * cellSize,
           top: y * cellSize,
         }}
-      />
+      >
+        <CellContent cell={cell} players={players} />
+      </View>
     )
   }
 
