@@ -7,7 +7,7 @@ function getCellClassName(cellKind: CellKind): string {
     case CellKind.Snake:
       return ' bg-green-500'
     case CellKind.Empty:
-      return ' bg-gray-100 dark:bg-gray-800'
+      return ' bg-zinc-800'
     case CellKind.Collectible:
       return ' bg-red-500'
   }
@@ -31,7 +31,7 @@ export const Board = ({ board, width, height }: BoardProps) => {
     const x = index % width
     const y = Math.floor(index / width)
 
-    const cellClassName = 'border border-gray-300' + getCellClassName(cell.kind)
+    const cellClassName = getCellClassName(cell.kind)
 
     return (
       <View
