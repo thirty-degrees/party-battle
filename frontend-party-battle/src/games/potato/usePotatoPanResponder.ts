@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Animated, PanResponder } from 'react-native'
-import { PotatoDirection } from 'types-party-battle'
+import { PotatoDirection } from 'types-party-battle/types/PotatoGameSchema'
 
 type Args = {
   status: string | undefined

@@ -3,7 +3,7 @@ import { Client, Room, ServerError } from 'colyseus.js'
 import Constants from 'expo-constants'
 import { router } from 'expo-router'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
-import { LobbySchema } from 'types-party-battle'
+import { LobbySchema } from 'types-party-battle/types/LobbySchema'
 import { usePlayerName } from '../index/PlayerNameProvider'
 
 export type LobbyRoomContextType = {

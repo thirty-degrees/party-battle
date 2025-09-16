@@ -1,4 +1,4 @@
-import { Score } from 'types-party-battle'
+import { Score } from 'types-party-battle/types/ScoreSchema'
 
 export function assignScoresByOrder(players: string[][]): Score[] {
   let offset = 0

@@ -1,5 +1,5 @@
 import { GameRoomProvider } from '@/src/colyseus/GameRoomProvider'
-import { GameSchema } from 'types-party-battle'
+import { GameSchema } from 'types-party-battle/types/GameSchema'
 import { GameComponent } from './GameComponent'
 import GameRoomJoiner from './GameRoomJoiner'
 

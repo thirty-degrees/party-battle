@@ -13,7 +13,7 @@ import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Share, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { LobbySchema } from 'types-party-battle'
+import { LobbySchema } from 'types-party-battle/types/LobbySchema'
 
 export interface PlayerData {
   name: string

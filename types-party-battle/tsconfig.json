@@ -11,8 +11,5 @@
     "skipLibCheck": true,
     "useDefineForClassFields": false
   },
-  "include": [
-    "index.ts",
-    "types/**/*.ts"
-  ]
+  "include": ["types/**/*.ts", "consts/**/*.ts"]
 }

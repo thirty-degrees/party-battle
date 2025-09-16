@@ -1,12 +1,9 @@
 import { Client, Room } from '@colyseus/core'
-import {
-  GameHistory,
-  GameSchema,
-  GameType,
-  MAX_AMOUNT_OF_PLAYERS,
-  PlayerSchema,
-  Score,
-} from 'types-party-battle'
+import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle/consts/config'
+import { GameHistory } from 'types-party-battle/types/GameHistorySchema'
+import { GameSchema, GameType } from 'types-party-battle/types/GameSchema'
+import { PlayerSchema } from 'types-party-battle/types/PlayerSchema'
+import { Score } from 'types-party-battle/types/ScoreSchema'
 
 type PlayerName = string
 type PlayerSessionId = string

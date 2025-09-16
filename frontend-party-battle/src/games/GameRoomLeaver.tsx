@@ -4,7 +4,7 @@ import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import { Room } from 'colyseus.js'
 import { router } from 'expo-router'
 import { useEffect } from 'react'
-import { GameSchema } from 'types-party-battle'
+import { GameSchema } from 'types-party-battle/types/GameSchema'
 import { GameComponent } from './GameComponent'
 
 interface GameRoomLeaverProps<T extends GameSchema> {
