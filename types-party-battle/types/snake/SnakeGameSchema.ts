@@ -1,18 +1,18 @@
 import { ArraySchema, type } from "@colyseus/schema";
 import { GameSchema, GameStatus } from "../GameSchema";
-import { Cell } from "./Cell";
+import { CellSchema } from "./Cell";
 
 export class SnakeGameSchema extends GameSchema {
   @type(["string"]) remainingPlayers = new ArraySchema<string>();
   @type("number") width;
   @type("number") height;
-  @type([Cell]) board;
+  @type([CellSchema]) board;
 
   constructor(
     status: GameStatus,
     width: number,
     height: number,
-    board: ArraySchema<Cell>
+    board: ArraySchema<CellSchema>
   ) {
     super(status);
     this.width = width;

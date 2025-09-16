@@ -1,5 +1,7 @@
+import { ArraySchema } from '@colyseus/schema'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
+import { CellSchema } from 'types-party-battle/types/snake/Cell'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
@@ -20,7 +22,12 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
     const { board, width, height } = createInitialBoard(options.playerNames)
 
-    this.state = new SnakeGameSchema('waiting', width, height, board)
+    const boardSchema = new ArraySchema<CellSchema>()
+    board.forEach((cell) => {
+      boardSchema.push(CellSchema.fromCell(cell))
+    })
+
+    this.state = new SnakeGameSchema('waiting', width, height, boardSchema)
 
     options.playerNames.forEach((playerName) => {
       this.state.remainingPlayers.push(playerName)
