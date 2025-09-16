@@ -2,6 +2,7 @@ import { GameType } from 'types-party-battle/types/GameSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
+import { createInitialBoard } from '../games/snake/createInitialBoard'
 import { assignScoresByOrder } from '../scores/assignScoresByOrder'
 
 export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
@@ -16,7 +17,10 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
   override onCreate(options: { lobbyRoomId: string; playerNames: string[] }) {
     super.onCreate(options)
-    this.state = new SnakeGameSchema('waiting')
+
+    const { board, width, height } = createInitialBoard(options.playerNames)
+
+    this.state = new SnakeGameSchema('waiting', width, height, board)
 
     options.playerNames.forEach((playerName) => {
       this.state.remainingPlayers.push(playerName)

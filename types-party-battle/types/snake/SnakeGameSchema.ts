@@ -1,10 +1,22 @@
 import { ArraySchema, type } from "@colyseus/schema";
-import { GameSchema } from "../GameSchema";
+import { GameSchema, GameStatus } from "../GameSchema";
 import { Cell } from "./Cell";
 
 export class SnakeGameSchema extends GameSchema {
   @type(["string"]) remainingPlayers = new ArraySchema<string>();
-  @type("number") width = 0;
-  @type("number") height = 0;
-  @type([Cell]) board = new ArraySchema<Cell>();
+  @type("number") width;
+  @type("number") height;
+  @type([Cell]) board;
+
+  constructor(
+    status: GameStatus,
+    width: number,
+    height: number,
+    board: ArraySchema<Cell>
+  ) {
+    super(status);
+    this.width = width;
+    this.height = height;
+    this.board = board;
+  }
 }
