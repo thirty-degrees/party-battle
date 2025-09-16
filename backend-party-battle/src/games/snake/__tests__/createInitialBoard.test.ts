@@ -1,4 +1,4 @@
-import { Cell, CellKind } from 'types-party-battle/types/snake/Cell'
+import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
 import { createInitialBoard } from '../createInitialBoard'
 
 describe('createInitialBoard', () => {

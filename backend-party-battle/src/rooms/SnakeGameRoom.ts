@@ -1,7 +1,7 @@
 import { ArraySchema } from '@colyseus/schema'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
-import { CellSchema } from 'types-party-battle/types/snake/Cell'
+import { CellSchema, fromCell } from 'types-party-battle/types/snake/CellSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
@@ -24,7 +24,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
     const boardSchema = new ArraySchema<CellSchema>()
     board.forEach((cell) => {
-      boardSchema.push(CellSchema.fromCell(cell))
+      boardSchema.push(fromCell(cell))
     })
 
     this.state = new SnakeGameSchema('waiting', width, height, boardSchema)
@@ -36,7 +36,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     this.clock.setTimeout(() => {
       this.finishGame()
       console.log('TEMP: Game status changed to finished after 2 seconds')
-    }, 2000)
+    }, 200000)
   }
 
   override getScores(): Score[] {

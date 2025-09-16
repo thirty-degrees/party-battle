@@ -19,12 +19,19 @@ export class CellSchema extends Schema {
     super();
     this.kind = kind;
   }
-
-  static fromCell(data: Cell): CellSchema {
-    const cell = new CellSchema(data.kind);
-    if (data.player) {
-      cell.player = data.player;
-    }
-    return cell;
-  }
 }
+
+export const toCell = (cellSchema: CellSchema): Cell => {
+  return {
+    kind: cellSchema.kind,
+    player: cellSchema.player,
+  };
+};
+
+export const fromCell = (data: Cell): CellSchema => {
+  const cell = new CellSchema(data.kind);
+  if (data.player) {
+    cell.player = data.player;
+  }
+  return cell;
+};
