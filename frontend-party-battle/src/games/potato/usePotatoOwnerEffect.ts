@@ -6,8 +6,8 @@ import { POTATO_HEIGHT, POTATO_WIDTH } from './constants'
 export function usePotatoOwnerEffect(
   playerWithPotato: string | undefined,
   trimmedPlayerName: string,
-  safeAreaWidth: number,
-  safeAreaHeight: number,
+  availableWidth: number,
+  availableHeight: number,
   halfCircleRibbonHeight: number,
   itemSize: number,
   translateX: Animated.Value,
@@ -24,9 +24,9 @@ export function usePotatoOwnerEffect(
       translateX.setValue(0)
       translateY.setValue(0)
 
-      const left = Math.random() * (safeAreaWidth - itemSize - POTATO_WIDTH)
+      const left = Math.random() * (availableWidth - itemSize - POTATO_WIDTH)
       const top =
-        Math.random() * (safeAreaHeight - halfCircleRibbonHeight - POTATO_HEIGHT - GAME_VIEW_PADDING)
+        Math.random() * (availableHeight - halfCircleRibbonHeight - POTATO_HEIGHT - GAME_VIEW_PADDING)
       setPotatoPos({ left, top })
     }
 
@@ -35,8 +35,8 @@ export function usePotatoOwnerEffect(
     halfCircleRibbonHeight,
     itemSize,
     playerWithPotato,
-    safeAreaHeight,
-    safeAreaWidth,
+    availableHeight,
+    availableWidth,
     translateX,
     translateY,
     trimmedPlayerName,

@@ -17,7 +17,7 @@ export default function HalfCircleRibbon({ radius, itemSize, items, centerItem }
         {items.map((it, i) => {
           const a = (degrees[i] * Math.PI) / 180
           const x = radius + (radius - itemSize / 2) * Math.cos(a) - itemSize / 2
-          const y = radius - (radius - itemSize / 2) * Math.sin(a) - itemSize / 2 + 8
+          const y = radius - (radius - itemSize / 2) * Math.sin(a) - itemSize / 2 + 4
           const rotate = -(degrees[i] - 90) + 'deg'
           return (
             <View

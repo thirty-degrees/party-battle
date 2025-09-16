@@ -1,7 +1,6 @@
-import { Dimensions, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { View } from 'react-native'
 import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
-import { GAME_VIEW_PADDING, MAX_GAME_WIDTH } from '../constants'
+import useBasicGameViewDimensions from '../useBasicGameViewDimensions'
 
 function getCellClassName(cellKind: CellKind): string {
   switch (cellKind) {
@@ -21,12 +20,7 @@ interface BoardProps {
 }
 
 export const Board = ({ board, width, height }: BoardProps) => {
-  const { top, bottom, left, right } = useSafeAreaInsets()
-  const screenWidth = Dimensions.get('window').width
-  const screenHeight = Dimensions.get('window').height
-
-  const availableWidth = Math.min(screenWidth - left - right - GAME_VIEW_PADDING, MAX_GAME_WIDTH)
-  const availableHeight = screenHeight - top - bottom - GAME_VIEW_PADDING
+  const { availableWidth, availableHeight } = useBasicGameViewDimensions()
 
   const cellSize = Math.min(availableWidth / width, availableHeight / height)
 

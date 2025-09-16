@@ -36,7 +36,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     this.clock.setTimeout(() => {
       this.finishGame()
       console.log('TEMP: Game status changed to finished after 2 seconds')
-    }, 200000)
+    }, 2000)
   }
 
   override getScores(): Score[] {
