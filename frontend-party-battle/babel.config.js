@@ -1,4 +1,4 @@
-export default function (api) {
+module.exports = function (api) {
   api.cache(true)
 
   return {
@@ -13,8 +13,6 @@ export default function (api) {
     ],
 
     plugins: [
-      'react-compiler',
-      '@babel/plugin-transform-class-static-block',
       [
         'module-resolver',
         {
