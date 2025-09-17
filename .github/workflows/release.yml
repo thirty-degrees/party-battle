@@ -246,7 +246,7 @@ jobs:
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: 26.0.0
+          xcode-version: 16.4
 
       - name: Setup Node
         uses: actions/setup-node@v4
