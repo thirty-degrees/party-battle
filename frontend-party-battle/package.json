@@ -17,7 +17,8 @@
     "test:ci": "JEST_JUNIT_OUTPUT_NAME=test-results.xml jest --ci --testResultsProcessor=jest-junit",
     "docker:build": "docker build -f ../frontend-party-battle/dockerfile -t frontend-party-battle ..",
     "build": "npm run -w types-party-battle build",
-    "prebuild": "npm run -w types-party-battle build"
+    "prebuild": "npm run -w types-party-battle build",
+    "build:ios": "eas build --platform ios --profile development --local"
   },
   "dependencies": {
     "@expo/html-elements": "^0.10.1",
