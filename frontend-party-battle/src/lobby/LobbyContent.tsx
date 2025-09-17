@@ -1,9 +1,9 @@
-import BlurredText from '@/components/blurred-text'
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon'
 import { Text } from '@/components/ui/text'
 import useColyseusState from '@/src/colyseus/useColyseusState'
 import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
+import PartyCode from '@/src/lobby/PartyCode'
 import PlayerList from '@/src/lobby/PlayerList'
 import { QrCodeModal } from '@/src/lobby/QrCodeModal'
 import createWebURL from '@/src/utils/createWebUrl'
@@ -71,12 +71,7 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
         <View className="flex-1 p-4 justify-center items-center">
           <View className="flex-1 max-w-md w-full justify-between items-center">
             <View className="flex-row items-center justify-between gap-2 w-full">
-              <View className="flex-col items-left">
-                <Text className="text-sm text-typography-600 dark:text-typography-400 text-left">
-                  Party Code
-                </Text>
-                <BlurredText text={partyCode} />
-              </View>
+              <PartyCode partyCode={partyCode} />
               <View className="flex-row items-center justify-end gap-2">
                 <Button size="md" variant="outline" className="p-2.5" onPress={handleShare}>
                   <ButtonIcon as={ShareIcon} />
