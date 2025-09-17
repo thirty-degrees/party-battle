@@ -28,10 +28,11 @@ export default function DraggablePotato({
         width: POTATO_WIDTH,
         height: POTATO_HEIGHT,
         transform: [{ translateX }, { translateY }],
+        userSelect: 'none',
       }}
       {...panHandlers}
     >
-      <PotatoStack style={{ width: POTATO_WIDTH }} />
+      <PotatoStack style={{ width: POTATO_WIDTH, height: POTATO_HEIGHT }} />
     </Animated.View>
   )
 }

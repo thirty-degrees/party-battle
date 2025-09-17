@@ -1,4 +1,3 @@
-import BlurredText from '@/components/blurred-text'
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon'
 import { Text } from '@/components/ui/text'
@@ -13,6 +12,7 @@ import { useEffect, useState } from 'react'
 import { Share, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { LobbySchema } from 'types-party-battle/types/LobbySchema'
+import PartyCode from './PartyCode'
 import PlayerList from './PlayerList'
 
 export interface PlayerData {
@@ -69,13 +69,10 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
     <>
       <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
         <View className="flex-1 p-4 justify-center items-center">
-          <View className="flex-1 max-w-md w-full gap-6 items-center">
-            <View className="flex-row w-full items-center justify-between gap-2">
+          <View className="flex-1 max-w-md w-full justify-between items-center">
+            <View className="flex-row items-center justify-between gap-2 w-full">
               <View className="flex-col items-left">
-                <Text className="text-sm text-typography-600 dark:text-typography-400 text-left">
-                  Party Code
-                </Text>
-                <BlurredText text={partyCode} />
+                <PartyCode partyCode={partyCode} />
               </View>
               <View className="flex-row items-center justify-end gap-2">
                 <Button size="md" variant="outline" className="p-2.5" onPress={handleShare}>
