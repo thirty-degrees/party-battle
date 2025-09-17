@@ -5,8 +5,8 @@ export const PLAYER_COLORS = [
   "#457B9D", // Blue
   "#2A9D8F", // Teal
   "#F4A261", // Orange
-  "#E9C46A", // Yellow
+  "#FFC857", // Yellow
   "#8D99AE", // Gray-Blue
-  "#6A4C93", // Purple
-  "#264653", // Dark Green
+  "#4B3F72", // Purple
+  "#1F2041", // Space cadet
 ] as const;

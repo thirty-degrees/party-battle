@@ -37,12 +37,13 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
     return PotatoGameRoom.gameType
   }
 
-  override onCreate(options: { lobbyRoomId: string; playerNames: string[] }) {
-    super.onCreate(options)
+  override onCreate(options: { lobbyRoomId: string; players: { name: string; color: string }[] }) {
     this.state = new PotatoGameSchema('waiting')
 
-    options.playerNames.forEach((playerName) => {
-      this.state.remainingPlayers.push(playerName)
+    super.onCreate(options)
+
+    options.players.forEach((player) => {
+      this.state.remainingPlayers.push(player.name)
     })
 
     this.state.message = '...'

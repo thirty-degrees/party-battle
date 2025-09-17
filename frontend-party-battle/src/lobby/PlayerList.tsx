@@ -15,7 +15,8 @@ interface LobbyScreenProps {
 export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
   const players = useColyseusState(lobbyRoom, (state) =>
     Array.from(state.players?.entries() || []).map(
-      ([id, player]) => [id, { name: player.name, ready: player.ready }] as [string, PlayerData]
+      ([id, player]) =>
+        [id, { name: player.name, ready: player.ready, color: player.color }] as [string, PlayerData]
     )
   )
   const gameHistories = useColyseusState(lobbyRoom, (state) =>
@@ -86,6 +87,7 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
                 place={playerStat.place}
                 totalScore={playerStat.totalScore}
                 lastRoundScore={playerStat.lastRoundScore}
+                playerColor={playerStat.player.color}
               />
             )
           })}

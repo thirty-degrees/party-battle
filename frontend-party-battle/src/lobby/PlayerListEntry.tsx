@@ -8,6 +8,7 @@ interface PlayerListEntryProps {
   place?: number
   totalScore?: number
   lastRoundScore?: number
+  playerColor?: string
 }
 
 export default function PlayerListEntry({
@@ -16,25 +17,31 @@ export default function PlayerListEntry({
   place,
   totalScore,
   lastRoundScore,
+  playerColor,
 }: PlayerListEntryProps) {
-  const containerStyles =
-    (isCurrentPlayer
-      ? 'rounded-lg p-3 mb-2 flex-row items-center border border-blue-400 dark:border-blue-600'
-      : 'rounded-lg p-3 mb-2 flex-row items-center border border-gray-300 dark:border-gray-700') +
-    (!player ? ' border-dashed' : '')
+  const getBorderColor = () => {
+    if (playerColor) {
+      return playerColor
+    }
+    return '#d1d5db' // gray-300
+  }
 
-  const textStyles = isCurrentPlayer
-    ? 'font-medium text-blue-800 dark:text-blue-200'
+  const containerStyles =
+    'rounded-lg p-3 mb-2 flex-row items-center border' + (!player ? ' border-dashed' : '')
+
+  const textStyles = 'font-medium text-black dark:text-white'
+  const nameStyles = isCurrentPlayer
+    ? 'font-medium text-blue-600 dark:text-blue-400'
     : 'font-medium text-black dark:text-white'
 
   return (
-    <View className={containerStyles}>
+    <View className={containerStyles} style={{ borderColor: getBorderColor() }}>
       <View className="flex-[1]">
         <Text className={textStyles}>{player ? `${place}.` : '...'}</Text>
       </View>
 
       <View className="flex-[3]">
-        <Text className={textStyles}>{player?.name ?? '...'}</Text>
+        <Text className={nameStyles}>{player?.name ?? '...'}</Text>
       </View>
 
       <View className="flex-[2] items-center">

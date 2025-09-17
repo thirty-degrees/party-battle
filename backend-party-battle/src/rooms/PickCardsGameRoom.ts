@@ -20,15 +20,17 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
     return PickCardsGameRoom.gameType
   }
 
-  override onCreate(options: { lobbyRoomId: string; playerNames: string[] }) {
-    super.onCreate(options)
+  override onCreate(options: { lobbyRoomId: string; players: { name: string; color: string }[] }) {
     this.clock.start()
     this.state = new PickCardsGameSchema('waiting')
     this.hotCardIndex = Math.floor(Math.random() * this.cardCount)
     this.state.cardCount = this.cardCount
 
-    options.playerNames.forEach((playerName) => {
-      const playerSchema = new PlayerSchema(playerName)
+    super.onCreate(options)
+
+    options.players.forEach((player) => {
+      const playerSchema = new PlayerSchema(player.name)
+      playerSchema.color = player.color
       this.state.inGamePlayers.push(playerSchema)
     })
 
@@ -40,7 +42,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
         if (message.index === this.hotCardIndex) {
           this.handleHotCardPressed(playerName)
         } else {
-          this.advanceToNextPlayer(options)
+          this.advanceToNextPlayer()
         }
       }
     })
@@ -77,7 +79,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
     }, this.playerTurnTimeout)
   }
 
-  private advanceToNextPlayer(_options: { lobbyRoomId: string; playerNames: string[] }) {
+  private advanceToNextPlayer() {
     this.clearPlayerTurnTimer()
     this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.state.inGamePlayers.length
     this.setCurrentPlayer()

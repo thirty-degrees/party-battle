@@ -12,7 +12,7 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
   protected playerConnections = new Map<PlayerName, PlayerSessionId | null>()
   private lobbyRoomId: string
 
-  onCreate(options: { lobbyRoomId: string; playerNames: string[] }) {
+  onCreate(options: { lobbyRoomId: string; players: { name: string; color: string }[] }) {
     console.log(
       `${this.constructor.name}.onCreate: roomId: '${this.roomId}', lobbyRoomId: '${options.lobbyRoomId}'`
     )
@@ -22,8 +22,11 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
 
     this.lobbyRoomId = options.lobbyRoomId
 
-    options.playerNames.forEach((playerName) => {
-      this.playerConnections.set(playerName, null)
+    options.players.forEach((player) => {
+      this.playerConnections.set(player.name, null)
+      const playerSchema = new PlayerSchema(player.name)
+      playerSchema.color = player.color
+      this.state.players.push(playerSchema)
     })
   }
 
@@ -44,11 +47,9 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
   onJoin(client: Client, options: { name: string }) {
     console.log(`${this.constructor.name}.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`)
 
+    // TODO: add abstract startGame() method that gets called when all players are connected or 2 seconds after the last player joins
     if (this.playerConnections.has(options.name)) {
       this.playerConnections.set(options.name, client.sessionId)
-
-      const playerSchema = new PlayerSchema(options.name)
-      this.state.players.push(playerSchema)
     } else {
       console.log(`${this.constructor.name}.onJoin: playerName: '${options.name}' is not part of the game`)
     }
