@@ -4,7 +4,6 @@ import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon'
 import { Text } from '@/components/ui/text'
 import useColyseusState from '@/src/colyseus/useColyseusState'
 import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
-import PlayerList from '@/src/lobby/PlayerList'
 import { QrCodeModal } from '@/src/lobby/QrCodeModal'
 import createWebURL from '@/src/utils/createWebUrl'
 import { blurActiveElement } from '@/src/utils/focusUtils'
@@ -14,6 +13,7 @@ import { useEffect, useState } from 'react'
 import { Share, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { LobbySchema } from 'types-party-battle/types/LobbySchema'
+import PlayerList from './PlayerList'
 
 export interface PlayerData {
   name: string
@@ -69,8 +69,8 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
     <>
       <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
         <View className="flex-1 p-4 justify-center items-center">
-          <View className="flex-1 max-w-md w-full justify-between items-center">
-            <View className="flex-row items-center justify-between gap-2 w-full">
+          <View className="flex-1 max-w-md w-full gap-6 items-center">
+            <View className="flex-row w-full items-center justify-between gap-2">
               <View className="flex-col items-left">
                 <Text className="text-sm text-typography-600 dark:text-typography-400 text-left">
                   Party Code
@@ -89,24 +89,25 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
                 </Button>
               </View>
             </View>
-
-            <View className="flex-1 w-full justify-evenly items-center">
+            <View className="flex-1 w-full justify-between">
               <View className="flex-row w-full">
                 <PlayerList lobbyRoom={lobbyRoom} />
               </View>
 
-              <View className="flex-row w-full justify-center">
-                <Button size="xl" action={'primary'} onPress={handleToggleReady}>
-                  <ButtonText>{isReady ? 'CANCEL' : 'PLAY'}</ButtonText>
-                </Button>
-              </View>
+              <View className="flex-col justify-end">
+                <View className="flex-row w-full justify-center">
+                  <Button size="xl" action={'primary'} onPress={handleToggleReady}>
+                    <ButtonText>{isReady ? 'CANCEL' : 'PLAY'}</ButtonText>
+                  </Button>
+                </View>
 
-              <View className="mt-3 h-5 justify-center items-center">
-                {isReady && playerCount < 2 ? (
-                  <Text className="text-sm text-typography-600 dark:text-typography-400">
-                    Need 1 more player to start.
-                  </Text>
-                ) : null}
+                <View className="h-8 justify-center items-center">
+                  {isReady && playerCount < 2 ? (
+                    <Text className="text-sm text-typography-600 dark:text-typography-400">
+                      Need 1 more player to start.
+                    </Text>
+                  ) : null}
+                </View>
               </View>
             </View>
           </View>

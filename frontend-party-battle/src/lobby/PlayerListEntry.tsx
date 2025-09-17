@@ -1,14 +1,14 @@
-import { CheckIcon, CloseIcon, Icon } from '@/components/ui/icon'
+import AnimatedBorder from '@/components/animated-border/index'
 import { Text, View } from 'react-native'
 import { PlayerData } from './LobbyContent'
 
 interface PlayerListEntryProps {
-  player?: PlayerData
+  player: PlayerData
   isCurrentPlayer: boolean
-  place?: number
-  totalScore?: number
-  lastRoundScore?: number
-  playerColor?: string
+  place: number
+  totalScore: number
+  lastRoundScore: number
+  playerColor: string
 }
 
 export default function PlayerListEntry({
@@ -19,60 +19,42 @@ export default function PlayerListEntry({
   lastRoundScore,
   playerColor,
 }: PlayerListEntryProps) {
-  const getBorderColor = () => {
-    if (playerColor) {
-      return playerColor
-    }
-    return '#d1d5db' // gray-300
-  }
-
-  const containerStyles =
-    'rounded-lg p-3 mb-2 flex-row items-center border' + (!player ? ' border-dashed' : '')
-
   const textStyles = 'font-medium text-black dark:text-white'
-  const nameStyles = isCurrentPlayer
-    ? 'font-medium text-blue-600 dark:text-blue-400'
-    : 'font-medium text-black dark:text-white'
+  const nameStyles = 'font-medium text-black dark:text-white'
 
   return (
-    <View className={containerStyles} style={{ borderColor: getBorderColor() }}>
-      <View className="flex-[1]">
-        <Text className={textStyles}>{player ? `${place}.` : '...'}</Text>
-      </View>
+    <AnimatedBorder
+      isActive={player.ready}
+      borderColor={playerColor}
+      borderWidth={2}
+      borderRadius={4}
+      duration={2000}
+      style={{ marginBottom: 8 }}
+    >
+      <View
+        className={`p-3 rounded border border-outline-200 dark:border-outline-800 flex-row items-center ${isCurrentPlayer ? 'bg-gray-50 dark:bg-gray-900' : ''}`}
+      >
+        <View className="w-2 items-center">
+          <Text className={textStyles}>{place}</Text>
+        </View>
 
-      <View className="flex-[3]">
-        <Text className={nameStyles}>{player?.name ?? '...'}</Text>
-      </View>
+        <View className="flex-1 flex-row justify-start gap-1 items-center ml-3">
+          <View className="w-3 h-3 rounded-sm" style={{ backgroundColor: playerColor }} />
+          <Text className={nameStyles}>{player.name}</Text>
+        </View>
 
-      <View className="flex-[2] items-center">
-        <Text className={`${textStyles} text-center`}>
-          {player && lastRoundScore !== undefined
-            ? `${lastRoundScore >= 0 ? '+' : ''}${lastRoundScore}`
-            : '...'}
-        </Text>
-      </View>
-
-      <View className="flex-[2] items-center">
-        <Text className={`${textStyles} text-center`}>
-          {player && totalScore !== undefined ? totalScore : '...'}
-        </Text>
-      </View>
-
-      <View className="flex-[1] items-center">
-        {player ? (
-          player.ready ? (
+        <View className="flex-row gap-4">
+          <View className="w-2 items-center">
             <Text className={`${textStyles} text-center`}>
-              <Icon as={CheckIcon} className="text-green-600 dark:text-green-100" />
+              {lastRoundScore === 0 ? '' : `${lastRoundScore >= 0 ? '+' : ''}${lastRoundScore}`}
             </Text>
-          ) : (
-            <Text className={`${textStyles} text-center`}>
-              <Icon as={CloseIcon} className="text-red-600 dark:text-red-400" />
-            </Text>
-          )
-        ) : (
-          <Text className={`${textStyles} text-center`}>...</Text>
-        )}
+          </View>
+
+          <View className="w-4 items-center">
+            <Text className={`${textStyles} text-center`}>{totalScore}</Text>
+          </View>
+        </View>
       </View>
-    </View>
+    </AnimatedBorder>
   )
 }

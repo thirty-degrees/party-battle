@@ -70,13 +70,13 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
   }
 
   return (
-    <View className="flex-1 justify-between pt-8">
+    <View className="flex-1 justify-between">
       <View className="w-full max-w-md">
         <Text className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
           Players ({players.length} / {MAX_AMOUNT_OF_PLAYERS})
         </Text>
 
-        <View className="gap-2">
+        <View>
           {playersWithPlaces.map((playerStat) => {
             const isCurrentPlayer = playerStat.playerId === currentPlayerId
             return (
@@ -90,9 +90,6 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
                 playerColor={playerStat.player.color}
               />
             )
-          })}
-          {Array.from({ length: MAX_AMOUNT_OF_PLAYERS - players.length }, (_, index) => {
-            return <PlayerListEntry key={`placeholder-${index}`} isCurrentPlayer={false} />
           })}
         </View>
       </View>
