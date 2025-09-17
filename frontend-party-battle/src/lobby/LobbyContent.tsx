@@ -69,7 +69,7 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
     <>
       <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
         <View className="flex-1 p-4 justify-center items-center">
-          <View className="flex-1 max-w-md w-full justify-between items-center">
+          <View className="flex-1 max-w-md w-full gap-6 items-center">
             <View className="flex-row items-center justify-between gap-2 w-full">
               <View className="flex-col items-left">
                 <PartyCode partyCode={partyCode} />
