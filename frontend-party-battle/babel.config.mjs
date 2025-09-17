@@ -1,5 +1,5 @@
 export default function (api) {
-  api.cache(true);
+  api.cache(true)
 
   return {
     presets: [
@@ -13,8 +13,6 @@ export default function (api) {
     ],
 
     plugins: [
-      'react-compiler',
-      '@babel/plugin-transform-class-static-block',
       [
         'module-resolver',
         {
@@ -30,5 +28,5 @@ export default function (api) {
         },
       ],
     ],
-  };
+  }
 }

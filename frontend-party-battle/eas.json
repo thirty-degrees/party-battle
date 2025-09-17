@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": "16.18.0",
+    "version": "16.19.2",
     "appVersionSource": "local",
     "promptToConfigurePushNotifications": false
   },
@@ -23,6 +23,11 @@
         "env": {
           "EXPO_PUBLIC_ENV": "prod"
         }
+      }
+    },
+    "development": {
+      "ios": {
+        "simulator": true
       }
     }
   },
