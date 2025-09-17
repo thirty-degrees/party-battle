@@ -7,7 +7,6 @@ import { useFonts } from 'expo-font'
 import { ErrorBoundary as DefaultErrorBoundary, ErrorBoundaryProps, Stack } from 'expo-router'
 import Head from 'expo-router/head'
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
 import 'react-native-reanimated'
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context'
 
@@ -21,28 +20,30 @@ export default function RootLayout() {
   }
 
   return (
-    <React.StrictMode>
-      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <GluestackUIProvider>
-          <PlayerNameProvider>
-            <LobbyRoomProvider>
-              <Head>
-                <title>Party Battle</title>
-              </Head>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="index" />
-                <Stack.Screen name="lobby" />
-                <Stack.Screen name="games/pick-cards" />
-                <Stack.Screen name="games/snake" />
-                <Stack.Screen name="games/potato" />
-                <Stack.Screen name="+not-found" />
-              </Stack>
-              <StatusBar style="auto" />
-            </LobbyRoomProvider>
-          </PlayerNameProvider>
-        </GluestackUIProvider>
-      </SafeAreaProvider>
-    </React.StrictMode>
+    // StrictMode is disabled because it causes issues with react-native-reanimated
+    // https://github.com/software-mansion/react-native-reanimated/issues/8228
+    // <React.StrictMode>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <GluestackUIProvider>
+        <PlayerNameProvider>
+          <LobbyRoomProvider>
+            <Head>
+              <title>Party Battle</title>
+            </Head>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="lobby" />
+              <Stack.Screen name="games/pick-cards" />
+              <Stack.Screen name="games/snake" />
+              <Stack.Screen name="games/potato" />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+          </LobbyRoomProvider>
+        </PlayerNameProvider>
+      </GluestackUIProvider>
+    </SafeAreaProvider>
+    // </React.StrictMode>
   )
 }
 
