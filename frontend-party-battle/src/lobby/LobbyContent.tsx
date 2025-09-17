@@ -18,6 +18,7 @@ import { LobbySchema } from 'types-party-battle/types/LobbySchema'
 export interface PlayerData {
   name: string
   ready: boolean
+  color: string
 }
 
 interface LobbyContentProps {

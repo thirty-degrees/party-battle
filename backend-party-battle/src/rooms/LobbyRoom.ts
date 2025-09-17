@@ -1,6 +1,10 @@
 import { Client, matchMaker, Room, ServerError } from '@colyseus/core'
 import { humanId } from 'human-id'
-import { MAX_AMOUNT_OF_PLAYERS, PLAYER_NAME_MAX_LENGTH } from 'types-party-battle/consts/config'
+import {
+  MAX_AMOUNT_OF_PLAYERS,
+  PLAYER_COLORS,
+  PLAYER_NAME_MAX_LENGTH,
+} from 'types-party-battle/consts/config'
 import { GameHistory, GameHistorySchema } from 'types-party-battle/types/GameHistorySchema'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { LobbyPlayerSchema } from 'types-party-battle/types/LobbyPlayerSchema'
@@ -10,6 +14,7 @@ import { gameRooms } from '../app.config'
 
 export class LobbyRoom extends Room<LobbySchema> {
   private readonly IDS_CHANNEL = '$lobby-ids'
+  private player_colors: string[] = []
 
   private async generateRoomId(): Promise<string> {
     const current = await this.presence.smembers(this.IDS_CHANNEL)
@@ -21,6 +26,11 @@ export class LobbyRoom extends Room<LobbySchema> {
     return id
   }
 
+  private initializePlayerColors(): void {
+    const shuffledColors = [...PLAYER_COLORS].sort(() => Math.random() - 0.5)
+    this.player_colors = shuffledColors
+  }
+
   async onCreate(_options: { name: string }) {
     this.roomId = await this.generateRoomId()
     console.log(`LobbyRoom.onCreate: roomId: '${this.roomId}'`)
@@ -28,6 +38,8 @@ export class LobbyRoom extends Room<LobbySchema> {
     this.autoDispose = true
     this.maxClients = MAX_AMOUNT_OF_PLAYERS
     this.state = new LobbySchema()
+
+    this.initializePlayerColors()
 
     this.registerSetPlayerReady()
     this.registerScoreSubscription()
@@ -41,7 +53,7 @@ export class LobbyRoom extends Room<LobbySchema> {
     if ([...this.state.players.values()].some((player) => player.name === options.name)) {
       throw new ServerError(4111, 'Player name already taken')
     }
-    const player = new LobbyPlayerSchema(options.name, false)
+    const player = new LobbyPlayerSchema(options.name, this.player_colors[this.state.players.size], false)
     this.state.players.set(client.sessionId, player)
   }
 
@@ -105,9 +117,21 @@ export class LobbyRoom extends Room<LobbySchema> {
 
     const roomName = gameRooms.find((gameRoom) => gameRoom.gameType === gameType)?.roomName
 
+    console.log(
+      `LobbyRoom.createGameRoom: players: ${JSON.stringify(
+        Array.from(this.state.players.values()).map((player) => ({
+          name: player.name,
+          color: player.color,
+        }))
+      )}`
+    )
+
     const gameRoom = await matchMaker.createRoom(roomName, {
       lobbyRoomId: this.roomId,
-      playerNames: Array.from(this.state.players.values()).map((player) => player.name),
+      players: Array.from(this.state.players.values()).map((player) => ({
+        name: player.name,
+        color: player.color,
+      })),
     })
 
     this.state.currentGame = gameType

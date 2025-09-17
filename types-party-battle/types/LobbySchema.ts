@@ -4,8 +4,10 @@ import { GameType } from "./GameSchema";
 import { LobbyPlayerSchema } from "./LobbyPlayerSchema";
 
 export class LobbySchema extends Schema {
-  @type({ map: LobbyPlayerSchema }) players = new MapSchema<LobbyPlayerSchema>();
+  @type({ map: LobbyPlayerSchema }) players =
+    new MapSchema<LobbyPlayerSchema>();
   @type("string") currentGame?: GameType | null;
   @type("string") currentGameRoomId?: string | null;
-  @type([GameHistorySchema]) gameHistories = new ArraySchema<GameHistorySchema>();
+  @type([GameHistorySchema]) gameHistories =
+    new ArraySchema<GameHistorySchema>();
 }
