@@ -4,7 +4,7 @@ import Constants from 'expo-constants'
 import { router } from 'expo-router'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { LobbySchema } from 'types-party-battle/types/LobbySchema'
-import { usePlayerName } from '../index/PlayerNameProvider'
+import { usePlayerName } from '../storage/usePlayerName'
 
 export type LobbyRoomContextType = {
   lobbyRoom?: Room<LobbySchema>

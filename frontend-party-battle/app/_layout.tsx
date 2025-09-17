@@ -1,7 +1,7 @@
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider'
 import '@/global.css'
-import { PlayerNameProvider } from '@/src/index/PlayerNameProvider'
 import { LobbyRoomProvider } from '@/src/lobby/LobbyRoomProvider'
+import { StorageProvider } from '@/src/storage/StorageProvider'
 import { VersionUpdateScreen } from '@/src/VersionUpdateScreen'
 import { useFonts } from 'expo-font'
 import { ErrorBoundary as DefaultErrorBoundary, ErrorBoundaryProps, Stack } from 'expo-router'
@@ -25,7 +25,7 @@ export default function RootLayout() {
     // <React.StrictMode>
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <GluestackUIProvider>
-        <PlayerNameProvider>
+        <StorageProvider>
           <LobbyRoomProvider>
             <Head>
               <title>Party Battle</title>
@@ -40,7 +40,7 @@ export default function RootLayout() {
             </Stack>
             <StatusBar style="auto" />
           </LobbyRoomProvider>
-        </PlayerNameProvider>
+        </StorageProvider>
       </GluestackUIProvider>
     </SafeAreaProvider>
     // </React.StrictMode>

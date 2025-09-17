@@ -10,9 +10,9 @@ import useToastHelper from '@/components/ui/useToastHelper'
 import { JoinRoomModal } from '@/src/index/JoinRoomModal'
 
 import RainbowText from '@/components/rainbow-text'
-import { usePlayerName } from '@/src/index/PlayerNameProvider'
 import { StoreBadges } from '@/src/index/StoreBadges'
 import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
+import { usePlayerName } from '@/src/storage/usePlayerName'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle/consts/config'
 
@@ -75,7 +75,7 @@ export default function HomeScreen() {
             >
               <InputField
                 aria-label="Username"
-                value={playerName}
+                value={playerName || ''}
                 onChangeText={onChangePlayerName}
                 placeholder="Enter your name..."
                 autoComplete="username"

@@ -1,4 +1,4 @@
-import { usePlayerName } from '@/src/index/PlayerNameProvider'
+import { usePlayerName } from '@/src/storage/usePlayerName'
 import { useRef } from 'react'
 import { Animated, View } from 'react-native'
 import { PotatoGameSchema } from 'types-party-battle/types/potato/PotatoGameSchema'

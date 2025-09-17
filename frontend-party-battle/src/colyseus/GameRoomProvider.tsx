@@ -1,4 +1,4 @@
-import { usePlayerName } from '@/src/index/PlayerNameProvider'
+import { usePlayerName } from '@/src/storage/usePlayerName'
 import { Client, Room } from 'colyseus.js'
 import Constants from 'expo-constants'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
