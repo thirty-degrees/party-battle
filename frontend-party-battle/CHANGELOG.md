@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.11.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.10.0...frontend-party-battle-v2.11.0) (2025-09-17)
+
+
+### Features
+
+* creat empty createInitialBoard ([baeccae](https://github.com/thirty-degrees/party-battle/commit/baeccae02942346297154add07e0e3d4d0f9e03f))
+* display snake state ([201630c](https://github.com/thirty-degrees/party-battle/commit/201630c24c691d0d171330ffcb144724a4abf6b3))
+* improve snake design ([d96c21f](https://github.com/thirty-degrees/party-battle/commit/d96c21f95cd19b436196815b6ee16c99a4d15e12))
+* snake colors ([1cdb8de](https://github.com/thirty-degrees/party-battle/commit/1cdb8dedeed7ae89bf6062fc0baf3e4508555bbd))
+* streamer-mode in lobby ([98b8471](https://github.com/thirty-degrees/party-battle/commit/98b8471490d79500071c5c5677c13fa41ad3df1b))
+
 ## [2.10.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.9.0...frontend-party-battle-v2.10.0) (2025-09-15)
 
 
