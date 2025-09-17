@@ -5,7 +5,7 @@
   "version": "2.10.0",
   "type": "commonjs",
   "scripts": {
-    "start": "npx expo start -c",
+    "start": "npm run -w types-party-battle build && npx expo start -c",
     "android": "expo start --android -c",
     "ios": "expo start --ios -c",
     "web": "expo start --web -c",
@@ -70,6 +70,7 @@
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
+    "expo-dev-client": "^6.0.12",
     "typescript": "~5.9.2"
   }
 }
