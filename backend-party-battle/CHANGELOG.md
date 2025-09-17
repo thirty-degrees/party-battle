@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.11.0...backend-party-battle-v2.11.1) (2025-09-17)
+
+
+### Miscellaneous Chores
+
+* release 2.11.1 ([f9f4d83](https://github.com/thirty-degrees/party-battle/commit/f9f4d83bb9e896973a7ed3ead37fd6038dd85e6a))
+
 ## [2.11.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.10.0...backend-party-battle-v2.11.0) (2025-09-17)
 
 
