@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.11.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.10.0...backend-party-battle-v2.11.0) (2025-09-17)
+
+
+### Features
+
+* add remainingPlayers to Snake Game ([cd19385](https://github.com/thirty-degrees/party-battle/commit/cd19385ddc2b202cde67238bfcca2bca68bff218))
+* bots for testing ([3d8c190](https://github.com/thirty-degrees/party-battle/commit/3d8c190f0a8125d6fb64f22101470070de127085))
+* creat empty createInitialBoard ([baeccae](https://github.com/thirty-degrees/party-battle/commit/baeccae02942346297154add07e0e3d4d0f9e03f))
+* createInitialBoard ([a49e3e9](https://github.com/thirty-degrees/party-battle/commit/a49e3e92d2e0b308a9a5a00369f0cc838fd92ca8))
+* display snake state ([201630c](https://github.com/thirty-degrees/party-battle/commit/201630c24c691d0d171330ffcb144724a4abf6b3))
+
 ## [2.10.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.9.0...backend-party-battle-v2.10.0) (2025-09-15)
 
 
