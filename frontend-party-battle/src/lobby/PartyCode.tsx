@@ -18,7 +18,7 @@ export default function PartyCode({ partyCode }: PartyCodeProps) {
 
   return (
     <View className="flex-col items-left">
-      <View className="flex-row items-center justify-between gap-2 w-full">
+      <View className="flex-row items-center justify-between gap-2">
         <Text className="text-sm text-typography-600 dark:text-typography-400 text-left">Party Code</Text>
         <Button size="sm" variant="link" className="px-2" onPress={handleToggleVisibility}>
           <ButtonIcon as={isVisible ? EyeOffIcon : EyeIcon} />

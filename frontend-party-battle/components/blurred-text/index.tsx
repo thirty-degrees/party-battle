@@ -18,7 +18,7 @@ export default function BlurredText({ text, isBlurred }: BlurredTextProps) {
           <BlurView
             intensity={80}
             tint={colorScheme === 'dark' ? 'light' : 'dark'}
-            className="w-full rounded self-start overflow-hidden"
+            className="rounded self-start overflow-hidden"
           >
             <Text className={`text-md font-semibold opacity-0`}>{text}</Text>
           </BlurView>

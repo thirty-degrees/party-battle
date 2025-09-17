@@ -71,9 +71,7 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
         <View className="flex-1 p-4 justify-center items-center">
           <View className="flex-1 max-w-md w-full gap-6 items-center">
             <View className="flex-row items-center justify-between gap-2 w-full">
-              <View className="flex-col items-left">
-                <PartyCode partyCode={partyCode} />
-              </View>
+              <PartyCode partyCode={partyCode} />
               <View className="flex-row items-center justify-end gap-2">
                 <Button size="md" variant="outline" className="p-2.5" onPress={handleShare}>
                   <ButtonIcon as={ShareIcon} />
