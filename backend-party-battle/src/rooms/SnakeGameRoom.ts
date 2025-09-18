@@ -2,6 +2,7 @@ import { ArraySchema } from '@colyseus/schema'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { CellSchema, fromCell } from 'types-party-battle/types/snake/CellSchema'
+import { Direction, RemainingPlayerSchema } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
@@ -33,7 +34,8 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     super.onCreate(options)
 
     options.players.forEach((player) => {
-      this.state.remainingPlayers.push(player.name)
+      const remainingPlayerSchema = new RemainingPlayerSchema(player.name, Direction.Up)
+      this.state.remainingPlayers.push(remainingPlayerSchema)
     })
 
     this.clock.setTimeout(() => {
@@ -55,7 +57,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
       playerGroups.push([playerName])
     }
 
-    playerGroups.push([...this.state.remainingPlayers])
+    playerGroups.push([...this.state.remainingPlayers.map((player) => player.name)])
 
     return assignScoresByOrder(playerGroups)
   }
