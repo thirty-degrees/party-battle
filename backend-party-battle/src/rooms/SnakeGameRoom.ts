@@ -2,7 +2,7 @@ import { ArraySchema } from '@colyseus/schema'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { CellSchema, fromCell } from 'types-party-battle/types/snake/CellSchema'
-import { Direction, RemainingPlayerSchema } from 'types-party-battle/types/snake/RemainingPlayerSchema'
+import { RemainingPlayerSchema } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
@@ -22,7 +22,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
   override onCreate(options: { lobbyRoomId: string; players: { name: string; color: string }[] }) {
     const playerNames = options.players.map((player) => player.name)
-    const { board, width, height } = createInitialBoard(playerNames)
+    const { board, width, height, directions } = createInitialBoard(playerNames)
 
     const boardSchema = new ArraySchema<CellSchema>()
     board.forEach((cell) => {
@@ -33,8 +33,8 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
     super.onCreate(options)
 
-    options.players.forEach((player) => {
-      const remainingPlayerSchema = new RemainingPlayerSchema(player.name, Direction.Up)
+    playerNames.forEach((playerName) => {
+      const remainingPlayerSchema = new RemainingPlayerSchema(playerName, directions[playerName])
       this.state.remainingPlayers.push(remainingPlayerSchema)
     })
 

@@ -1,13 +1,16 @@
 import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
+import { Direction } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 
 export function createInitialBoard(playerNames: string[]): {
   board: Cell[]
   width: number
   height: number
+  directions: Record<string, Direction>
 } {
   const width = 20
   const height = playerNames.length * 5
   const board: Cell[] = []
+  const directions: Record<string, Direction> = {}
 
   for (let i = 0; i < width * height; i++) {
     board.push({ kind: CellKind.Empty })
@@ -18,6 +21,9 @@ export function createInitialBoard(playerNames: string[]): {
     const isEven = playerIndex % 2 === 0
     const xStart = isEven ? 0 : 16
     const xEnd = isEven ? 3 : 19
+    const direction = isEven ? Direction.Right : Direction.Left
+
+    directions[playerName] = direction
 
     for (let x = xStart; x <= xEnd; x++) {
       const cellIndex = y * width + x
@@ -25,5 +31,5 @@ export function createInitialBoard(playerNames: string[]): {
     }
   })
 
-  return { board, width, height }
+  return { board, width, height, directions }
 }
