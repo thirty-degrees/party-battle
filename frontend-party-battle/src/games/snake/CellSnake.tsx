@@ -1,13 +1,12 @@
 import { View } from 'react-native'
-import { PLAYER_COLORS } from 'types-party-battle/consts/config'
+import { Player } from 'types-party-battle/types/PlayerSchema'
 
 interface CellSnakeProps {
-  player: string
-  players: string[]
+  player: Player
 }
 
-export const CellSnake = ({ player, players }: CellSnakeProps) => {
-  const backgroundColor = PLAYER_COLORS[players.indexOf(player) % PLAYER_COLORS.length]
+export const CellSnake = ({ player }: CellSnakeProps) => {
+  const backgroundColor = player.color
 
   return (
     <View

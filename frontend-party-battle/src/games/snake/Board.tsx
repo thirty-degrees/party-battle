@@ -1,4 +1,5 @@
 import { View } from 'react-native'
+import { Player } from 'types-party-battle/types/PlayerSchema'
 import { Cell } from 'types-party-battle/types/snake/CellSchema'
 import useBasicGameViewDimensions from '../useBasicGameViewDimensions'
 import { CellContent } from './CellContent'
@@ -7,7 +8,7 @@ interface BoardProps {
   board: Cell[]
   width: number
   height: number
-  players: string[]
+  players: Player[]
 }
 
 export const Board = ({ board, width, height, players }: BoardProps) => {

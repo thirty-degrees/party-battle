@@ -1,13 +1,8 @@
-import nativewindPreset from 'nativewind/preset';
+import nativewindPreset from 'nativewind/preset'
 
 export default {
   darkMode: 'media',
-  content: [
-    './**/*.{ts,tsx,js,jsx}',
-    '!./node_modules/**/*',
-    '!./dist/**/*',
-    '!./.expo/**/*',
-  ],
+  content: ['./**/*.{ts,tsx,js,jsx}', '!./node_modules/**/*', '!./dist/**/*', '!./.expo/**/*'],
   presets: [nativewindPreset],
   safelist: [
     {
@@ -196,4 +191,4 @@ export default {
     },
   },
   plugins: [],
-};
+}

@@ -1,4 +1,5 @@
 import { View } from 'react-native'
+import { Player, PlayerSchema } from 'types-party-battle/types/PlayerSchema'
 import { toCell } from 'types-party-battle/types/snake/CellSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import useColyseusState from '../../colyseus/useColyseusState'
@@ -11,7 +12,10 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
     board: Array.from(state.board, (cell) => toCell(cell)),
     width: state.width,
     height: state.height,
-    players: Array.from(state.players, (player) => player.name),
+    players: Array.from<PlayerSchema, Player>(state.players, (player) => ({
+      name: player.name,
+      color: player.color,
+    })),
   }))
 
   return (
