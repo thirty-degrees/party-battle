@@ -1,7 +1,6 @@
 import { Client, Delayed } from '@colyseus/core'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { PickCardsGameSchema } from 'types-party-battle/types/pick-cards/PickCardsGameSchema'
-import { PlayerSchema } from 'types-party-battle/types/PlayerSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { assignScoresByOrder } from '../scores/assignScoresByOrder'
@@ -29,8 +28,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
     super.onCreate(options)
 
     options.players.forEach((player) => {
-      const playerSchema = new PlayerSchema(player.name, player.color)
-      this.state.inGamePlayers.push(playerSchema)
+      this.state.remainingPlayers.push(player.name)
     })
 
     this.onMessage('CardPressed', (client, message: { index: number }) => {
@@ -63,8 +61,8 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
   }
 
   private setCurrentPlayer() {
-    if (this.state.inGamePlayers.length > 0) {
-      this.state.currentPlayer = this.state.inGamePlayers[this.currentPlayerIndex].name
+    if (this.state.remainingPlayers.length > 0) {
+      this.state.currentPlayer = this.state.remainingPlayers[this.currentPlayerIndex]
     }
   }
 
@@ -80,7 +78,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
 
   private advanceToNextPlayer() {
     this.clearPlayerTurnTimer()
-    this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.state.inGamePlayers.length
+    this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.state.remainingPlayers.length
     this.setCurrentPlayer()
     this.startPlayerTurn()
   }
@@ -112,12 +110,12 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
   private handleHotCardPressed(playerName: string) {
     this.eliminatedPlayers.push(playerName)
 
-    const playerIndex = this.state.inGamePlayers.findIndex((player) => player.name === playerName)
+    const playerIndex = this.state.remainingPlayers.findIndex((name) => name === playerName)
     if (playerIndex !== -1) {
-      this.state.inGamePlayers.splice(playerIndex, 1)
+      this.state.remainingPlayers.splice(playerIndex, 1)
     }
 
-    if (this.state.inGamePlayers.length === 1) {
+    if (this.state.remainingPlayers.length === 1) {
       this.finishGame()
     } else {
       this.resetForNextRound()
@@ -139,9 +137,8 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
       playerGroups.push([playerName])
     }
 
-    if (this.state.inGamePlayers.length > 0) {
-      const remainingPlayers = this.state.inGamePlayers.map((player) => player.name)
-      playerGroups.push(remainingPlayers)
+    if (this.state.remainingPlayers.length > 0) {
+      playerGroups.push(this.state.remainingPlayers)
     }
 
     return assignScoresByOrder(playerGroups)

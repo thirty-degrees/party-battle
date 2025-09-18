@@ -17,7 +17,7 @@ export const PickCardsGame: GameComponent<PickCardsGameSchema> = ({ gameRoom }) 
     Array.from(state.pressedCardIndex || [])
   )
   const currentPlayer = useColyseusState(gameRoom, (state) => state.currentPlayer)
-  const inGamePlayers = useColyseusState(gameRoom, (state) => Array.from(state.inGamePlayers || []))
+  const remainingPlayers = useColyseusState(gameRoom, (state) => Array.from(state.remainingPlayers || []))
   const timeWhenTimerIsOver = useColyseusState(gameRoom, (state) => state.timeWhenTimerIsOver)
   const { trimmedPlayerName } = usePlayerName()
 
@@ -25,7 +25,7 @@ export const PickCardsGame: GameComponent<PickCardsGameSchema> = ({ gameRoom }) 
   const screenHeight = Dimensions.get('window').height
 
   const isCurrentPlayer = currentPlayer === trimmedPlayerName
-  const isPlayerInGame = inGamePlayers.some((player) => player.name === trimmedPlayerName)
+  const isPlayerInGame = remainingPlayers.some((name) => name === trimmedPlayerName)
 
   const handleCardPress = (toothIndex: number) => {
     if (isCurrentPlayer) {
