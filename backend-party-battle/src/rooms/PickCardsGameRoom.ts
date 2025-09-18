@@ -29,8 +29,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
     super.onCreate(options)
 
     options.players.forEach((player) => {
-      const playerSchema = new PlayerSchema(player.name)
-      playerSchema.color = player.color
+      const playerSchema = new PlayerSchema(player.name, player.color)
       this.state.inGamePlayers.push(playerSchema)
     })
 

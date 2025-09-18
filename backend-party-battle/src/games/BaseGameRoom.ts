@@ -24,8 +24,7 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
 
     options.players.forEach((player) => {
       this.playerConnections.set(player.name, null)
-      const playerSchema = new PlayerSchema(player.name)
-      playerSchema.color = player.color
+      const playerSchema = new PlayerSchema(player.name, player.color)
       this.state.players.push(playerSchema)
     })
   }
