@@ -15,8 +15,14 @@ async function joinGame(
   roomId: string
 ): Promise<void> {
   const client = new Client(endpoint)
-  await client.joinById<GameSchema>(roomId, {
+  const gameRoom = await client.joinById<GameSchema>(roomId, {
     name: playerName,
+  })
+
+  gameRoom.onStateChange((state) => {
+    if (state.status === 'finished') {
+      gameRoom.leave()
+    }
   })
 }
 
