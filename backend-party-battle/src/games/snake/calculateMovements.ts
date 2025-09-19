@@ -1,4 +1,4 @@
-import { CellKind, CellSchema } from 'types-party-battle/types/snake/CellSchema'
+import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
 import { Direction, RemainingPlayer } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 
 export interface MovementIntention {
@@ -15,7 +15,7 @@ export interface MovementResult {
 export function calculateMovements(
   remainingPlayers: RemainingPlayer[],
   bodies: Map<string, number[]>,
-  board: CellSchema[],
+  board: Cell[],
   width: number,
   height: number
 ): MovementResult {

@@ -1,7 +1,7 @@
 import { ArraySchema } from '@colyseus/schema'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
-import { CellKind, CellSchema, fromCell } from 'types-party-battle/types/snake/CellSchema'
+import { CellKind, CellSchema, fromCell, toCell } from 'types-party-battle/types/snake/CellSchema'
 import {
   RemainingPlayerSchema,
   toRemainingPlayer,
@@ -48,16 +48,14 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   }
 
   update(_deltaTime: number) {
-    const width = this.state.width
-    const height = this.state.height
     const board = this.state.board
 
     const { intentions, deaths } = calculateMovements(
       this.state.remainingPlayers.map(toRemainingPlayer),
       this.bodies,
-      board,
-      width,
-      height
+      board.map(toCell),
+      this.state.width,
+      this.state.height
     )
 
     for (const i of intentions) {
