@@ -8,7 +8,7 @@ import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
 import { assignScoresByOrder } from '../scores/assignScoresByOrder'
 
-const STEP_MS = 300
+const STEPS_PER_SECOND = 3
 
 export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   static readonly gameType: GameType = 'snake'
@@ -45,7 +45,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
       console.log('TEMP: Game status changed to finished after 2 seconds')
     }, 2000)
 
-    this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1000 / STEP_MS)
+    this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1000 / STEPS_PER_SECOND)
   }
 
   update(deltaTime: number) {
