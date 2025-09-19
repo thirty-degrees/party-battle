@@ -1,8 +1,8 @@
 import { ArraySchema } from '@colyseus/schema'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
-import { CellSchema, fromCell } from 'types-party-battle/types/snake/CellSchema'
-import { RemainingPlayerSchema } from 'types-party-battle/types/snake/RemainingPlayerSchema'
+import { CellKind, CellSchema, fromCell } from 'types-party-battle/types/snake/CellSchema'
+import { Direction, RemainingPlayerSchema } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
@@ -40,16 +40,104 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
       this.state.remainingPlayers.push(remainingPlayerSchema)
     })
 
-    this.clock.setTimeout(() => {
-      this.finishGame()
-      console.log('TEMP: Game status changed to finished after 2 seconds')
-    }, 2000)
-
     this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1000 / STEPS_PER_SECOND)
   }
 
-  update(deltaTime: number) {
-    console.log('TEMP: Updating snake game', deltaTime)
+  update(_deltaTime: number) {
+    const width = this.state.width
+    const height = this.state.height
+    const board = this.state.board
+
+    const intentions: { name: string; next: number; tail: number }[] = []
+    const deaths = new Set<string>()
+
+    const dxdy = (d: Direction): [number, number] => {
+      if (d === Direction.Up) return [0, -1]
+      if (d === Direction.Down) return [0, 1]
+      if (d === Direction.Left) return [-1, 0]
+      return [1, 0]
+    }
+
+    for (const rp of this.state.remainingPlayers) {
+      const body = this.bodies.get(rp.name)
+      if (!body || body.length === 0) {
+        deaths.add(rp.name)
+        continue
+      }
+      const headIndex = body[body.length - 1]
+      const x = headIndex % width
+      const y = Math.floor(headIndex / width)
+      const [dx, dy] = dxdy(rp.direction)
+      const nx = x + dx
+      const ny = y + dy
+      if (nx < 0 || nx >= width || ny < 0 || ny >= height) {
+        deaths.add(rp.name)
+        continue
+      }
+      const nextIndex = ny * width + nx
+      const isOwnTail = nextIndex === body[0]
+      const cell = board[nextIndex]
+      if (cell.kind === CellKind.Snake && !isOwnTail) {
+        deaths.add(rp.name)
+        continue
+      }
+      intentions.push({ name: rp.name, next: nextIndex, tail: body[0] })
+    }
+
+    const targets = new Map<number, string[]>()
+    for (const i of intentions) {
+      const arr = targets.get(i.next)
+      if (arr) arr.push(i.name)
+      else targets.set(i.next, [i.name])
+    }
+
+    for (const [idx, names] of targets) {
+      if (names.length >= 2 && board[idx].kind === CellKind.Empty) {
+        for (const n of names) deaths.add(n)
+      }
+    }
+
+    for (const i of intentions) {
+      if (deaths.has(i.name)) continue
+      const body = this.bodies.get(i.name)
+      if (!body || body.length === 0) continue
+      const tailIndex = body[0]
+      const headIndex = i.next
+      const tailCell = board[tailIndex]
+      tailCell.kind = CellKind.Empty
+      tailCell.player = undefined
+      body.push(headIndex)
+      body.shift()
+      const headCell = board[headIndex]
+      headCell.kind = CellKind.Snake
+      headCell.player = i.name
+    }
+
+    if (deaths.size > 0) {
+      const names = Array.from(deaths)
+      for (const name of names) {
+        const body = this.bodies.get(name)
+        if (body) {
+          for (const idx of body) {
+            const c = board[idx]
+            c.kind = CellKind.Empty
+            c.player = undefined
+          }
+          this.bodies.delete(name)
+        }
+        for (let i = 0; i < this.state.remainingPlayers.length; i++) {
+          if (this.state.remainingPlayers[i].name === name) {
+            this.state.remainingPlayers.splice(i, 1)
+            break
+          }
+        }
+        this.eliminatedPlayers.push(name)
+      }
+    }
+
+    if (this.state.remainingPlayers.length <= 1) {
+      this.finishGame()
+    }
   }
 
   override getScores(): Score[] {
