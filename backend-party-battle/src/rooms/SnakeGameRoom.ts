@@ -15,6 +15,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   static readonly roomName: string = 'snake_game_room'
 
   private eliminatedPlayers: string[] = []
+  private bodies: Map<string, number[]> = new Map()
 
   override getGameType(): GameType {
     return SnakeGameRoom.gameType
@@ -22,7 +23,8 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
   override onCreate(options: { lobbyRoomId: string; players: { name: string; color: string }[] }) {
     const playerNames = options.players.map((player) => player.name)
-    const { board, width, height, directions } = createInitialBoard(playerNames)
+    const { board, width, height, directions, bodies } = createInitialBoard(playerNames)
+    this.bodies = bodies
 
     const boardSchema = new ArraySchema<CellSchema>()
     board.forEach((cell) => {

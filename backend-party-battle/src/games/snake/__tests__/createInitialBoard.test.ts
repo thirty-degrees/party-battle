@@ -13,6 +13,12 @@ describe('createInitialBoard', () => {
       expect(result.height).toBe(10)
       expect(result.board).toHaveLength(20 * 10)
       expect(result.directions).toEqual({ '1': Direction.Right, '2': Direction.Left })
+      expect(result.bodies).toEqual(
+        new Map([
+          ['1', [40, 41, 42, 43]], // y=2, x=0-3, faces right
+          ['2', [159, 158, 157, 156]], // y=7, x=16-19, faces left (reversed)
+        ])
+      )
 
       const expectedBoard2D: (CellKind | [CellKind, string])[][] = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -42,6 +48,13 @@ describe('createInitialBoard', () => {
       expect(result.height).toBe(15)
       expect(result.board).toHaveLength(20 * 15)
       expect(result.directions).toEqual({ '1': Direction.Right, '2': Direction.Left, '3': Direction.Right })
+      expect(result.bodies).toEqual(
+        new Map([
+          ['1', [40, 41, 42, 43]], // y=2, x=0-3, faces right
+          ['2', [159, 158, 157, 156]], // y=7, x=16-19, faces left (reversed)
+          ['3', [240, 241, 242, 243]], // y=12, x=0-3, faces right
+        ])
+      )
 
       const expectedBoard2D: (CellKind | [CellKind, string])[][] = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -86,6 +99,18 @@ describe('createInitialBoard', () => {
         '7': Direction.Right,
         '8': Direction.Left,
       })
+      expect(result.bodies).toEqual(
+        new Map([
+          ['1', [40, 41, 42, 43]], // y=2, x=0-3, faces right
+          ['2', [159, 158, 157, 156]], // y=7, x=16-19, faces left (reversed)
+          ['3', [240, 241, 242, 243]], // y=12, x=0-3, faces right
+          ['4', [359, 358, 357, 356]], // y=17, x=16-19, faces left (reversed)
+          ['5', [440, 441, 442, 443]], // y=22, x=0-3, faces right
+          ['6', [559, 558, 557, 556]], // y=27, x=16-19, faces left (reversed)
+          ['7', [640, 641, 642, 643]], // y=32, x=0-3, faces right
+          ['8', [759, 758, 757, 756]], // y=37, x=16-19, faces left (reversed)
+        ])
+      )
 
       const expectedBoard2D: (CellKind | [CellKind, string])[][] = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
