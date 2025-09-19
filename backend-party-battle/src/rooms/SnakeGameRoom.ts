@@ -18,7 +18,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   static readonly gameType: GameType = 'snake'
   static readonly roomName: string = 'snake_game_room'
 
-  private eliminatedPlayers: string[] = []
+  private eliminatedPlayers: string[][] = []
   private bodies: Map<string, number[]> = new Map()
 
   override getGameType(): GameType {
@@ -78,6 +78,8 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
     if (deaths.size > 0) {
       const names = Array.from(deaths)
+      const eliminatedThisTurn: string[] = []
+
       for (const name of names) {
         const body = this.bodies.get(name)
         if (body) {
@@ -94,8 +96,10 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
             break
           }
         }
-        this.eliminatedPlayers.push(name)
+        eliminatedThisTurn.push(name)
       }
+
+      this.eliminatedPlayers.push(eliminatedThisTurn)
     }
 
     if (this.state.remainingPlayers.length <= 1) {
@@ -104,11 +108,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   }
 
   override getScores(): Score[] {
-    const playerGroups: string[][] = []
-
-    for (const playerName of this.eliminatedPlayers) {
-      playerGroups.push([playerName])
-    }
+    const playerGroups: string[][] = [...this.eliminatedPlayers]
 
     playerGroups.push([...this.state.remainingPlayers.map((player) => player.name)])
 
