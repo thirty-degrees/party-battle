@@ -31,6 +31,14 @@ export class LobbyRoom extends Room<LobbySchema> {
     this.player_colors = shuffledColors
   }
 
+  private getFreePlayerColor(): string {
+    const usedColors = new Set(Array.from(this.state.players.values()).map((p) => p.color))
+    for (const color of this.player_colors) {
+      if (!usedColors.has(color)) return color
+    }
+    throw new ServerError(4112, 'No colors available')
+  }
+
   async onCreate(_options: { name: string }) {
     this.roomId = await this.generateRoomId()
     console.log(`LobbyRoom.onCreate: roomId: '${this.roomId}'`)
@@ -53,7 +61,7 @@ export class LobbyRoom extends Room<LobbySchema> {
     if ([...this.state.players.values()].some((player) => player.name === options.name)) {
       throw new ServerError(4111, 'Player name already taken')
     }
-    const player = new LobbyPlayerSchema(options.name, this.player_colors[this.state.players.size], false)
+    const player = new LobbyPlayerSchema(options.name, this.getFreePlayerColor(), false)
     this.state.players.set(client.sessionId, player)
   }
 
