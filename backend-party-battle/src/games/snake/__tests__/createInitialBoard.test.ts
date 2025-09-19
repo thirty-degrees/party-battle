@@ -4,22 +4,29 @@ import { createInitialBoard } from '../createInitialBoard'
 
 describe('createInitialBoard', () => {
   describe('when there are 2 players', () => {
-    it('should create a board with correct cells and directions', () => {
-      const players = ['1', '2']
+    const players = ['1', '2']
+    const result = createInitialBoard(players)
 
-      const result = createInitialBoard(players)
-
+    it('should create a board with correct size', () => {
       expect(result.width).toBe(20)
       expect(result.height).toBe(10)
       expect(result.board).toHaveLength(20 * 10)
+    })
+
+    it('should create correct directions', () => {
       expect(result.directions).toEqual({ '1': Direction.Right, '2': Direction.Left })
+    })
+
+    it('should create correct bodies', () => {
       expect(result.bodies).toEqual(
         new Map([
           ['1', [40, 41, 42, 43]], // y=2, x=0-3, faces right
           ['2', [159, 158, 157, 156]], // y=7, x=16-19, faces left (reversed)
         ])
       )
+    })
 
+    it('should create correct board', () => {
       const expectedBoard2D: (CellKind | [CellKind, string])[][] = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -39,15 +46,20 @@ describe('createInitialBoard', () => {
   })
 
   describe('when there are 3 players', () => {
-    it('should create a board with correct cells and directions', () => {
-      const players = ['1', '2', '3']
+    const players = ['1', '2', '3']
+    const result = createInitialBoard(players)
 
-      const result = createInitialBoard(players)
-
+    it('should create a board with correct size', () => {
       expect(result.width).toBe(20)
       expect(result.height).toBe(15)
       expect(result.board).toHaveLength(20 * 15)
+    })
+
+    it('should create correct directions', () => {
       expect(result.directions).toEqual({ '1': Direction.Right, '2': Direction.Left, '3': Direction.Right })
+    })
+
+    it('should create correct bodies', () => {
       expect(result.bodies).toEqual(
         new Map([
           ['1', [40, 41, 42, 43]], // y=2, x=0-3, faces right
@@ -55,7 +67,9 @@ describe('createInitialBoard', () => {
           ['3', [240, 241, 242, 243]], // y=12, x=0-3, faces right
         ])
       )
+    })
 
+    it('should create correct board', () => {
       const expectedBoard2D: (CellKind | [CellKind, string])[][] = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -81,14 +95,16 @@ describe('createInitialBoard', () => {
   })
 
   describe('when there are 8 players', () => {
-    it('should create a board with correct cells and directions', () => {
-      const players = ['1', '2', '3', '4', '5', '6', '7', '8']
+    const players = ['1', '2', '3', '4', '5', '6', '7', '8']
+    const result = createInitialBoard(players)
 
-      const result = createInitialBoard(players)
-
+    it('should create a board with correct size', () => {
       expect(result.width).toBe(20)
       expect(result.height).toBe(40)
       expect(result.board).toHaveLength(20 * 40)
+    })
+
+    it('should create correct directions', () => {
       expect(result.directions).toEqual({
         '1': Direction.Right,
         '2': Direction.Left,
@@ -99,6 +115,9 @@ describe('createInitialBoard', () => {
         '7': Direction.Right,
         '8': Direction.Left,
       })
+    })
+
+    it('should create correct bodies', () => {
       expect(result.bodies).toEqual(
         new Map([
           ['1', [40, 41, 42, 43]], // y=2, x=0-3, faces right
@@ -111,7 +130,9 @@ describe('createInitialBoard', () => {
           ['8', [759, 758, 757, 756]], // y=37, x=16-19, faces left (reversed)
         ])
       )
+    })
 
+    it('should create correct board', () => {
       const expectedBoard2D: (CellKind | [CellKind, string])[][] = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
