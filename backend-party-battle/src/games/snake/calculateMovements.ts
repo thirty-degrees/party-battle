@@ -1,6 +1,13 @@
 import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
 import { Direction, RemainingPlayer } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 
+const DIRECTION_DELTA: Record<Direction, [number, number]> = {
+  [Direction.Up]: [0, -1],
+  [Direction.Down]: [0, 1],
+  [Direction.Left]: [-1, 0],
+  [Direction.Right]: [1, 0],
+}
+
 export interface MovementIntention {
   name: string
   next: number
@@ -13,7 +20,7 @@ export interface MovementResult {
 }
 
 export function calculateMovements(
-  remainingPlayers: RemainingPlayer[],
+  players: RemainingPlayer[],
   bodies: Map<string, number[]>,
   board: Cell[],
   width: number,
@@ -22,25 +29,18 @@ export function calculateMovements(
   const intentions: MovementIntention[] = []
   const deaths = new Set<string>()
 
-  const dxdy = (d: Direction): [number, number] => {
-    if (d === Direction.Up) return [0, -1]
-    if (d === Direction.Down) return [0, 1]
-    if (d === Direction.Left) return [-1, 0]
-    return [1, 0]
-  }
-
-  for (const rp of remainingPlayers) {
-    const body = bodies.get(rp.name)
+  for (const player of players) {
+    const body = bodies.get(player.name)
 
     const headIndex = body[body.length - 1]
     const x = headIndex % width
     const y = Math.floor(headIndex / width)
-    const [dx, dy] = dxdy(rp.direction)
+    const [dx, dy] = DIRECTION_DELTA[player.direction]
     const nx = x + dx
     const ny = y + dy
     const nextIndex = ny * width + nx
 
-    intentions.push({ name: rp.name, next: nextIndex, tail: body[0] })
+    intentions.push({ name: player.name, next: nextIndex, tail: body[0] })
   }
 
   for (const intention of intentions) {
