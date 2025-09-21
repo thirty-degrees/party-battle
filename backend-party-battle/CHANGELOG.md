@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.12.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.11.2...backend-party-battle-v2.12.0) (2025-09-21)
+
+
+### Features
+
+* add initial direction calculation ([8ba0d5c](https://github.com/thirty-degrees/party-battle/commit/8ba0d5ccc12e52791d91cbc709976f72314e1ecb))
+* create RemainingPlayerSchema for snake ([c8e00fa](https://github.com/thirty-degrees/party-battle/commit/c8e00fad8383b84985a13e2951607762fd973f96))
+* move snakes ([77de99b](https://github.com/thirty-degrees/party-battle/commit/77de99b220469a85646a03d99488acebc5dc029a))
+* Snake - run setSimulationInterval ([3ead2fb](https://github.com/thirty-degrees/party-battle/commit/3ead2fb36c6635cf71822f2f430b22a3ffc6cb5c))
+* store snake bodies ([5e69627](https://github.com/thirty-degrees/party-battle/commit/5e696275281fbd60c50200fbd6e351cdab5e3ea2))
+
+
+### Bug Fixes
+
+* resolved duplicated player color when rejoining bug ([60a2953](https://github.com/thirty-degrees/party-battle/commit/60a2953d7e7c0f53fce3e33ce15f119437019b99))
+* simulatanous deaths ([37a3643](https://github.com/thirty-degrees/party-battle/commit/37a3643189ccf852dfde534d9369e748d1dd20c2))
+
 ## [2.11.2](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.11.1...backend-party-battle-v2.11.2) (2025-09-17)
 
 
