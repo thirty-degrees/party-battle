@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
 
+import FloatingKeyboardInputPreview from '@/components/floatingkeyboardinputPreview'
 import { Button, ButtonText } from '@/components/ui/button'
 import { Heading } from '@/components/ui/heading'
 import { Input, InputField } from '@/components/ui/input'
@@ -23,12 +24,22 @@ export default function HomeScreen() {
   const { createLobbyRoom, joinLobbyRoom, isLoading } = useLobbyRoomContext()
   const [validationError, setValidationError] = useState<string | undefined>(undefined)
   const { showError } = useToastHelper()
+  const [activeFloatingSource, setActiveFloatingSource] = useState<'playerName' | 'partyCode' | null>(null)
 
   useEffect(() => {
     if (partyCode) {
       setGameRoomId(partyCode)
     }
   }, [partyCode])
+
+  useEffect(() => {
+    const hide = Keyboard.addListener('keyboardDidHide', () => {
+      setActiveFloatingSource(null)
+    })
+    return () => {
+      hide.remove()
+    }
+  }, [])
 
   const handleCreateRoom = async () => {
     await createLobbyRoom()
@@ -114,6 +125,7 @@ export default function HomeScreen() {
                         if (!trimmedPlayerName || !gameRoomId.trim() || isLoading) return
                         handleJoinRoom(gameRoomId.trim())
                       }}
+                      onFocus={() => setActiveFloatingSource('partyCode')}
                       style={{ width: 200, textAlign: 'center' }}
                     />
                   </Input>
@@ -145,6 +157,21 @@ export default function HomeScreen() {
               </View>
             </View>
           </View>
+
+          <FloatingKeyboardInputPreview
+            activeSource={activeFloatingSource}
+            sources={{
+              partyCode: {
+                value: gameRoomId,
+                onChangeText: setGameRoomId,
+                placeholder: 'Enter Party Code',
+              },
+            }}
+            size="xl"
+            width={200}
+            autoFocus
+            isDisabled={isLoading}
+          />
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </>
