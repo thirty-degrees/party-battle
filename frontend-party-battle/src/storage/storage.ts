@@ -1,39 +1,63 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { SQLiteStorage } from 'expo-sqlite/kv-store'
 import { Platform } from 'react-native'
 
 type StorageDriver = {
-  getItem: (k: string) => Promise<string | null>
-  setItem: (k: string, v: string) => Promise<void>
-  removeItem: (k: string) => Promise<void>
+  getItem: (k: string) => string | null
+  setItem: (k: string, v: string) => void
+  removeItem: (k: string) => void
+}
+
+const getWebLocalStorage = () => {
+  if (typeof window === 'undefined') return undefined
+  return window.localStorage
 }
 
 const webDriver: StorageDriver = {
-  getItem: async (k) => {
+  getItem: (k) => {
     try {
-      if (typeof window === 'undefined' || !window.localStorage) return null
-      return window.localStorage.getItem(k)
+      const localStorage = getWebLocalStorage()
+      if (!localStorage) return null
+      return localStorage.getItem(k)
     } catch {
       return null
     }
   },
-  setItem: async (k, v) => {
+  setItem: (k, v) => {
     try {
-      if (typeof window === 'undefined' || !window.localStorage) return
-      window.localStorage.setItem(k, v)
+      const localStorage = getWebLocalStorage()
+      if (!localStorage) return
+      localStorage.setItem(k, v)
     } catch {}
   },
-  removeItem: async (k) => {
+  removeItem: (k) => {
     try {
-      if (typeof window === 'undefined' || !window.localStorage) return
-      window.localStorage.removeItem(k)
+      const localStorage = getWebLocalStorage()
+      if (!localStorage) return
+      localStorage.removeItem(k)
     } catch {}
   },
 }
 
+const sqliteStorage = new SQLiteStorage('party-battle-storage')
+
 const nativeDriver: StorageDriver = {
-  getItem: (k) => AsyncStorage.getItem(k),
-  setItem: (k, v) => AsyncStorage.setItem(k, v),
-  removeItem: (k) => AsyncStorage.removeItem(k),
+  getItem: (k) => {
+    try {
+      return sqliteStorage.getItemSync(k)
+    } catch {
+      return null
+    }
+  },
+  setItem: (k, v) => {
+    try {
+      sqliteStorage.setItemSync(k, v)
+    } catch {}
+  },
+  removeItem: (k) => {
+    try {
+      sqliteStorage.removeItemSync(k)
+    } catch {}
+  },
 }
 
 export const storage: StorageDriver = Platform.OS === 'web' ? webDriver : nativeDriver

@@ -21,14 +21,13 @@ export default function DraggablePotato({
 
   return (
     <Animated.View
-      className="absolute"
+      className="absolute select-none"
       style={{
         left: potatoPos.left,
         top: potatoPos.top,
         width: POTATO_WIDTH,
         height: POTATO_HEIGHT,
         transform: [{ translateX }, { translateY }],
-        userSelect: 'none',
       }}
       {...panHandlers}
     >

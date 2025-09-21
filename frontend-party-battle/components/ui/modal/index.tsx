@@ -69,6 +69,9 @@ const modalContentStyle = tva({
   },
 })
 
+const MODAL_CONTENT_SIZES = ['xs', 'sm', 'md', 'lg', 'full'] as const
+type ModalContentSize = (typeof MODAL_CONTENT_SIZES)[number]
+
 const modalBodyStyle = tva({
   base: 'mt-2 mb-6',
 })
@@ -153,6 +156,20 @@ const ModalBackdrop = React.forwardRef<React.ComponentRef<typeof UIModal.Backdro
 const ModalContent = React.forwardRef<React.ComponentRef<typeof UIModal.Content>, IModalContentProps>(
   function ModalContent({ className, size, ...props }, ref) {
     const { size: parentSize } = useStyleContext(SCOPE)
+    const contentSize: ModalContentSize | undefined =
+      typeof size === 'string' && MODAL_CONTENT_SIZES.includes(size as ModalContentSize)
+        ? (size as ModalContentSize)
+        : undefined
+    const styleProps: Parameters<typeof modalContentStyle>[0] = {
+      parentVariants: {
+        size: parentSize,
+      },
+      class: className,
+    }
+
+    if (contentSize) {
+      styleProps.size = contentSize
+    }
 
     return (
       <UIModal.Content
@@ -178,13 +195,7 @@ const ModalContent = React.forwardRef<React.ComponentRef<typeof UIModal.Content>
           },
         }}
         {...props}
-        className={modalContentStyle({
-          parentVariants: {
-            size: parentSize,
-          },
-          size,
-          class: className,
-        })}
+        className={modalContentStyle(styleProps)}
         pointerEvents="auto"
       />
     )

@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useStorage } from './StorageProvider'
 
 export const useIsPartyCodeVisible = () => {
-  const { value, setValue, isLoading } = useStorage('isPartyCodeVisible')
+  const { value, setValue } = useStorage('isPartyCodeVisible')
 
   const setIsVisible = useCallback(
     (isVisible: boolean) => {
@@ -14,6 +14,5 @@ export const useIsPartyCodeVisible = () => {
   return {
     isVisible: value === 'true',
     setIsVisible,
-    isLoading,
   }
 }
