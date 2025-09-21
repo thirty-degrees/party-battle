@@ -81,7 +81,7 @@ export default function HomeScreen() {
                   Name
                 </Text>
                 <Input
-                  variant="outline"
+                  variant="outline-with-bg"
                   size="xl"
                   isInvalid={!!validationError}
                   style={{
@@ -109,7 +109,7 @@ export default function HomeScreen() {
               </View>
               <View className="flex-col items-center justify-center w-full gap-2">
                 <Input
-                  variant="outline"
+                  variant="outline-with-bg"
                   size="xl"
                   isInvalid={false}
                   isDisabled={isLoading}

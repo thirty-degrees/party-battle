@@ -74,7 +74,7 @@ export default function FloatingKeyboardInputPreview({
       style={{ position: 'absolute', left: 0, right: 0, bottom: keyboardHeight + 8 }}
       pointerEvents="box-none"
     >
-      <Input variant="outline" size={size} isDisabled={isDisabled} style={{ width }}>
+      <Input variant="outline-with-bg" size={size} isDisabled={isDisabled} style={{ width }}>
         <InputField
           value={current.value}
           onChangeText={current.onChangeText}
