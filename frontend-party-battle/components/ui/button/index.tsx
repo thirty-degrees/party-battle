@@ -133,6 +133,11 @@ const buttonTextStyle = tva({
   },
   parentCompoundVariants: [
     {
+      variant: 'link',
+      action: 'primary',
+      class: 'dark:data-[hover=true]:text-typography-0 dark:data-[active=true]:text-typography-0',
+    },
+    {
       variant: 'solid',
       action: 'primary',
       class:
