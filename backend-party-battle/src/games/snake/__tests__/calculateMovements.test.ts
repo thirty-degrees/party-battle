@@ -60,11 +60,8 @@ describe('calculateMovements', () => {
 
     const result = calculateMovements(remainingPlayers, bodies, board, width, height)
 
-    it('should create correct intentions', () => {
-      expect(result.intentions).toEqual([
-        { name: '1', next: 1, tail: 0 },
-        { name: '2', next: 1, tail: 2 },
-      ])
+    it('should have no intentions for dead snakes', () => {
+      expect(result.intentions).toEqual([])
     })
 
     it('should mark both snakes as dead', () => {
