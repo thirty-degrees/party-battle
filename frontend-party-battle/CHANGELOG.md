@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.12.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.11.2...frontend-party-battle-v2.12.0) (2025-09-21)
+
+
+### Features
+
+* added AnimatedBorder to lobby ready state ([a328d98](https://github.com/thirty-degrees/party-battle/commit/a328d98925fbd4e0ff7f2d1e8e78770691cf29c9))
+* apply player colors on snakes ([7e3bd26](https://github.com/thirty-degrees/party-battle/commit/7e3bd2616eaad90eb35c8d314729d8682a03c9a0))
+* improve party code blurring ([1723e03](https://github.com/thirty-degrees/party-battle/commit/1723e038970573c71fc2a971444cb90844c337cf))
+* refactor StorageProvider ([2fa9ade](https://github.com/thirty-degrees/party-battle/commit/2fa9ade09805069dd77a90064e6d3eeb2fb7d353))
+* store isPartyCodeVisible in local storage ([82182ce](https://github.com/thirty-degrees/party-battle/commit/82182ce810d398e009acb8da95692be9103fc5bb))
+
+
+### Bug Fixes
+
+* fixed spacing between players and controls in lobby ([670cfcf](https://github.com/thirty-degrees/party-battle/commit/670cfcf10ebb197294fe52192a2c091a3f528145))
+* ios lobby header size ([1ddf632](https://github.com/thirty-degrees/party-battle/commit/1ddf632551936e7d0d9a5109f4cc2c191f113610))
+* modal background color ([b98e707](https://github.com/thirty-degrees/party-battle/commit/b98e707d1ca4a18d7db000706446618521fcd7e6))
+* potato heat animation ([ba25137](https://github.com/thirty-degrees/party-battle/commit/ba25137e0fae3b24b013806d7afaa973137c964b))
+* shaking animation ([4df89f5](https://github.com/thirty-degrees/party-battle/commit/4df89f5bd0669f1e8eafac8481938a8c12a12883))
+
 ## [2.11.2](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.11.1...frontend-party-battle-v2.11.2) (2025-09-17)
 
 
