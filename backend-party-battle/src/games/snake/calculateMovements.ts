@@ -31,10 +31,7 @@ export function calculateMovements(
 
   for (const rp of remainingPlayers) {
     const body = bodies.get(rp.name)
-    if (!body || body.length === 0) {
-      deaths.add(rp.name)
-      continue
-    }
+
     const headIndex = body[body.length - 1]
     const x = headIndex % width
     const y = Math.floor(headIndex / width)
