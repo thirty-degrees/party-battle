@@ -19,7 +19,7 @@ import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle/consts/config'
 export default function HomeScreen() {
   const [showJoinModal, setShowJoinModal] = useState(false)
   const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
-  const { playerName, trimmedPlayerName, setPlayerName, isLoading: isLoadingPlayerName } = usePlayerName()
+  const { playerName, trimmedPlayerName, setPlayerName } = usePlayerName()
 
   const { createLobbyRoom, joinLobbyRoom, isLoading } = useLobbyRoomContext()
   const [validationError, setValidationError] = useState<string | undefined>(undefined)
@@ -65,7 +65,6 @@ export default function HomeScreen() {
             <Input
               variant="outline"
               size="xl"
-              isDisabled={isLoadingPlayerName}
               isInvalid={!!validationError}
               style={{
                 alignItems: 'center',

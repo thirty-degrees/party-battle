@@ -1,7 +1,6 @@
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider'
 import '@/global.css'
 import { LobbyRoomProvider } from '@/src/lobby/LobbyRoomProvider'
-import { StorageProvider } from '@/src/storage/StorageProvider'
 import { VersionUpdateScreen } from '@/src/VersionUpdateScreen'
 import { useFonts } from 'expo-font'
 import { ErrorBoundary as DefaultErrorBoundary, ErrorBoundaryProps, Stack } from 'expo-router'
@@ -25,22 +24,20 @@ export default function RootLayout() {
     // <React.StrictMode>
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <GluestackUIProvider>
-        <StorageProvider>
-          <LobbyRoomProvider>
-            <Head>
-              <title>Party Battle</title>
-            </Head>
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="index" />
-              <Stack.Screen name="lobby" />
-              <Stack.Screen name="games/pick-cards" />
-              <Stack.Screen name="games/snake" />
-              <Stack.Screen name="games/potato" />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-            <StatusBar style="auto" />
-          </LobbyRoomProvider>
-        </StorageProvider>
+        <LobbyRoomProvider>
+          <Head>
+            <title>Party Battle</title>
+          </Head>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="lobby" />
+            <Stack.Screen name="games/pick-cards" />
+            <Stack.Screen name="games/snake" />
+            <Stack.Screen name="games/potato" />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          <StatusBar style="auto" />
+        </LobbyRoomProvider>
       </GluestackUIProvider>
     </SafeAreaProvider>
     // </React.StrictMode>
