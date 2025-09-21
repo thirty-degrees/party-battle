@@ -1,21 +1,21 @@
-import { useCallback, useEffect, useState } from 'react'
-import { storage } from './storage'
+import { useCallback } from 'react'
+import { useStorageContext } from './StorageProvider'
 
 const IS_PARTY_CODE_VISIBLE_KEY = 'isPartyCodeVisible'
+const IS_PARTY_CODE_VISIBLE_DEFAULT = 'false'
 
 export const useIsPartyCodeVisible = () => {
-  const [value, setValue] = useState<string | null>(() => storage.getItem(IS_PARTY_CODE_VISIBLE_KEY))
+  const { getStorageValue, setStorageValue } = useStorageContext()
 
-  useEffect(() => {
-    const currentValue = storage.getItem(IS_PARTY_CODE_VISIBLE_KEY)
-    setValue(currentValue)
-  }, [])
+  const value = getStorageValue(IS_PARTY_CODE_VISIBLE_KEY) ?? IS_PARTY_CODE_VISIBLE_DEFAULT
 
-  const setIsVisible = useCallback((isVisible: boolean) => {
-    const newValue = isVisible ? 'true' : 'false'
-    setValue(newValue)
-    storage.setItem(IS_PARTY_CODE_VISIBLE_KEY, newValue)
-  }, [])
+  const setIsVisible = useCallback(
+    (isVisible: boolean) => {
+      const newValue = isVisible ? 'true' : 'false'
+      setStorageValue(IS_PARTY_CODE_VISIBLE_KEY, newValue)
+    },
+    [setStorageValue]
+  )
 
   return {
     isVisible: value === 'true',

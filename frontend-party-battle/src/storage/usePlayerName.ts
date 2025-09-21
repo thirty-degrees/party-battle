@@ -1,15 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
-import { storage } from './storage'
+import { useMemo } from 'react'
+import { useStorageContext } from './StorageProvider'
 
 const PLAYER_NAME_KEY = 'playerName'
+const PLAYER_NAME_DEFALT = undefined
 
 export const usePlayerName = () => {
-  const [playerName, setPlayerName] = useState<string | null>(() => storage.getItem(PLAYER_NAME_KEY))
+  const { getStorageValue, setStorageValue } = useStorageContext()
 
-  useEffect(() => {
-    const currentValue = storage.getItem(PLAYER_NAME_KEY)
-    setPlayerName(currentValue)
-  }, [])
+  const playerName = getStorageValue(PLAYER_NAME_KEY) ?? PLAYER_NAME_DEFALT
 
   const trimmedPlayerName = useMemo(() => {
     return playerName?.trim() || ''
@@ -17,14 +15,9 @@ export const usePlayerName = () => {
 
   const setPlayerNameValue = useMemo(() => {
     return (value: string | null) => {
-      setPlayerName(value)
-      if (value !== null) {
-        storage.setItem(PLAYER_NAME_KEY, value)
-      } else {
-        storage.removeItem(PLAYER_NAME_KEY)
-      }
+      setStorageValue(PLAYER_NAME_KEY, value)
     }
-  }, [])
+  }, [setStorageValue])
 
   return {
     playerName,

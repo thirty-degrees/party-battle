@@ -18,7 +18,7 @@ export interface MovementIntention {
   tail: number
 }
 
-export function getIntentions(
+export function getMovementIntentions(
   players: RemainingPlayer[],
   bodies: Map<string, number[]>,
   width: number

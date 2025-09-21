@@ -10,7 +10,7 @@ import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
 import { getDeaths } from '../games/snake/getDeaths'
-import { getIntentions } from '../games/snake/getIntentions'
+import { getMovementIntentions, MovementIntention } from '../games/snake/getMovementIntentions'
 import { assignScoresByOrder } from '../scores/assignScoresByOrder'
 
 const STEPS_PER_SECOND = 3
@@ -49,31 +49,34 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   }
 
   update(_deltaTime: number) {
-    const board = this.state.board
+    const board = this.state.board.map(toCell)
+    const remainingPlayers = this.state.remainingPlayers.map(toRemainingPlayer)
 
-    const intentions = getIntentions(
-      this.state.remainingPlayers.map(toRemainingPlayer),
-      this.bodies,
-      this.state.width
-    )
-    const deaths = getDeaths(intentions, board.map(toCell), this.state.width, this.state.height)
+    const intentions = getMovementIntentions(remainingPlayers, this.bodies, this.state.width)
+    const deaths = getDeaths(intentions, board, this.state.width, this.state.height)
 
+    this.applyMovementIntentions(intentions.filter((intention) => !deaths.has(intention.name)))
+    this.applyDeaths(deaths)
+  }
+
+  private applyMovementIntentions(intentions: MovementIntention[]) {
     for (const intention of intentions) {
-      if (deaths.has(intention.name)) continue
       const body = this.bodies.get(intention.name)
       if (!body || body.length === 0) continue
       const tailIndex = body[0]
       const headIndex = intention.head.y * this.state.width + intention.head.x
-      const tailCell = board[tailIndex]
+      const tailCell = this.state.board[tailIndex]
       tailCell.kind = CellKind.Empty
       tailCell.player = undefined
       body.push(headIndex)
       body.shift()
-      const headCell = board[headIndex]
+      const headCell = this.state.board[headIndex]
       headCell.kind = CellKind.Snake
       headCell.player = intention.name
     }
+  }
 
+  private applyDeaths(deaths: Set<string>) {
     if (deaths.size > 0) {
       const names = Array.from(deaths)
       const eliminatedThisTurn: string[] = []
@@ -82,7 +85,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
         const body = this.bodies.get(name)
         if (body) {
           for (const idx of body) {
-            const c = board[idx]
+            const c = this.state.board[idx]
             c.kind = CellKind.Empty
             c.player = undefined
           }

@@ -1,5 +1,5 @@
 import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
-import { MovementIntention, Position } from './getIntentions'
+import { MovementIntention, Position } from './getMovementIntentions'
 
 export function getDeaths(
   intentions: MovementIntention[],
