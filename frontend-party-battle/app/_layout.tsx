@@ -1,7 +1,8 @@
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider'
 import '@/global.css'
 import { LobbyRoomProvider } from '@/src/lobby/LobbyRoomProvider'
-import { StorageProvider } from '@/src/storage/StorageProvider'
+import { IsPartyCodeVisibleProvider } from '@/src/storage/IsPartyCodeVisibleProvider'
+import { PlayerNameProvider } from '@/src/storage/PlayerNameProvider'
 import { VersionUpdateScreen } from '@/src/VersionUpdateScreen'
 import { useFonts } from 'expo-font'
 import { ErrorBoundary as DefaultErrorBoundary, ErrorBoundaryProps, Stack } from 'expo-router'
@@ -24,24 +25,26 @@ export default function RootLayout() {
     // https://github.com/software-mansion/react-native-reanimated/issues/8228
     // <React.StrictMode>
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <StorageProvider>
-        <GluestackUIProvider>
-          <LobbyRoomProvider>
-            <Head>
-              <title>Party Battle</title>
-            </Head>
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="index" />
-              <Stack.Screen name="lobby" />
-              <Stack.Screen name="games/pick-cards" />
-              <Stack.Screen name="games/snake" />
-              <Stack.Screen name="games/potato" />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-            <StatusBar style="auto" />
-          </LobbyRoomProvider>
-        </GluestackUIProvider>
-      </StorageProvider>
+      <PlayerNameProvider>
+        <IsPartyCodeVisibleProvider>
+          <GluestackUIProvider>
+            <LobbyRoomProvider>
+              <Head>
+                <title>Party Battle</title>
+              </Head>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" />
+                <Stack.Screen name="lobby" />
+                <Stack.Screen name="games/pick-cards" />
+                <Stack.Screen name="games/snake" />
+                <Stack.Screen name="games/potato" />
+                <Stack.Screen name="+not-found" />
+              </Stack>
+              <StatusBar style="auto" />
+            </LobbyRoomProvider>
+          </GluestackUIProvider>
+        </IsPartyCodeVisibleProvider>
+      </PlayerNameProvider>
     </SafeAreaProvider>
     // </React.StrictMode>
   )
