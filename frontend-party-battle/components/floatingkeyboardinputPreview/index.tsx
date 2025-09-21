@@ -1,6 +1,6 @@
 import { Input, InputField } from '@/components/ui/input'
 import { useEffect, useState } from 'react'
-import { Keyboard, View } from 'react-native'
+import { Dimensions, Keyboard, View } from 'react-native'
 
 export type FloatingKeyboardInputPreviewSourceBinding = {
   value: string
@@ -30,11 +30,17 @@ export default function FloatingKeyboardInputPreview({
 
   useEffect(() => {
     const onWillShow = Keyboard.addListener('keyboardWillShow', (e) => {
-      setKeyboardHeight(e.endCoordinates.height)
+      const windowHeight = Dimensions.get('window').height
+      const keyboardTop = e.endCoordinates.screenY
+      const overlap = Math.max(0, windowHeight - keyboardTop)
+      setKeyboardHeight(overlap)
       setIsKeyboardVisible(true)
     })
     const onDidShow = Keyboard.addListener('keyboardDidShow', (e) => {
-      setKeyboardHeight(e.endCoordinates.height)
+      const windowHeight = Dimensions.get('window').height
+      const keyboardTop = e.endCoordinates.screenY
+      const overlap = Math.max(0, windowHeight - keyboardTop)
+      setKeyboardHeight(overlap)
       setIsKeyboardVisible(true)
     })
 
@@ -64,8 +70,8 @@ export default function FloatingKeyboardInputPreview({
 
   return (
     <View
-      className="bg-background-0 dark:bg-background-900 border-t border-outline-300 dark:border-outline-700 px-2 py-2 items-center justify-center"
-      style={{ position: 'absolute', left: 0, right: 0, bottom: keyboardHeight }}
+      className="px-2 py-2 items-center justify-center"
+      style={{ position: 'absolute', left: 0, right: 0, bottom: keyboardHeight + 8 }}
       pointerEvents="box-none"
     >
       <Input variant="outline" size={size} isDisabled={isDisabled} style={{ width }}>
@@ -74,6 +80,7 @@ export default function FloatingKeyboardInputPreview({
           onChangeText={current.onChangeText}
           placeholder={placeholder}
           autoFocus={autoFocus}
+          onBlur={() => Keyboard.dismiss()}
           style={{ width, textAlign: 'center' }}
         />
       </Input>

@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
-import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
+import { Keyboard, View } from 'react-native'
 
 import FloatingKeyboardInputPreview from '@/components/floatingkeyboardinputPreview'
 import { Button, ButtonText } from '@/components/ui/button'
@@ -10,6 +10,7 @@ import { Text } from '@/components/ui/text'
 import useToastHelper from '@/components/ui/useToastHelper'
 
 import RainbowText from '@/components/rainbow-text'
+import TouchableDismissKeyboard from '@/components/touchable-dismiss-keyboard'
 import { StoreBadges } from '@/src/index/StoreBadges'
 import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import { usePlayerName } from '@/src/storage/PlayerNameProvider'
@@ -70,7 +71,7 @@ export default function HomeScreen() {
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <TouchableDismissKeyboard>
         <SafeAreaView className="flex-1 items-center bg-background-0 dark:bg-background-950">
           <View className="flex-1 w-full max-w-md justify-between  p-4 items-center">
             <View className="flex-col items-center gap-4 w-full mt-10">
@@ -173,7 +174,7 @@ export default function HomeScreen() {
             isDisabled={isLoading}
           />
         </SafeAreaView>
-      </TouchableWithoutFeedback>
+      </TouchableDismissKeyboard>
     </>
   )
 }
