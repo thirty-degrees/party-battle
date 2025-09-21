@@ -8,8 +8,9 @@ import {
 } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
-import { calculateMovements } from '../games/snake/calculateMovements'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
+import { getDeaths } from '../games/snake/getDeaths'
+import { getIntentions } from '../games/snake/getIntentions'
 import { assignScoresByOrder } from '../scores/assignScoresByOrder'
 
 const STEPS_PER_SECOND = 3
@@ -50,20 +51,19 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   update(_deltaTime: number) {
     const board = this.state.board
 
-    const { intentions, deaths } = calculateMovements(
+    const intentions = getIntentions(
       this.state.remainingPlayers.map(toRemainingPlayer),
       this.bodies,
-      board.map(toCell),
-      this.state.width,
-      this.state.height
+      this.state.width
     )
+    const deaths = getDeaths(intentions, board.map(toCell), this.state.width, this.state.height)
 
-    for (const i of intentions) {
-      if (deaths.has(i.name)) continue
-      const body = this.bodies.get(i.name)
+    for (const intention of intentions) {
+      if (deaths.has(intention.name)) continue
+      const body = this.bodies.get(intention.name)
       if (!body || body.length === 0) continue
       const tailIndex = body[0]
-      const headIndex = i.next
+      const headIndex = intention.head.y * this.state.width + intention.head.x
       const tailCell = board[tailIndex]
       tailCell.kind = CellKind.Empty
       tailCell.player = undefined
@@ -71,7 +71,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
       body.shift()
       const headCell = board[headIndex]
       headCell.kind = CellKind.Snake
-      headCell.player = i.name
+      headCell.player = intention.name
     }
 
     if (deaths.size > 0) {
