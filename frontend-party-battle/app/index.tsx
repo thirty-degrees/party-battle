@@ -12,7 +12,7 @@ import useToastHelper from '@/components/ui/useToastHelper'
 import RainbowText from '@/components/rainbow-text'
 import { StoreBadges } from '@/src/index/StoreBadges'
 import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
-import { usePlayerName } from '@/src/storage/usePlayerName'
+import { usePlayerName } from '@/src/storage/PlayerNameProvider'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle/consts/config'
 

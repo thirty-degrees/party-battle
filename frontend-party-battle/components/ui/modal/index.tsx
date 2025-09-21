@@ -182,7 +182,7 @@ const ModalContent = React.forwardRef<React.ComponentRef<typeof UIModal.Content>
           parentVariants: {
             size: parentSize,
           },
-          size,
+          size: size as any,
           class: className,
         })}
         pointerEvents="auto"

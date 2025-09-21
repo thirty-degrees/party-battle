@@ -3,7 +3,7 @@ import { Button, ButtonIcon } from '@/components/ui/button'
 import { EyeIcon, EyeOffIcon } from '@/components/ui/icon'
 import { Text } from '@/components/ui/text'
 import { View } from 'react-native'
-import { useIsPartyCodeVisible } from '../storage/useIsPartyCodeVisible'
+import { useIsPartyCodeVisible } from '../storage/IsPartyCodeVisibleProvider'
 
 interface PartyCodeProps {
   partyCode: string
