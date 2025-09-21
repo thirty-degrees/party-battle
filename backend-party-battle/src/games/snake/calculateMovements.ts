@@ -38,32 +38,43 @@ export function calculateMovements(
     const [dx, dy] = dxdy(rp.direction)
     const nx = x + dx
     const ny = y + dy
-    if (nx < 0 || nx >= width || ny < 0 || ny >= height) {
-      deaths.add(rp.name)
-      continue
-    }
     const nextIndex = ny * width + nx
-    const isOwnTail = nextIndex === body[0]
-    const cell = board[nextIndex]
-    if (cell.kind === CellKind.Snake && !isOwnTail) {
-      deaths.add(rp.name)
-      continue
-    }
+
     intentions.push({ name: rp.name, next: nextIndex, tail: body[0] })
   }
 
-  const targets = new Map<number, string[]>()
-  for (const i of intentions) {
-    const arr = targets.get(i.next)
-    if (arr) arr.push(i.name)
-    else targets.set(i.next, [i.name])
-  }
-
-  for (const [idx, names] of targets) {
-    if (names.length >= 2 && board[idx].kind === CellKind.Empty) {
-      for (const n of names) deaths.add(n)
+  for (const intention of intentions) {
+    const nextIndex = intention.next
+    if (
+      isOutOfBounds(nextIndex, width, height) ||
+      isCollisionWithOtherSnakes(nextIndex, intentions) ||
+      isCollisionWithSnakeBody(nextIndex, intentions, board)
+    ) {
+      deaths.add(intention.name)
     }
   }
 
-  return { intentions, deaths }
+  const aliveIntentions = intentions.filter((intention) => !deaths.has(intention.name))
+
+  return { intentions: aliveIntentions, deaths }
+}
+
+function isOutOfBounds(nextIndex: number, width: number, height: number): boolean {
+  const nx = nextIndex % width
+  const ny = Math.floor(nextIndex / width)
+  return nx < 0 || nx >= width || ny < 0 || ny >= height
+}
+
+function isCollisionWithOtherSnakes(nextIndex: number, intentions: MovementIntention[]): boolean {
+  return intentions.filter((n) => n.next === nextIndex).length > 1
+}
+
+function isCollisionWithSnakeBody(
+  nextIndex: number,
+  intentions: MovementIntention[],
+  board: Cell[]
+): boolean {
+  const cell = board[nextIndex]
+  const isTail = intentions.some((n) => n.tail === nextIndex)
+  return cell.kind === CellKind.Snake && !isTail
 }
