@@ -39,18 +39,28 @@ export const PickCardsGame: GameComponent<PickCardsGameSchema> = ({ gameRoom }) 
         <View className="flex-1 items-center justify-center">
           <View className="flex-1 items-center justify-center">
             <View style={{ height: 80 }} className="items-center justify-center">
-              {!isPlayerInGame && (
-                <Text className="text-red-500 dark:text-red-400 text-2xl font-bold">
-                  You picked the WRONG card!
+              {isPlayerInGame && remainingPlayers.length === 1 ? (
+                <Text className="text-red-400 text-xl font-bold text-center">
+                  This time, the luck was on your side!
                 </Text>
-              )}
-              {isPlayerInGame && isCurrentPlayer && (
-                <Text className="text-green-500 dark:text-green-400 text-xl font-bold">
-                  It&apos;s your turn!
-                </Text>
-              )}
-              {isPlayerInGame && !isCurrentPlayer && currentPlayer && (
-                <Text className="text-gray-500 dark:text-gray-400 text-lg">{currentPlayer}&apos;s turn</Text>
+              ) : (
+                <>
+                  {!isPlayerInGame && (
+                    <Text className="text-red-500 dark:text-red-400 text-2xl font-bold">
+                      You picked the WRONG card!
+                    </Text>
+                  )}
+                  {isPlayerInGame && isCurrentPlayer && (
+                    <Text className="text-green-500 dark:text-green-400 text-xl font-bold">
+                      It&apos;s your turn!
+                    </Text>
+                  )}
+                  {isPlayerInGame && !isCurrentPlayer && currentPlayer && (
+                    <Text className="text-gray-500 dark:text-gray-400 text-lg">
+                      {currentPlayer}&apos;s turn
+                    </Text>
+                  )}
+                </>
               )}
             </View>
             <View
@@ -70,9 +80,7 @@ export const PickCardsGame: GameComponent<PickCardsGameSchema> = ({ gameRoom }) 
             isActive={isCurrentPlayer && isPlayerInGame}
           />
           {!isPlayerInGame && (
-            <Text className="text-gray-600 dark:text-gray-400 text-lg mb-5">
-              The other players are still trying their luck
-            </Text>
+            <Text className="text-gray-600 dark:text-gray-400 text-lg mb-5 text-center">You are out!</Text>
           )}
         </View>
 

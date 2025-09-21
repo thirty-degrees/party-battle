@@ -13,7 +13,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
   private currentPlayerIndex = 0
   private playerTurnTimer: Delayed | null = null
   private eliminatedPlayers: string[] = []
-  private readonly playerTurnTimeout = 20000
+  private readonly playerTurnTimeout = 3000
 
   override getGameType(): GameType {
     return PickCardsGameRoom.gameType
@@ -116,7 +116,9 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
     }
 
     if (this.state.remainingPlayers.length === 1) {
-      this.finishGame()
+      this.clock.setTimeout(() => {
+        this.finishGame()
+      }, 3000)
     } else {
       this.resetForNextRound()
     }
