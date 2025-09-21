@@ -26,14 +26,14 @@ export function StoreBadges() {
 
   if (isIOSWebBrowser) {
     return (
-      <View className="w-full items-center mb-4">
+      <View className="w-full items-center">
         <StoreBadge os="ios" url={IOS_MARKET_WEB_URL} />
       </View>
     )
   }
 
   return (
-    <View className="w-full mb-4 flex-row justify-center gap-4">
+    <View className="w-full flex-row justify-center gap-4">
       <StoreBadge os="ios" url={IOS_MARKET_WEB_URL} />
       <StoreBadge os="android" url={ANDROID_MARKET_WEB_URL} />
     </View>
