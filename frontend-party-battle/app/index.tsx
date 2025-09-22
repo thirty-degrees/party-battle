@@ -1,7 +1,3 @@
-import { router, useLocalSearchParams } from 'expo-router'
-import { useEffect, useState } from 'react'
-import { Keyboard, View } from 'react-native'
-
 import FloatingKeyboardInputPreview from '@/components/floatingkeyboardinputPreview'
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { Heading } from '@/components/ui/heading'
@@ -9,6 +5,9 @@ import { PartyPopperIcon } from '@/components/ui/icon'
 import { Input, InputField } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
 import useToastHelper from '@/components/ui/useToastHelper'
+import { router, useLocalSearchParams } from 'expo-router'
+import { useEffect, useState } from 'react'
+import { Keyboard, View } from 'react-native'
 
 import RainbowText from '@/components/rainbow-text'
 import TouchableDismissKeyboard from '@/components/touchable-dismiss-keyboard'

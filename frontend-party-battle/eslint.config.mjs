@@ -1,6 +1,6 @@
-import expoConfig from "eslint-config-expo/flat.js";
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import { defineConfig } from 'eslint/config';
+import expoConfig from 'eslint-config-expo/flat.js'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
   {
@@ -13,10 +13,18 @@ export default defineConfig([
   expoConfig,
   eslintPluginPrettierRecommended,
   {
-    ignores: [".expo", "dist/*", "node_modules/*"],
+    ignores: ['.expo', 'dist/*', 'node_modules/*'],
     rules: {
-      "@typescript-eslint/no-explicit-any": "error",
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-require-imports': [
+        'error',
+        {
+          allow: [
+            '\\.(aac|aiff|avif|bmp|caf|db|gif|heic|html|jpeg|jpg|json|m4a|m4v|mov|mp3|mp4|mpeg|mpg|otf|pdf|png|psd|riv|svg|ttf|wav|webm|webp|xml|yaml|yml|zip)$',
+          ],
+        },
+      ],
       'prettier/prettier': 'warn',
     },
-  }
-]);
+  },
+])

@@ -14,4 +14,6 @@ config.server.enhanceMiddleware = (middleware) => {
   }
 }
 
+config.resolver.assetExts.push('riv')
+
 module.exports = withNativeWind(config, { input: './global.css' })
