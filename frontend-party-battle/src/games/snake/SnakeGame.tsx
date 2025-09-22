@@ -24,7 +24,10 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
       <View className="flex-1 justify-start items-center">
         <Board board={board} width={width} height={height} players={players} />
 
-        <RiveAnimation source={require('../../../assets/rive/arrowbuttons.riv')} />
+        <RiveAnimation
+          style={{ width: 400, height: 400 }}
+          source={require('../../../assets/rive/arrowbuttons.riv')}
+        />
       </View>
     </BasicGameView>
   )
