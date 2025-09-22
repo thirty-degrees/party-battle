@@ -6,7 +6,8 @@
     "paths": {
       "@/*": ["./*"],
       "tailwind.config": ["./tailwind.config.js"]
-    }
+    },
+    "moduleSuffixes": [".native", ".web", ""]
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "nativewind-env.d.ts"]
 }

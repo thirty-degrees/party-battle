@@ -26,6 +26,7 @@
     "@gluestack-ui/core": "^3.0.10",
     "@gluestack-ui/utils": "^3.0.7",
     "@legendapp/motion": "^2.4.0",
+    "@rive-app/react-canvas": "4.23.3",
     "babel-plugin-module-resolver": "^5.0.2",
     "colyseus.js": "^0.16.19",
     "expo": "~54.0.8",

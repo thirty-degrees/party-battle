@@ -1,8 +1,8 @@
-import { RiveAnimation } from '@/components/rive-animation'
 import { View } from 'react-native'
 import { Player, PlayerSchema } from 'types-party-battle/types/PlayerSchema'
 import { toCell } from 'types-party-battle/types/snake/CellSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
+import { useRiveController } from '../../../components/rive-animation/useRiveController'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
@@ -24,11 +24,17 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
       <View className="flex-1 justify-start items-center">
         <Board board={board} width={width} height={height} players={players} />
 
-        <RiveAnimation
-          style={{ width: 400, height: 400 }}
-          source={require('../../../assets/rive/arrowbuttons.riv')}
-        />
+        <RivePlayer />
       </View>
     </BasicGameView>
   )
+}
+
+function RivePlayer() {
+  const { RiveComponent } = useRiveController({
+    source: require('../../../assets/rive/arrowbuttons.riv'),
+    autoplay: true,
+    stateMachines: 'State Machine 1',
+  })
+  return <RiveComponent style={{ width: 400, height: 400 }} />
 }
