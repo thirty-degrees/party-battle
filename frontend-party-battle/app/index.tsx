@@ -118,7 +118,6 @@ export default function HomeScreen() {
                     value={gameRoomId}
                     onChangeText={setGameRoomId}
                     placeholder="Enter Party Code"
-                    autoCapitalize="characters"
                     returnKeyType="join"
                     enablesReturnKeyAutomatically
                     onSubmitEditing={() => {
