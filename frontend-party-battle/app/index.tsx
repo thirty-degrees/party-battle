@@ -16,7 +16,6 @@ import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import { usePlayerName } from '@/src/storage/PlayerNameProvider'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle/consts/config'
-import { ArrowButtons } from '../src/games/snake/ArrowButtons'
 
 export default function HomeScreen() {
   const [gameRoomId, setGameRoomId] = useState('')
@@ -103,7 +102,6 @@ export default function HomeScreen() {
               </View>
               <View className="flex-row items-center gap-2">
                 <Heading size="4xl">
-                  <ArrowButtons style={{ width: 400, height: 400 }} />
                   <RainbowText text="Party" className="text-6xl" />
                   <Text className="text-6xl"> Battle</Text>
                 </Heading>

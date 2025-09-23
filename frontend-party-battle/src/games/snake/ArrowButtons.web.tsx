@@ -1,11 +1,7 @@
 import { useRive } from '@rive-app/react-canvas'
-import { CSSProperties } from 'react'
+import { ArrowButtonComponent } from './ArrowButtons.types'
 
-type ArrowButtonsProps = {
-  style?: CSSProperties
-}
-
-export function ArrowButtons({ style }: ArrowButtonsProps) {
+export const ArrowButtons: ArrowButtonComponent = ({ style }) => {
   const { RiveComponent } = useRive({
     src: require('../../../assets/rive/arrowbuttons.riv'),
     stateMachines: 'State Machine 1',

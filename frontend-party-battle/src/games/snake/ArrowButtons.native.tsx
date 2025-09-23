@@ -1,11 +1,7 @@
 import { RiveAnimation } from '@/components/rive-animation'
-import { ViewStyle } from 'react-native'
+import { ArrowButtonComponent } from './ArrowButtons.types'
 
-type ArrowButtonsProps = {
-  style?: ViewStyle
-}
-
-export function ArrowButtons({ style }: ArrowButtonsProps) {
+export const ArrowButtons: ArrowButtonComponent = ({ style }) => {
   return (
     <RiveAnimation
       source={require('../../../assets/rive/arrowbuttons.riv')}
