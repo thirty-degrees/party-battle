@@ -25,10 +25,6 @@ jobs:
       - name: Build shared types
         run: npm run -w types-party-battle build
 
-      - name: Run type check
-        run: npm run check-types
-        continue-on-error: true
-
       - name: Run linting for CI
         run: npm run lint:ci
         continue-on-error: true
@@ -43,7 +39,6 @@ jobs:
           name: Test Results
           path: backend-party-battle/test-results.xml,frontend-party-battle/test-results.xml
           reporter: java-junit
-          fail-on-error: true
 
       - name: Publish lint results
         uses: dorny/test-reporter@v1
@@ -51,4 +46,6 @@ jobs:
           name: Lint Results
           path: backend-party-battle/lint-results.xml,frontend-party-battle/lint-results.xml,types-party-battle/lint-results.xml
           reporter: java-junit
-          fail-on-error: true
+
+      - name: Run type check
+        run: npm run check-types
