@@ -14,7 +14,10 @@ describe('createInitialBoard', () => {
     })
 
     it('should create correct directions', () => {
-      expect(result.directions).toEqual({ '1': Direction.Right, '2': Direction.Left })
+      expect(result.directions).toEqual<Record<string, Direction>>({
+        '1': 'right',
+        '2': 'left',
+      })
     })
 
     it('should create correct bodies', () => {
@@ -56,7 +59,11 @@ describe('createInitialBoard', () => {
     })
 
     it('should create correct directions', () => {
-      expect(result.directions).toEqual({ '1': Direction.Right, '2': Direction.Left, '3': Direction.Right })
+      expect(result.directions).toEqual<Record<string, Direction>>({
+        '1': 'right',
+        '2': 'left',
+        '3': 'right',
+      })
     })
 
     it('should create correct bodies', () => {
@@ -105,15 +112,15 @@ describe('createInitialBoard', () => {
     })
 
     it('should create correct directions', () => {
-      expect(result.directions).toEqual({
-        '1': Direction.Right,
-        '2': Direction.Left,
-        '3': Direction.Right,
-        '4': Direction.Left,
-        '5': Direction.Right,
-        '6': Direction.Left,
-        '7': Direction.Right,
-        '8': Direction.Left,
+      expect(result.directions).toEqual<Record<string, Direction>>({
+        '1': 'right',
+        '2': 'left',
+        '3': 'right',
+        '4': 'left',
+        '5': 'right',
+        '6': 'left',
+        '7': 'right',
+        '8': 'left',
       })
     })
 

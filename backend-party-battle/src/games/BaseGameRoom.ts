@@ -72,4 +72,13 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
   onDispose() {
     console.log(`${this.constructor.name}.onDispose: roomId: '${this.roomId}'`)
   }
+
+  protected findPlayerBySessionId(sessionId: string): string | undefined {
+    for (const [name, session] of this.playerConnections.entries()) {
+      if (session === sessionId) {
+        return name
+      }
+    }
+    return undefined
+  }
 }

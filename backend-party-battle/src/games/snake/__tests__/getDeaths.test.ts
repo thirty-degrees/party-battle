@@ -1,6 +1,6 @@
 import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
 import { getDeaths } from '../getDeaths'
-import { MovementIntention } from '../getIntentions'
+import { MovementIntention } from '../getMovementIntentions'
 
 describe('getDeaths', () => {
   describe('when there is 1 snake with length 2 moving right', () => {

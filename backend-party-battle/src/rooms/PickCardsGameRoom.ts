@@ -32,7 +32,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
     })
 
     this.onMessage('CardPressed', (client, message: { index: number }) => {
-      const playerName = this.getPlayerNameBySessionId(client.sessionId)
+      const playerName = this.findPlayerBySessionId(client.sessionId)
       if (playerName && playerName === this.state.currentPlayer) {
         this.state.pressedCardIndex.push(message.index)
 
@@ -96,15 +96,6 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
       this.playerTurnTimer.clear()
       this.playerTurnTimer = null
     }
-  }
-
-  private getPlayerNameBySessionId(sessionId: string): string | null {
-    for (const [playerName, playerSessionId] of this.playerConnections.entries()) {
-      if (playerSessionId === sessionId) {
-        return playerName
-      }
-    }
-    return null
   }
 
   private handleHotCardPressed(playerName: string) {

@@ -9,8 +9,10 @@ export const ArrowButtons: ArrowButtonComponent = ({ style, color, onUp, onRight
   const [, setColor] = useRiveColor(rive, 'Background')
 
   useEffect(() => {
-    setColor(color)
-  }, [color, setColor])
+    if (rive) {
+      setColor(color)
+    }
+  }, [color, setColor, rive])
 
   useRiveTrigger(rive, 'Button_up/Down', () => {
     onUp()

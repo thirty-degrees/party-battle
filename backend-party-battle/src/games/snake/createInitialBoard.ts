@@ -23,7 +23,7 @@ export function createInitialBoard(playerNames: string[]): {
     const isEven = playerIndex % 2 === 0
     const xStart = isEven ? 0 : 16
     const xEnd = isEven ? 3 : 19
-    const direction = isEven ? Direction.Right : Direction.Left
+    const direction = isEven ? 'right' : 'left'
 
     directions[playerName] = direction
 
@@ -33,7 +33,7 @@ export function createInitialBoard(playerNames: string[]): {
       board[cellIndex] = { kind: CellKind.Snake, player: playerName }
       bodyIndices.push(cellIndex)
     }
-    if (direction === Direction.Left) {
+    if (direction === 'left') {
       bodyIndices.reverse()
     }
     bodies.set(playerName, bodyIndices)

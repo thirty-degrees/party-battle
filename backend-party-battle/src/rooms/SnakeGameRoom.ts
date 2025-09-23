@@ -3,6 +3,8 @@ import { GameType } from 'types-party-battle/types/GameSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { CellKind, CellSchema, fromCell, toCell } from 'types-party-battle/types/snake/CellSchema'
 import {
+  Direction,
+  DIRECTIONS,
   RemainingPlayerSchema,
   toRemainingPlayer,
 } from 'types-party-battle/types/snake/RemainingPlayerSchema'
@@ -14,6 +16,10 @@ import { getMovementIntentions, MovementIntention } from '../games/snake/getMove
 import { assignScoresByOrder } from '../scores/assignScoresByOrder'
 
 const STEPS_PER_SECOND = 3
+
+function isValidDirection(value: unknown): value is Direction {
+  return typeof value === 'string' && DIRECTIONS.includes(value as Direction)
+}
 
 export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   static readonly gameType: GameType = 'snake'
@@ -40,12 +46,43 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
     super.onCreate(options)
 
+    this.onMessage<Direction>(
+      'ChangeDirection',
+      (client, direction) => {
+        console.log('ChangeDirection', direction)
+        const playerName = this.findPlayerBySessionId(client.sessionId)
+
+        if (!this.isPlayerInGame(playerName)) {
+          return
+        }
+
+        if (this.state.status !== 'playing') {
+          return
+        }
+
+        for (let i = 0; i < this.state.remainingPlayers.length; i++) {
+          if (this.state.remainingPlayers[i].name === playerName) {
+            this.state.remainingPlayers[i].direction = direction
+            break
+          }
+        }
+      },
+      (payload) => {
+        if (!isValidDirection(payload)) {
+          throw new Error('Invalid payload')
+        }
+        return payload
+      }
+    )
+
     playerNames.forEach((playerName) => {
       const remainingPlayerSchema = new RemainingPlayerSchema(playerName, directions[playerName])
       this.state.remainingPlayers.push(remainingPlayerSchema)
     })
 
     this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1000 / STEPS_PER_SECOND)
+
+    this.state.status = 'playing'
   }
 
   update(_deltaTime: number) {
@@ -114,5 +151,9 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     playerGroups.push([...this.state.remainingPlayers.map((player) => player.name)])
 
     return assignScoresByOrder(playerGroups)
+  }
+
+  private isPlayerInGame(playerName: string): boolean {
+    return this.state.remainingPlayers.some((player) => player.name === playerName)
   }
 }

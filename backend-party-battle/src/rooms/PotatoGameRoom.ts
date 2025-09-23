@@ -86,15 +86,6 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
     )
   }
 
-  private findPlayerBySessionId(sessionId: string): string | undefined {
-    for (const [name, session] of this.playerConnections.entries()) {
-      if (session === sessionId) {
-        return name
-      }
-    }
-    return undefined
-  }
-
   private isPlayerInGame(playerName: string | undefined): boolean {
     return playerName !== undefined && this.state.remainingPlayers.includes(playerName)
   }

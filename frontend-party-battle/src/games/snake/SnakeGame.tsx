@@ -1,6 +1,7 @@
 import { View } from 'react-native'
 import { Player, PlayerSchema } from 'types-party-battle/types/PlayerSchema'
 import { toCell } from 'types-party-battle/types/snake/CellSchema'
+import { Direction } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import useColyseusState from '../../colyseus/useColyseusState'
 import { BasicGameView } from '../BasicGameView'
@@ -28,16 +29,16 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
           style={{ width: 400, height: 400, opacity: 0.3 }}
           color={{ r: 0, g: 255, b: 0, a: 255 }}
           onUp={() => {
-            console.log('up')
+            gameRoom.send<Direction>('ChangeDirection', 'up')
           }}
           onRight={() => {
-            console.log('right')
+            gameRoom.send<Direction>('ChangeDirection', 'right')
           }}
           onDown={() => {
-            console.log('down')
+            gameRoom.send<Direction>('ChangeDirection', 'down')
           }}
           onLeft={() => {
-            console.log('left')
+            gameRoom.send<Direction>('ChangeDirection', 'left')
           }}
         />
       </View>

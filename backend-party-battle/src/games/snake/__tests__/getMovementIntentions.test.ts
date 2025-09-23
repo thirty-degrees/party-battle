@@ -1,9 +1,9 @@
-import { Direction, RemainingPlayer } from 'types-party-battle/types/snake/RemainingPlayerSchema'
+import { RemainingPlayer } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 import { getMovementIntentions, MovementIntention } from '../getMovementIntentions'
 
 describe('getMovementIntentions', () => {
   describe('when there is 1 snake with length 2 moving right', () => {
-    const remainingPlayers: RemainingPlayer[] = [{ name: '1', direction: Direction.Right }]
+    const remainingPlayers: RemainingPlayer[] = [{ name: '1', direction: 'right' }]
     const bodies = new Map([['1', [3, 4]]])
     const width = 3
 
@@ -15,7 +15,7 @@ describe('getMovementIntentions', () => {
   })
 
   describe('when there is 1 snake with length 1 moving right', () => {
-    const remainingPlayers: RemainingPlayer[] = [{ name: '1', direction: Direction.Right }]
+    const remainingPlayers: RemainingPlayer[] = [{ name: '1', direction: 'right' }]
     const bodies = new Map([['1', [2]]])
     const width = 2
 
@@ -28,8 +28,8 @@ describe('getMovementIntentions', () => {
 
   describe('when there are 2 snakes', () => {
     const remainingPlayers: RemainingPlayer[] = [
-      { name: '1', direction: Direction.Right },
-      { name: '2', direction: Direction.Down },
+      { name: '1', direction: 'right' },
+      { name: '2', direction: 'down' },
     ]
     const bodies = new Map([
       ['1', [0]],

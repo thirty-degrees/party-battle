@@ -1,10 +1,10 @@
 import { Direction, RemainingPlayer } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 
 const DIRECTION_DELTA: Record<Direction, [number, number]> = {
-  [Direction.Up]: [0, -1],
-  [Direction.Down]: [0, 1],
-  [Direction.Left]: [-1, 0],
-  [Direction.Right]: [1, 0],
+  up: [0, -1],
+  down: [0, 1],
+  left: [-1, 0],
+  right: [1, 0],
 }
 
 export interface Position {

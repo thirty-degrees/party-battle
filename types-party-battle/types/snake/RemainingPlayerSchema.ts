@@ -1,11 +1,8 @@
 import { Schema, type } from "@colyseus/schema";
 
-export enum Direction {
-  Up = 0,
-  Down = 1,
-  Left = 2,
-  Right = 3,
-}
+export const DIRECTIONS = ["up", "down", "left", "right"] as const;
+
+export type Direction = (typeof DIRECTIONS)[number];
 
 export interface RemainingPlayer {
   name: string;
@@ -14,7 +11,7 @@ export interface RemainingPlayer {
 
 export class RemainingPlayerSchema extends Schema {
   @type("string") name: string;
-  @type("uint8") direction: Direction;
+  @type("string") direction: Direction;
 
   constructor(name: string, direction: Direction) {
     super();
