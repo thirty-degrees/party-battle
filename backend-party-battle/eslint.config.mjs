@@ -4,11 +4,13 @@ import { defineConfig } from 'eslint/config'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig([
+  {
+    ignores: ['build/**', 'node_modules/**', 'dist/**'],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   eslintPluginPrettierRecommended,
   {
-    ignores: ['build/*', 'node_modules/*', 'dist/*'],
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,

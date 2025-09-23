@@ -182,6 +182,7 @@ const ModalContent = React.forwardRef<React.ComponentRef<typeof UIModal.Content>
           parentVariants: {
             size: parentSize,
           },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           size: size as any,
           class: className,
         })}
