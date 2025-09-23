@@ -1,5 +1,6 @@
-import Svg, { ClipPath, Defs, G, Path, SvgProps } from 'react-native-svg'
-const SvgComponent = (props: SvgProps) => (
+import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
+
+const SvgComponent = (props: React.ComponentProps<typeof Svg>) => (
   <Svg width={120} height={40} viewBox="0 0 120 40" fill="none" {...props}>
     <G clipPath="url(#a)">
       <Path

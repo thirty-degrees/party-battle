@@ -1,5 +1,5 @@
-import Svg, { Path, SvgProps } from 'react-native-svg'
-const CardSvgComponent = (props: SvgProps) => (
+import Svg, { Path } from 'react-native-svg'
+const CardSvgComponent = (props: React.ComponentProps<typeof Svg>) => (
   <Svg width="100%" height="100%" viewBox="0 0 358 511" fill="none" {...props}>
     <Path
       fill="#7A57BD"

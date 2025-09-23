@@ -1,6 +1,6 @@
-import Svg, { Defs, LinearGradient, Path, RadialGradient, Stop, SvgProps } from 'react-native-svg'
+import Svg, { Defs, LinearGradient, Path, RadialGradient, Stop } from 'react-native-svg'
 
-export default function PotatoSvg(props: SvgProps) {
+export default function PotatoSvg(props: React.ComponentProps<typeof Svg>) {
   return (
     <Svg width="100%" height="100%" viewBox="0 0 495.3 672.999" {...props}>
       <Defs>

@@ -1,6 +1,6 @@
-import Svg, { G, Path, SvgProps } from 'react-native-svg'
+import Svg, { G, Path } from 'react-native-svg'
 
-const GooglePlaySvgComponent = (props: SvgProps) => (
+const GooglePlaySvgComponent = (props: React.ComponentProps<typeof Svg>) => (
   <Svg width={136} height={40} viewBox="0 0 136 40" fill="none" {...props}>
     <G>
       <Path

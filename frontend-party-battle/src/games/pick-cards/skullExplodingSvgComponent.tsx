@@ -1,5 +1,5 @@
-import Svg, { Path, SvgProps } from 'react-native-svg'
-const SkullExplodingSvgComponent = (props: SvgProps) => (
+import Svg, { Path } from 'react-native-svg'
+const SkullExplodingSvgComponent = (props: React.ComponentProps<typeof Svg>) => (
   <Svg width="100%" height="100%" viewBox="0 0 600 800" fill="none" {...props}>
     <Path
       fill="#000"

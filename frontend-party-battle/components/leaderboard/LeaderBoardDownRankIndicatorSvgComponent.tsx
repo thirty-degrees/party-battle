@@ -1,6 +1,6 @@
-import Svg, { Path, SvgProps } from 'react-native-svg'
+import Svg, { Path } from 'react-native-svg'
 
-const LeaderBoardDownRankIndicatorSvgComponent = (props: SvgProps) => (
+const LeaderBoardDownRankIndicatorSvgComponent = (props: React.ComponentProps<typeof Svg>) => (
   <Svg viewBox="0 0 100 75" fill="none" {...props}>
     <Path
       fill="#E66565"
