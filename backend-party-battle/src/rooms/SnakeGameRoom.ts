@@ -1,5 +1,6 @@
 import { ArraySchema } from '@colyseus/schema'
 import { GameType } from 'types-party-battle/types/GameSchema'
+import { RGBColor } from 'types-party-battle/types/RGBColorSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { CellKind, CellSchema, fromCell, toCell } from 'types-party-battle/types/snake/CellSchema'
 import {
@@ -32,7 +33,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     return SnakeGameRoom.gameType
   }
 
-  override onCreate(options: { lobbyRoomId: string; players: { name: string; color: string }[] }) {
+  override onCreate(options: { lobbyRoomId: string; players: { name: string; color: RGBColor }[] }) {
     const playerNames = options.players.map((player) => player.name)
     const { board, width, height, directions, bodies } = createInitialBoard(playerNames)
     this.bodies = bodies

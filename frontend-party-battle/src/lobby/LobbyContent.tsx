@@ -15,12 +15,6 @@ import { LobbySchema } from 'types-party-battle/types/LobbySchema'
 import PartyCode from './PartyCode'
 import PlayerList from './PlayerList'
 
-export interface PlayerData {
-  name: string
-  ready: boolean
-  color: string
-}
-
 interface LobbyContentProps {
   lobbyRoom: Room<LobbySchema>
 }

@@ -5,8 +5,9 @@ import useColyseusState from '@/src/colyseus/useColyseusState'
 import { Room } from 'colyseus.js'
 import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle/consts/config'
 import { GameHistory } from 'types-party-battle/types/GameHistorySchema'
+import { LobbyPlayer } from 'types-party-battle/types/LobbyPlayerSchema'
 import { LobbySchema } from 'types-party-battle/types/LobbySchema'
-import { PlayerData } from './LobbyContent'
+import { toRgbColor } from 'types-party-battle/types/RGBColorSchema'
 import PlayerListEntry from './PlayerListEntry'
 
 interface LobbyScreenProps {
@@ -17,16 +18,16 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
   const prevGameHistoryCountRef = useRef<number>(0)
 
   const players = useColyseusState(lobbyRoom, (state) =>
-    Array.from(state.players?.entries() || []).map(
-      ([id, player]) =>
-        [id, { name: player.name, ready: player.ready, color: player.color }] as [string, PlayerData]
-    )
+    Array.from(state.players?.entries() || []).map<[string, LobbyPlayer]>(([id, player]) => [
+      id,
+      { name: player.name, ready: player.ready, color: toRgbColor(player.color) },
+    ])
   )
   const gameHistories = useColyseusState(lobbyRoom, (state) =>
-    Array.from(state.gameHistories?.entries() || []).map(
-      ([id, game]) =>
-        [id, { gameType: game.gameType, scores: game.scores?.toArray() }] as [number, GameHistory]
-    )
+    Array.from(state.gameHistories?.entries() || []).map<[number, GameHistory]>(([id, game]) => [
+      id,
+      { gameType: game.gameType, scores: game.scores?.toArray() },
+    ])
   )
   const currentPlayerId = lobbyRoom.sessionId
 

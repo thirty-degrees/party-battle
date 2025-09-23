@@ -3,6 +3,7 @@ import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle/consts/config'
 import { GameHistory } from 'types-party-battle/types/GameHistorySchema'
 import { GameSchema, GameType } from 'types-party-battle/types/GameSchema'
 import { PlayerSchema } from 'types-party-battle/types/PlayerSchema'
+import { RGBColor } from 'types-party-battle/types/RGBColorSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 
 type PlayerName = string
@@ -12,7 +13,7 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
   protected playerConnections = new Map<PlayerName, PlayerSessionId | null>()
   private lobbyRoomId: string
 
-  onCreate(options: { lobbyRoomId: string; players: { name: string; color: string }[] }) {
+  onCreate(options: { lobbyRoomId: string; players: { name: string; color: RGBColor }[] }) {
     console.log(
       `${this.constructor.name}.onCreate: roomId: '${this.roomId}', lobbyRoomId: '${options.lobbyRoomId}'`
     )

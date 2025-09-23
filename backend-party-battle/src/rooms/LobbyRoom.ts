@@ -9,12 +9,13 @@ import { GameHistory, GameHistorySchema } from 'types-party-battle/types/GameHis
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { LobbyPlayerSchema } from 'types-party-battle/types/LobbyPlayerSchema'
 import { LobbySchema } from 'types-party-battle/types/LobbySchema'
+import { RGBColor, rgbColorEquals, toRgbColor } from 'types-party-battle/types/RGBColorSchema'
 import { ScoreSchema } from 'types-party-battle/types/ScoreSchema'
 import { gameRooms } from '../app.config'
 
 export class LobbyRoom extends Room<LobbySchema> {
   private readonly IDS_CHANNEL = '$lobby-ids'
-  private player_colors: string[] = []
+  private playerColors: RGBColor[] = []
 
   private async generateRoomId(): Promise<string> {
     const current = await this.presence.smembers(this.IDS_CHANNEL)
@@ -28,13 +29,14 @@ export class LobbyRoom extends Room<LobbySchema> {
 
   private initializePlayerColors(): void {
     const shuffledColors = [...PLAYER_COLORS].sort(() => Math.random() - 0.5)
-    this.player_colors = shuffledColors
+    this.playerColors = shuffledColors
   }
 
-  private getFreePlayerColor(): string {
-    const usedColors = new Set(Array.from(this.state.players.values()).map((p) => p.color))
-    for (const color of this.player_colors) {
-      if (!usedColors.has(color)) return color
+  private getFreePlayerColor(): RGBColor {
+    const usedColors = Array.from(this.state.players.values()).map((p) => toRgbColor(p.color))
+    for (const color of this.playerColors) {
+      const isUsed = usedColors.some((usedColor) => rgbColorEquals(color, usedColor))
+      if (!isUsed) return color
     }
     throw new ServerError(4112, 'No colors available')
   }
@@ -129,7 +131,7 @@ export class LobbyRoom extends Room<LobbySchema> {
       `LobbyRoom.createGameRoom: players: ${JSON.stringify(
         Array.from(this.state.players.values()).map((player) => ({
           name: player.name,
-          color: player.color,
+          color: toRgbColor(player.color),
         }))
       )}`
     )
@@ -138,7 +140,7 @@ export class LobbyRoom extends Room<LobbySchema> {
       lobbyRoomId: this.roomId,
       players: Array.from(this.state.players.values()).map((player) => ({
         name: player.name,
-        color: player.color,
+        color: toRgbColor(player.color),
       })),
     })
 

@@ -1,17 +1,18 @@
 import { Schema, type } from "@colyseus/schema";
+import { RGBColor, RGBColorSchema, fromRgbColor } from "./RGBColorSchema";
 
 export interface Player {
   name: string;
-  color: string;
+  color: RGBColor;
 }
 
 export class PlayerSchema extends Schema {
   @type("string") name: string;
-  @type("string") color: string;
+  @type(RGBColorSchema) color: RGBColorSchema;
 
-  constructor(name: string, color: string) {
+  constructor(name: string, color: RGBColor) {
     super();
     this.name = name;
-    this.color = color;
+    this.color = fromRgbColor(color);
   }
 }

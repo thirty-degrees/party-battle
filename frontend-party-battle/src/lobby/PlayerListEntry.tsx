@@ -4,15 +4,16 @@ import LeaderBoardUpRankIndicatorSvgComponent from '@/components/leaderboard/Lea
 import { useEffect, useRef, useState } from 'react'
 import { Text, View } from 'react-native'
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
-import { PlayerData } from './LobbyContent'
+import { LobbyPlayer } from 'types-party-battle/types/LobbyPlayerSchema'
+import { RGBColor, rgbColorToString } from 'types-party-battle/types/RGBColorSchema'
 
 interface PlayerListEntryProps {
-  player: PlayerData
+  player: LobbyPlayer
   isCurrentPlayer: boolean
   place: number
   totalScore: number
   lastRoundScore: number
-  playerColor: string
+  playerColor: RGBColor
   rankTrend: 'risen' | 'fallen' | 'stayed'
 }
 
@@ -64,10 +65,12 @@ export default function PlayerListEntry({
     transform: [{ translateY: indicatorProgress.value * -6 }],
   }))
 
+  const playerColorString = rgbColorToString(playerColor)
+
   return (
     <AnimatedBorder
       isActive={player.ready}
-      borderColor={playerColor}
+      borderColor={playerColorString}
       borderWidth={2}
       borderRadius={4}
       duration={1000}
@@ -92,7 +95,7 @@ export default function PlayerListEntry({
         </View>
 
         <View className="flex-1 flex-row justify-start gap-2 items-center ml-3">
-          <View className="w-3 h-3 rounded-sm" style={{ backgroundColor: playerColor }} />
+          <View className="w-3 h-3 rounded-sm" style={{ backgroundColor: playerColorString }} />
           <Text className={nameStyles}>{player.name}</Text>
         </View>
 

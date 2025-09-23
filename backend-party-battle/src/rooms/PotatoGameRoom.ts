@@ -4,6 +4,7 @@ import {
   PotatoDirection,
   PotatoGameSchema,
 } from 'types-party-battle/types/potato/PotatoGameSchema'
+import { RGBColor } from 'types-party-battle/types/RGBColorSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { getPlayerAcrossOf } from '../games/potato/getPlayerAcrossOf'
@@ -37,7 +38,7 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
     return PotatoGameRoom.gameType
   }
 
-  override onCreate(options: { lobbyRoomId: string; players: { name: string; color: string }[] }) {
+  override onCreate(options: { lobbyRoomId: string; players: { name: string; color: RGBColor }[] }) {
     this.state = new PotatoGameSchema('waiting')
 
     super.onCreate(options)

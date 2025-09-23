@@ -1,5 +1,6 @@
 import { View } from 'react-native'
 import { Player, PlayerSchema } from 'types-party-battle/types/PlayerSchema'
+import { toRgbColor } from 'types-party-battle/types/RGBColorSchema'
 import { toCell } from 'types-party-battle/types/snake/CellSchema'
 import { Direction } from 'types-party-battle/types/snake/RemainingPlayerSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
@@ -16,7 +17,7 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
     height: state.height,
     players: Array.from<PlayerSchema, Player>(state.players, (player) => ({
       name: player.name,
-      color: player.color,
+      color: toRgbColor(player.color),
     })),
   }))
 
