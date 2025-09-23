@@ -1,3 +1,4 @@
+import { usePlayerName } from '@/src/storage/PlayerNameProvider'
 import { View } from 'react-native'
 import { Player, PlayerSchema } from 'types-party-battle/types/PlayerSchema'
 import { toRgbColor } from 'types-party-battle/types/RGBColorSchema'
@@ -20,28 +21,32 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
       color: toRgbColor(player.color),
     })),
   }))
+  const { trimmedPlayerName } = usePlayerName()
+  const currentPlayer = players.find((player) => player.name === trimmedPlayerName)
 
   return (
     <BasicGameView>
       <View className="flex-1 justify-start items-center">
         <Board board={board} width={width} height={height} players={players} />
 
-        <ArrowButtons
-          style={{ width: 400, height: 400, opacity: 0.3 }}
-          color={{ r: 0, g: 255, b: 0, a: 255 }}
-          onUp={() => {
-            gameRoom.send<Direction>('ChangeDirection', 'up')
-          }}
-          onRight={() => {
-            gameRoom.send<Direction>('ChangeDirection', 'right')
-          }}
-          onDown={() => {
-            gameRoom.send<Direction>('ChangeDirection', 'down')
-          }}
-          onLeft={() => {
-            gameRoom.send<Direction>('ChangeDirection', 'left')
-          }}
-        />
+        {currentPlayer && (
+          <ArrowButtons
+            style={{ width: 400, height: 400, opacity: 0.3 }}
+            color={{ r: currentPlayer.color.r, g: currentPlayer.color.g, b: currentPlayer.color.b, a: 255 }}
+            onUp={() => {
+              gameRoom.send<Direction>('ChangeDirection', 'up')
+            }}
+            onRight={() => {
+              gameRoom.send<Direction>('ChangeDirection', 'right')
+            }}
+            onDown={() => {
+              gameRoom.send<Direction>('ChangeDirection', 'down')
+            }}
+            onLeft={() => {
+              gameRoom.send<Direction>('ChangeDirection', 'left')
+            }}
+          />
+        )}
       </View>
     </BasicGameView>
   )
