@@ -24,7 +24,7 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
       <View className="flex-1 justify-start items-center">
         <Board board={board} width={width} height={height} players={players} />
 
-        <ArrowButtons />
+        <ArrowButtons style={{ width: 400, height: 400 }} />
       </View>
     </BasicGameView>
   )
