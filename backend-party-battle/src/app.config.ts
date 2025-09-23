@@ -55,6 +55,6 @@ export default config({
     /**
      * Before before gameServer.listen() is called.
      */
-    Encoder.BUFFER_SIZE = 16 * 1024 // 16 KB
+    Encoder.BUFFER_SIZE = 64 * 1024 // 64 KB
   },
 })
