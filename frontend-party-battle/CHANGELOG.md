@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.13.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.12.0...frontend-party-battle-v2.13.0) (2025-09-23)
+
+
+### Features
+
+* add RiveAnimation ([8c8f516](https://github.com/thirty-degrees/party-battle/commit/8c8f516446bb45536faccc062025abc48da2446b))
+* added floatingKeyBoardInputPreview on index page ([adc566c](https://github.com/thirty-degrees/party-battle/commit/adc566cb8d2d3d38158dd6fb68782f76f8f2c972))
+* added rank-change indicator ([4ac94d4](https://github.com/thirty-degrees/party-battle/commit/4ac94d47784fc5478927b753efdfdc650022b985))
+* gamepad buttons for web ([67f079b](https://github.com/thirty-degrees/party-battle/commit/67f079b11ac678d03a9a7af8d9bec8c29628f5e4))
+* rive data binding ([ffde59a](https://github.com/thirty-degrees/party-battle/commit/ffde59a4c5b23b8ca8ebff8c2e2fcec7c848f5dd))
+* snake arrow buttons trigger direction changes ([dd9e49b](https://github.com/thirty-degrees/party-battle/commit/dd9e49b9cbc3cea1527a1472b4cad2d814cbb448))
+
+
+### Bug Fixes
+
+* added outline-with-bg as new input variant ([01fb0c9](https://github.com/thirty-degrees/party-battle/commit/01fb0c9ead24a0180fd398f197b587ea65109ead))
+* fixed height bug on android keyboard ([7ea1eb8](https://github.com/thirty-degrees/party-battle/commit/7ea1eb8bfd85a4204cb481c86a1623f2d960af8c))
+* fixed join button in index ([7383bd9](https://github.com/thirty-degrees/party-battle/commit/7383bd970f264d294fa0e8c141c984a3e732f74a))
+* index alignment ([c64ca25](https://github.com/thirty-degrees/party-battle/commit/c64ca25c6e264fa5b6f658afffca9cbfa24d584e))
+* lint issues ([3dcef8a](https://github.com/thirty-degrees/party-battle/commit/3dcef8a2d47f0edc5e68f5f0b7336083ae6042b6))
+* opacity of arrow buttons ([0a4a655](https://github.com/thirty-degrees/party-battle/commit/0a4a655f9f8a4ce6831f0d416563bb0f32c6b4e9))
+* react context provider issues ([6d04487](https://github.com/thirty-degrees/party-battle/commit/6d0448763bf2010acf8f82559b7e74c49055245c))
+* remove autoCapitalize ([7ed008b](https://github.com/thirty-degrees/party-battle/commit/7ed008b0f8923f2247695d0c833f36b6619c6ce8))
+* storage sync ([f63a84d](https://github.com/thirty-degrees/party-battle/commit/f63a84d0c90239d7bd7508e7592b65bb65561cf8))
+* wait 3 secs. before coming back to lobby after last one dies ([e463e46](https://github.com/thirty-degrees/party-battle/commit/e463e46970bdbf5b9498bad4fbe024e274d94a18))
+
 ## [2.12.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.11.2...frontend-party-battle-v2.12.0) (2025-09-21)
 
 

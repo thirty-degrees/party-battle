@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.13.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.12.0...backend-party-battle-v2.13.0) (2025-09-23)
+
+
+### Features
+
+* snake arrow buttons trigger direction changes ([dd9e49b](https://github.com/thirty-degrees/party-battle/commit/dd9e49b9cbc3cea1527a1472b4cad2d814cbb448))
+
+
+### Bug Fixes
+
+* increase buffer size ([e4c0180](https://github.com/thirty-degrees/party-battle/commit/e4c0180010ee3708f6fe94eee821f0623e8be004))
+* lint issues ([3dcef8a](https://github.com/thirty-degrees/party-battle/commit/3dcef8a2d47f0edc5e68f5f0b7336083ae6042b6))
+* wait 3 secs. before coming back to lobby after last one dies ([e463e46](https://github.com/thirty-degrees/party-battle/commit/e463e46970bdbf5b9498bad4fbe024e274d94a18))
+
 ## [2.12.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.11.2...backend-party-battle-v2.12.0) (2025-09-21)
 
 
