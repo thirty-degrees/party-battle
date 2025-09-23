@@ -24,7 +24,22 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
       <View className="flex-1 justify-start items-center">
         <Board board={board} width={width} height={height} players={players} />
 
-        <ArrowButtons style={{ width: 400, height: 400 }} />
+        <ArrowButtons
+          style={{ width: 400, height: 400 }}
+          color={{ r: 0, g: 255, b: 0, a: 100 }}
+          onUp={() => {
+            console.log('up')
+          }}
+          onRight={() => {
+            console.log('right')
+          }}
+          onDown={() => {
+            console.log('down')
+          }}
+          onLeft={() => {
+            console.log('left')
+          }}
+        />
       </View>
     </BasicGameView>
   )
