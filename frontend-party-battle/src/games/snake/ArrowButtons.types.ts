@@ -1,7 +1,7 @@
 import { JSX } from 'react'
 
 type ArrowButtonProps = {
-  style?: { width?: number; height?: number }
+  style?: { width?: number; height?: number; opacity?: number }
   color: { r: number; g: number; b: number; a: number }
   onUp: () => void
   onRight: () => void

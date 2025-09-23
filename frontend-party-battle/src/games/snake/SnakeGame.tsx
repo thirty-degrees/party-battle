@@ -25,8 +25,8 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
         <Board board={board} width={width} height={height} players={players} />
 
         <ArrowButtons
-          style={{ width: 400, height: 400 }}
-          color={{ r: 0, g: 255, b: 0, a: 100 }}
+          style={{ width: 400, height: 400, opacity: 0.3 }}
+          color={{ r: 0, g: 255, b: 0, a: 255 }}
           onUp={() => {
             console.log('up')
           }}
