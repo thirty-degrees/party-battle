@@ -1,4 +1,4 @@
-import { Client, Delayed } from '@colyseus/core'
+import { Delayed } from '@colyseus/core'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import { PickCardsGameSchema } from 'types-party-battle/types/pick-cards/PickCardsGameSchema'
 import { RGBColor } from 'types-party-battle/types/RGBColorSchema'
@@ -44,17 +44,11 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
         }
       }
     })
+
+    this.startGameWhenReady()
   }
 
-  override onJoin(client: Client, options: { name: string }) {
-    super.onJoin(client, options)
-
-    if (this.state.players.length === this.playerConnections.size) {
-      this.startGame()
-    }
-  }
-
-  private startGame() {
+  protected startGame() {
     this.state.status = 'playing'
     this.currentPlayerIndex = 0
     this.setCurrentPlayer()

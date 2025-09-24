@@ -1,4 +1,4 @@
-import { Client, Room } from '@colyseus/core'
+import { Client, Delayed, Room } from '@colyseus/core'
 import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle/consts/config'
 import { GameHistory } from 'types-party-battle/types/GameHistorySchema'
 import { GameSchema, GameType } from 'types-party-battle/types/GameSchema'
@@ -12,6 +12,8 @@ type PlayerSessionId = string
 export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
   protected playerConnections = new Map<PlayerName, PlayerSessionId | null>()
   private lobbyRoomId: string
+  private gameStartTimeout: Delayed | null = null
+  private minimumWaitTimeout: Delayed | null = null
 
   onCreate(options: { lobbyRoomId: string; players: { name: string; color: RGBColor }[] }) {
     console.log(
@@ -40,6 +42,25 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
     this.state.status = 'finished'
   }
 
+  protected startGameWhenReady() {
+    this.clearGameStartTimeouts()
+
+    this.minimumWaitTimeout = this.clock.setTimeout(() => {
+      this.minimumWaitTimeout = null
+      if (this.allPlayersConnected()) {
+        this.clearGameStartTimeouts()
+        this.startGame()
+      }
+    }, 2000)
+
+    this.gameStartTimeout = this.clock.setTimeout(() => {
+      this.clearGameStartTimeouts()
+      this.startGame()
+    }, 7000)
+  }
+
+  protected abstract startGame(): void
+
   abstract getScores(): Score[]
 
   abstract getGameType(): GameType
@@ -47,9 +68,13 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
   onJoin(client: Client, options: { name: string }) {
     console.log(`${this.constructor.name}.onJoin: roomId: '${this.roomId}', playerName: '${options.name}'`)
 
-    // TODO: add abstract startGame() method that gets called when all players are connected or 2 seconds after the last player joins
     if (this.playerConnections.has(options.name)) {
       this.playerConnections.set(options.name, client.sessionId)
+
+      if (this.allPlayersConnected() && this.minimumWaitTimeout === null) {
+        this.clearGameStartTimeouts()
+        this.startGame()
+      }
     } else {
       console.log(`${this.constructor.name}.onJoin: playerName: '${options.name}' is not part of the game`)
     }
@@ -67,6 +92,7 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
 
   onDispose() {
     console.log(`${this.constructor.name}.onDispose: roomId: '${this.roomId}'`)
+    this.clearGameStartTimeouts()
   }
 
   protected findPlayerBySessionId(sessionId: string): string | undefined {
@@ -76,5 +102,20 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
       }
     }
     return undefined
+  }
+
+  private clearGameStartTimeouts() {
+    if (this.minimumWaitTimeout) {
+      this.minimumWaitTimeout.clear()
+      this.minimumWaitTimeout = null
+    }
+    if (this.gameStartTimeout) {
+      this.gameStartTimeout.clear()
+      this.gameStartTimeout = null
+    }
+  }
+
+  private allPlayersConnected(): boolean {
+    return Array.from(this.playerConnections.values()).every((sessionId) => sessionId !== null)
   }
 }

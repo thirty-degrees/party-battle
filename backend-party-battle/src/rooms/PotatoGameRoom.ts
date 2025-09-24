@@ -49,10 +49,6 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
 
     this.state.message = '...'
 
-    this.clock.setTimeout(() => {
-      this.startRound()
-    }, 1000)
-
     this.onMessage<PotatoDirection>(
       'PassPotato',
       (client, message) => {
@@ -85,6 +81,12 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
         return payload
       }
     )
+
+    this.startGameWhenReady()
+  }
+
+  protected startGame() {
+    this.startRound()
   }
 
   private isPlayerInGame(playerName: string | undefined): boolean {

@@ -90,6 +90,10 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
       this.lastMovementDirections.set(playerName, directions[playerName])
     })
 
+    this.startGameWhenReady()
+  }
+
+  protected startGame() {
     this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1000 / STEPS_PER_SECOND)
 
     this.state.status = 'playing'
