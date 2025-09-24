@@ -44,7 +44,7 @@ export const RiveAnimation = forwardRef<RiveRef, WrapperProps>(({ source, style,
         onError={(err) => {
           console.error(`${err.type}: ${err.message}`)
         }}
-        fit={Fit.None}
+        fit={Platform.OS === 'android' ? Fit.None : Fit.Cover}
       />
     </View>
   )

@@ -16,6 +16,7 @@ export interface MovementIntention {
   name: string
   head: Position
   tail: number
+  direction: Direction
 }
 
 export function getMovementIntentions(
@@ -35,7 +36,7 @@ export function getMovementIntentions(
     const nx = x + dx
     const ny = y + dy
 
-    intentions.push({ name: player.name, head: { x: nx, y: ny }, tail: body[0] })
+    intentions.push({ name: player.name, head: { x: nx, y: ny }, tail: body[0], direction: player.direction })
   }
 
   return intentions

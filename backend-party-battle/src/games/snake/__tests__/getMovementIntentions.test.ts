@@ -10,7 +10,9 @@ describe('getMovementIntentions', () => {
     const intentions = getMovementIntentions(remainingPlayers, bodies, width)
 
     it('should create correct intentions', () => {
-      expect(intentions).toEqual<MovementIntention[]>([{ name: '1', head: { x: 2, y: 1 }, tail: 3 }])
+      expect(intentions).toEqual<MovementIntention[]>([
+        { name: '1', head: { x: 2, y: 1 }, tail: 3, direction: 'right' },
+      ])
     })
   })
 
@@ -22,7 +24,9 @@ describe('getMovementIntentions', () => {
     const intentions = getMovementIntentions(remainingPlayers, bodies, width)
 
     it('should create correct intentions', () => {
-      expect(intentions).toEqual<MovementIntention[]>([{ name: '1', head: { x: 1, y: 1 }, tail: 2 }])
+      expect(intentions).toEqual<MovementIntention[]>([
+        { name: '1', head: { x: 1, y: 1 }, tail: 2, direction: 'right' },
+      ])
     })
   })
 
@@ -41,8 +45,8 @@ describe('getMovementIntentions', () => {
 
     it('should create correct intentions', () => {
       expect(intentions).toEqual<MovementIntention[]>([
-        { name: '1', head: { x: 1, y: 0 }, tail: 0 },
-        { name: '2', head: { x: 2, y: 1 }, tail: 2 },
+        { name: '1', head: { x: 1, y: 0 }, tail: 0, direction: 'right' },
+        { name: '2', head: { x: 2, y: 1 }, tail: 2, direction: 'down' },
       ])
     })
   })

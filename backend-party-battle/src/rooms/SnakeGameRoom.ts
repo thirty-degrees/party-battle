@@ -14,6 +14,7 @@ import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
 import { getDeaths } from '../games/snake/getDeaths'
 import { getMovementIntentions, MovementIntention } from '../games/snake/getMovementIntentions'
+import { isOppositeDirection } from '../games/snake/isOppositeDirection'
 import { assignScoresByOrder } from '../scores/assignScoresByOrder'
 
 const STEPS_PER_SECOND = 3
@@ -28,6 +29,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
   private eliminatedPlayers: string[][] = []
   private bodies: Map<string, number[]> = new Map()
+  private lastMovementDirections: Map<string, Direction> = new Map()
 
   override getGameType(): GameType {
     return SnakeGameRoom.gameType
@@ -61,6 +63,11 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
           return
         }
 
+        const lastMovementDirection = this.lastMovementDirections.get(playerName)
+        if (lastMovementDirection && isOppositeDirection(lastMovementDirection, direction)) {
+          return
+        }
+
         for (let i = 0; i < this.state.remainingPlayers.length; i++) {
           if (this.state.remainingPlayers[i].name === playerName) {
             this.state.remainingPlayers[i].direction = direction
@@ -79,6 +86,8 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     playerNames.forEach((playerName) => {
       const remainingPlayerSchema = new RemainingPlayerSchema(playerName, directions[playerName])
       this.state.remainingPlayers.push(remainingPlayerSchema)
+
+      this.lastMovementDirections.set(playerName, directions[playerName])
     })
 
     this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1000 / STEPS_PER_SECOND)
@@ -111,6 +120,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
       const headCell = this.state.board[headIndex]
       headCell.kind = CellKind.Snake
       headCell.player = intention.name
+      this.lastMovementDirections.set(intention.name, intention.direction)
     }
   }
 
@@ -135,6 +145,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
             break
           }
         }
+        this.lastMovementDirections.delete(name)
         eliminatedThisTurn.push(name)
       }
 
