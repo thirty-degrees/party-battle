@@ -47,8 +47,6 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
       this.state.remainingPlayers.push(player.name)
     })
 
-    this.state.message = '...'
-
     this.onMessage<PotatoDirection>(
       'PassPotato',
       (client, message) => {
@@ -124,7 +122,7 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
 
   private endRound() {
     this.state.message = 'BOOM!'
-    this.state.status = 'waiting'
+    this.state.status = 'paused'
 
     this.clock.setTimeout(() => {
       const eliminatedPlayerIndex = this.state.remainingPlayers.indexOf(this.state.playerWithPotato)

@@ -3,7 +3,7 @@ import { PlayerSchema } from "./PlayerSchema";
 
 export type GameType = "pick-cards" | "snake" | "potato";
 
-export type GameStatus = "waiting" | "playing" | "finished";
+export type GameStatus = "waiting" | "playing" | "paused" | "finished";
 
 export abstract class GameSchema extends Schema {
   @type([PlayerSchema]) players = new ArraySchema<PlayerSchema>();
