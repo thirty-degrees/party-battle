@@ -1,7 +1,7 @@
 import type React from 'react'
 import { forwardRef } from 'react'
-import { Image, Platform } from 'react-native'
-import Rive, { type RiveRef } from 'rive-react-native'
+import { Image, Platform, View } from 'react-native'
+import Rive, { Fit, type RiveRef } from 'rive-react-native'
 
 export type RiveSourceResult = { url: string; resourceName?: never } | { resourceName: string; url?: never }
 
@@ -32,18 +32,21 @@ type WrapperProps = Omit<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 > & { source: any }
 
-export const RiveAnimation = forwardRef<RiveRef, WrapperProps>(({ source, ...rest }, ref) => {
+export const RiveAnimation = forwardRef<RiveRef, WrapperProps>(({ source, style, ...rest }, ref) => {
   const riveSource = getRiveSource(source)
 
   return (
-    <Rive
-      ref={ref}
-      {...rest}
-      {...riveSource}
-      onError={(err) => {
-        console.error(`${err.type}: ${err.message}`)
-      }}
-    />
+    <View style={style}>
+      <Rive
+        ref={ref}
+        {...rest}
+        {...riveSource}
+        onError={(err) => {
+          console.error(`${err.type}: ${err.message}`)
+        }}
+        fit={Fit.None}
+      />
+    </View>
   )
 })
 

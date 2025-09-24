@@ -30,22 +30,29 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
         <Board board={board} width={width} height={height} players={players} />
 
         {currentPlayer && (
-          <ArrowButtons
-            style={{ width: 400, height: 400, opacity: 0.3 }}
-            color={{ r: currentPlayer.color.r, g: currentPlayer.color.g, b: currentPlayer.color.b, a: 255 }}
-            onUp={() => {
-              gameRoom.send<Direction>('ChangeDirection', 'up')
-            }}
-            onRight={() => {
-              gameRoom.send<Direction>('ChangeDirection', 'right')
-            }}
-            onDown={() => {
-              gameRoom.send<Direction>('ChangeDirection', 'down')
-            }}
-            onLeft={() => {
-              gameRoom.send<Direction>('ChangeDirection', 'left')
-            }}
-          />
+          <View className="absolute top-0 left-0 w-full h-full items-center justify-end pb-10">
+            <ArrowButtons
+              style={{ width: 250, height: 250, opacity: 0.5 }}
+              color={{
+                r: currentPlayer.color.r,
+                g: currentPlayer.color.g,
+                b: currentPlayer.color.b,
+                a: 255,
+              }}
+              onUp={() => {
+                gameRoom.send<Direction>('ChangeDirection', 'up')
+              }}
+              onRight={() => {
+                gameRoom.send<Direction>('ChangeDirection', 'right')
+              }}
+              onDown={() => {
+                gameRoom.send<Direction>('ChangeDirection', 'down')
+              }}
+              onLeft={() => {
+                gameRoom.send<Direction>('ChangeDirection', 'left')
+              }}
+            />
+          </View>
         )}
       </View>
     </BasicGameView>
