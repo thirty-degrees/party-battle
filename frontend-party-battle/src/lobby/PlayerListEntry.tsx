@@ -36,7 +36,7 @@ export default function PlayerListEntry({
     if (localTrendTimerRef.current) clearTimeout(localTrendTimerRef.current)
     if (rankTrend === 'risen' || rankTrend === 'fallen') {
       setLocalTrendWindowActive(true)
-      localTrendTimerRef.current = setTimeout(() => setLocalTrendWindowActive(false), 2000)
+      localTrendTimerRef.current = setTimeout(() => setLocalTrendWindowActive(false), 3000)
     } else {
       setLocalTrendWindowActive(false)
     }
