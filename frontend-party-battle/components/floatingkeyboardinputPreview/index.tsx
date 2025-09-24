@@ -1,6 +1,6 @@
 import { Input, InputField } from '@/components/ui/input'
 import { useEffect, useState } from 'react'
-import { Dimensions, Keyboard, View } from 'react-native'
+import { Dimensions, Keyboard, ReturnKeyTypeOptions, View } from 'react-native'
 
 export type FloatingKeyboardInputPreviewSourceBinding = {
   value: string
@@ -15,6 +15,7 @@ export type FloatingKeyboardInputPreviewProps = {
   width?: number
   autoFocus?: boolean
   isDisabled?: boolean
+  returnKeyType?: ReturnKeyTypeOptions
 }
 
 export default function FloatingKeyboardInputPreview({
@@ -24,6 +25,7 @@ export default function FloatingKeyboardInputPreview({
   width = 200,
   autoFocus = true,
   isDisabled = false,
+  returnKeyType,
 }: FloatingKeyboardInputPreviewProps) {
   const [keyboardHeight, setKeyboardHeight] = useState(0)
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
@@ -71,7 +73,7 @@ export default function FloatingKeyboardInputPreview({
   return (
     <View
       className="px-2 py-2 items-center justify-center"
-      style={{ position: 'absolute', left: 0, right: 0, bottom: keyboardHeight + 8 }}
+      style={{ position: 'absolute', left: 0, right: 0, bottom: keyboardHeight }}
       pointerEvents="box-none"
     >
       <Input variant="outline-with-bg" size={size} isDisabled={isDisabled} style={{ width }}>
@@ -82,6 +84,7 @@ export default function FloatingKeyboardInputPreview({
           autoFocus={autoFocus}
           onBlur={() => Keyboard.dismiss()}
           style={{ width, textAlign: 'center' }}
+          returnKeyType={returnKeyType}
         />
       </Input>
     </View>
