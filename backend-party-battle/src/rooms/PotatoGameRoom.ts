@@ -100,8 +100,7 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
   private startRound() {
     const countdownSeconds = this.getRandomCountdownSeconds()
     this.state.message = countdownSeconds.toString()
-    const randomIndex = Math.floor(Math.random() * this.state.remainingPlayers.length)
-    this.state.playerWithPotato = this.state.remainingPlayers[randomIndex]
+    this.state.playerWithPotato = this.getRandomRemainingPlayer()
     this.state.status = 'playing'
 
     this.clock.setTimeout(() => {
@@ -125,11 +124,11 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
     this.state.message = 'BOOM!'
     this.state.status = 'waiting'
 
-    const eliminatedPlayerIndex = this.state.remainingPlayers.indexOf(this.state.playerWithPotato)
-    const eliminatedPlayer = this.state.remainingPlayers.splice(eliminatedPlayerIndex, 1)[0]
-    this.eliminatedPlayers.push(eliminatedPlayer)
-
     this.clock.setTimeout(() => {
+      const eliminatedPlayerIndex = this.state.remainingPlayers.indexOf(this.state.playerWithPotato)
+      const eliminatedPlayer = this.state.remainingPlayers.splice(eliminatedPlayerIndex, 1)[0]
+      this.eliminatedPlayers.push(eliminatedPlayer)
+
       if (this.state.remainingPlayers.length > 1) {
         this.startRound()
       } else {
@@ -143,6 +142,11 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
       Math.floor(Math.random() * (POTATO_COUNTDOWN_MAX_SECONDS - POTATO_COUNTDOWN_MIN_SECONDS + 1)) +
       POTATO_COUNTDOWN_MIN_SECONDS
     )
+  }
+
+  private getRandomRemainingPlayer(): string {
+    const randomIndex = Math.floor(Math.random() * this.state.remainingPlayers.length)
+    return this.state.remainingPlayers[randomIndex]
   }
 
   override getScores(): Score[] {
