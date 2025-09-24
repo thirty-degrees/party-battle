@@ -51,7 +51,7 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
         this.clearGameStartTimeouts()
         this.startGame()
       }
-    }, 2000)
+    }, 1000)
 
     this.gameStartTimeout = this.clock.setTimeout(() => {
       this.clearGameStartTimeouts()
