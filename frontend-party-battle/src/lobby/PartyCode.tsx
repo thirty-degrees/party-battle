@@ -24,7 +24,7 @@ export default function PartyCode({ partyCode }: PartyCodeProps) {
           <ButtonIcon as={isVisible ? EyeOffIcon : EyeIcon} />
         </Button>
       </View>
-      <BlurredText text={partyCode} isBlurred={!isVisible} />
+      <BlurredText text={partyCode} isBlurred={!isVisible} onPress={handleToggleVisibility} />
     </View>
   )
 }
