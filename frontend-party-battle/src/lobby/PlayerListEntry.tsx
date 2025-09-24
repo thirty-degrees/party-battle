@@ -100,14 +100,16 @@ export default function PlayerListEntry({
         </View>
 
         <View className="flex-row gap-4">
-          <View className="w-6 items-center">
-            <Text className={`${textStyles} text-center`} numberOfLines={1}>
+          <View className="w-8 items-end">
+            <Text className={`${textStyles} text-end`} numberOfLines={1}>
               {lastRoundScore === 0 ? '' : `${lastRoundScore >= 0 ? '+' : ''}${lastRoundScore}`}
             </Text>
           </View>
 
-          <View className="w-4 items-center">
-            <Text className={`${textStyles} text-center`}>{totalScore}</Text>
+          <View className="w-8 items-end">
+            <Text className={`${textStyles} text-end`} numberOfLines={1}>
+              {totalScore}
+            </Text>
           </View>
         </View>
       </View>
