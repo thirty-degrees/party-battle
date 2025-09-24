@@ -1,3 +1,4 @@
+import FloatingKeyboardInputPreview from '@/components/floatingkeyboardinputPreview'
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { PartyPopperIcon } from '@/components/ui/icon'
 import { Input, InputField } from '@/components/ui/input'
@@ -5,35 +6,38 @@ import { Text } from '@/components/ui/text'
 import useToastHelper from '@/components/ui/useToastHelper'
 import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import { usePlayerName } from '@/src/storage/PlayerNameProvider'
-import { router } from 'expo-router'
-import { useEffect } from 'react'
+import { OverlayContainer } from '@gluestack-ui/core/overlay/aria'
+import { router, useLocalSearchParams } from 'expo-router'
+import { useEffect, useState } from 'react'
 import { Keyboard, View } from 'react-native'
 
 interface JoinSectionProps {
-  gameRoomId: string
-  setGameRoomId: (id: string) => void
   setValidationError: (error: string | undefined) => void
-  onShowFloatingKeyboardInput: (isVisible: boolean) => void
 }
 
-export function JoinSection({
-  gameRoomId,
-  setGameRoomId,
-  setValidationError,
-  onShowFloatingKeyboardInput,
-}: JoinSectionProps) {
+export function JoinSection({ setValidationError }: JoinSectionProps) {
+  const [gameRoomId, setGameRoomId] = useState('')
+  const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
   const { createLobbyRoom, joinLobbyRoom, isLoading } = useLobbyRoomContext()
   const { trimmedPlayerName } = usePlayerName()
   const { showError } = useToastHelper()
 
   useEffect(() => {
+    if (partyCode) {
+      setGameRoomId(partyCode)
+    }
+  }, [partyCode])
+
+  const [isFloatingKeyboardInputVisible, setIsFloatingKeyboardInputVisible] = useState(false)
+
+  useEffect(() => {
     const hide = Keyboard.addListener('keyboardDidHide', () => {
-      onShowFloatingKeyboardInput(false)
+      setIsFloatingKeyboardInputVisible(false)
     })
     return () => {
       hide.remove()
     }
-  }, [onShowFloatingKeyboardInput])
+  }, [setIsFloatingKeyboardInputVisible])
 
   const handleCreateRoom = async () => {
     await createLobbyRoom()
@@ -76,7 +80,7 @@ export function JoinSection({
             if (!trimmedPlayerName || !gameRoomId.trim() || isLoading) return
             handleJoinRoom(gameRoomId.trim())
           }}
-          onFocus={() => onShowFloatingKeyboardInput(true)}
+          onFocus={() => setIsFloatingKeyboardInputVisible(true)}
           style={{ width: 200, textAlign: 'center' }}
         />
       </Input>
@@ -102,6 +106,20 @@ export function JoinSection({
           <ButtonIcon className="text-typography-0 dark:text-typography-0" as={PartyPopperIcon} />
         </Button>
       </View>
+
+      <OverlayContainer>
+        <FloatingKeyboardInputPreview
+          value={gameRoomId}
+          onChangeText={setGameRoomId}
+          placeholder="Enter Party Code"
+          isVisible={isFloatingKeyboardInputVisible}
+          size="xl"
+          width={200}
+          autoFocus
+          isDisabled={isLoading}
+          returnKeyType="join"
+        />
+      </OverlayContainer>
     </View>
   )
 }
