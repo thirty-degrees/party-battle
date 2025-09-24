@@ -8,10 +8,12 @@ import { useFonts } from 'expo-font'
 import { ErrorBoundary as DefaultErrorBoundary, ErrorBoundaryProps, Stack } from 'expo-router'
 import Head from 'expo-router/head'
 import { StatusBar } from 'expo-status-bar'
+import { useColorScheme } from 'react-native'
 import 'react-native-reanimated'
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context'
 
 export default function RootLayout() {
+  const colorScheme = useColorScheme()
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   })
@@ -32,7 +34,15 @@ export default function RootLayout() {
               <Head>
                 <title>Party Battle</title>
               </Head>
-              <Stack screenOptions={{ headerShown: false }}>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  animation: 'none',
+                  contentStyle: {
+                    backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)',
+                  },
+                }}
+              >
                 <Stack.Screen name="index" />
                 <Stack.Screen name="lobby" />
                 <Stack.Screen name="games/pick-cards" />
