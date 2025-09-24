@@ -61,11 +61,6 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
     this.playerConnections?.forEach((sessionId, playerName) => {
       if (sessionId === client.sessionId) {
         this.playerConnections.set(playerName, null)
-
-        const playerIndex = this.state.players.findIndex((player) => player.name === playerName)
-        if (playerIndex !== -1) {
-          this.state.players.splice(playerIndex, 1)
-        }
       }
     })
   }
