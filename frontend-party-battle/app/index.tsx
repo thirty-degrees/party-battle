@@ -16,7 +16,7 @@ export default function HomeScreen() {
 
   const { isLoading } = useLobbyRoomContext()
   const [validationError, setValidationError] = useState<string | undefined>(undefined)
-  const [activeFloatingSource, setActiveFloatingSource] = useState<'partyCode' | null>(null)
+  const [isFloatingKeyboardInputVisible, setIsFloatingKeyboardInputVisible] = useState(false)
 
   useEffect(() => {
     if (partyCode) {
@@ -36,7 +36,7 @@ export default function HomeScreen() {
                 gameRoomId={gameRoomId}
                 setGameRoomId={setGameRoomId}
                 setValidationError={setValidationError}
-                onActiveSourceChange={setActiveFloatingSource}
+                onShowFloatingKeyboardInput={setIsFloatingKeyboardInputVisible}
               />
             </View>
             <View className="h-10 mt-[15%]">
@@ -45,14 +45,10 @@ export default function HomeScreen() {
           </View>
 
           <FloatingKeyboardInputPreview
-            activeSource={activeFloatingSource}
-            sources={{
-              partyCode: {
-                value: gameRoomId,
-                onChangeText: setGameRoomId,
-                placeholder: 'Enter Party Code',
-              },
-            }}
+            value={gameRoomId}
+            onChangeText={setGameRoomId}
+            placeholder="Enter Party Code"
+            isVisible={isFloatingKeyboardInputVisible}
             size="xl"
             width={200}
             autoFocus

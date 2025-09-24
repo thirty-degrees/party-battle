@@ -2,15 +2,11 @@ import { Input, InputField } from '@/components/ui/input'
 import { useEffect, useState } from 'react'
 import { Dimensions, Keyboard, ReturnKeyTypeOptions, View } from 'react-native'
 
-export type FloatingKeyboardInputPreviewSourceBinding = {
+export type FloatingKeyboardInputPreviewProps = {
   value: string
   onChangeText: (text: string) => void
   placeholder?: string
-}
-
-export type FloatingKeyboardInputPreviewProps = {
-  activeSource: string | null
-  sources: Record<string, FloatingKeyboardInputPreviewSourceBinding>
+  isVisible: boolean
   size?: 'sm' | 'md' | 'lg' | 'xl'
   width?: number
   autoFocus?: boolean
@@ -19,8 +15,10 @@ export type FloatingKeyboardInputPreviewProps = {
 }
 
 export default function FloatingKeyboardInputPreview({
-  activeSource,
-  sources,
+  value,
+  onChangeText,
+  placeholder,
+  isVisible,
   size = 'xl',
   width = 200,
   autoFocus = true,
@@ -63,12 +61,7 @@ export default function FloatingKeyboardInputPreview({
     }
   }, [])
 
-  if (!isKeyboardVisible || !activeSource) return null
-
-  const current = sources[activeSource]
-  if (!current) return null
-
-  const placeholder = current.placeholder ?? 'Type here...'
+  if (!isKeyboardVisible || !isVisible) return null
 
   return (
     <View
@@ -78,8 +71,8 @@ export default function FloatingKeyboardInputPreview({
     >
       <Input variant="outline-with-bg" size={size} isDisabled={isDisabled} style={{ width }}>
         <InputField
-          value={current.value}
-          onChangeText={current.onChangeText}
+          value={value}
+          onChangeText={onChangeText}
           placeholder={placeholder}
           autoFocus={autoFocus}
           onBlur={() => Keyboard.dismiss()}

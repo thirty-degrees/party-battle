@@ -13,14 +13,14 @@ interface JoinSectionProps {
   gameRoomId: string
   setGameRoomId: (id: string) => void
   setValidationError: (error: string | undefined) => void
-  onActiveSourceChange: (source: 'partyCode' | null) => void
+  onShowFloatingKeyboardInput: (isVisible: boolean) => void
 }
 
 export function JoinSection({
   gameRoomId,
   setGameRoomId,
   setValidationError,
-  onActiveSourceChange,
+  onShowFloatingKeyboardInput,
 }: JoinSectionProps) {
   const { createLobbyRoom, joinLobbyRoom, isLoading } = useLobbyRoomContext()
   const { trimmedPlayerName } = usePlayerName()
@@ -28,12 +28,12 @@ export function JoinSection({
 
   useEffect(() => {
     const hide = Keyboard.addListener('keyboardDidHide', () => {
-      onActiveSourceChange(null)
+      onShowFloatingKeyboardInput(false)
     })
     return () => {
       hide.remove()
     }
-  }, [onActiveSourceChange])
+  }, [onShowFloatingKeyboardInput])
 
   const handleCreateRoom = async () => {
     await createLobbyRoom()
@@ -76,7 +76,7 @@ export function JoinSection({
             if (!trimmedPlayerName || !gameRoomId.trim() || isLoading) return
             handleJoinRoom(gameRoomId.trim())
           }}
-          onFocus={() => onActiveSourceChange('partyCode')}
+          onFocus={() => onShowFloatingKeyboardInput(true)}
           style={{ width: 200, textAlign: 'center' }}
         />
       </Input>
