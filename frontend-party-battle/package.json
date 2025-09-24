@@ -18,7 +18,8 @@
     "docker:build": "docker build -f ../frontend-party-battle/dockerfile -t frontend-party-battle ..",
     "build": "npm run -w types-party-battle build",
     "prebuild": "npm run -w types-party-battle build",
-    "build:ios": "eas build --platform ios --profile development --local"
+    "build:ios": "eas build --platform ios --profile development --local",
+    "scan": "npx react-scan http://localhost:8081/"
   },
   "dependencies": {
     "@expo/html-elements": "^0.10.1",
