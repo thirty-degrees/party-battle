@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useContext, useMemo, useState } from
 import { storage } from './storage'
 
 const IS_PARTY_CODE_VISIBLE_KEY = 'isPartyCodeVisible'
-const IS_PARTY_CODE_VISIBLE_DEFAULT = 'false'
+const IS_PARTY_CODE_VISIBLE_DEFAULT = 'true'
 
 type IsPartyCodeVisibleContextType = {
   isVisible: boolean
