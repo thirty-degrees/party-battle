@@ -28,7 +28,7 @@ export default function TopRibbon({
       id: 'topLeft',
       element: (
         <PlayerSlot
-          className="opacity-50"
+          className="opacity-50 w-[100]"
           playerName={playerSlotAssignments.topLeft}
           playerWithPotato={playerWithPotato}
         />
@@ -38,7 +38,7 @@ export default function TopRibbon({
       id: 'topCenterLeft',
       element: (
         <PlayerSlot
-          className="opacity-50"
+          className="opacity-50 w-[100]"
           playerName={playerSlotAssignments.topCenterLeft}
           playerWithPotato={playerWithPotato}
         />
@@ -46,13 +46,19 @@ export default function TopRibbon({
     },
     {
       id: 'top',
-      element: <PlayerSlot playerName={playerSlotAssignments.top} playerWithPotato={playerWithPotato} />,
+      element: (
+        <PlayerSlot
+          className="w-[100]"
+          playerName={playerSlotAssignments.top}
+          playerWithPotato={playerWithPotato}
+        />
+      ),
     },
     {
       id: 'topCenterRight',
       element: (
         <PlayerSlot
-          className="opacity-50"
+          className="opacity-50 w-[100]"
           playerName={playerSlotAssignments.topCenterRight}
           playerWithPotato={playerWithPotato}
         />
@@ -62,7 +68,7 @@ export default function TopRibbon({
       id: 'topRight',
       element: (
         <PlayerSlot
-          className="opacity-50"
+          className="opacity-50 w-[100]"
           playerName={playerSlotAssignments.topRight}
           playerWithPotato={playerWithPotato}
         />
