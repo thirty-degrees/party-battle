@@ -19,6 +19,7 @@
     "build": "npm run -w types-party-battle build",
     "prebuild": "npm run -w types-party-battle build",
     "build:ios": "eas build --platform ios --profile development --local",
+    "kill-port": "lsof -ti:8081 | xargs kill -9",
     "scan": "npx react-scan http://localhost:8081/"
   },
   "dependencies": {
