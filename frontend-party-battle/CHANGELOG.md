@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.14.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.13.0...frontend-party-battle-v2.14.0) (2025-09-25)
+
+
+### Features
+
+* add scan command ([844db43](https://github.com/thirty-degrees/party-battle/commit/844db436bbd10a3c9ecefc7769a5ebb65fffb6c9))
+* align arrow buttons ([9457172](https://github.com/thirty-degrees/party-battle/commit/94571729ee1b1d86787a06cbaf43af9206ec21ed))
+* change font to Lilita One ([eec4708](https://github.com/thirty-degrees/party-battle/commit/eec470803d11fcbe8355e0445a3a02782e556bf6))
+* improve get ready background ([0ed3a91](https://github.com/thirty-degrees/party-battle/commit/0ed3a91e630e96f1b4973d8c34510d0c220c400d))
+* increase trend time duration ([28f8dcc](https://github.com/thirty-degrees/party-battle/commit/28f8dcc84d87aa5356301002f609ef23ce6198ad))
+* make blurred text clickable ([51a4b92](https://github.com/thirty-degrees/party-battle/commit/51a4b92399bee8c16328df49d84a2c19fd350643))
+* make party code visible by default ([5de1e72](https://github.com/thirty-degrees/party-battle/commit/5de1e723a95a63cb55a30157f922fdc52ba8dc9b))
+* prevent reverting snake directions ([ace9ebe](https://github.com/thirty-degrees/party-battle/commit/ace9ebef47d20b6545e1f7c8d16177cfeb9053ce))
+* waiting for other players message ([03d6db3](https://github.com/thirty-degrees/party-battle/commit/03d6db33f930152c9c0211a98a7e98683164ba68))
+
+
+### Bug Fixes
+
+* multi line score numbers ([64efb3b](https://github.com/thirty-degrees/party-battle/commit/64efb3b3117d5c210dbd25f6e867e66917d9e6e8))
+* not react-native-svg type issues ([62333d4](https://github.com/thirty-degrees/party-battle/commit/62333d40c2914b5d40a975981448f90889a225bf))
+* PlayerList +1 not on one line for native ([2503d8b](https://github.com/thirty-degrees/party-battle/commit/2503d8bc505fcc92d0cb273e8be6e4f6c40cb8b9))
+* potato cut off player names ([4b45e6c](https://github.com/thirty-degrees/party-battle/commit/4b45e6c3f5ad7c49452055cc353df6eeed1a26d9))
+* remove expo animation when switching screens ([b606997](https://github.com/thirty-degrees/party-battle/commit/b6069973161442ca6e4df889fd32de23b8a965ed))
+* rive buttons not colored ([e18d3c9](https://github.com/thirty-degrees/party-battle/commit/e18d3c9a5e355d3eb1052db69e5441acd1a32ac2))
+* user select none ci issue ([3df19ab](https://github.com/thirty-degrees/party-battle/commit/3df19ab7e9fb119c4b3a3bccebeef83f7f1b866a))
+
 ## [2.13.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.12.0...frontend-party-battle-v2.13.0) (2025-09-23)
 
 
