@@ -1,8 +1,9 @@
 import AnimatedBorder from '@/components/animated-border/index'
 import LeaderBoardDownRankIndicatorSvgComponent from '@/components/leaderboard/LeaderBoardDownRankIndicatorSvgComponent'
 import LeaderBoardUpRankIndicatorSvgComponent from '@/components/leaderboard/LeaderBoardUpRankIndicatorSvgComponent'
+import { Text } from '@/components/ui/text'
 import { useEffect, useRef, useState } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { LobbyPlayer } from 'types-party-battle/types/LobbyPlayerSchema'
 import { RGBColor, rgbColorToString } from 'types-party-battle/types/RGBColorSchema'
@@ -26,8 +27,8 @@ export default function PlayerListEntry({
   playerColor,
   rankTrend,
 }: PlayerListEntryProps) {
-  const textStyles = 'font-medium text-black dark:text-white'
-  const nameStyles = 'font-medium text-black dark:text-white'
+  const textStyles = 'text-black dark:text-white'
+  const nameStyles = 'text-black dark:text-white'
 
   const [localTrendWindowActive, setLocalTrendWindowActive] = useState(false)
   const localTrendTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -101,15 +102,13 @@ export default function PlayerListEntry({
 
         <View className="flex-row gap-4">
           <View className="w-8 items-end">
-            <Text className={`${textStyles} text-end`} numberOfLines={1}>
+            <Text className={`${textStyles} text-end`}>
               {lastRoundScore === 0 ? '' : `${lastRoundScore >= 0 ? '+' : ''}${lastRoundScore}`}
             </Text>
           </View>
 
-          <View className="w-8 items-end">
-            <Text className={`${textStyles} text-end`} numberOfLines={1}>
-              {totalScore}
-            </Text>
+          <View className="w-10 items-end">
+            <Text className={`${textStyles} text-end`}>{totalScore}</Text>
           </View>
         </View>
       </View>

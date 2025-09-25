@@ -1,4 +1,4 @@
-import { Text } from 'react-native'
+import { Text } from '../../../components/ui/text'
 import HalfCircleRibbon, { ArcItem } from './HalfCircleRibbon'
 import { PlayerSlot } from './PlayerSlot'
 

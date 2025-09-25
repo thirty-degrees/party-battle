@@ -4,6 +4,7 @@ import { LobbyRoomProvider } from '@/src/lobby/LobbyRoomProvider'
 import { IsPartyCodeVisibleProvider } from '@/src/storage/IsPartyCodeVisibleProvider'
 import { PlayerNameProvider } from '@/src/storage/PlayerNameProvider'
 import { VersionUpdateScreen } from '@/src/VersionUpdateScreen'
+import { LilitaOne_400Regular } from '@expo-google-fonts/lilita-one'
 import { useFonts } from 'expo-font'
 import { ErrorBoundary as DefaultErrorBoundary, ErrorBoundaryProps, Stack } from 'expo-router'
 import Head from 'expo-router/head'
@@ -15,7 +16,7 @@ import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-c
 export default function RootLayout() {
   const colorScheme = useColorScheme()
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    LilitaOne_400Regular,
   })
 
   if (!loaded) {

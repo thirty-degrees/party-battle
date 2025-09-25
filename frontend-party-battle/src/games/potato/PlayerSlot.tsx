@@ -1,4 +1,5 @@
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
+import { Text } from '../../../components/ui/text'
 import PotatoStack from './PotatoStack'
 
 interface PlayerSlotProps {
@@ -15,9 +16,7 @@ export const PlayerSlot = ({ playerName, playerWithPotato, className }: PlayerSl
   return (
     <View className={className}>
       <View className="items-center">
-        <Text numberOfLines={1} className="text-black dark:text-white text-2xs">
-          {playerName}
-        </Text>
+        <Text className="text-black dark:text-white text-2xs">{playerName}</Text>
         {hasPotato ? (
           <PotatoStack style={{ width: 50, height: 67 }} />
         ) : (

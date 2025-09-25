@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
+import { Text } from '@/components/ui/text'
 import useColyseusState from '@/src/colyseus/useColyseusState'
 import { Room } from 'colyseus.js'
 import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle/consts/config'

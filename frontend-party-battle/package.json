@@ -23,6 +23,7 @@
     "scan": "npx react-scan http://localhost:8081/"
   },
   "dependencies": {
+    "@expo-google-fonts/lilita-one": "^0.4.1",
     "@expo/html-elements": "^0.10.1",
     "@expo/vector-icons": "^15.0.2",
     "@gluestack-ui/core": "^3.0.10",

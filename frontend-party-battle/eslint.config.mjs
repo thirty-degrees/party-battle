@@ -24,7 +24,25 @@ export default defineConfig([
           ],
         },
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-native',
+              importNames: ['Text'],
+              message: 'Please use Text from @/components/ui/text instead of react-native.',
+            },
+          ],
+        },
+      ],
       'prettier/prettier': 'warn',
+    },
+  },
+  {
+    files: ['components/ui/**/*'],
+    rules: {
+      'no-restricted-imports': 'off',
     },
   },
 ])

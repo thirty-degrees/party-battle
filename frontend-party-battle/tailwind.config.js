@@ -169,7 +169,10 @@ export default {
         },
       },
       fontFamily: {
-        roboto: ['Roboto', 'sans-serif'],
+        sans: ['LilitaOne_400Regular', 'sans-serif'],
+        lilita: ['LilitaOne_400Regular', 'sans-serif'],
+        body: ['LilitaOne_400Regular', 'sans-serif'],
+        heading: ['LilitaOne_400Regular', 'sans-serif'],
       },
       fontWeight: {
         extrablack: '950',

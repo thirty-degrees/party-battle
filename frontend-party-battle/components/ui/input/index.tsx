@@ -75,7 +75,7 @@ const inputSlotStyle = tva({
 })
 
 const inputFieldStyle = tva({
-  base: 'flex-1 text-typography-900 dark:text-typography-100 py-0 px-3 placeholder:text-typography-500 dark:placeholder:text-typography-500 h-full ios:leading-[0px] web:cursor-text web:data-[disabled=true]:cursor-not-allowed',
+  base: 'flex-1 text-typography-900 dark:text-typography-100 py-0 px-3 placeholder:text-typography-500 dark:placeholder:text-typography-500 h-full ios:leading-[0px] web:cursor-text web:data-[disabled=true]:cursor-not-allowed font-body',
 
   parentVariants: {
     variant: {
