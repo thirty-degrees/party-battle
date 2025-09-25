@@ -199,10 +199,10 @@ const buttonIconStyle = tva({
     },
     size: {
       xs: 'h-3.5 w-3.5',
-      sm: 'h-4 w-4',
-      md: 'h-[18px] w-[18px]',
-      lg: 'h-[18px] w-[18px]',
-      xl: 'h-5 w-5',
+      sm: 'h-5 w-5',
+      md: 'h-6 w-6',
+      lg: 'h-7 w-7',
+      xl: 'h-8 w-8',
     },
     action: {
       primary:

@@ -1,7 +1,6 @@
 import { ConnectionLostModal } from '@/src/lobby/ConnectionLostModal'
 import { Client, Room, ServerError } from 'colyseus.js'
 import Constants from 'expo-constants'
-import { router } from 'expo-router'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { LobbySchema } from 'types-party-battle/types/LobbySchema'
 import { usePlayerName } from '../storage/PlayerNameProvider'
@@ -113,14 +112,6 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   }, [storedRoomId, joinLobbyRoom])
 
-  const handleConnectionLostLeave = useCallback(async () => {
-    setLobbyRoom(undefined)
-    setStoredRoomId(undefined)
-    setConnectionLost(false)
-    setCanRetry(false)
-    router.replace('/')
-  }, [setConnectionLost])
-
   const value = useMemo<LobbyRoomContextType>(
     () => ({
       lobbyRoom,
@@ -142,7 +133,6 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       <ConnectionLostModal
         isOpen={connectionLost}
         onRetry={handleConnectionLostRetry}
-        onLeave={handleConnectionLostLeave}
         canRetry={canRetry}
         isLoading={isLoading}
       />

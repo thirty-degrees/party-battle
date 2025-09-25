@@ -94,8 +94,11 @@ export function JoinSection({ setValidationError }: JoinSectionProps) {
         <ButtonText>{isLoading ? 'Loading...' : 'JOIN'}</ButtonText>
       </Button>
       <View className="flex-row items-center justify-center w-full">
-        <Text size="lg">or host </Text>
+        <Text size="lg" className="text-typography-600 dark:text-typography-400">
+          or host{' '}
+        </Text>
         <Button
+          className="gap-1"
           variant="link"
           size="lg"
           action="primary"
@@ -103,7 +106,7 @@ export function JoinSection({ setValidationError }: JoinSectionProps) {
           isDisabled={!trimmedPlayerName || isLoading}
         >
           <ButtonText>your own party</ButtonText>
-          <ButtonIcon className="text-typography-0 dark:text-typography-0" as={PartyPopperIcon} />
+          <ButtonIcon className="text-typography-900 dark:text-typography-0" size="md" as={PartyPopperIcon} />
         </Button>
       </View>
 

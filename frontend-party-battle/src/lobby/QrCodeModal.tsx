@@ -28,7 +28,7 @@ export function QrCodeModal({ isOpen, onClose, roomId, roomUrl }: QrCodeModalPro
         <ModalHeader>
           <Heading size="lg">Party QR Code</Heading>
           <ModalCloseButton onPress={onClose}>
-            <Icon as={CloseIcon} className="text-typography-0" />
+            <Icon as={CloseIcon} className="text-typography-0" size="xl" />
           </ModalCloseButton>
         </ModalHeader>
         <ModalBody>

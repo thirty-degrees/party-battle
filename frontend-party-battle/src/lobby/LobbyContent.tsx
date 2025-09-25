@@ -67,13 +67,13 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
             <View className="flex-row items-center justify-between gap-2 w-full">
               <PartyCode partyCode={partyCode} />
               <View className="flex-row items-center justify-end gap-2">
-                <Button size="md" variant="outline" className="p-2.5" onPress={handleShare}>
+                <Button size="md" variant="outline" className="p-2" onPress={handleShare}>
                   <ButtonIcon as={ShareIcon} />
                 </Button>
-                <Button size="md" variant="outline" className="p-2.5" onPress={() => setIsQrModalOpen(true)}>
+                <Button size="md" variant="outline" className="p-2" onPress={() => setIsQrModalOpen(true)}>
                   <ButtonIcon as={QrCodeIcon} />
                 </Button>
-                <Button size="md" action="negative" className="p-2.5" onPress={handleLeaveParty}>
+                <Button size="md" action="negative" className="p-2" onPress={handleLeaveParty}>
                   <ButtonIcon as={LogOutIcon} />
                 </Button>
               </View>
