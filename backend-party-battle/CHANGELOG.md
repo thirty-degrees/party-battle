@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.14.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.13.0...backend-party-battle-v2.14.0) (2025-09-25)
+
+
+### Features
+
+* prevent reverting snake directions ([ace9ebe](https://github.com/thirty-degrees/party-battle/commit/ace9ebef47d20b6545e1f7c8d16177cfeb9053ce))
+* show which player has the potato at the end ([3e1a4a7](https://github.com/thirty-degrees/party-battle/commit/3e1a4a73c12875642a0ad1fbc34fb3837a47ccdb))
+* unify startGameWhenReady ([fc66175](https://github.com/thirty-degrees/party-battle/commit/fc661754d79a90fd796c1308a56c54db532ad53d))
+* waiting for other players message ([03d6db3](https://github.com/thirty-degrees/party-battle/commit/03d6db33f930152c9c0211a98a7e98683164ba68))
+
+
+### Bug Fixes
+
+* don't remove players from state when they leave ([5e902f8](https://github.com/thirty-degrees/party-battle/commit/5e902f8a5792cfd3df653e90b425755dd55d380b))
+* rive buttons not colored ([e18d3c9](https://github.com/thirty-degrees/party-battle/commit/e18d3c9a5e355d3eb1052db69e5441acd1a32ac2))
+
 ## [2.13.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.12.0...backend-party-battle-v2.13.0) (2025-09-23)
 
 
