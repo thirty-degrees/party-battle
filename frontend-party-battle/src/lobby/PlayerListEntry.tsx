@@ -78,7 +78,7 @@ export default function PlayerListEntry({
       style={{ marginBottom: 8 }}
     >
       <View
-        className={`p-3 rounded border border-outline-200 dark:border-outline-800 flex-row items-center ${isCurrentPlayer ? 'bg-gray-50 dark:bg-gray-900' : ''}`}
+        className={`p-3 rounded border border-outline-200 dark:border-outline-800 flex-row items-center ${isCurrentPlayer ? 'bg-zinc-200 dark:bg-zinc-800' : ''}`}
       >
         <View className="w-4 h-4 items-center justify-center relative">
           <Animated.View style={[{ position: 'absolute' }, indicatorAnimatedStyle]}>
