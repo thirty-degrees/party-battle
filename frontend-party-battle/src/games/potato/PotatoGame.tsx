@@ -1,4 +1,4 @@
-import { usePlayerName } from '@/src/storage/PlayerNameProvider'
+import { usePlayerName } from '@/src/storage/userPreferencesStore'
 import { useRef } from 'react'
 import { Animated, View } from 'react-native'
 import { PotatoGameSchema } from 'types-party-battle/types/potato/PotatoGameSchema'
@@ -14,12 +14,12 @@ import { usePotatoOwnerEffect } from './usePotatoOwnerEffect'
 import { usePotatoPanResponder } from './usePotatoPanResponder'
 
 export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
-  const { trimmedPlayerName } = usePlayerName()
+  const { playerName } = usePlayerName()
   const message = useColyseusState(gameRoom, (state) => state.message)
   const playerWithPotato = useColyseusState(gameRoom, (state) => state.playerWithPotato)
   const status = useColyseusState(gameRoom, (state) => state.status)
   const remainingPlayers = useColyseusState(gameRoom, (state) => [...state.remainingPlayers])
-  const playerSlotAssignments = assignPlayerSlotPositions(remainingPlayers, trimmedPlayerName)
+  const playerSlotAssignments = assignPlayerSlotPositions(remainingPlayers, playerName)
 
   const translateX = useRef(new Animated.Value(0)).current
   const translateY = useRef(new Animated.Value(0)).current
@@ -28,7 +28,7 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
 
   const { potatoPos, shouldShow } = usePotatoOwnerEffect(
     playerWithPotato,
-    trimmedPlayerName,
+    playerName,
     availableWidth,
     availableHeight,
     halfCircleRibbonHeight,

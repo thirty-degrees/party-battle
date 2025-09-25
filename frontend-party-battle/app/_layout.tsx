@@ -1,8 +1,6 @@
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider'
 import '@/global.css'
 import { LobbyRoomProvider } from '@/src/lobby/LobbyRoomProvider'
-import { IsPartyCodeVisibleProvider } from '@/src/storage/IsPartyCodeVisibleProvider'
-import { PlayerNameProvider } from '@/src/storage/PlayerNameProvider'
 import { VersionUpdateScreen } from '@/src/VersionUpdateScreen'
 import { LilitaOne_400Regular } from '@expo-google-fonts/lilita-one'
 import { useFonts } from 'expo-font'
@@ -28,34 +26,30 @@ export default function RootLayout() {
     // https://github.com/software-mansion/react-native-reanimated/issues/8228
     // <React.StrictMode>
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <PlayerNameProvider>
-        <IsPartyCodeVisibleProvider>
-          <GluestackUIProvider>
-            <LobbyRoomProvider>
-              <Head>
-                <title>Party Battle</title>
-              </Head>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                  animation: 'none',
-                  contentStyle: {
-                    backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)',
-                  },
-                }}
-              >
-                <Stack.Screen name="index" />
-                <Stack.Screen name="lobby" />
-                <Stack.Screen name="games/pick-cards" />
-                <Stack.Screen name="games/snake" />
-                <Stack.Screen name="games/potato" />
-                <Stack.Screen name="+not-found" />
-              </Stack>
-              <StatusBar style="auto" />
-            </LobbyRoomProvider>
-          </GluestackUIProvider>
-        </IsPartyCodeVisibleProvider>
-      </PlayerNameProvider>
+      <GluestackUIProvider>
+        <LobbyRoomProvider>
+          <Head>
+            <title>Party Battle</title>
+          </Head>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              animation: 'none',
+              contentStyle: {
+                backgroundColor: colorScheme === 'dark' ? 'rgb(18, 18, 18)' : 'rgb(255, 255, 255)',
+              },
+            }}
+          >
+            <Stack.Screen name="index" />
+            <Stack.Screen name="lobby" />
+            <Stack.Screen name="games/pick-cards" />
+            <Stack.Screen name="games/snake" />
+            <Stack.Screen name="games/potato" />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          <StatusBar style="auto" />
+        </LobbyRoomProvider>
+      </GluestackUIProvider>
     </SafeAreaProvider>
     // </React.StrictMode>
   )

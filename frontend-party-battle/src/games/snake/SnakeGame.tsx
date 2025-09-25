@@ -1,4 +1,4 @@
-import { usePlayerName } from '@/src/storage/PlayerNameProvider'
+import { usePlayerName } from '@/src/storage/userPreferencesStore'
 import { View } from 'react-native'
 import { Player, PlayerSchema } from 'types-party-battle/types/PlayerSchema'
 import { toRgbColor } from 'types-party-battle/types/RGBColorSchema'
@@ -21,8 +21,8 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
       color: toRgbColor(player.color),
     })),
   }))
-  const { trimmedPlayerName } = usePlayerName()
-  const currentPlayer = players.find((player) => player.name === trimmedPlayerName)
+  const { playerName } = usePlayerName()
+  const currentPlayer = players.find((player) => player.name === playerName)
 
   return (
     <BasicGameView>

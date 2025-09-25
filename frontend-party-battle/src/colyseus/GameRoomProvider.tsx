@@ -1,4 +1,4 @@
-import { usePlayerName } from '@/src/storage/PlayerNameProvider'
+import { usePlayerName } from '@/src/storage/userPreferencesStore'
 import { Client, Room } from 'colyseus.js'
 import Constants from 'expo-constants'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
@@ -30,7 +30,7 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | undefined>(undefined)
   const hasJoinedRef = useRef(false)
-  const { trimmedPlayerName } = usePlayerName()
+  const { playerName } = usePlayerName()
 
   const joinGameRoom = useCallback(
     async (roomId: string) => {
@@ -44,7 +44,7 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
       try {
         const client = new Client(Constants.expoConfig?.extra?.backendUrl)
         const joinedRoom = await client.joinById<TGameSchema>(roomId, {
-          name: trimmedPlayerName,
+          name: playerName,
         })
 
         setGameRoom(joinedRoom)
@@ -59,7 +59,7 @@ export const GameRoomProvider = <TGameSchema extends GameSchema>({
         setError(new Error('Failed to join game room', { cause: error }))
       }
     },
-    [trimmedPlayerName, gameRoom]
+    [playerName, gameRoom]
   )
 
   const leaveGameRoom = useCallback(() => {

@@ -5,7 +5,7 @@ import { POTATO_HEIGHT, POTATO_WIDTH } from './constants'
 
 export function usePotatoOwnerEffect(
   playerWithPotato: string | undefined,
-  trimmedPlayerName: string,
+  playerName: string,
   availableWidth: number,
   availableHeight: number,
   halfCircleRibbonHeight: number,
@@ -17,8 +17,7 @@ export function usePotatoOwnerEffect(
   const prevPlayerWithPotato = useRef<string | undefined>(undefined)
 
   useEffect(() => {
-    const justReceived =
-      playerWithPotato === trimmedPlayerName && prevPlayerWithPotato.current !== trimmedPlayerName
+    const justReceived = playerWithPotato === playerName && prevPlayerWithPotato.current !== playerName
 
     if (justReceived) {
       translateX.setValue(0)
@@ -39,12 +38,11 @@ export function usePotatoOwnerEffect(
     availableWidth,
     translateX,
     translateY,
-    trimmedPlayerName,
+    playerName,
   ])
 
   const shouldShow =
-    (playerWithPotato === trimmedPlayerName || prevPlayerWithPotato.current === trimmedPlayerName) &&
-    !!potatoPos
+    (playerWithPotato === playerName || prevPlayerWithPotato.current === playerName) && !!potatoPos
 
   return { potatoPos, shouldShow }
 }

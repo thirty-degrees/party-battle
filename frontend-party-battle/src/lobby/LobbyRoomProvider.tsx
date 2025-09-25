@@ -3,7 +3,7 @@ import { Client, Room, ServerError } from 'colyseus.js'
 import Constants from 'expo-constants'
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { LobbySchema } from 'types-party-battle/types/LobbySchema'
-import { usePlayerName } from '../storage/PlayerNameProvider'
+import { usePlayerName } from '../storage/userPreferencesStore'
 
 export type LobbyRoomContextType = {
   lobbyRoom?: Room<LobbySchema>
@@ -24,7 +24,7 @@ export const useLobbyRoomContext = () => {
 }
 
 export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { trimmedPlayerName } = usePlayerName()
+  const { playerName } = usePlayerName()
   const [lobbyRoom, setLobbyRoom] = useState<Room<LobbySchema> | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const [storedRoomId, setStoredRoomId] = useState<string | undefined>(undefined)
@@ -51,7 +51,7 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       try {
         const client = new Client(Constants.expoConfig?.extra?.backendUrl)
         const joinedRoom = await client.joinById<LobbySchema>(roomId, {
-          name: trimmedPlayerName,
+          name: playerName,
         })
         setLobbyRoom(joinedRoom)
         setStoredRoomId(joinedRoom.roomId)
@@ -68,7 +68,7 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setIsLoading(false)
       }
     },
-    [attachListeners, trimmedPlayerName]
+    [attachListeners, playerName]
   )
 
   const createLobbyRoom = useCallback(async () => {
@@ -76,7 +76,7 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     try {
       const client = new Client(Constants.expoConfig?.extra?.backendUrl)
       const createdRoom = await client.create<LobbySchema>('lobby_room', {
-        name: trimmedPlayerName,
+        name: playerName,
       })
       setLobbyRoom(createdRoom)
       setStoredRoomId(createdRoom.roomId)
@@ -88,7 +88,7 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     } finally {
       setIsLoading(false)
     }
-  }, [attachListeners, trimmedPlayerName])
+  }, [attachListeners, playerName])
 
   const leaveLobbyRoom = useCallback(async () => {
     if (lobbyRoom) {

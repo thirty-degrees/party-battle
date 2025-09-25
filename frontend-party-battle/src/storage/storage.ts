@@ -1,6 +1,7 @@
 import 'expo-sqlite/localStorage/install'
+import { StateStorage } from 'zustand/middleware'
 
-export const storage = {
+export const storage: StateStorage<void> = {
   getItem: (k: string) => {
     return globalThis.localStorage.getItem(k)
   },
