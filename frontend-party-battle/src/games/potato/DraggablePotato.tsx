@@ -1,4 +1,4 @@
-import { Animated, GestureResponderHandlers } from 'react-native'
+import { Animated, GestureResponderHandlers, Platform } from 'react-native'
 import PotatoStack from './PotatoStack'
 import { POTATO_HEIGHT, POTATO_WIDTH } from './constants'
 
@@ -28,7 +28,7 @@ export default function DraggablePotato({
         width: POTATO_WIDTH,
         height: POTATO_HEIGHT,
         transform: [{ translateX }, { translateY }],
-        userSelect: 'none',
+        ...(Platform.OS === 'web' ? { userSelect: 'none' } : {}),
       }}
       {...panHandlers}
     >
