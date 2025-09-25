@@ -35,7 +35,7 @@ export default function GameRoomLeaver<T extends GameSchema>({
       <GameComponent gameRoom={gameRoom} />
       {gameStatus === 'waiting' && (
         <View className="absolute top-0 left-0 right-0 bottom-0 bg-black/50 justify-center items-center">
-          <View className="p-4 bg-white dark:bg-black rounded-full">
+          <View className="p-4 bg-white dark:bg-black w-full items-center">
             <Text size="lg">Get ready</Text>
           </View>
         </View>
