@@ -1,7 +1,7 @@
 import { ArraySchema, Schema, type } from "@colyseus/schema";
 import { PlayerSchema } from "./PlayerSchema";
 
-export type GameType = "pick-cards" | "snake" | "potato";
+export type GameType = "pick-cards" | "snake" | "potato" | "color-reaction";
 
 export type GameStatus = "waiting" | "playing" | "paused" | "finished";
 
