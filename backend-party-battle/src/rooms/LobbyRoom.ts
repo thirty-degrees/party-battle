@@ -38,7 +38,7 @@ export class LobbyRoom extends Room<LobbySchema> {
       const isUsed = usedColors.some((usedColor) => rgbColorEquals(color, usedColor))
       if (!isUsed) return color
     }
-    throw new ServerError(4112, 'No colors available')
+    throw new ServerError(4113, 'No colors available')
   }
 
   async onCreate(_options: { name: string }) {

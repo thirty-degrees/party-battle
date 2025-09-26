@@ -1,7 +1,7 @@
 import { Text } from '@/components/ui/text'
 import { useGameRoomContext } from '@/src/colyseus/GameRoomProvider'
 import useColyseusState from '@/src/colyseus/useColyseusState'
-import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
+import { useLobbyStore } from '@/src/lobby/useLobbyStore'
 import { Room } from 'colyseus.js'
 import { router } from 'expo-router'
 import { useEffect } from 'react'
@@ -20,8 +20,7 @@ export default function GameRoomLeaver<T extends GameSchema>({
 }: GameRoomLeaverProps<T>) {
   const gameStatus = useColyseusState(gameRoom, (state) => state.status)
   const { leaveGameRoom } = useGameRoomContext<T>()
-  const { lobbyRoom } = useLobbyRoomContext()
-  const currentGame = useColyseusState(lobbyRoom!, (state) => state.currentGame)
+  const currentGame = useLobbyStore((state) => state.lobby.currentGame)
 
   useEffect(() => {
     if (gameStatus === 'finished' && !currentGame) {
