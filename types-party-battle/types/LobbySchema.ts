@@ -1,7 +1,14 @@
 import { ArraySchema, MapSchema, Schema, type } from "@colyseus/schema";
-import { GameHistorySchema } from "./GameHistorySchema";
+import { GameHistory, GameHistorySchema } from "./GameHistorySchema";
 import { GameType } from "./GameSchema";
-import { LobbyPlayerSchema } from "./LobbyPlayerSchema";
+import { LobbyPlayer, LobbyPlayerSchema } from "./LobbyPlayerSchema";
+
+export interface Lobby {
+  players: { [sessionId: string]: LobbyPlayer };
+  currentGame?: GameType | null;
+  currentGameRoomId?: string | null;
+  gameHistories: GameHistory[];
+}
 
 export class LobbySchema extends Schema {
   @type({ map: LobbyPlayerSchema }) players =

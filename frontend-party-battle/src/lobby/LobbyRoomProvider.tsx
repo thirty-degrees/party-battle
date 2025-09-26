@@ -27,7 +27,6 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const { playerName } = usePlayerName()
   const [lobbyRoom, setLobbyRoom] = useState<Room<LobbySchema> | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
-  const [storedRoomId, setStoredRoomId] = useState<string | undefined>(undefined)
   const [connectionLost, setConnectionLost] = useState(false)
   const [canRetry, setCanRetry] = useState(false)
   const [error, setError] = useState<Error | undefined>(undefined)
@@ -54,7 +53,6 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           name: playerName,
         })
         setLobbyRoom(joinedRoom)
-        setStoredRoomId(joinedRoom.roomId)
         attachListeners(joinedRoom)
         setConnectionLost(false)
         setCanRetry(false)
@@ -79,7 +77,6 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         name: playerName,
       })
       setLobbyRoom(createdRoom)
-      setStoredRoomId(createdRoom.roomId)
       attachListeners(createdRoom)
       setConnectionLost(false)
       setCanRetry(false)
@@ -99,18 +96,17 @@ export const LobbyRoomProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       isLeaving.current = false
     }
     setLobbyRoom(undefined)
-    setStoredRoomId(undefined)
     setConnectionLost(false)
     setCanRetry(false)
   }, [lobbyRoom])
 
   const handleConnectionLostRetry = useCallback(async () => {
     try {
-      await joinLobbyRoom(storedRoomId!)
+      await joinLobbyRoom(lobbyRoom!.roomId)
     } catch {
       setCanRetry(false)
     }
-  }, [storedRoomId, joinLobbyRoom])
+  }, [lobbyRoom, joinLobbyRoom])
 
   const value = useMemo<LobbyRoomContextType>(
     () => ({
