@@ -1,6 +1,7 @@
 import { Input, InputField } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
-import { usePlayerName } from '@/src/storage/PlayerNameProvider'
+import { usePlayerName } from '@/src/storage/userPreferencesStore'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle/consts/config'
 
@@ -11,9 +12,11 @@ interface NameSectionProps {
 
 export function NameSection({ validationError, setValidationError }: NameSectionProps) {
   const { playerName, setPlayerName } = usePlayerName()
+  const [draft, setDraft] = useState(playerName)
 
-  const onChangePlayerName = (name: string) => {
-    setPlayerName(name)
+  const onChangeDraft = (name: string) => {
+    setDraft(name)
+    setPlayerName(name.trim())
     setValidationError(undefined)
   }
 
@@ -34,8 +37,8 @@ export function NameSection({ validationError, setValidationError }: NameSection
       >
         <InputField
           aria-label="Username"
-          value={playerName || ''}
-          onChangeText={onChangePlayerName}
+          value={draft}
+          onChangeText={onChangeDraft}
           placeholder="Enter your name..."
           autoComplete="username"
           maxLength={PLAYER_NAME_MAX_LENGTH}

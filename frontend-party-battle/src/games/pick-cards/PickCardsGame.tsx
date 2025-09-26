@@ -3,7 +3,7 @@ import { Dimensions, View } from 'react-native'
 import { PickCardsGameSchema } from 'types-party-battle/types/pick-cards/PickCardsGameSchema'
 import { ShakingScreen } from '../../../components/shaking-screen/ShakingScreen'
 import useColyseusState from '../../colyseus/useColyseusState'
-import { usePlayerName } from '../../storage/PlayerNameProvider'
+import { usePlayerName } from '../../storage/userPreferencesStore'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
 import Cards from './Cards'
@@ -19,13 +19,13 @@ export const PickCardsGame: GameComponent<PickCardsGameSchema> = ({ gameRoom }) 
   const currentPlayer = useColyseusState(gameRoom, (state) => state.currentPlayer)
   const remainingPlayers = useColyseusState(gameRoom, (state) => Array.from(state.remainingPlayers || []))
   const timeWhenTimerIsOver = useColyseusState(gameRoom, (state) => state.timeWhenTimerIsOver)
-  const { trimmedPlayerName } = usePlayerName()
+  const { playerName } = usePlayerName()
 
   const screenWidth = Dimensions.get('window').width
   const screenHeight = Dimensions.get('window').height
 
-  const isCurrentPlayer = currentPlayer === trimmedPlayerName
-  const isPlayerInGame = remainingPlayers.some((name) => name === trimmedPlayerName)
+  const isCurrentPlayer = currentPlayer === playerName
+  const isPlayerInGame = remainingPlayers.some((name) => name === playerName)
 
   const handleCardPress = (toothIndex: number) => {
     if (isCurrentPlayer) {

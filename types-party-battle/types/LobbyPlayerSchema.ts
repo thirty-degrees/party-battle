@@ -1,11 +1,9 @@
 import { type } from "@colyseus/schema";
-import { PlayerSchema } from "./PlayerSchema";
+import { Player, PlayerSchema } from "./PlayerSchema";
 import { RGBColor } from "./RGBColorSchema";
 
-export interface LobbyPlayer {
-  name: string;
+export interface LobbyPlayer extends Player {
   ready: boolean;
-  color: RGBColor;
 }
 
 export class LobbyPlayerSchema extends PlayerSchema {
