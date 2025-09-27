@@ -1,51 +1,29 @@
-import { useEffect, useRef } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 
 import { Text } from '@/components/ui/text'
-import useColyseusState from '@/src/colyseus/useColyseusState'
-import { Room } from 'colyseus.js'
+import { useLobbyStore } from '@/src/lobby/useLobbyStore'
+import { usePlayerName } from '@/src/storage/userPreferencesStore'
 import { MAX_AMOUNT_OF_PLAYERS } from 'types-party-battle/consts/config'
-import { GameHistory } from 'types-party-battle/types/GameHistorySchema'
-import { LobbyPlayer } from 'types-party-battle/types/LobbyPlayerSchema'
-import { LobbySchema } from 'types-party-battle/types/LobbySchema'
-import { toRgbColor } from 'types-party-battle/types/RGBColorSchema'
+import { useShallow } from 'zustand/react/shallow'
 import PlayerListEntry from './PlayerListEntry'
 
-interface LobbyScreenProps {
-  lobbyRoom: Room<LobbySchema>
-}
-
-export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
-  const prevGameHistoryCountRef = useRef<number>(0)
-
-  const players = useColyseusState(lobbyRoom, (state) =>
-    Array.from(state.players?.entries() || []).map<[string, LobbyPlayer]>(([id, player]) => [
-      id,
-      { name: player.name, ready: player.ready, color: toRgbColor(player.color) },
-    ])
+export default function PlayerList() {
+  const { players: playersMap, gameHistories } = useLobbyStore(
+    useShallow((state) => ({
+      players: state.lobby.players,
+      gameHistories: state.lobby.gameHistories,
+    }))
   )
-  const gameHistories = useColyseusState(lobbyRoom, (state) =>
-    Array.from(state.gameHistories?.entries() || []).map<[number, GameHistory]>(([id, game]) => [
-      id,
-      { gameType: game.gameType, scores: game.scores?.toArray() },
-    ])
-  )
-  const currentPlayerId = lobbyRoom.sessionId
 
-  useEffect(() => {
-    const currentCount = gameHistories.length
-    if (currentCount > prevGameHistoryCountRef.current) {
-      prevGameHistoryCountRef.current = currentCount
-      return
-    }
-    prevGameHistoryCountRef.current = currentCount
-  }, [gameHistories.length])
+  const players = useMemo(() => Object.values(playersMap), [playersMap])
+  const { playerName: currentPlayerName } = usePlayerName()
 
-  const playerStats = players.map(([playerId, player]) => {
+  const playerStats = players.map((player) => {
     let totalScore = 0
     let lastRoundScore = 0
 
-    gameHistories.forEach(([, gameHistory]) => {
+    gameHistories.forEach((gameHistory) => {
       const playerScore = gameHistory?.scores?.find((score) => score.playerName === player.name)
       if (playerScore) {
         totalScore += playerScore.value
@@ -53,7 +31,7 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
     })
 
     if (gameHistories.length > 0) {
-      const lastGame = gameHistories[gameHistories.length - 1][1]
+      const lastGame = gameHistories[gameHistories.length - 1]
       const playerLastScore = lastGame?.scores?.find((score) => score.playerName === player.name)
       if (playerLastScore) {
         lastRoundScore = playerLastScore.value
@@ -61,7 +39,6 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
     }
 
     return {
-      playerId,
       player,
       totalScore,
       lastRoundScore,
@@ -88,15 +65,15 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
   const prevPlaceByName = new Map<string, number>()
   if (gameHistories.length > 1) {
     const totalsByName = new Map<string, number>()
-    players.forEach(([, p]) => totalsByName.set(p.name, 0))
+    players.forEach((p) => totalsByName.set(p.name, 0))
 
-    gameHistories.slice(0, -1).forEach(([, gh]) => {
+    gameHistories.slice(0, -1).forEach((gh) => {
       gh.scores?.forEach((s) => {
         totalsByName.set(s.playerName, (totalsByName.get(s.playerName) || 0) + s.value)
       })
     })
 
-    const prevSorted = Array.from(players, ([, p]) => ({
+    const prevSorted = Array.from(players, (p) => ({
       name: p.name,
       total: totalsByName.get(p.name) || 0,
     })).sort((a, b) => b.total - a.total)
@@ -121,7 +98,7 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
 
         <View>
           {playersWithPlaces.map((playerStat) => {
-            const isCurrentPlayer = playerStat.playerId === currentPlayerId
+            const isCurrentPlayer = playerStat.player.name === currentPlayerName
             const prevPlaceExisting = prevPlaceByName.get(playerStat.player.name)
             const prevPlace =
               prevPlaceExisting !== undefined ? prevPlaceExisting : gameHistories.length > 0 ? 1 : undefined
@@ -132,7 +109,7 @@ export default function PlayerList({ lobbyRoom }: LobbyScreenProps) {
             }
             return (
               <PlayerListEntry
-                key={playerStat.playerId}
+                key={playerStat.player.name}
                 player={playerStat.player}
                 isCurrentPlayer={isCurrentPlayer}
                 place={playerStat.place}

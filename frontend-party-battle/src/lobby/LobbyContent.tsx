@@ -1,35 +1,36 @@
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon'
 import { Text } from '@/components/ui/text'
-import useColyseusState from '@/src/colyseus/useColyseusState'
-import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
 import { QrCodeModal } from '@/src/lobby/QrCodeModal'
+import { useLobbyStore } from '@/src/lobby/useLobbyStore'
 import createWebURL from '@/src/utils/createWebUrl'
 import { blurActiveElement } from '@/src/utils/focusUtils'
-import { Room } from 'colyseus.js'
 import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Share, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { LobbySchema } from 'types-party-battle/types/LobbySchema'
+import { useShallow } from 'zustand/react/shallow'
 import PartyCode from './PartyCode'
 import PlayerList from './PlayerList'
 
-interface LobbyContentProps {
-  lobbyRoom: Room<LobbySchema>
-}
-
-export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
-  const currentGame = useColyseusState(lobbyRoom, (state) => state.currentGame)
-  const currentGameRoomId = useColyseusState(lobbyRoom, (state) => state.currentGameRoomId)
-  const playerCount = useColyseusState(lobbyRoom, (state) => Array.from(state.players?.values() || []).length)
+export default function LobbyContent() {
+  const { currentGame, currentGameRoomId, playerCount, roomId, leaveLobbyRoom, sendLobbyRoomMessage } =
+    useLobbyStore(
+      useShallow((state) => ({
+        currentGame: state.lobby.currentGame,
+        currentGameRoomId: state.lobby.currentGameRoomId,
+        playerCount: Object.keys(state.lobby.players).length,
+        roomId: state.roomId,
+        leaveLobbyRoom: state.leaveLobbyRoom,
+        sendLobbyRoomMessage: state.sendLobbyRoomMessage,
+      }))
+    )
 
   const [isReady, setIsReady] = useState(false)
   const [isQrModalOpen, setIsQrModalOpen] = useState(false)
   const router = useRouter()
-  const { leaveLobbyRoom } = useLobbyRoomContext()
 
-  const partyCode = lobbyRoom.roomId
+  const partyCode = roomId || ''
   const shareUrl = createWebURL(`/?partyCode=${partyCode}`)
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
   }, [currentGame, currentGameRoomId, router])
 
   const handleToggleReady = () => {
-    lobbyRoom.send('SetPlayerReady', !isReady)
+    sendLobbyRoomMessage('SetPlayerReady', !isReady)
     setIsReady((prev) => !prev)
 
     blurActiveElement()
@@ -80,7 +81,7 @@ export default function LobbyContent({ lobbyRoom }: LobbyContentProps) {
             </View>
             <View className="flex-1 w-full justify-between">
               <View className="flex-row w-full">
-                <PlayerList lobbyRoom={lobbyRoom} />
+                <PlayerList />
               </View>
 
               <View className="flex-col justify-end">

@@ -4,21 +4,27 @@ import { PartyPopperIcon } from '@/components/ui/icon'
 import { Input, InputField } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
 import useToastHelper from '@/components/ui/useToastHelper'
-import { useLobbyRoomContext } from '@/src/lobby/LobbyRoomProvider'
+import { useLobbyStore } from '@/src/lobby/useLobbyStore'
 import { usePlayerName } from '@/src/storage/userPreferencesStore'
 import { OverlayContainer } from '@gluestack-ui/core/overlay/aria'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Keyboard, View } from 'react-native'
+import { useShallow } from 'zustand/react/shallow'
 
-interface JoinSectionProps {
-  setValidationError: (error: string | undefined) => void
-}
-
-export function JoinSection({ setValidationError }: JoinSectionProps) {
+export function JoinSection() {
   const [gameRoomId, setGameRoomId] = useState('')
   const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
-  const { createLobbyRoom, joinLobbyRoom, isLoading } = useLobbyRoomContext()
+  const { createLobbyRoom, joinLobbyRoom, isLoading, playerNameValidationError, roomIdValidationError } =
+    useLobbyStore(
+      useShallow((state) => ({
+        createLobbyRoom: state.createLobbyRoom,
+        joinLobbyRoom: state.joinLobbyRoom,
+        isLoading: state.isLoading,
+        playerNameValidationError: state.playerNameValidationError,
+        roomIdValidationError: state.roomIdValidationError,
+      }))
+    )
   const { playerName } = usePlayerName()
   const { showError } = useToastHelper()
 
@@ -48,11 +54,11 @@ export function JoinSection({ setValidationError }: JoinSectionProps) {
   }
 
   const handleJoinRoom = async (gameRoomId: string) => {
-    const validationError = await joinLobbyRoom(gameRoomId)
+    const success = await joinLobbyRoom(gameRoomId)
 
-    if (validationError) {
-      setValidationError(validationError)
-      showError('Failed to join party', validationError)
+    if (!success) {
+      const errorMessage = playerNameValidationError || roomIdValidationError || 'Failed to join party'
+      showError('Failed to join party', errorMessage)
       return
     }
 
