@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/react/shallow'
 import LeaveLobbyButton from './LeaveLobbyButton'
 import PartyCode from './PartyCode'
+import PlayerCount from './PlayerCount'
 import PlayerList from './PlayerList'
 import QrCodeButton from './QrCodeButton'
 import ReadyButton from './ReadyButton'
@@ -46,8 +47,8 @@ export default function LobbyContent() {
               </View>
             </View>
             <View className="flex-1 w-full justify-between">
+              <PlayerCount />
               <PlayerList />
-
               <ReadyButton />
             </View>
           </View>
