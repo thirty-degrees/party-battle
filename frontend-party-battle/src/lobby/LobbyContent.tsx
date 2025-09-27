@@ -1,10 +1,8 @@
-import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
+import { Button, ButtonIcon } from '@/components/ui/button'
 import { LogOutIcon, QrCodeIcon, ShareIcon } from '@/components/ui/icon'
-import { Text } from '@/components/ui/text'
 import { QrCodeModal } from '@/src/lobby/QrCodeModal'
 import { useLobbyStore } from '@/src/lobby/useLobbyStore'
 import createWebURL from '@/src/utils/createWebUrl'
-import { blurActiveElement } from '@/src/utils/focusUtils'
 import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Share, View } from 'react-native'
@@ -12,21 +10,18 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/react/shallow'
 import PartyCode from './PartyCode'
 import PlayerList from './PlayerList'
+import ReadyButton from './ReadyButton'
 
 export default function LobbyContent() {
-  const { currentGame, currentGameRoomId, playerCount, roomId, leaveLobbyRoom, sendLobbyRoomMessage } =
-    useLobbyStore(
-      useShallow((state) => ({
-        currentGame: state.lobby.currentGame,
-        currentGameRoomId: state.lobby.currentGameRoomId,
-        playerCount: Object.keys(state.lobby.players).length,
-        roomId: state.roomId,
-        leaveLobbyRoom: state.leaveLobbyRoom,
-        sendLobbyRoomMessage: state.sendLobbyRoomMessage,
-      }))
-    )
+  const { currentGame, currentGameRoomId, roomId, leaveLobbyRoom } = useLobbyStore(
+    useShallow((state) => ({
+      currentGame: state.lobby.currentGame,
+      currentGameRoomId: state.lobby.currentGameRoomId,
+      roomId: state.roomId,
+      leaveLobbyRoom: state.leaveLobbyRoom,
+    }))
+  )
 
-  const [isReady, setIsReady] = useState(false)
   const [isQrModalOpen, setIsQrModalOpen] = useState(false)
   const router = useRouter()
 
@@ -39,13 +34,6 @@ export default function LobbyContent() {
       router.push(`/games/${currentGame}?roomId=${currentGameRoomId}`)
     }
   }, [currentGame, currentGameRoomId, router])
-
-  const handleToggleReady = () => {
-    sendLobbyRoomMessage('SetPlayerReady', !isReady)
-    setIsReady((prev) => !prev)
-
-    blurActiveElement()
-  }
 
   const handleShare = async () => {
     try {
@@ -84,21 +72,7 @@ export default function LobbyContent() {
                 <PlayerList />
               </View>
 
-              <View className="flex-col justify-end">
-                <View className="flex-row w-full justify-center">
-                  <Button size="xl" action={'primary'} onPress={handleToggleReady}>
-                    <ButtonText>{isReady ? 'CANCEL' : 'PLAY'}</ButtonText>
-                  </Button>
-                </View>
-
-                <View className="h-8 justify-center items-center">
-                  {isReady && playerCount < 2 ? (
-                    <Text className="text-sm text-typography-600 dark:text-typography-400">
-                      Need 1 more player to start.
-                    </Text>
-                  ) : null}
-                </View>
-              </View>
+              <ReadyButton />
             </View>
           </View>
         </View>
