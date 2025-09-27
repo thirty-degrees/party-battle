@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.15.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.14.0...backend-party-battle-v2.15.0) (2025-09-27)
+
+
+### Features
+
+* Migrate lobby room to zustand ([#72](https://github.com/thirty-degrees/party-battle/issues/72)) ([30f1d51](https://github.com/thirty-degrees/party-battle/commit/30f1d518036d71e47aad011f5572c2b9f62815d7))
+
 ## [2.14.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.13.0...backend-party-battle-v2.14.0) (2025-09-25)
 
 

@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.15.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.14.0...frontend-party-battle-v2.15.0) (2025-09-27)
+
+
+### Features
+
+* change loading screen background color ([65d1c67](https://github.com/thirty-degrees/party-battle/commit/65d1c67d6fc26ea9a5f19713ec4750e33d00e942))
+* improve icon sizes and connection lost modal ([9ddbce1](https://github.com/thirty-degrees/party-battle/commit/9ddbce13ab60a1c61dd1293e631774148a35f684))
+* improve QR modal style ([fbf0ba8](https://github.com/thirty-degrees/party-battle/commit/fbf0ba88010bd250183f8974c23c08561a6d5445))
+* Migrate lobby room to zustand ([#72](https://github.com/thirty-degrees/party-battle/issues/72)) ([30f1d51](https://github.com/thirty-degrees/party-battle/commit/30f1d518036d71e47aad011f5572c2b9f62815d7))
+* replace context providers with Zustand ([61dc0ab](https://github.com/thirty-degrees/party-battle/commit/61dc0ab1fced3bc65599ada6ab2d99780d0e5d44))
+
+
+### Bug Fixes
+
+* gray instead of blue current player background ([21319fb](https://github.com/thirty-degrees/party-battle/commit/21319fb63d7df9939ddbcd90dea7a85059ff0879))
+* redirect to index in case of missing roomId ([1d4e87b](https://github.com/thirty-degrees/party-battle/commit/1d4e87baf149ab05668fcc1d1ef64ff17e98805f))
+
 ## [2.14.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.13.0...frontend-party-battle-v2.14.0) (2025-09-25)
 
 
