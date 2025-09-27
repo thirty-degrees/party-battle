@@ -1,23 +1,19 @@
 import { Input, InputField } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
+import { useLobbyStore } from '@/src/lobby/useLobbyStore'
 import { usePlayerName } from '@/src/storage/userPreferencesStore'
 import { useState } from 'react'
 import { View } from 'react-native'
 import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle/consts/config'
 
-interface NameSectionProps {
-  validationError?: string
-  setValidationError: (error: string | undefined) => void
-}
-
-export function NameSection({ validationError, setValidationError }: NameSectionProps) {
+export function NameSection() {
   const { playerName, setPlayerName } = usePlayerName()
+  const playerNameValidationError = useLobbyStore((state) => state.playerNameValidationError)
   const [draft, setDraft] = useState(playerName)
 
   const onChangeDraft = (name: string) => {
     setDraft(name)
     setPlayerName(name.trim())
-    setValidationError(undefined)
   }
 
   return (
@@ -28,7 +24,7 @@ export function NameSection({ validationError, setValidationError }: NameSection
       <Input
         variant="outline-with-bg"
         size="xl"
-        isInvalid={!!validationError}
+        isInvalid={!!playerNameValidationError}
         style={{
           alignItems: 'center',
           justifyContent: 'center',
