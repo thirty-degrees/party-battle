@@ -46,9 +46,7 @@ export default function LobbyContent() {
               </View>
             </View>
             <View className="flex-1 w-full justify-between">
-              <View className="flex-row w-full">
-                <PlayerList />
-              </View>
+              <PlayerList />
 
               <ReadyButton />
             </View>
