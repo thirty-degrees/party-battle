@@ -7,6 +7,7 @@ import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
 import { AnimatedColorButtons } from './AnimatedColorButtons'
 import { ColorButtons } from './ColorButtons'
+import { CurrentCountdownNumber } from './CurrentCountdownNumber'
 
 export const ColorReactionGame: GameComponent<ColorReactionGameSchema> = ({ gameRoom }) => {
   const selectionType = useColyseusState(gameRoom, (state) => state.selectiontype)
@@ -35,7 +36,7 @@ export const ColorReactionGame: GameComponent<ColorReactionGameSchema> = ({ game
                 {currentSelection.word}
               </Text>
             ) : (
-              <Text className="text-4xl font-bold text-center">{currentCountdownNumber}</Text>
+              <CurrentCountdownNumber value={currentCountdownNumber} />
             )}
           </View>
         </View>
