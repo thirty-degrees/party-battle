@@ -24,9 +24,9 @@ export const ColorReactionGame: GameComponent<ColorReactionGameSchema> = ({ game
 
   return (
     <BasicGameView>
-      <View className="flex-1 justify-between items-center">
-        <View flex-1>
-          <View className="h-10 justify-center">
+      <View className="flex-1 flex-column space-between">
+        <View className="w-full justify-center align-center pt-8 pb-8">
+          <View className="flex-row justify-center h-8">
             {!isAnimating ? <Text className="text-xl font-bold mb-8">Select the {selectionType}</Text> : null}
           </View>
           <View className="h-16 justify-center">
@@ -39,9 +39,9 @@ export const ColorReactionGame: GameComponent<ColorReactionGameSchema> = ({ game
             )}
           </View>
         </View>
-        <View className="flex-1 w-full flex-column justify-center mb-4">
+        <View className="w-full flex-1 flex-column justify-end">
           {guesserName ? (
-            <View className="items-center">
+            <View className="h-full justify-center items-center">
               <Text className="text-4xl font-bold mb-4">{guesserName}</Text>
               <Text
                 className="text-1xl font-semibold"

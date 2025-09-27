@@ -23,10 +23,27 @@ export const ColorButtons = ({ colorButtons, onButtonPress }: ColorButtonsProps)
           backgroundColor: transparentColor,
           borderColor: colorString,
         }}
-        className="w-[45%] aspect-[8/7] rounded-lg border-2"
+        className="rounded-lg border-2 flex-1 aspect-square"
       />
     )
   })
 
-  return <View className="w-full flex-row flex-wrap justify-center gap-2">{buttons}</View>
+  return (
+    <View className="w-full flex-1 flex-row">
+      <View className="w-1/2 flex-1 flex-col justify-center">
+        {buttons.slice(0, 4).map((button, index) => (
+          <View key={index} className="flex-1 p-1">
+            {button}
+          </View>
+        ))}
+      </View>
+      <View className="w-1/2 flex-1 flex-col justify-center">
+        {buttons.slice(4, 8).map((button, index) => (
+          <View key={index + 4} className="flex-1 p-1">
+            {button}
+          </View>
+        ))}
+      </View>
+    </View>
+  )
 }
