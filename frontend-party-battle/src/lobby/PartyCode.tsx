@@ -2,14 +2,13 @@ import BlurredText from '@/components/blurred-text'
 import { Button, ButtonIcon } from '@/components/ui/button'
 import { EyeIcon, EyeOffIcon } from '@/components/ui/icon'
 import { Text } from '@/components/ui/text'
+import { useLobbyStore } from '@/src/lobby/useLobbyStore'
 import { View } from 'react-native'
 import { useIsPartyCodeVisible } from '../storage/userPreferencesStore'
 
-interface PartyCodeProps {
-  partyCode: string
-}
-
-export default function PartyCode({ partyCode }: PartyCodeProps) {
+export default function PartyCode() {
+  const roomId = useLobbyStore((state) => state.roomId)
+  const partyCode = roomId || ''
   const { isPartyCodeVisible, setIsPartyCodeVisible } = useIsPartyCodeVisible()
 
   const handleToggleVisibility = () => {
