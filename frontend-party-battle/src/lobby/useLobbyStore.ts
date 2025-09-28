@@ -35,27 +35,6 @@ const colyseusClientRef: { current: Client } = {
 const lobbyRoomRef: { current: Room<LobbySchema> | null } = { current: null }
 const intentionalLeaveRef: { current: boolean } = { current: false }
 
-const wireRoom = (
-  room: Room<LobbySchema>,
-  set: (partial: Partial<LobbyStoreState>) => void,
-  get: () => LobbyStoreState
-) => {
-  room.onStateChange((schema) => {
-    const nextLobby = mapLobbyStable(schema, get().lobby)
-    if (nextLobby !== get().lobby) set({ lobby: nextLobby })
-  })
-  room.onError((code, message) => {
-    set({ lobbyError: { code, message } })
-  })
-  room.onLeave(() => {
-    lobbyRoomRef.current = null
-    if (!intentionalLeaveRef.current) {
-      set({ connectionLost: true })
-    }
-    intentionalLeaveRef.current = false
-  })
-}
-
 export const useLobbyStore = create<LobbyStoreState>((set, get) => ({
   lobby: initialLobby,
   roomId: undefined,
@@ -67,85 +46,25 @@ export const useLobbyStore = create<LobbyStoreState>((set, get) => ({
   lobbyError: undefined,
 
   joinLobbyRoom: async (roomId: string) => {
-    const playerName = useUserPreferencesStore.getState().playerName
-    if (!playerName) {
-      set({ playerNameValidationError: 'Player name is required' })
-      return false
-    }
-    set({
-      isLoading: true,
-      playerNameValidationError: undefined,
-      roomIdValidationError: undefined,
-      lobbyError: undefined,
-    })
-    try {
-      if (lobbyRoomRef.current) {
-        await get().leaveLobbyRoom()
-      }
-      const room = await colyseusClientRef.current.joinById<LobbySchema>(roomId, { name: playerName })
-      lobbyRoomRef.current = room
-      wireRoom(room, set, get)
-      set({
-        isLoading: false,
-        connectionLost: false,
-        failedRetries: 0,
-        roomId: room.roomId,
-      })
-      return true
-    } catch (error) {
-      set({ isLoading: false })
-      if (error instanceof ServerError && error.code === 4111) {
-        set({ playerNameValidationError: String(error.message) })
-        return false
-      }
-      if (error instanceof ServerError && error.code === 4112) {
-        set({ roomIdValidationError: String(error.message) })
-        return false
-      }
-      set({ lobbyError: error })
-      return false
-    }
+    return connectToRoom(
+      (playerName) =>
+        colyseusClientRef.current.joinById<LobbySchema>(roomId, {
+          name: playerName,
+        }),
+      set,
+      get
+    )
   },
 
   createLobbyRoom: async () => {
-    const playerName = useUserPreferencesStore.getState().playerName
-    if (!playerName) {
-      set({ playerNameValidationError: 'Player name is required' })
-      return false
-    }
-    set({
-      isLoading: true,
-      playerNameValidationError: undefined,
-      roomIdValidationError: undefined,
-      lobbyError: undefined,
-    })
-    try {
-      if (lobbyRoomRef.current) {
-        await get().leaveLobbyRoom()
-      }
-      const room = await colyseusClientRef.current.create<LobbySchema>('lobby_room', { name: playerName })
-      lobbyRoomRef.current = room
-      wireRoom(room, set, get)
-      set({
-        isLoading: false,
-        connectionLost: false,
-        failedRetries: 0,
-        roomId: room.roomId,
-      })
-      return true
-    } catch (error) {
-      set({ isLoading: false })
-      if (error instanceof ServerError && error.code === 4111) {
-        set({ playerNameValidationError: String(error.message) })
-        return false
-      }
-      if (error instanceof ServerError && error.code === 4112) {
-        set({ roomIdValidationError: String(error.message) })
-        return false
-      }
-      set({ lobbyError: error })
-      return false
-    }
+    return connectToRoom(
+      (playerName) =>
+        colyseusClientRef.current.create<LobbySchema>('lobby_room', {
+          name: playerName,
+        }),
+      set,
+      get
+    )
   },
 
   leaveLobbyRoom: async () => {
@@ -175,40 +94,18 @@ export const useLobbyStore = create<LobbyStoreState>((set, get) => ({
       set({ roomIdValidationError: 'Party code is required' })
       return false
     }
-    const playerName = useUserPreferencesStore.getState().playerName
-    if (!playerName) {
-      set({ playerNameValidationError: 'Player name is required' })
-      return false
-    }
-    set({ isLoading: true, lobbyError: undefined })
-    try {
-      if (lobbyRoomRef.current) {
-        await get().leaveLobbyRoom()
+    return connectToRoom(
+      (playerName) =>
+        colyseusClientRef.current.joinById<LobbySchema>(roomId, {
+          name: playerName,
+        }),
+      set,
+      get,
+      (error) => {
+        const failedRetries = get().failedRetries + 1
+        set({ lobbyError: error, connectionLost: true, failedRetries })
       }
-      const room = await colyseusClientRef.current.joinById<LobbySchema>(roomId, { name: playerName })
-      lobbyRoomRef.current = room
-      wireRoom(room, set, get)
-      set({
-        isLoading: false,
-        connectionLost: false,
-        failedRetries: 0,
-        roomId: room.roomId,
-      })
-      return true
-    } catch (error) {
-      const failedRetries = get().failedRetries + 1
-      set({ isLoading: false, connectionLost: true, failedRetries })
-      if (error instanceof ServerError && error.code === 4111) {
-        set({ playerNameValidationError: String(error.message) })
-        return false
-      }
-      if (error instanceof ServerError && error.code === 4112) {
-        set({ roomIdValidationError: String(error.message) })
-        return false
-      }
-      set({ lobbyError: error })
-      return false
-    }
+    )
   },
 
   sendLobbyRoomMessage<T>(type: string | number, message?: T): void {
@@ -219,3 +116,72 @@ export const useLobbyStore = create<LobbyStoreState>((set, get) => ({
     room.send<T>(type, message)
   },
 }))
+
+const connectToRoom = async (
+  roomOperation: (playerName: string) => Promise<Room<LobbySchema>>,
+  set: (partial: Partial<LobbyStoreState>) => void,
+  get: () => LobbyStoreState,
+  onError?: (error: unknown) => void
+): Promise<boolean> => {
+  const playerName = useUserPreferencesStore.getState().playerName
+  if (!playerName) {
+    set({ playerNameValidationError: 'Player name is required' })
+    return false
+  }
+  set({
+    isLoading: true,
+    playerNameValidationError: undefined,
+    roomIdValidationError: undefined,
+    lobbyError: undefined,
+  })
+  try {
+    if (lobbyRoomRef.current) {
+      await get().leaveLobbyRoom()
+    }
+    const room = await roomOperation(playerName)
+    lobbyRoomRef.current = room
+    wireRoom(room, set, get)
+    set({
+      isLoading: false,
+      connectionLost: false,
+      failedRetries: 0,
+      roomId: room.roomId,
+    })
+    return true
+  } catch (error) {
+    set({ isLoading: false })
+    if (error instanceof ServerError && error.code === 4111) {
+      set({ playerNameValidationError: String(error.message) })
+    }
+    if (error instanceof ServerError && error.code === 4112) {
+      set({ roomIdValidationError: String(error.message) })
+    }
+    if (onError) {
+      onError(error)
+    } else {
+      set({ lobbyError: error })
+    }
+    return false
+  }
+}
+
+const wireRoom = (
+  room: Room<LobbySchema>,
+  set: (partial: Partial<LobbyStoreState>) => void,
+  get: () => LobbyStoreState
+) => {
+  room.onStateChange((schema) => {
+    const nextLobby = mapLobbyStable(schema, get().lobby)
+    if (nextLobby !== get().lobby) set({ lobby: nextLobby })
+  })
+  room.onError((code, message) => {
+    set({ lobbyError: { code, message } })
+  })
+  room.onLeave(() => {
+    lobbyRoomRef.current = null
+    if (!intentionalLeaveRef.current) {
+      set({ connectionLost: true })
+    }
+    intentionalLeaveRef.current = false
+  })
+}
