@@ -1,11 +1,8 @@
 import type { Room } from 'colyseus.js'
 import { Client, ServerError } from 'colyseus.js'
 import Constants from 'expo-constants'
-import type { LobbyPlayer } from 'types-party-battle/types/LobbyPlayerSchema'
-import { LobbyPlayerSchema } from 'types-party-battle/types/LobbyPlayerSchema'
-import type { Lobby } from 'types-party-battle/types/LobbySchema'
-import { LobbySchema } from 'types-party-battle/types/LobbySchema'
-import { toRgbColor } from 'types-party-battle/types/RGBColorSchema'
+import type { Lobby, LobbySchema } from 'types-party-battle/types/LobbySchema'
+import { mapLobbyStable } from 'types-party-battle/types/LobbySchema'
 import { create } from 'zustand'
 import { useUserPreferencesStore } from '../storage/userPreferencesStore'
 
@@ -38,25 +35,14 @@ const colyseusClientRef: { current: Client } = {
 const lobbyRoomRef: { current: Room<LobbySchema> | null } = { current: null }
 const intentionalLeaveRef: { current: boolean } = { current: false }
 
-const mapLobbyPlayer = (p: LobbyPlayerSchema): LobbyPlayer => ({
-  name: p.name,
-  color: toRgbColor(p.color),
-  ready: p.ready,
-})
-
-const mapLobby = (state: LobbySchema): Lobby => ({
-  players: Object.fromEntries(Array.from(state.players.entries()).map(([id, p]) => [id, mapLobbyPlayer(p)])),
-  currentGame: state.currentGame ?? null,
-  currentGameRoomId: state.currentGameRoomId ?? null,
-  gameHistories: state.gameHistories.map((gh) => ({
-    gameType: gh.gameType,
-    scores: gh.scores.map((s) => ({ playerName: s.playerName, value: s.value })),
-  })),
-})
-
-const wireRoom = (room: Room<LobbySchema>, set: (partial: Partial<LobbyStoreState>) => void) => {
+const wireRoom = (
+  room: Room<LobbySchema>,
+  set: (partial: Partial<LobbyStoreState>) => void,
+  get: () => LobbyStoreState
+) => {
   room.onStateChange((schema) => {
-    set({ lobby: mapLobby(schema) })
+    const nextLobby = mapLobbyStable(schema, get().lobby)
+    if (nextLobby !== get().lobby) set({ lobby: nextLobby })
   })
   room.onError((code, message) => {
     set({ lobbyError: { code, message } })
@@ -98,7 +84,7 @@ export const useLobbyStore = create<LobbyStoreState>((set, get) => ({
       }
       const room = await colyseusClientRef.current.joinById<LobbySchema>(roomId, { name: playerName })
       lobbyRoomRef.current = room
-      wireRoom(room, (partial) => set(partial))
+      wireRoom(room, set, get)
       set({
         isLoading: false,
         connectionLost: false,
@@ -139,7 +125,7 @@ export const useLobbyStore = create<LobbyStoreState>((set, get) => ({
       }
       const room = await colyseusClientRef.current.create<LobbySchema>('lobby_room', { name: playerName })
       lobbyRoomRef.current = room
-      wireRoom(room, (partial) => set(partial))
+      wireRoom(room, set, get)
       set({
         isLoading: false,
         connectionLost: false,
@@ -201,7 +187,7 @@ export const useLobbyStore = create<LobbyStoreState>((set, get) => ({
       }
       const room = await colyseusClientRef.current.joinById<LobbySchema>(roomId, { name: playerName })
       lobbyRoomRef.current = room
-      wireRoom(room, (partial) => set(partial))
+      wireRoom(room, set, get)
       set({
         isLoading: false,
         connectionLost: false,
