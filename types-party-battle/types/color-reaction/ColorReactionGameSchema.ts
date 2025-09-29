@@ -1,13 +1,9 @@
-import { ArraySchema, Schema, type } from "@colyseus/schema";
+import { ArraySchema, type } from "@colyseus/schema";
 import { GameSchema } from "../GameSchema";
 import { RGBColorSchema } from "../RGBColorSchema";
+import { ColorSchema } from "./ColorSchema";
 
 export type selectionType = "color" | "word";
-
-export class ColorSchema extends Schema {
-  @type("string") word: string = "";
-  @type("string") color: string = "";
-}
 
 export class ColorReactionGameSchema extends GameSchema {
   @type("string") selectiontype?: selectionType;
