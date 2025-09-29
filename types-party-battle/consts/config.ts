@@ -2,24 +2,22 @@ import { RGBColor } from "../types/RGBColorSchema";
 
 export const MAX_AMOUNT_OF_PLAYERS = 8;
 export const PLAYER_NAME_MAX_LENGTH = 15;
-export const PLAYER_COLORS: RGBColor[] = [
-  { r: 229, g: 62, b: 62 }, // Red
-  { r: 49, g: 130, b: 206 }, // Blue
-  { r: 56, g: 161, b: 105 }, // Green
-  { r: 221, g: 107, b: 32 }, // Orange
-  { r: 214, g: 158, b: 46 }, // Yellow
-  { r: 128, g: 90, b: 213 }, // Purple
-  { r: 213, g: 63, b: 140 }, // Pink
-  { r: 49, g: 151, b: 149 }, // Teal
-] as const;
+const color = (r: number, g: number, b: number): RGBColor => ({ r, g, b });
 
 export const COLOR_NAME_TO_RGB = {
-  red: { r: 229, g: 62, b: 62 },
-  blue: { r: 49, g: 130, b: 206 },
-  green: { r: 56, g: 161, b: 105 },
-  orange: { r: 221, g: 107, b: 32 },
-  yellow: { r: 214, g: 158, b: 46 },
-  purple: { r: 128, g: 90, b: 213 },
-  pink: { r: 213, g: 63, b: 140 },
-  teal: { r: 49, g: 151, b: 149 },
+  red: color(229, 62, 62),
+  blue: color(49, 130, 206),
+  green: color(56, 161, 105),
+  orange: color(221, 107, 32),
+  darkgreen: color(0, 100, 0),
+  lightgreen: color(144, 238, 144),
+  purple: color(128, 90, 213),
+  pink: color(213, 63, 140),
+  cyan: color(34, 211, 238),
 } as const;
+
+export type ColorName = keyof typeof COLOR_NAME_TO_RGB;
+
+export const PLAYER_COLORS: readonly RGBColor[] = Object.freeze(
+  Object.values(COLOR_NAME_TO_RGB)
+);

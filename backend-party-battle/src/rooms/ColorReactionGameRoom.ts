@@ -8,9 +8,9 @@ import {
 import { ColorSchema } from 'types-party-battle/types/color-reaction/ColorSchema'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import {
+  fromRgbColor,
   RGBColor,
   RGBColorSchema,
-  fromRgbColor,
   rgbColorToString,
 } from 'types-party-battle/types/RGBColorSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
@@ -126,22 +126,12 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
       scoreToPlayers.get(score)!.push(playerName)
     })
 
-    const sortedScores = Array.from(scoreToPlayers.keys()).sort((a, b) => a - b)
+    const sortedScores = Array.from(scoreToPlayers.keys()).sort((a, b) => b - a)
     sortedScores.forEach((score) => {
       scoreGroups.push(scoreToPlayers.get(score)!)
     })
 
-    console.log('Color Reaction Game - Final Scores:')
-    scoreGroups.forEach((group, groupIndex) => {
-      const score = sortedScores[groupIndex]
-      group.forEach((playerName) => {
-        console.log(`${groupIndex + 1}. ${playerName}: ${score} points`)
-      })
-    })
-
     const scores = assignScoresByRank(scoreGroups)
-
-    console.log('scores: ', scores)
 
     return scores
   }

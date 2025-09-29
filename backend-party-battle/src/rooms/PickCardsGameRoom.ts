@@ -121,12 +121,10 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
   override getScores(): Score[] {
     const playerGroups: string[][] = []
 
+    playerGroups.push([...this.state.remainingPlayers])
+
     for (const playerName of this.eliminatedPlayers) {
       playerGroups.push([playerName])
-    }
-
-    if (this.state.remainingPlayers.length > 0) {
-      playerGroups.push(this.state.remainingPlayers)
     }
 
     return assignScoresByRank(playerGroups)

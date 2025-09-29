@@ -162,9 +162,13 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   }
 
   override getScores(): Score[] {
-    const playerGroups: string[][] = [...this.eliminatedPlayers]
+    const playerGroups: string[][] = []
 
     playerGroups.push([...this.state.remainingPlayers.map((player) => player.name)])
+
+    for (const playerName of this.eliminatedPlayers) {
+      playerGroups.push([...playerName])
+    }
 
     return assignScoresByRank(playerGroups)
   }

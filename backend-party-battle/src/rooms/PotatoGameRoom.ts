@@ -152,11 +152,11 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
   override getScores(): Score[] {
     const playerGroups: string[][] = []
 
+    playerGroups.push([...this.state.remainingPlayers])
+
     for (const playerName of this.eliminatedPlayers) {
       playerGroups.push([playerName])
     }
-
-    playerGroups.push([...this.state.remainingPlayers])
 
     return assignScoresByRank(playerGroups)
   }
