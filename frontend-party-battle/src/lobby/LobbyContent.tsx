@@ -16,8 +16,8 @@ export default function LobbyContent() {
   const { roomId, currentGame, currentGameRoomId } = useLobbyStore(
     useShallow((state) => ({
       roomId: state.roomId,
-      currentGame: state.lobby.currentGame,
-      currentGameRoomId: state.lobby.currentGameRoomId,
+      currentGame: state.view.currentGame,
+      currentGameRoomId: state.view.currentGameRoomId,
     }))
   )
 

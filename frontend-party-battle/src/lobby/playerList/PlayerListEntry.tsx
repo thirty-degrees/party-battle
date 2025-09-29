@@ -14,7 +14,9 @@ type PlayerListEntryProps = {
 
 export function PlayerListEntry({ playerName }: PlayerListEntryProps) {
   const ready = useLobbyStore(
-    (state) => Object.values(state.lobby.players).find((p) => p.name === playerName)?.ready ?? false
+    (state) =>
+      Object.values(state.view.players).find((p: { name: string; ready?: boolean }) => p.name === playerName)
+        ?.ready ?? false
   )
   const playerColorString = usePlayerColorString(playerName)
   const { playerName: currentPlayerName } = usePlayerName()

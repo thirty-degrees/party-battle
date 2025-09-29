@@ -15,10 +15,10 @@ import { useShallow } from 'zustand/react/shallow'
 export function JoinSection() {
   const [gameRoomId, setGameRoomId] = useState('')
   const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
-  const { createLobbyRoom, joinLobbyRoom, isLoading, playerNameValidationError } = useLobbyStore(
+  const { createRoom, joinById, isLoading, playerNameValidationError } = useLobbyStore(
     useShallow((state) => ({
-      createLobbyRoom: state.createLobbyRoom,
-      joinLobbyRoom: state.joinLobbyRoom,
+      createRoom: state.createRoom,
+      joinById: state.joinById,
       isLoading: state.isLoading,
       playerNameValidationError: state.playerNameValidationError,
     }))
@@ -44,7 +44,7 @@ export function JoinSection() {
   }, [setIsFloatingKeyboardInputVisible])
 
   const handleCreateRoom = async () => {
-    const success = await createLobbyRoom()
+    const success = await createRoom()
     if (!success) {
       const errorMessage = playerNameValidationError
       showError('Failed to create party', errorMessage ?? '')
@@ -57,7 +57,7 @@ export function JoinSection() {
   }
 
   const handleJoinRoom = async (gameRoomId: string) => {
-    const success = await joinLobbyRoom(gameRoomId)
+    const success = await joinById(gameRoomId)
 
     if (!success) {
       const errorMessage = playerNameValidationError

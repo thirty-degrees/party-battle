@@ -20,7 +20,7 @@ export default function GameRoomLeaver<T extends GameSchema>({
 }: GameRoomLeaverProps<T>) {
   const gameStatus = useColyseusState(gameRoom, (state) => state.status)
   const { leaveGameRoom } = useGameRoomContext<T>()
-  const currentGame = useLobbyStore((state) => state.lobby.currentGame)
+  const currentGame = useLobbyStore((state) => state.view.currentGame)
 
   useEffect(() => {
     if (gameStatus === 'finished' && !currentGame) {
