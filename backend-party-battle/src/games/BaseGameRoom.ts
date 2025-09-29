@@ -71,7 +71,7 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
     if (this.playerConnections.has(options.name)) {
       this.playerConnections.set(options.name, client.sessionId)
 
-      if (this.allPlayersConnected() && this.minimumWaitTimeout === null) {
+      if (this.allPlayersConnected() && this.minimumWaitTimeout === null && this.state.status === 'waiting') {
         this.clearGameStartTimeouts()
         this.startGame()
       }

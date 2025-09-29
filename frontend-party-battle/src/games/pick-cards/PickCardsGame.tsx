@@ -1,8 +1,7 @@
 import { Text } from '@/components/ui/text'
 import { Dimensions, View } from 'react-native'
-import { PickCardsGameSchema } from 'types-party-battle/types/pick-cards/PickCardsGameSchema'
+import { useShallow } from 'zustand/react/shallow'
 import { ShakingScreen } from '../../../components/shaking-screen/ShakingScreen'
-import useColyseusState from '../../colyseus/useColyseusState'
 import { usePlayerName } from '../../storage/userPreferencesStore'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
@@ -10,15 +9,28 @@ import Cards from './Cards'
 import SkullExplodingSvgComponent from './skullExplodingSvgComponent'
 import SkullSvgComponent from './skullSvgComponent'
 import TimerProgressBar from './TimerProgressBar'
+import { usePickCardsGameStore } from './usePickCardsStore'
 
-export const PickCardsGame: GameComponent<PickCardsGameSchema> = ({ gameRoom }) => {
-  const cardCount = useColyseusState(gameRoom, (state: PickCardsGameSchema) => state.cardCount)
-  const pressedCardIndex = useColyseusState(gameRoom, (state: PickCardsGameSchema) =>
-    Array.from(state.pressedCardIndex || [])
+export const PickCardsGame: GameComponent = () => {
+  const {
+    status,
+    cardCount,
+    pressedCardIndex,
+    currentPlayer,
+    remainingPlayers,
+    timeWhenTimerIsOver,
+    sendMessage,
+  } = usePickCardsGameStore(
+    useShallow((state) => ({
+      status: state.view.status,
+      cardCount: state.view.cardCount,
+      pressedCardIndex: state.view.pressedCardIndex,
+      currentPlayer: state.view.currentPlayer,
+      remainingPlayers: state.view.remainingPlayers,
+      timeWhenTimerIsOver: state.view.timeWhenTimerIsOver,
+      sendMessage: state.sendMessage,
+    }))
   )
-  const currentPlayer = useColyseusState(gameRoom, (state) => state.currentPlayer)
-  const remainingPlayers = useColyseusState(gameRoom, (state) => Array.from(state.remainingPlayers || []))
-  const timeWhenTimerIsOver = useColyseusState(gameRoom, (state) => state.timeWhenTimerIsOver)
   const { playerName } = usePlayerName()
 
   const screenWidth = Dimensions.get('window').width
@@ -29,12 +41,12 @@ export const PickCardsGame: GameComponent<PickCardsGameSchema> = ({ gameRoom }) 
 
   const handleCardPress = (toothIndex: number) => {
     if (isCurrentPlayer) {
-      gameRoom.send('CardPressed', { index: toothIndex })
+      sendMessage('CardPressed', { index: toothIndex })
     }
   }
 
   return (
-    <ShakingScreen run={!isPlayerInGame}>
+    <ShakingScreen run={!isPlayerInGame && status !== 'waiting'}>
       <BasicGameView>
         <View className="flex-1 items-center justify-center">
           <View className="flex-1 items-center justify-center">
