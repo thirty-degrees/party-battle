@@ -29,11 +29,11 @@ export default function SnakeScreen() {
       GameComponent={SnakeGame}
       joinGameRoom={joinGameRoom}
       leaveGameRoom={leaveGameRoom}
-      isLoading={isLoading}
-      activeRoomId={activeRoomId}
+      isGameRoomLoading={isLoading}
+      activeGameRoomId={activeRoomId}
       gameStatus={gameStatus}
-      connectionLost={connectionLost}
-      error={error}
+      connectionToGameRoomLost={connectionLost}
+      gameRoomError={error}
     />
   )
 }

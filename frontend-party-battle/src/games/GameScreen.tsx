@@ -1,8 +1,9 @@
 import Loading from '@/components/loading'
 import { Text } from '@/components/ui/text'
-import { Redirect, router, useLocalSearchParams } from 'expo-router'
+import { Redirect, useLocalSearchParams } from 'expo-router'
 import { useEffect } from 'react'
 import { View } from 'react-native'
+import { useShallow } from 'zustand/react/shallow'
 import { useLobbyStore } from '../lobby/useLobbyStore'
 import { GameComponent } from './GameComponent'
 
@@ -10,41 +11,49 @@ interface GameScreenProps {
   GameComponent: GameComponent
   joinGameRoom: (roomId: string) => Promise<boolean>
   leaveGameRoom: () => Promise<void>
-  isLoading: boolean
-  activeRoomId?: string
+  isGameRoomLoading: boolean
+  activeGameRoomId?: string
   gameStatus: string
-  connectionLost: boolean
-  error?: unknown
+  connectionToGameRoomLost: boolean
+  gameRoomError?: unknown
 }
 
 export default function GameScreen({
   GameComponent,
   joinGameRoom,
   leaveGameRoom,
-  isLoading,
-  activeRoomId,
+  isGameRoomLoading,
+  activeGameRoomId,
   gameStatus,
-  connectionLost,
-  error,
+  connectionToGameRoomLost,
+  gameRoomError: error,
 }: GameScreenProps) {
   const { roomId } = useLocalSearchParams<{ roomId: string }>()
 
   useEffect(() => {
-    if (roomId && !isLoading && roomId !== activeRoomId) {
+    if (roomId && !isGameRoomLoading && roomId !== activeGameRoomId) {
       joinGameRoom(roomId)
     }
-  }, [roomId, joinGameRoom, isLoading, activeRoomId])
+  }, [roomId, joinGameRoom, isGameRoomLoading, activeGameRoomId])
 
-  const currentGame = useLobbyStore((state) => state.view.currentGame)
+  const { currentGame, currentGameRoomId } = useLobbyStore(
+    useShallow((state) => ({
+      currentGame: state.view.currentGame,
+      currentGameRoomId: state.view.currentGameRoomId,
+    }))
+  )
+
+  const requiresRedirectToLobby = Boolean(
+    !currentGame || (activeGameRoomId && currentGameRoomId !== activeGameRoomId)
+  )
 
   useEffect(() => {
-    if (gameStatus === 'finished' && !currentGame) {
+    if (requiresRedirectToLobby) {
       leaveGameRoom()
-      router.push('/lobby')
     }
-  }, [gameStatus, leaveGameRoom, currentGame])
+  }, [leaveGameRoom, requiresRedirectToLobby])
 
-  if (connectionLost) {
+  if (connectionToGameRoomLost || requiresRedirectToLobby) {
     return <Redirect href="/lobby" />
   }
 
@@ -52,7 +61,7 @@ export default function GameScreen({
     throw error
   }
 
-  if (isLoading || roomId !== activeRoomId) {
+  if (isGameRoomLoading || roomId !== activeGameRoomId) {
     return <Loading />
   }
 

@@ -5,7 +5,7 @@ import { useIsFocused } from '@react-navigation/native'
 import { useShallow } from 'zustand/react/shallow'
 
 export default function ColorReactionScreen() {
-  const { joinGameRoom, leaveGameRoom, isLoading, activeRoomId, gameStatus, connectionLost, error } =
+  const { joinGameRoom, leaveGameRoom, isLoading, activeRoomId, gameStatus, connectionLost, roomError } =
     useColorReactionGameStore(
       useShallow((state) => ({
         joinGameRoom: state.joinById,
@@ -14,7 +14,7 @@ export default function ColorReactionScreen() {
         activeRoomId: state.roomId,
         gameStatus: state.view.status,
         connectionLost: state.connectionLost,
-        error: state.roomError,
+        roomError: state.roomError,
       }))
     )
 
@@ -29,11 +29,11 @@ export default function ColorReactionScreen() {
       GameComponent={ColorReactionGame}
       joinGameRoom={joinGameRoom}
       leaveGameRoom={leaveGameRoom}
-      isLoading={isLoading}
-      activeRoomId={activeRoomId}
+      isGameRoomLoading={isLoading}
+      activeGameRoomId={activeRoomId}
       gameStatus={gameStatus}
-      connectionLost={connectionLost}
-      error={error}
+      connectionToGameRoomLost={connectionLost}
+      gameRoomError={roomError}
     />
   )
 }
