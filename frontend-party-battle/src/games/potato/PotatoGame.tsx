@@ -1,8 +1,7 @@
 import { usePlayerName } from '@/src/storage/userPreferencesStore'
 import { useRef } from 'react'
 import { Animated, View } from 'react-native'
-import { PotatoGameSchema } from 'types-party-battle/types/potato/PotatoGameSchema'
-import useColyseusState from '../../colyseus/useColyseusState'
+import { useShallow } from 'zustand/react/shallow'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
 import { assignPlayerSlotPositions } from './assignPlayerSlotPositions'
@@ -12,13 +11,18 @@ import TopRibbon from './TopRibbon'
 import usePotatoLayout from './usePotatoLayout'
 import { usePotatoOwnerEffect } from './usePotatoOwnerEffect'
 import { usePotatoPanResponder } from './usePotatoPanResponder'
+import { usePotatoGameStore } from './usePotatoStore'
 
-export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
+export const PotatoGame: GameComponent = () => {
   const { playerName } = usePlayerName()
-  const message = useColyseusState(gameRoom, (state) => state.message)
-  const playerWithPotato = useColyseusState(gameRoom, (state) => state.playerWithPotato)
-  const status = useColyseusState(gameRoom, (state) => state.status)
-  const remainingPlayers = useColyseusState(gameRoom, (state) => [...state.remainingPlayers])
+  const { message, playerWithPotato, status, remainingPlayers } = usePotatoGameStore(
+    useShallow((state) => ({
+      message: state.view.message,
+      playerWithPotato: state.view.playerWithPotato,
+      status: state.view.status,
+      remainingPlayers: state.view.remainingPlayers,
+    }))
+  )
   const playerSlotAssignments = assignPlayerSlotPositions(remainingPlayers, playerName)
 
   const translateX = useRef(new Animated.Value(0)).current
@@ -42,7 +46,6 @@ export const PotatoGame: GameComponent<PotatoGameSchema> = ({ gameRoom }) => {
     canLeft: !!playerSlotAssignments.left,
     canRight: !!playerSlotAssignments.right,
     canAcross: !!playerSlotAssignments.top,
-    gameRoom,
     availableWidth,
     availableHeight,
     translateX,

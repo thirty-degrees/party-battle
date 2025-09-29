@@ -1,13 +1,14 @@
 import { useMemo } from 'react'
 import { Animated, PanResponder } from 'react-native'
 import { PotatoDirection } from 'types-party-battle/types/potato/PotatoGameSchema'
+import { useShallow } from 'zustand/react/shallow'
+import { usePotatoGameStore } from './usePotatoStore'
 
 type Args = {
   status: string | undefined
   canLeft: boolean
   canRight: boolean
   canAcross: boolean
-  gameRoom: { send: <T>(type: string, message?: T) => void }
   availableWidth: number
   availableHeight: number
   translateX: Animated.Value
@@ -19,12 +20,13 @@ export function usePotatoPanResponder({
   canLeft,
   canRight,
   canAcross,
-  gameRoom,
   availableWidth,
   availableHeight,
   translateX,
   translateY,
 }: Args) {
+  const { sendMessage } = usePotatoGameStore(useShallow((state) => ({ sendMessage: state.sendMessage })))
+
   const panResponder = useMemo(
     () =>
       PanResponder.create({
@@ -36,14 +38,14 @@ export function usePotatoPanResponder({
             const dir: PotatoDirection = g.dx > 0 ? 'right' : 'left'
             const allowed = dir === 'right' ? canRight : canLeft
             if (!allowed) return
-            gameRoom.send<PotatoDirection>('PassPotato', dir)
+            sendMessage<PotatoDirection>('PassPotato', dir)
             const toX = dir === 'right' ? availableWidth : -availableWidth
             Animated.parallel([
               Animated.timing(translateX, { toValue: toX, duration: 500, useNativeDriver: true }),
             ]).start()
           } else if (g.dy < 0) {
             if (!canAcross) return
-            gameRoom.send<PotatoDirection>('PassPotato', 'across')
+            sendMessage<PotatoDirection>('PassPotato', 'across')
             Animated.parallel([
               Animated.timing(translateY, {
                 toValue: -availableHeight,
@@ -54,7 +56,17 @@ export function usePotatoPanResponder({
           }
         },
       }),
-    [status, canLeft, canRight, canAcross, gameRoom, availableWidth, availableHeight, translateX, translateY]
+    [
+      status,
+      canLeft,
+      canRight,
+      canAcross,
+      sendMessage,
+      availableWidth,
+      availableHeight,
+      translateX,
+      translateY,
+    ]
   )
 
   return panResponder
