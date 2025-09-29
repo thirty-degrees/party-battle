@@ -9,7 +9,7 @@ type LastRoundScoreCellProps = {
 export function LastRoundScoreCell({ playerName }: LastRoundScoreCellProps) {
   const lastRoundScore = useLobbyStore(
     (state) =>
-      state.lobby.gameHistories.at(-1)?.scores.find((score) => score.playerName === playerName)?.value ?? 0
+      state.view.gameHistories.at(-1)?.scores.find((score) => score.playerName === playerName)?.value ?? 0
   )
 
   return (

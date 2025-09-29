@@ -14,8 +14,8 @@ type PlaceCellProps = {
 }
 
 export function PlaceCell({ playerName }: PlaceCellProps) {
-  const players = useLobbyStore(useShallow((state) => Object.values(state.lobby.players).map((p) => p.name)))
-  const gameHistories = useLobbyStore(useShallow((state) => state.lobby.gameHistories))
+  const players = useLobbyStore(useShallow((state) => Object.values(state.view.players).map((p) => p.name)))
+  const gameHistories = useLobbyStore(useShallow((state) => state.view.gameHistories))
 
   const { place, rankTrend } = useMemo(() => {
     const totals = new Map<string, number>()

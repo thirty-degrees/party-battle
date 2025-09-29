@@ -7,19 +7,19 @@ import { useShallow } from 'zustand/react/shallow'
 import { useLobbyStore } from './useLobbyStore'
 
 export function ConnectionLostScreen() {
-  const { canRetry, retryJoinLobbyRoom, isLoading, leaveLobbyRoom } = useLobbyStore(
+  const { canRetry, retry, isLoading, leaveRoom } = useLobbyStore(
     useShallow((state) => ({
       canRetry: state.failedRetries < 1,
-      retryJoinLobbyRoom: state.retryJoinLobbyRoom,
+      retry: state.retry,
       isLoading: state.isLoading,
-      leaveLobbyRoom: state.leaveLobbyRoom,
+      leaveRoom: state.leaveRoom,
     }))
   )
 
   const router = useRouter()
 
   const handleLeaveParty = async () => {
-    await leaveLobbyRoom()
+    await leaveRoom()
     router.push('/')
   }
 
@@ -34,7 +34,7 @@ export function ConnectionLostScreen() {
             <ButtonText>Main Menu</ButtonText>
           </Button>
           {canRetry && (
-            <Button size="md" action="primary" onPress={retryJoinLobbyRoom} isDisabled={isLoading}>
+            <Button size="md" action="primary" onPress={retry} isDisabled={isLoading}>
               <ButtonText>{isLoading ? 'Retrying...' : 'Retry'}</ButtonText>
             </Button>
           )}

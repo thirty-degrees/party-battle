@@ -4,11 +4,11 @@ import { useLobbyStore } from '@/src/lobby/useLobbyStore'
 import { useRouter } from 'expo-router'
 
 export default function LeaveLobbyButton() {
-  const leaveLobbyRoom = useLobbyStore((state) => state.leaveLobbyRoom)
+  const leaveRoom = useLobbyStore((state) => state.leaveRoom)
   const router = useRouter()
 
   const handleLeaveParty = async () => {
-    await leaveLobbyRoom()
+    await leaveRoom()
     router.push('/')
   }
 

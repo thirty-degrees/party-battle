@@ -6,7 +6,7 @@ import { useShallow } from 'zustand/react/shallow'
 
 export default function LobbyScreen() {
   const { error, connectionLost } = useLobbyStore(
-    useShallow((state) => ({ error: state.lobbyError, connectionLost: state.connectionLost }))
+    useShallow((state) => ({ error: state.roomError, connectionLost: state.connectionLost }))
   )
   const isFocused = useIsFocused()
 

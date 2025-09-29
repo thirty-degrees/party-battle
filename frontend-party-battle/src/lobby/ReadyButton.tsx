@@ -8,18 +8,18 @@ import { useShallow } from 'zustand/react/shallow'
 
 export default function ReadyButton() {
   const { playerName } = usePlayerName()
-  const { isCurrentPlayerReady, playerCount, sendLobbyRoomMessage } = useLobbyStore(
+  const { isCurrentPlayerReady, playerCount, sendMessage } = useLobbyStore(
     useShallow((state) => ({
-      isCurrentPlayerReady: Object.values(state.lobby.players).some(
-        (player) => player.name === playerName && player.ready
+      isCurrentPlayerReady: Object.values(state.view.players).some(
+        (player: { name: string; ready?: boolean }) => player.name === playerName && player.ready
       ),
-      playerCount: Object.keys(state.lobby.players).length,
-      sendLobbyRoomMessage: state.sendLobbyRoomMessage,
+      playerCount: Object.keys(state.view.players).length,
+      sendMessage: state.sendMessage,
     }))
   )
 
   const handleToggleReady = () => {
-    sendLobbyRoomMessage('SetPlayerReady', !isCurrentPlayerReady)
+    sendMessage('SetPlayerReady', !isCurrentPlayerReady)
     blurActiveElement()
   }
 
