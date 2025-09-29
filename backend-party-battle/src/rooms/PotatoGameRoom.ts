@@ -10,7 +10,7 @@ import { BaseGameRoom } from '../games/BaseGameRoom'
 import { getPlayerAcrossOf } from '../games/potato/getPlayerAcrossOf'
 import { getPlayerLeftOf } from '../games/potato/getPlayerLeftOf'
 import { getPlayerRightOf } from '../games/potato/getPlayerRightOf'
-import { assignScoresByOrder } from '../scores/assignScoresByOrder'
+import { assignScoresByRank } from '../scores/assignScoresByRank'
 
 const DIRECTION_FUNCTIONS: Record<
   PotatoDirection,
@@ -158,6 +158,6 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
 
     playerGroups.push([...this.state.remainingPlayers])
 
-    return assignScoresByOrder(playerGroups)
+    return assignScoresByRank(playerGroups)
   }
 }

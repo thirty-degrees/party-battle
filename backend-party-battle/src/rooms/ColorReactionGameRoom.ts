@@ -15,7 +15,7 @@ import {
 } from 'types-party-battle/types/RGBColorSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
-import { assignScoresByOrder } from '../scores/assignScoresByOrder'
+import { assignScoresByRank } from '../scores/assignScoresByRank'
 
 export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema> {
   static readonly gameType: GameType = 'color-reaction'
@@ -23,6 +23,7 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
   private countdownInterval: Delayed | null = null
   private currentRound = 0
   private totalRounds = 0
+  private playerScores = new Map<string, number>()
 
   override getGameType(): GameType {
     return ColorReactionGameRoom.gameType
@@ -39,6 +40,10 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
 
     this.resetGame()
 
+    this.state.players.forEach((player) => {
+      this.playerScores.set(player.name, 0)
+    })
+
     this.onMessage<RGBColorSchema>('ColorPressed', (client, color) => {
       this.handleColorPressed(client, color)
     })
@@ -47,17 +52,11 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
   }
 
   private handleColorPressed(client: Client, color: RGBColorSchema) {
-    console.log('Color pressed:', color)
-
     this.state.colorIdButtons = new ArraySchema<RGBColorSchema>()
 
-    console.log('sessionid', client.sessionId)
     const playerName = this.findPlayerBySessionId(client.sessionId)
     if (playerName) {
-      console.log('Player found:', playerName)
       this.state.guesserName = playerName
-    } else {
-      console.log('Player not found')
     }
 
     const selectedColorString = rgbColorToString(color)
@@ -69,6 +68,15 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
       this.state.correctGuess = this.state.currentSelection?.word === selectedColorName
     } else {
       this.state.correctGuess = false
+    }
+
+    if (playerName) {
+      const currentScore = this.playerScores.get(playerName) || 0
+      if (this.state.correctGuess) {
+        this.playerScores.set(playerName, currentScore + 1)
+      } else {
+        this.playerScores.set(playerName, currentScore - 1)
+      }
     }
 
     this.currentRound += 1
@@ -108,9 +116,34 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
   }
 
   override getScores(): Score[] {
-    const playerGroups: string[][] = []
-    // TODO: handle Scores of players
-    return assignScoresByOrder(playerGroups)
+    const scoreGroups: string[][] = []
+    const scoreToPlayers = new Map<number, string[]>()
+
+    this.playerScores.forEach((score, playerName) => {
+      if (!scoreToPlayers.has(score)) {
+        scoreToPlayers.set(score, [])
+      }
+      scoreToPlayers.get(score)!.push(playerName)
+    })
+
+    const sortedScores = Array.from(scoreToPlayers.keys()).sort((a, b) => a - b)
+    sortedScores.forEach((score) => {
+      scoreGroups.push(scoreToPlayers.get(score)!)
+    })
+
+    console.log('Color Reaction Game - Final Scores:')
+    scoreGroups.forEach((group, groupIndex) => {
+      const score = sortedScores[groupIndex]
+      group.forEach((playerName) => {
+        console.log(`${groupIndex + 1}. ${playerName}: ${score} points`)
+      })
+    })
+
+    const scores = assignScoresByRank(scoreGroups)
+
+    console.log('scores: ', scores)
+
+    return scores
   }
 
   override onDispose() {

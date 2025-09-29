@@ -15,7 +15,7 @@ import { createInitialBoard } from '../games/snake/createInitialBoard'
 import { getDeaths } from '../games/snake/getDeaths'
 import { getMovementIntentions, MovementIntention } from '../games/snake/getMovementIntentions'
 import { isOppositeDirection } from '../games/snake/isOppositeDirection'
-import { assignScoresByOrder } from '../scores/assignScoresByOrder'
+import { assignScoresByRank } from '../scores/assignScoresByRank'
 
 const STEPS_PER_SECOND = 3
 
@@ -166,7 +166,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
     playerGroups.push([...this.state.remainingPlayers.map((player) => player.name)])
 
-    return assignScoresByOrder(playerGroups)
+    return assignScoresByRank(playerGroups)
   }
 
   private isPlayerInGame(playerName: string): boolean {

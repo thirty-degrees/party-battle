@@ -4,7 +4,7 @@ import { PickCardsGameSchema } from 'types-party-battle/types/pick-cards/PickCar
 import { RGBColor } from 'types-party-battle/types/RGBColorSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
-import { assignScoresByOrder } from '../scores/assignScoresByOrder'
+import { assignScoresByRank } from '../scores/assignScoresByRank'
 
 export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
   static readonly gameType: GameType = 'pick-cards'
@@ -129,7 +129,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
       playerGroups.push(this.state.remainingPlayers)
     }
 
-    return assignScoresByOrder(playerGroups)
+    return assignScoresByRank(playerGroups)
   }
 
   override onDispose() {
