@@ -2,7 +2,7 @@ import { ArraySchema, MapSchema, Schema, type } from "@colyseus/schema";
 import {
   GameHistory,
   GameHistorySchema,
-  mapGameHistoriesStable,
+  mapGameHistoryStable,
 } from "./GameHistorySchema";
 import { GameType } from "./GameSchema";
 import {
@@ -10,6 +10,7 @@ import {
   LobbyPlayerSchema,
   mapLobbyPlayerStable,
 } from "./LobbyPlayerSchema";
+import { mapArrayStable } from "./mapArrayStable";
 
 export interface Lobby {
   players: { [sessionId: string]: LobbyPlayer };
@@ -58,9 +59,10 @@ export const mapLobbyStable = (state: LobbySchema, prev?: Lobby): Lobby => {
   const players = mapPlayersStable(state.players, prev?.players);
   const currentGame = state.currentGame ?? null;
   const currentGameRoomId = state.currentGameRoomId ?? null;
-  const gameHistories = mapGameHistoriesStable(
+  const gameHistories = mapArrayStable(
     state.gameHistories,
-    prev?.gameHistories
+    prev?.gameHistories,
+    mapGameHistoryStable
   );
   if (
     prev &&

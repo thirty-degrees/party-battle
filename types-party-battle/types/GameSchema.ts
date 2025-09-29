@@ -1,9 +1,15 @@
 import { ArraySchema, Schema, type } from "@colyseus/schema";
-import { PlayerSchema } from "./PlayerSchema";
+import { Player, PlayerSchema, mapPlayerStable } from "./PlayerSchema";
+import { mapArrayStable } from "./mapArrayStable";
 
 export type GameType = "pick-cards" | "snake" | "potato" | "color-reaction";
 
 export type GameStatus = "waiting" | "playing" | "paused" | "finished";
+
+export interface Game {
+  players: Player[];
+  status: GameStatus;
+}
 
 export abstract class GameSchema extends Schema {
   @type([PlayerSchema]) players = new ArraySchema<PlayerSchema>();
@@ -14,3 +20,10 @@ export abstract class GameSchema extends Schema {
     this.status = status;
   }
 }
+
+export const mapGameStable = (game: GameSchema, prev?: Game): Game => {
+  const players = mapArrayStable(game.players, prev?.players, mapPlayerStable);
+  const status = game.status;
+  if (prev && prev.players === players && prev.status === status) return prev;
+  return { players, status };
+};
