@@ -1,6 +1,6 @@
 import Loading from '@/components/loading'
 import { Text } from '@/components/ui/text'
-import { router, useLocalSearchParams } from 'expo-router'
+import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import { useEffect } from 'react'
 import { View } from 'react-native'
 import { useLobbyStore } from '../lobby/useLobbyStore'
@@ -13,6 +13,8 @@ interface GameScreenProps {
   isLoading: boolean
   activeRoomId?: string
   gameStatus: string
+  connectionLost: boolean
+  error?: unknown
 }
 
 export default function GameScreen({
@@ -22,6 +24,8 @@ export default function GameScreen({
   isLoading,
   activeRoomId,
   gameStatus,
+  connectionLost,
+  error,
 }: GameScreenProps) {
   const { roomId } = useLocalSearchParams<{ roomId: string }>()
 
@@ -39,6 +43,14 @@ export default function GameScreen({
       router.push('/lobby')
     }
   }, [gameStatus, leaveGameRoom, currentGame])
+
+  if (connectionLost) {
+    return <Redirect href="/lobby" />
+  }
+
+  if (error) {
+    throw error
+  }
 
   if (isLoading || roomId !== activeRoomId) {
     return <Loading />
