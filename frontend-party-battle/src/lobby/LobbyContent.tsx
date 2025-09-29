@@ -34,26 +34,24 @@ export default function LobbyContent() {
   }
 
   return (
-    <>
-      <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
-        <View className="flex-1 p-4 justify-center items-center">
-          <View className="flex-1 max-w-md w-full gap-6 items-center">
-            <View className="flex-row items-center justify-between gap-2 w-full">
-              <PartyCode />
-              <View className="flex-row items-center justify-end gap-2">
-                <ShareButton />
-                <QrCodeButton />
-                <LeaveLobbyButton />
-              </View>
-            </View>
-            <View className="flex-1 w-full justify-between">
-              <PlayerCount />
-              <PlayerList />
-              <ReadyButton />
+    <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
+      <View className="flex-1 p-4 justify-center items-center">
+        <View className="flex-1 max-w-md w-full gap-6 items-center">
+          <View className="flex-row items-center justify-between gap-2 w-full">
+            <PartyCode />
+            <View className="flex-row items-center justify-end gap-2">
+              <ShareButton />
+              <QrCodeButton />
+              <LeaveLobbyButton />
             </View>
           </View>
+          <View className="flex-1 w-full justify-between">
+            <PlayerCount />
+            <PlayerList />
+            <ReadyButton />
+          </View>
         </View>
-      </SafeAreaView>
-    </>
+      </View>
+    </SafeAreaView>
   )
 }

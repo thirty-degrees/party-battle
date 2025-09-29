@@ -11,7 +11,6 @@ type LobbyStoreState = {
   roomId?: string
   isLoading: boolean
   playerNameValidationError?: string
-  roomIdValidationError?: string
   connectionLost: boolean
   failedRetries: number
   lobbyError?: unknown
@@ -89,9 +88,10 @@ export const useLobbyStore = create<LobbyStoreState>((set, get) => ({
   },
 
   retryJoinLobbyRoom: async () => {
-    const roomId = lobbyRoomRef.current?.roomId
+    const roomId = get().roomId
+    const failedRetries = get().failedRetries
     if (!roomId) {
-      set({ roomIdValidationError: 'Party code is required' })
+      set({ lobbyError: 'Party code is required', failedRetries: failedRetries + 1 })
       return false
     }
     return connectToRoom(
@@ -101,9 +101,8 @@ export const useLobbyStore = create<LobbyStoreState>((set, get) => ({
         }),
       set,
       get,
-      (error) => {
-        const failedRetries = get().failedRetries + 1
-        set({ lobbyError: error, connectionLost: true, failedRetries })
+      () => {
+        set({ connectionLost: true, failedRetries: failedRetries + 1 })
       }
     )
   },
@@ -121,7 +120,7 @@ const connectToRoom = async (
   roomOperation: (playerName: string) => Promise<Room<LobbySchema>>,
   set: (partial: Partial<LobbyStoreState>) => void,
   get: () => LobbyStoreState,
-  onError?: (error: unknown) => void
+  onError?: () => void
 ): Promise<boolean> => {
   const playerName = useUserPreferencesStore.getState().playerName
   if (!playerName) {
@@ -131,7 +130,6 @@ const connectToRoom = async (
   set({
     isLoading: true,
     playerNameValidationError: undefined,
-    roomIdValidationError: undefined,
     lobbyError: undefined,
   })
   try {
@@ -150,14 +148,11 @@ const connectToRoom = async (
     return true
   } catch (error) {
     set({ isLoading: false })
+    if (onError) {
+      onError()
+    }
     if (error instanceof ServerError && error.code === 4111) {
       set({ playerNameValidationError: String(error.message) })
-    }
-    if (error instanceof ServerError && error.code === 4112) {
-      set({ roomIdValidationError: String(error.message) })
-    }
-    if (onError) {
-      onError(error)
     } else {
       set({ lobbyError: error })
     }
