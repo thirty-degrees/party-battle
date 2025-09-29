@@ -4,6 +4,7 @@ import { Type } from '@colyseus/core/build/utils/types'
 import { Encoder } from '@colyseus/schema'
 import { Room } from 'colyseus'
 import { GameSchema, GameType } from 'types-party-battle/types/GameSchema'
+import { ColorReactionGameRoom } from './rooms/ColorReactionGameRoom'
 import { LobbyRoom } from './rooms/LobbyRoom'
 import { PickCardsGameRoom } from './rooms/PickCardsGameRoom'
 import { PotatoGameRoom } from './rooms/PotatoGameRoom'
@@ -14,7 +15,7 @@ const LOBBY_ROOM_NAME = 'lobby_room'
 export const gameRooms: ({
   readonly gameType: GameType
   readonly roomName: string
-} & Type<Room<GameSchema>>)[] = [PickCardsGameRoom, SnakeGameRoom, PotatoGameRoom]
+} & Type<Room<GameSchema>>)[] = [PickCardsGameRoom, SnakeGameRoom, PotatoGameRoom, ColorReactionGameRoom]
 
 export default config({
   initializeGameServer: (gameServer) => {
