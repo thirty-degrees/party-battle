@@ -1,9 +1,9 @@
 import { TouchableOpacity, View } from 'react-native'
-import { RGBColorSchema, rgbColorToString } from 'types-party-battle/types/RGBColorSchema'
+import { RGBColor, rgbColorToString } from 'types-party-battle/types/RGBColorSchema'
 
 interface ColorButtonsProps {
-  colorButtons: RGBColorSchema[]
-  onButtonPress: (color: RGBColorSchema, index: number) => void
+  colorButtons: RGBColor[]
+  onButtonPress: (color: RGBColor, index: number) => void
 }
 
 export const ColorButtons = ({ colorButtons, onButtonPress }: ColorButtonsProps) => {

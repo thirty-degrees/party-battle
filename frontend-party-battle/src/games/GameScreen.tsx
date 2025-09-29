@@ -27,7 +27,6 @@ export default function GameScreen({
 
   useEffect(() => {
     if (roomId && !isLoading && roomId !== activeRoomId) {
-      console.log('joining game room', roomId)
       joinGameRoom(roomId)
     }
   }, [roomId, joinGameRoom, isLoading, activeRoomId])
@@ -41,7 +40,7 @@ export default function GameScreen({
     }
   }, [gameStatus, leaveGameRoom, currentGame])
 
-  if (isLoading) {
+  if (isLoading || roomId !== activeRoomId) {
     return <Loading />
   }
 

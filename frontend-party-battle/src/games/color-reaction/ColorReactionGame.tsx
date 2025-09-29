@@ -1,26 +1,41 @@
 import { Text } from '@/components/ui/text'
-import useColyseusState from '@/src/colyseus/useColyseusState'
 import { View } from 'react-native'
-import { ColorReactionGameSchema } from 'types-party-battle/types/color-reaction/ColorReactionGameSchema'
-import { RGBColorSchema } from 'types-party-battle/types/RGBColorSchema'
+import { RGBColor } from 'types-party-battle/types/RGBColorSchema'
+import { useShallow } from 'zustand/react/shallow'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
 import { AnimatedColorButtons } from './AnimatedColorButtons'
 import { ColorButtons } from './ColorButtons'
 import { CurrentCountdownNumber } from './CurrentCountdownNumber'
+import { useColorReactionGameStore } from './useColorReactionStore'
 
-export const ColorReactionGame: GameComponent<ColorReactionGameSchema> = ({ gameRoom }) => {
-  const selectionType = useColyseusState(gameRoom, (state) => state.selectiontype)
-  const currentSelection = useColyseusState(gameRoom, (state) => state.currentSelection)
-  const currentCountdownNumber = useColyseusState(gameRoom, (state) => state.currentCountdownNumber)
-  const correctGuess = useColyseusState(gameRoom, (state) => state.correctGuess)
-  const guesserName = useColyseusState(gameRoom, (state) => state.guesserName)
-  const colorIdButtons = useColyseusState(gameRoom, (state) => Array.from(state.colorIdButtons))
+export const ColorReactionGame: GameComponent = () => {
+  const {
+    selectionType,
+    currentSelection,
+    currentCountdownNumber,
+    correctGuess,
+    guesserName,
+    colorIdButtons,
+  } = useColorReactionGameStore(
+    useShallow((state) => ({
+      selectionType: state.view.selectiontype,
+      currentSelection: state.view.currentSelection,
+      currentCountdownNumber: state.view.currentCountdownNumber,
+      correctGuess: state.view.correctGuess,
+      guesserName: state.view.guesserName,
+      colorIdButtons: state.view.colorIdButtons,
+    }))
+  )
 
   const isAnimating = !!currentCountdownNumber && !currentSelection
 
-  const handleSquarePress = (color: RGBColorSchema) => {
-    gameRoom.send('ColorPressed', color)
+  const { sendMessage } = useColorReactionGameStore(
+    useShallow((state) => ({ sendMessage: state.sendMessage }))
+  )
+
+  const handleSquarePress = (color: RGBColor) => {
+    sendMessage('ColorPressed', color)
   }
 
   return (

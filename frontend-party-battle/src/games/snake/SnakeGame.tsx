@@ -1,26 +1,23 @@
 import { usePlayerName } from '@/src/storage/userPreferencesStore'
 import { View } from 'react-native'
-import { Player, PlayerSchema } from 'types-party-battle/types/PlayerSchema'
-import { toRgbColor } from 'types-party-battle/types/RGBColorSchema'
-import { toCell } from 'types-party-battle/types/snake/CellSchema'
 import { Direction } from 'types-party-battle/types/snake/RemainingPlayerSchema'
-import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
-import useColyseusState from '../../colyseus/useColyseusState'
+import { useShallow } from 'zustand/react/shallow'
 import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
 import { ArrowButtons } from './ArrowButtons'
 import { Board } from './Board'
+import { useSnakeGameStore } from './useSnakeStore'
 
-export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
-  const { board, width, height, players } = useColyseusState(gameRoom, (state) => ({
-    board: Array.from(state.board, (cell) => toCell(cell)),
-    width: state.width,
-    height: state.height,
-    players: Array.from<PlayerSchema, Player>(state.players, (player) => ({
-      name: player.name,
-      color: toRgbColor(player.color),
-    })),
-  }))
+export const SnakeGame: GameComponent = () => {
+  const { board, width, height, players, sendMessage } = useSnakeGameStore(
+    useShallow((state) => ({
+      board: state.view.board,
+      width: state.view.width,
+      height: state.view.height,
+      players: state.view.players,
+      sendMessage: state.sendMessage,
+    }))
+  )
   const { playerName } = usePlayerName()
   const currentPlayer = players.find((player) => player.name === playerName)
 
@@ -40,16 +37,16 @@ export const SnakeGame: GameComponent<SnakeGameSchema> = ({ gameRoom }) => {
                 a: 255,
               }}
               onUp={() => {
-                gameRoom.send<Direction>('ChangeDirection', 'up')
+                sendMessage<Direction>('ChangeDirection', 'up')
               }}
               onRight={() => {
-                gameRoom.send<Direction>('ChangeDirection', 'right')
+                sendMessage<Direction>('ChangeDirection', 'right')
               }}
               onDown={() => {
-                gameRoom.send<Direction>('ChangeDirection', 'down')
+                sendMessage<Direction>('ChangeDirection', 'down')
               }}
               onLeft={() => {
-                gameRoom.send<Direction>('ChangeDirection', 'left')
+                sendMessage<Direction>('ChangeDirection', 'left')
               }}
             />
           </View>

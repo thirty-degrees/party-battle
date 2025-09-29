@@ -1,6 +1,7 @@
 import GameScreen from '@/src/games/GameScreen'
 import { PotatoGame } from '@/src/games/potato/PotatoGame'
 import { usePotatoGameStore } from '@/src/games/potato/usePotatoStore'
+import { useIsFocused } from '@react-navigation/native'
 import { useShallow } from 'zustand/react/shallow'
 
 export default function PotatoScreen() {
@@ -13,6 +14,12 @@ export default function PotatoScreen() {
       gameStatus: state.view.status,
     }))
   )
+
+  const isFocused = useIsFocused()
+
+  if (!isFocused) {
+    return null
+  }
 
   return (
     <GameScreen
