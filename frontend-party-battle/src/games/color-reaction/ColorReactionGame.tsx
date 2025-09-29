@@ -27,8 +27,10 @@ export const ColorReactionGame: GameComponent<ColorReactionGameSchema> = ({ game
     <BasicGameView>
       <View className="flex-1 flex-column space-between">
         <View className="w-full justify-center align-center pt-8 pb-8">
-          <View className="flex-row justify-center h-8">
-            {!isAnimating ? <Text className="text-xl font-bold mb-8">Select the {selectionType}</Text> : null}
+          <View className="h-8 justify-center">
+            {!isAnimating ? (
+              <Text className="text-xl font-bold text-center">Select the {selectionType}</Text>
+            ) : null}
           </View>
           <View className="h-16 justify-center">
             {currentSelection ? (
