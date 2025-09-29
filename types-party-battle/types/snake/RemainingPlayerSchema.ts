@@ -34,3 +34,13 @@ export const fromRemainingPlayer = (
 ): RemainingPlayerSchema => {
   return new RemainingPlayerSchema(data.name, data.direction);
 };
+
+export const mapRemainingPlayerStable = (
+  schema: RemainingPlayerSchema,
+  prev?: RemainingPlayer
+): RemainingPlayer => {
+  const name = schema.name;
+  const direction = schema.direction;
+  if (prev && prev.name === name && prev.direction === direction) return prev;
+  return { name, direction };
+};

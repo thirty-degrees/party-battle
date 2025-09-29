@@ -3,9 +3,9 @@ import { ArraySchema } from '@colyseus/schema'
 import { COLOR_NAME_TO_RGB } from 'types-party-battle/consts/config'
 import {
   ColorReactionGameSchema,
-  ColorSchema,
   selectionType,
 } from 'types-party-battle/types/color-reaction/ColorReactionGameSchema'
+import { ColorSchema } from 'types-party-battle/types/color-reaction/ColorSchema'
 import { GameType } from 'types-party-battle/types/GameSchema'
 import {
   RGBColor,

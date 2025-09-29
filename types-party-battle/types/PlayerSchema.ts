@@ -1,5 +1,10 @@
 import { Schema, type } from "@colyseus/schema";
-import { RGBColor, RGBColorSchema, fromRgbColor } from "./RGBColorSchema";
+import {
+  RGBColor,
+  RGBColorSchema,
+  fromRgbColor,
+  mapRgbColorStable,
+} from "./RGBColorSchema";
 
 export interface Player {
   name: string;
@@ -16,3 +21,10 @@ export class PlayerSchema extends Schema {
     this.color = fromRgbColor(color);
   }
 }
+
+export const mapPlayerStable = (p: PlayerSchema, prev?: Player): Player => {
+  const name = p.name;
+  const color = mapRgbColorStable(p.color, prev?.color);
+  if (prev && prev.name === name && prev.color === color) return prev;
+  return { name, color };
+};

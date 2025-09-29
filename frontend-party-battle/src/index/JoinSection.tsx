@@ -15,16 +15,14 @@ import { useShallow } from 'zustand/react/shallow'
 export function JoinSection() {
   const [gameRoomId, setGameRoomId] = useState('')
   const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
-  const { createLobbyRoom, joinLobbyRoom, isLoading, playerNameValidationError, roomIdValidationError } =
-    useLobbyStore(
-      useShallow((state) => ({
-        createLobbyRoom: state.createLobbyRoom,
-        joinLobbyRoom: state.joinLobbyRoom,
-        isLoading: state.isLoading,
-        playerNameValidationError: state.playerNameValidationError,
-        roomIdValidationError: state.roomIdValidationError,
-      }))
-    )
+  const { createLobbyRoom, joinLobbyRoom, isLoading, playerNameValidationError } = useLobbyStore(
+    useShallow((state) => ({
+      createLobbyRoom: state.createLobbyRoom,
+      joinLobbyRoom: state.joinLobbyRoom,
+      isLoading: state.isLoading,
+      playerNameValidationError: state.playerNameValidationError,
+    }))
+  )
   const { playerName } = usePlayerName()
   const { showError } = useToastHelper()
 
@@ -46,7 +44,12 @@ export function JoinSection() {
   }, [setIsFloatingKeyboardInputVisible])
 
   const handleCreateRoom = async () => {
-    await createLobbyRoom()
+    const success = await createLobbyRoom()
+    if (!success) {
+      const errorMessage = playerNameValidationError
+      showError('Failed to create party', errorMessage ?? '')
+      return
+    }
 
     router.push({
       pathname: '/lobby',
@@ -57,8 +60,8 @@ export function JoinSection() {
     const success = await joinLobbyRoom(gameRoomId)
 
     if (!success) {
-      const errorMessage = playerNameValidationError || roomIdValidationError || 'Failed to join party'
-      showError('Failed to join party', errorMessage)
+      const errorMessage = playerNameValidationError
+      showError('Failed to join party', errorMessage ?? '')
       return
     }
 

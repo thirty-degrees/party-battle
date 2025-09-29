@@ -35,3 +35,10 @@ export const fromCell = (data: Cell): CellSchema => {
   }
   return cell;
 };
+
+export const mapCellStable = (schema: CellSchema, prev?: Cell): Cell => {
+  const kind = schema.kind;
+  const player = schema.player;
+  if (prev && prev.kind === kind && prev.player === player) return prev;
+  return { kind, player };
+};
