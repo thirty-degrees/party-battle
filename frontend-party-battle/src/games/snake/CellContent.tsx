@@ -1,23 +1,23 @@
-import { View, ViewProps } from 'react-native'
-import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
+import { CellKind } from 'types-party-battle/types/snake/CellSchema'
+import { useShallow } from 'zustand/react/shallow'
 import { CellCollectible } from './CellCollectible'
 import { CellEmpty } from './CellEmpty'
 import { CellSnake } from './CellSnake'
+import { useSnakeGameStore } from './useSnakeStore'
 
-interface CellContentProps extends ViewProps {
-  cell: Cell
+interface CellContentProps {
+  index: number
 }
 
-export const CellContent = ({ cell, style }: CellContentProps) => {
-  return (
-    <View style={style}>
-      {cell.kind === CellKind.Snake ? (
-        <CellSnake playerName={cell.player!} />
-      ) : cell.kind === CellKind.Empty ? (
-        <CellEmpty />
-      ) : (
-        <CellCollectible />
-      )}
-    </View>
-  )
+export const CellContent = ({ index }: CellContentProps) => {
+  const cell = useSnakeGameStore(useShallow((state) => state.view.board[index]))
+
+  switch (cell.kind) {
+    case CellKind.Snake:
+      return <CellSnake playerName={cell.player!} />
+    case CellKind.Empty:
+      return <CellEmpty />
+    case CellKind.Collectible:
+      return <CellCollectible />
+  }
 }

@@ -1,6 +1,5 @@
-import { useShallow } from 'zustand/react/shallow'
+import { View } from 'react-native'
 import { CellContent } from './CellContent'
-import { useSnakeGameStore } from './useSnakeStore'
 
 interface CellProps {
   index: number
@@ -9,13 +8,11 @@ interface CellProps {
 }
 
 export const Cell = ({ index, width, cellSize }: CellProps) => {
-  const cell = useSnakeGameStore(useShallow((state) => state.view.board[index]))
-
   const x = index % width
   const y = Math.floor(index / width)
 
   return (
-    <CellContent
+    <View
       style={{
         width: cellSize,
         height: cellSize,
@@ -23,7 +20,8 @@ export const Cell = ({ index, width, cellSize }: CellProps) => {
         left: x * cellSize,
         top: y * cellSize,
       }}
-      cell={cell}
-    />
+    >
+      <CellContent index={index} />
+    </View>
   )
 }
