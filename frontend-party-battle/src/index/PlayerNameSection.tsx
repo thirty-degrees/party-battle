@@ -9,10 +9,10 @@ import { useShallow } from 'zustand/react/shallow'
 
 export function PlayerNameSection() {
   const { playerName, setPlayerName } = usePlayerName()
-  const { playerNameValidationError, setPlayerNameValidationError } = useLobbyStore(
+  const { playerNameValidationError, resetPlayerNameValidationError } = useLobbyStore(
     useShallow((state) => ({
       playerNameValidationError: state.playerNameValidationError,
-      setPlayerNameValidationError: state.setPlayerNameValidationError,
+      resetPlayerNameValidationError: state.resetPlayerNameValidationError,
     }))
   )
   const [draft, setDraft] = useState(playerName)
@@ -20,7 +20,7 @@ export function PlayerNameSection() {
   const onChangeDraft = (name: string) => {
     setDraft(name)
     setPlayerName(name.trim())
-    setPlayerNameValidationError(undefined)
+    resetPlayerNameValidationError()
   }
 
   return (

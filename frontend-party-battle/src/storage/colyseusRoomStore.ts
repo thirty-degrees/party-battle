@@ -1,6 +1,6 @@
 import { Schema } from '@colyseus/schema'
 import type { Room } from 'colyseus.js'
-import { Client, ServerError } from 'colyseus.js'
+import { Client, ErrorCode, ServerError } from 'colyseus.js'
 import Constants from 'expo-constants'
 import { create } from 'zustand'
 import { useUserPreferencesStore } from '../storage/userPreferencesStore'
@@ -10,14 +10,16 @@ export type ColyseusRoomStoreState<TView> = {
   roomId?: string
   isLoading: boolean
   playerNameValidationError?: string
-  setPlayerNameValidationError: (value?: string) => void
+  resetPlayerNameValidationError: () => void
+  invalidRoomId: boolean
+  resetInvalidRoomId: () => void
   connectionLost: boolean
   failedRetries: number
   roomError?: unknown
-  joinById: (roomId: string) => Promise<boolean>
-  createRoom: (roomId?: string) => Promise<boolean>
+  joinById: (roomId: string) => Promise<{ success: boolean }>
+  createRoom: (roomId?: string) => Promise<{ success: boolean; roomId?: string }>
   leaveRoom: () => Promise<void>
-  retry: () => Promise<boolean>
+  retry: () => Promise<{ success: boolean; roomId?: string }>
   sendMessage: <T>(type: string | number, message?: T) => void
 }
 
@@ -39,11 +41,11 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
     set: (partial: Partial<ColyseusRoomStoreState<TView>>) => void,
     get: () => ColyseusRoomStoreState<TView>,
     onError?: () => void
-  ): Promise<boolean> => {
+  ): Promise<{ success: boolean; roomId?: string }> => {
     const playerName = useUserPreferencesStore.getState().playerName
     if (!playerName) {
       set({ playerNameValidationError: 'Player name is required' })
-      return false
+      return { success: false }
     }
     set({
       isLoading: true,
@@ -63,16 +65,23 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
         failedRetries: 0,
         roomId: room.roomId,
       })
-      return true
+      return { success: true, roomId: room.roomId }
     } catch (error) {
       set({ isLoading: false })
       if (onError) onError()
       if (error instanceof ServerError && error.code === 4111) {
         set({ playerNameValidationError: error.message })
+      } else if (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        error.code === ErrorCode.MATCHMAKE_INVALID_ROOM_ID
+      ) {
+        set({ invalidRoomId: true })
       } else {
         set({ roomError: new Error('Failed to connect to room', { cause: error }) })
       }
-      return false
+      return { success: false }
     }
   }
 
@@ -100,13 +109,15 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
   return create<ColyseusRoomStoreState<TView>>((set, get) => ({
     view: opts.initialView,
     roomId: undefined,
+    invalidRoomId: false,
     isLoading: false,
     playerNameValidationError: undefined,
     connectionLost: false,
     failedRetries: 0,
     roomError: undefined,
 
-    setPlayerNameValidationError: (value?: string) => set({ playerNameValidationError: value }),
+    resetPlayerNameValidationError: () => set({ playerNameValidationError: undefined }),
+    resetInvalidRoomId: () => set({ invalidRoomId: false }),
 
     joinById: async (roomId) => {
       return connectToRoom(
@@ -136,9 +147,11 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
         set({
           view: opts.initialView,
           roomId: undefined,
+          invalidRoomId: false,
           connectionLost: false,
           failedRetries: 0,
           isLoading: false,
+          roomError: undefined,
         })
       }
     },
@@ -148,7 +161,7 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
       const failedRetries = get().failedRetries
       if (!roomId) {
         set({ roomError: 'Room id is required', failedRetries: failedRetries + 1 })
-        return false
+        return { success: false }
       }
       return connectToRoom(
         (playerName) => clientRef.current.joinById<TSchema>(roomId, { name: playerName }),

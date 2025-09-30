@@ -9,7 +9,7 @@ import { GameComponent } from './GameComponent'
 
 interface GameScreenProps {
   GameComponent: GameComponent
-  joinGameRoom: (roomId: string) => Promise<boolean>
+  joinGameRoom: (roomId: string) => Promise<{ success: boolean; roomId?: string }>
   leaveGameRoom: () => Promise<void>
   isGameRoomLoading: boolean
   activeGameRoomId?: string

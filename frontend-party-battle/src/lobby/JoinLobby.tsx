@@ -6,9 +6,10 @@ import { useShallow } from 'zustand/react/shallow'
 import { useLobbyStore } from './useLobbyStore'
 
 export function JoinLobby() {
-  const { joinById, roomId, isLoading } = useLobbyStore(
+  const { joinById, leaveRoom, roomId, isLoading } = useLobbyStore(
     useShallow((state) => ({
       joinById: state.joinById,
+      leaveRoom: state.leaveRoom,
       roomId: state.roomId,
       isLoading: state.isLoading,
     }))
@@ -18,14 +19,15 @@ export function JoinLobby() {
   useEffect(() => {
     if (partyCode && !isLoading && partyCode !== roomId) {
       const join = async () => {
-        const success = await joinById(partyCode)
+        const { success } = await joinById(partyCode)
         if (!success) {
-          router.push('/')
+          await leaveRoom()
+          router.replace('/')
         }
       }
       join()
     }
-  }, [partyCode, joinById, roomId, isLoading])
+  }, [partyCode, joinById, roomId, isLoading, leaveRoom])
 
   return <Loading />
 }

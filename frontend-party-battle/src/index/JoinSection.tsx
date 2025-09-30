@@ -16,12 +16,14 @@ export function JoinSection() {
   const { partyCode: storedPartyCode, setPartyCode } = usePartyCode()
   const [draft, setDraft] = useState(storedPartyCode)
   const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
-  const { createRoom, joinById, isLoading, roomError } = useLobbyStore(
+  const { createRoom, joinById, isLoading, roomError, invalidRoomId, resetInvalidRoomId } = useLobbyStore(
     useShallow((state) => ({
       createRoom: state.createRoom,
       joinById: state.joinById,
       isLoading: state.isLoading,
       roomError: state.roomError,
+      invalidRoomId: state.invalidRoomId,
+      resetInvalidRoomId: state.resetInvalidRoomId,
     }))
   )
   const { playerName } = usePlayerName()
@@ -58,14 +60,19 @@ export function JoinSection() {
   const onChangeDraft = (code: string) => {
     setDraft(code)
     setPartyCode(code.trim())
+    resetInvalidRoomId()
   }
 
   const handleCreateRoom = async () => {
     if (!playerName || isLoading) return
-    const success = await createRoom(storedPartyCode)
+    const { success, roomId } = await createRoom(storedPartyCode)
     if (!success) {
       showError('Failed to create party')
       return
+    }
+
+    if (roomId) {
+      setPartyCode(roomId)
     }
 
     router.push({
@@ -76,7 +83,7 @@ export function JoinSection() {
   const handleJoinRoom = async () => {
     if (!playerName || !storedPartyCode || isLoading) return
 
-    const success = await joinById(storedPartyCode)
+    const { success } = await joinById(storedPartyCode)
 
     if (!success) {
       showError('Failed to join party')
@@ -94,24 +101,29 @@ export function JoinSection() {
 
   return (
     <View className="flex-col items-center justify-center w-full gap-2">
-      <Input
-        variant="outline-with-bg"
-        size="xl"
-        isInvalid={false}
-        isDisabled={isLoading}
-        style={{ width: 200 }}
-      >
-        <InputField
-          value={draft}
-          onChangeText={onChangeDraft}
-          placeholder="Enter Party Code"
-          returnKeyType="join"
-          enablesReturnKeyAutomatically
-          onSubmitEditing={handleJoinRoom}
-          onFocus={() => setIsFloatingKeyboardInputVisible(true)}
-          style={{ width: 200, textAlign: 'center' }}
-        />
-      </Input>
+      <View className="items-center">
+        <Text size="md" className="text-error-800 dark:text-error-700">
+          {invalidRoomId ? 'Room not found' : ' '}
+        </Text>
+        <Input
+          variant="outline-with-bg"
+          size="xl"
+          isInvalid={false}
+          isDisabled={isLoading}
+          style={{ width: 200 }}
+        >
+          <InputField
+            value={draft}
+            onChangeText={onChangeDraft}
+            placeholder="Enter Party Code"
+            returnKeyType="join"
+            enablesReturnKeyAutomatically
+            onSubmitEditing={handleJoinRoom}
+            onFocus={() => setIsFloatingKeyboardInputVisible(true)}
+            style={{ width: 200, textAlign: 'center' }}
+          />
+        </Input>
+      </View>
       <Button
         size="xl"
         action="primary"
