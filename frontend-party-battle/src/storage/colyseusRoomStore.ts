@@ -23,13 +23,12 @@ export type ColyseusRoomStoreState<TView> = {
 type Options<TView, TSchema extends Schema> = {
   initialView: TView
   mapStable: (schema: TSchema, prev: TView) => TView
-  roomName?: string
-  client?: Client
+  roomName: string
 }
 
 export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Options<TView, TSchema>) {
   const clientRef: { current: Client } = {
-    current: opts.client ?? new Client(Constants.expoConfig?.extra?.backendUrl),
+    current: new Client(Constants.expoConfig?.extra?.backendUrl),
   }
   const roomRef: { current: Room<TSchema> | null } = { current: null }
   const intentionalLeaveRef: { current: boolean } = { current: false }
@@ -115,12 +114,8 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
     },
 
     createRoom: async () => {
-      if (!opts.roomName) {
-        set({ roomError: 'roomName is not configured' })
-        return false
-      }
       return connectToRoom(
-        (playerName) => clientRef.current.create<TSchema>(opts.roomName!, { name: playerName }),
+        (playerName) => clientRef.current.create<TSchema>(opts.roomName, { name: playerName }),
         set,
         get
       )

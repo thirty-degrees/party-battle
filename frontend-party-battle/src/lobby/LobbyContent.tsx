@@ -1,5 +1,5 @@
 import { useLobbyStore } from '@/src/lobby/useLobbyStore'
-import { Redirect, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -13,9 +13,8 @@ import ReadyButton from './ReadyButton'
 import ShareButton from './ShareButton'
 
 export default function LobbyContent() {
-  const { roomId, currentGame, currentGameRoomId } = useLobbyStore(
+  const { currentGame, currentGameRoomId } = useLobbyStore(
     useShallow((state) => ({
-      roomId: state.roomId,
       currentGame: state.view.currentGame,
       currentGameRoomId: state.view.currentGameRoomId,
     }))
@@ -25,13 +24,9 @@ export default function LobbyContent() {
 
   useEffect(() => {
     if (currentGame && currentGameRoomId) {
-      router.push(`/games/${currentGame}?roomId=${currentGameRoomId}`)
+      router.push(`/games/${currentGame}`)
     }
   }, [currentGame, currentGameRoomId, router])
-
-  if (!roomId) {
-    return <Redirect href="/" />
-  }
 
   return (
     <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">

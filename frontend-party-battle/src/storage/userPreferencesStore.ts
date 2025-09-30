@@ -6,6 +6,8 @@ import { storage } from './storage'
 interface UserPreferencesState {
   playerName: string
   setPlayerName: (value: string) => void
+  partyCode: string
+  setPartyCode: (value: string) => void
   isPartyCodeVisible: boolean
   setIsPartyCodeVisible: (isVisible: boolean) => void
 }
@@ -15,6 +17,8 @@ export const useUserPreferencesStore = create<UserPreferencesState>()(
     (set) => ({
       playerName: '',
       setPlayerName: (value: string) => set({ playerName: value }),
+      partyCode: '',
+      setPartyCode: (value: string) => set({ partyCode: value }),
       isPartyCodeVisible: true,
       setIsPartyCodeVisible: (isVisible: boolean) => set({ isPartyCodeVisible: isVisible }),
     }),
@@ -38,5 +42,13 @@ export const useIsPartyCodeVisible = () =>
     useShallow((s) => ({
       isPartyCodeVisible: s.isPartyCodeVisible,
       setIsPartyCodeVisible: s.setIsPartyCodeVisible,
+    }))
+  )
+
+export const usePartyCode = () =>
+  useUserPreferencesStore(
+    useShallow((s) => ({
+      partyCode: s.partyCode,
+      setPartyCode: s.setPartyCode,
     }))
   )

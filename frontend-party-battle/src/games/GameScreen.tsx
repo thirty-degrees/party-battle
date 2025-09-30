@@ -1,6 +1,6 @@
 import Loading from '@/components/loading'
 import { Text } from '@/components/ui/text'
-import { Redirect, useLocalSearchParams } from 'expo-router'
+import { Redirect } from 'expo-router'
 import { useEffect } from 'react'
 import { View } from 'react-native'
 import { useShallow } from 'zustand/react/shallow'
@@ -28,14 +28,6 @@ export default function GameScreen({
   connectionToGameRoomLost,
   gameRoomError: error,
 }: GameScreenProps) {
-  const { roomId } = useLocalSearchParams<{ roomId: string }>()
-
-  useEffect(() => {
-    if (roomId && !isGameRoomLoading && roomId !== activeGameRoomId) {
-      joinGameRoom(roomId)
-    }
-  }, [roomId, joinGameRoom, isGameRoomLoading, activeGameRoomId])
-
   const { currentGame, currentGameRoomId } = useLobbyStore(
     useShallow((state) => ({
       currentGame: state.view.currentGame,
@@ -43,17 +35,23 @@ export default function GameScreen({
     }))
   )
 
-  const requiresRedirectToLobby = Boolean(
-    !currentGame || (activeGameRoomId && currentGameRoomId !== activeGameRoomId)
-  )
+  useEffect(() => {
+    if (currentGame && currentGameRoomId && !isGameRoomLoading && !activeGameRoomId) {
+      joinGameRoom(currentGameRoomId)
+    }
+  }, [currentGame, currentGameRoomId, isGameRoomLoading, activeGameRoomId, joinGameRoom])
 
   useEffect(() => {
-    if (requiresRedirectToLobby) {
+    if (!currentGame || (activeGameRoomId && currentGameRoomId !== activeGameRoomId)) {
       leaveGameRoom()
     }
-  }, [leaveGameRoom, requiresRedirectToLobby])
+  }, [activeGameRoomId, currentGame, currentGameRoomId, leaveGameRoom])
 
-  if (connectionToGameRoomLost || requiresRedirectToLobby) {
+  if (
+    connectionToGameRoomLost ||
+    !currentGame ||
+    (activeGameRoomId && currentGameRoomId !== activeGameRoomId)
+  ) {
     return <Redirect href="/lobby" />
   }
 
@@ -61,7 +59,7 @@ export default function GameScreen({
     throw error
   }
 
-  if (isGameRoomLoading || roomId !== activeGameRoomId) {
+  if (isGameRoomLoading || currentGameRoomId !== activeGameRoomId) {
     return <Loading />
   }
 

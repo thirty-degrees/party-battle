@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { View } from 'react-native'
 import { PLAYER_NAME_MAX_LENGTH } from 'types-party-battle/consts/config'
 
-export function NameSection() {
+export function PlayerNameSection() {
   const { playerName, setPlayerName } = usePlayerName()
   const playerNameValidationError = useLobbyStore((state) => state.playerNameValidationError)
   const [draft, setDraft] = useState(playerName)

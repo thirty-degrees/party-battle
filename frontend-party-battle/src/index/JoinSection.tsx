@@ -5,7 +5,7 @@ import { Input, InputField } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
 import useToastHelper from '@/components/ui/useToastHelper'
 import { useLobbyStore } from '@/src/lobby/useLobbyStore'
-import { usePlayerName } from '@/src/storage/userPreferencesStore'
+import { usePartyCode, usePlayerName } from '@/src/storage/userPreferencesStore'
 import { OverlayContainer } from '@gluestack-ui/core/overlay/aria'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
@@ -13,7 +13,8 @@ import { Keyboard, View } from 'react-native'
 import { useShallow } from 'zustand/react/shallow'
 
 export function JoinSection() {
-  const [gameRoomId, setGameRoomId] = useState('')
+  const { partyCode: storedPartyCode, setPartyCode } = usePartyCode()
+  const [draft, setDraft] = useState(storedPartyCode)
   const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
   const { createRoom, joinById, isLoading, playerNameValidationError } = useLobbyStore(
     useShallow((state) => ({
@@ -28,9 +29,10 @@ export function JoinSection() {
 
   useEffect(() => {
     if (partyCode) {
-      setGameRoomId(partyCode)
+      setDraft(partyCode)
+      setPartyCode(partyCode)
     }
-  }, [partyCode])
+  }, [partyCode, setPartyCode])
 
   const [isFloatingKeyboardInputVisible, setIsFloatingKeyboardInputVisible] = useState(false)
 
@@ -42,6 +44,11 @@ export function JoinSection() {
       hide.remove()
     }
   }, [setIsFloatingKeyboardInputVisible])
+
+  const onChangeDraft = (code: string) => {
+    setDraft(code)
+    setPartyCode(code.trim())
+  }
 
   const handleCreateRoom = async () => {
     const success = await createRoom()
@@ -80,14 +87,14 @@ export function JoinSection() {
         style={{ width: 200 }}
       >
         <InputField
-          value={gameRoomId}
-          onChangeText={setGameRoomId}
+          value={draft}
+          onChangeText={onChangeDraft}
           placeholder="Enter Party Code"
           returnKeyType="join"
           enablesReturnKeyAutomatically
           onSubmitEditing={() => {
-            if (!playerName || !gameRoomId.trim() || isLoading) return
-            handleJoinRoom(gameRoomId.trim())
+            if (!playerName || !draft.trim() || isLoading) return
+            handleJoinRoom(draft.trim())
           }}
           onFocus={() => setIsFloatingKeyboardInputVisible(true)}
           style={{ width: 200, textAlign: 'center' }}
@@ -96,8 +103,8 @@ export function JoinSection() {
       <Button
         size="xl"
         action="primary"
-        onPress={() => handleJoinRoom(gameRoomId.trim())}
-        isDisabled={!playerName || !gameRoomId.trim() || isLoading}
+        onPress={() => handleJoinRoom(draft.trim())}
+        isDisabled={!playerName || !draft.trim() || isLoading}
         style={{ width: 200, paddingHorizontal: 8 }}
       >
         <ButtonText>{isLoading ? 'Loading...' : 'JOIN'}</ButtonText>
@@ -121,8 +128,8 @@ export function JoinSection() {
 
       <OverlayContainer>
         <FloatingKeyboardInputPreview
-          value={gameRoomId}
-          onChangeText={setGameRoomId}
+          value={draft}
+          onChangeText={onChangeDraft}
           placeholder="Enter Party Code"
           isVisible={isFloatingKeyboardInputVisible}
           size="xl"
