@@ -160,12 +160,12 @@ export default function AnimatedBorder({
       {children}
       {isActive && size.width > 0 && size.height > 0 && (
         <>
-          <Animated.View pointerEvents="none" style={bottomRightStyle} />
-          <Animated.View pointerEvents="none" style={bottomLeftStyle} />
-          <Animated.View pointerEvents="none" style={rightStyle} />
-          <Animated.View pointerEvents="none" style={leftStyle} />
-          <Animated.View pointerEvents="none" style={topRightStyle} />
-          <Animated.View pointerEvents="none" style={topLeftStyle} />
+          <Animated.View style={bottomRightStyle} />
+          <Animated.View style={bottomLeftStyle} />
+          <Animated.View style={rightStyle} />
+          <Animated.View style={leftStyle} />
+          <Animated.View style={topRightStyle} />
+          <Animated.View style={topLeftStyle} />
         </>
       )}
     </View>

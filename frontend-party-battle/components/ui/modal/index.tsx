@@ -10,7 +10,7 @@ import {
 } from '@legendapp/motion'
 import { cssInterop } from 'nativewind'
 import React from 'react'
-import { Pressable, ScrollView, View, ViewStyle } from 'react-native'
+import { Platform, Pressable, ScrollView, View, ViewStyle } from 'react-native'
 
 type IAnimatedPressableProps = React.ComponentProps<typeof Pressable> &
   MotionComponentProps<typeof Pressable, ViewStyle, unknown, unknown, unknown>
@@ -111,8 +111,11 @@ const Modal = React.forwardRef<React.ComponentRef<typeof UIModal>, IModalProps>(
     <UIModal
       ref={ref}
       {...props}
-      pointerEvents="box-none"
-      className={modalStyle({ size, class: className })}
+      className={modalStyle({
+        size,
+        class: className,
+        ...(Platform.OS === 'web' ? { userSelect: 'box-none' } : {}),
+      })}
       context={{ size }}
     />
   )
@@ -186,7 +189,6 @@ const ModalContent = React.forwardRef<React.ComponentRef<typeof UIModal.Content>
           size: size as any,
           class: className,
         })}
-        pointerEvents="auto"
       />
     )
   }

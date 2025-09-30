@@ -1,6 +1,6 @@
 import { Input, InputField } from '@/components/ui/input'
 import { useEffect, useState } from 'react'
-import { Dimensions, Keyboard, ReturnKeyTypeOptions, View } from 'react-native'
+import { Dimensions, Keyboard, Platform, ReturnKeyTypeOptions, View } from 'react-native'
 
 export type FloatingKeyboardInputPreviewProps = {
   value: string
@@ -66,8 +66,13 @@ export default function FloatingKeyboardInputPreview({
   return (
     <View
       className="px-2 py-2 items-center justify-center"
-      style={{ position: 'absolute', left: 0, right: 0, bottom: keyboardHeight }}
-      pointerEvents="box-none"
+      style={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: keyboardHeight,
+        ...(Platform.OS === 'web' ? { userSelect: 'box-none' } : {}),
+      }}
     >
       <Input variant="outline-with-bg" size={size} isDisabled={isDisabled} style={{ width }}>
         <InputField
