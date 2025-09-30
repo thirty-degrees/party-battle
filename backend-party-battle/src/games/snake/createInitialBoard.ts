@@ -30,7 +30,8 @@ export function createInitialBoard(playerNames: string[]): {
     const bodyIndices: number[] = []
     for (let x = xStart; x <= xEnd; x++) {
       const cellIndex = y * width + x
-      board[cellIndex] = { kind: CellKind.Snake, player: playerName }
+      const isHead = (direction === 'right' && x === xEnd) || (direction === 'left' && x === xStart)
+      board[cellIndex] = { kind: CellKind.Snake, player: playerName, isHead }
       bodyIndices.push(cellIndex)
     }
     if (direction === 'left') {

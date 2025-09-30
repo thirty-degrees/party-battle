@@ -1,22 +1,42 @@
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { rgbColorToString } from 'types-party-battle/types/RGBColorSchema'
+import { Text } from '../../../components/ui/text'
 import { useSnakeGameStore } from './useSnakeStore'
 
 interface CellSnakeProps {
   playerName: string
+  cellSize: number
+  isHead?: boolean
 }
 
-export const CellSnake = ({ playerName }: CellSnakeProps) => {
+export const CellSnake = ({ playerName, cellSize, isHead }: CellSnakeProps) => {
   const backgroundColor = useSnakeGameStore((state) =>
     rgbColorToString(state.view.players.find((player) => player.name === playerName)!.color)
   )
 
   return (
-    <View
-      className="flex-1"
-      style={{
-        backgroundColor,
-      }}
-    />
+    <View className="flex-1">
+      {isHead && (
+        <View
+          className="absolute z-10"
+          style={{
+            top: -cellSize * 0.8,
+            left: -cellSize * 0.5,
+            width: cellSize * 2,
+            ...(Platform.OS === 'web' ? { userSelect: 'none' } : {}),
+          }}
+        >
+          <Text size="xs" className="text-center text-white font-bold">
+            {playerName}
+          </Text>
+        </View>
+      )}
+      <View
+        className="flex-1"
+        style={{
+          backgroundColor,
+        }}
+      />
+    </View>
   )
 }

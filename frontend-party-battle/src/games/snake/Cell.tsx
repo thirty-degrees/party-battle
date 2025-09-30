@@ -21,7 +21,7 @@ export const Cell = ({ index, width, cellSize }: CellProps) => {
         top: y * cellSize,
       }}
     >
-      <CellContent index={index} />
+      <CellContent index={index} cellSize={cellSize} />
     </View>
   )
 }

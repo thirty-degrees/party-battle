@@ -118,16 +118,22 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
       const tailCell = this.state.board[tailIndex]
       tailCell.kind = CellKind.Empty
       tailCell.player = undefined
+      tailCell.isHead = undefined
     }
 
     for (const intention of intentions) {
       const body = this.bodies.get(intention.name)
+      const oldHeadIndex = body[body.length - 1]
+      const oldHeadCell = this.state.board[oldHeadIndex]
+      oldHeadCell.isHead = undefined
+
       const headIndex = intention.head.y * this.state.width + intention.head.x
       body.push(headIndex)
       body.shift()
       const headCell = this.state.board[headIndex]
       headCell.kind = CellKind.Snake
       headCell.player = intention.name
+      headCell.isHead = true
       this.lastMovementDirections.set(intention.name, intention.direction)
     }
   }
@@ -144,6 +150,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
             const c = this.state.board[idx]
             c.kind = CellKind.Empty
             c.player = undefined
+            c.isHead = undefined
           }
           this.bodies.delete(name)
         }

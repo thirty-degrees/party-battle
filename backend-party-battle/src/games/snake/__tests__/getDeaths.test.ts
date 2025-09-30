@@ -152,13 +152,13 @@ describe('getDeaths', () => {
   })
 })
 
-function createBoard(board2D: (CellKind | [CellKind, string])[][]): Cell[] {
+function createBoard(board2D: (CellKind | [CellKind, string, boolean?])[][]): Cell[] {
   const cells: Cell[] = []
   board2D.forEach((row) => {
     row.forEach((cell) => {
       if (Array.isArray(cell)) {
-        const [kind, player] = cell
-        cells.push({ kind, player })
+        const [kind, player, isHead] = cell
+        cells.push({ kind, player, isHead })
       } else {
         cells.push({ kind: cell })
       }
