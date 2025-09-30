@@ -32,7 +32,11 @@ export function usePotatoPanResponder({
       PanResponder.create({
         onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dx) > 20 || Math.abs(g.dy) > 20,
         onPanResponderRelease: (_, g) => {
-          if (status !== 'playing') return
+          if (status !== 'playing') {
+            translateX.setValue(0)
+            translateY.setValue(0)
+            return
+          }
 
           if (Math.abs(g.dx) > Math.abs(g.dy)) {
             const dir: PotatoDirection = g.dx > 0 ? 'right' : 'left'
