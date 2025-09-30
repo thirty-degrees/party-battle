@@ -1,11 +1,10 @@
-import { Text } from '../../../components/ui/text'
 import HalfCircleRibbon, { ArcItem } from './HalfCircleRibbon'
+import MessageDisplay from './MessageDisplay'
 import { PlayerSlot } from './PlayerSlot'
 
-type Props = {
+interface TopRibbonProps {
   radius: number
   itemSize: number
-  message?: string
   playerSlotAssignments: {
     topLeft?: string
     topCenterLeft?: string
@@ -13,75 +12,35 @@ type Props = {
     topCenterRight?: string
     topRight?: string
   }
-  playerWithPotato?: string
 }
 
-export default function TopRibbon({
-  radius,
-  itemSize,
-  message,
-  playerSlotAssignments,
-  playerWithPotato,
-}: Props) {
+export default function TopRibbon({ radius, itemSize, playerSlotAssignments }: TopRibbonProps) {
   const topItems: ArcItem[] = [
     {
       id: 'topLeft',
-      element: (
-        <PlayerSlot
-          className="opacity-50 w-[100]"
-          playerName={playerSlotAssignments.topLeft}
-          playerWithPotato={playerWithPotato}
-        />
-      ),
+      element: <PlayerSlot className="opacity-50 w-[100]" playerName={playerSlotAssignments.topLeft} />,
     },
     {
       id: 'topCenterLeft',
-      element: (
-        <PlayerSlot
-          className="opacity-50 w-[100]"
-          playerName={playerSlotAssignments.topCenterLeft}
-          playerWithPotato={playerWithPotato}
-        />
-      ),
+      element: <PlayerSlot className="opacity-50 w-[100]" playerName={playerSlotAssignments.topCenterLeft} />,
     },
     {
       id: 'top',
-      element: (
-        <PlayerSlot
-          className="w-[100]"
-          playerName={playerSlotAssignments.top}
-          playerWithPotato={playerWithPotato}
-        />
-      ),
+      element: <PlayerSlot className="w-[100]" playerName={playerSlotAssignments.top} />,
     },
     {
       id: 'topCenterRight',
       element: (
-        <PlayerSlot
-          className="opacity-50 w-[100]"
-          playerName={playerSlotAssignments.topCenterRight}
-          playerWithPotato={playerWithPotato}
-        />
+        <PlayerSlot className="opacity-50 w-[100]" playerName={playerSlotAssignments.topCenterRight} />
       ),
     },
     {
       id: 'topRight',
-      element: (
-        <PlayerSlot
-          className="opacity-50 w-[100]"
-          playerName={playerSlotAssignments.topRight}
-          playerWithPotato={playerWithPotato}
-        />
-      ),
+      element: <PlayerSlot className="opacity-50 w-[100]" playerName={playerSlotAssignments.topRight} />,
     },
   ]
 
   return (
-    <HalfCircleRibbon
-      radius={radius}
-      itemSize={itemSize}
-      items={topItems}
-      centerItem={<Text className="text-5xl font-bold dark:text-white text-black">{message}</Text>}
-    />
+    <HalfCircleRibbon radius={radius} itemSize={itemSize} items={topItems} centerItem={<MessageDisplay />} />
   )
 }

@@ -1,17 +1,19 @@
 import { View } from 'react-native'
 import { Text } from '../../../components/ui/text'
 import PotatoStack from './PotatoStack'
+import { usePotatoGameStore } from './usePotatoStore'
 
 interface PlayerSlotProps {
   playerName?: string
-  playerWithPotato?: string
   className?: string
 }
 
-export const PlayerSlot = ({ playerName, playerWithPotato, className }: PlayerSlotProps) => {
-  if (!playerName) return null
+export const PlayerSlot = ({ playerName, className }: PlayerSlotProps) => {
+  const hasPotato = usePotatoGameStore<boolean>(
+    (state) => !!state.view.playerWithPotato && state.view.playerWithPotato === playerName
+  )
 
-  const hasPotato = playerWithPotato && playerWithPotato === playerName
+  if (!playerName) return null
 
   return (
     <View className={className}>
