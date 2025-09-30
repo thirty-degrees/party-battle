@@ -1,17 +1,18 @@
 import { View } from 'react-native'
-import { Player } from 'types-party-battle/types/PlayerSchema'
 import { Cell } from 'types-party-battle/types/snake/CellSchema'
+import { useShallow } from 'zustand/react/shallow'
 import useBasicGameViewDimensions from '../useBasicGameViewDimensions'
 import { CellContent } from './CellContent'
+import { useSnakeGameStore } from './useSnakeStore'
 
-interface BoardProps {
-  board: Cell[]
-  width: number
-  height: number
-  players: Player[]
-}
-
-export const Board = ({ board, width, height, players }: BoardProps) => {
+export const Board = () => {
+  const { board, width, height } = useSnakeGameStore(
+    useShallow((state) => ({
+      board: state.view.board,
+      width: state.view.width,
+      height: state.view.height,
+    }))
+  )
   const { availableWidth, availableHeight } = useBasicGameViewDimensions()
 
   const cellSize = Math.min(availableWidth / width, availableHeight / height)
@@ -34,7 +35,7 @@ export const Board = ({ board, width, height, players }: BoardProps) => {
           top: y * cellSize,
         }}
       >
-        <CellContent cell={cell} players={players} />
+        <CellContent cell={cell} />
       </View>
     )
   }

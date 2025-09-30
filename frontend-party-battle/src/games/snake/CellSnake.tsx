@@ -1,13 +1,15 @@
 import { View } from 'react-native'
-import { Player } from 'types-party-battle/types/PlayerSchema'
 import { rgbColorToString } from 'types-party-battle/types/RGBColorSchema'
+import { useSnakeGameStore } from './useSnakeStore'
 
 interface CellSnakeProps {
-  player: Player
+  playerName: string
 }
 
-export const CellSnake = ({ player }: CellSnakeProps) => {
-  const backgroundColor = rgbColorToString(player.color)
+export const CellSnake = ({ playerName }: CellSnakeProps) => {
+  const backgroundColor = useSnakeGameStore((state) =>
+    rgbColorToString(state.view.players.find((player) => player.name === playerName)!.color)
+  )
 
   return (
     <View
