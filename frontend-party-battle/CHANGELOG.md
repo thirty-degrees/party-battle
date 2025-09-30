@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.15.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.14.0...frontend-party-battle-v2.15.0) (2025-09-30)
+
+
+### Features
+
+* add name tags to snakes ([a22f195](https://github.com/thirty-degrees/party-battle/commit/a22f1953bb390504cdf4a3f1964e1f259b1ca5f4))
+* allow reloading lobby and game rooms ([8c63f8d](https://github.com/thirty-degrees/party-battle/commit/8c63f8d547b3ba37cf31811a4800dff92e0b6cec))
+* change loading screen background color ([65d1c67](https://github.com/thirty-degrees/party-battle/commit/65d1c67d6fc26ea9a5f19713ec4750e33d00e942))
+* connection lost screen ([54b1eff](https://github.com/thirty-degrees/party-battle/commit/54b1effea276601af229a52ce3c4d47a304bdf4d))
+* extract ArrowButtonControls to improve performance ([6a8640a](https://github.com/thirty-degrees/party-battle/commit/6a8640a6f3f3b301d92f6803be65030e00132814))
+* improve icon sizes and connection lost modal ([9ddbce1](https://github.com/thirty-degrees/party-battle/commit/9ddbce13ab60a1c61dd1293e631774148a35f684))
+* improve joining and leaving parties ([982a11b](https://github.com/thirty-degrees/party-battle/commit/982a11b02f203a0ee1aa959bdeb90c9e359f89e9))
+* improve performance by consuming player state directly in cell ([1c6b5f9](https://github.com/thirty-degrees/party-battle/commit/1c6b5f9557a01141ca12469b62857fc3f332c270))
+* improve QR modal style ([fbf0ba8](https://github.com/thirty-degrees/party-battle/commit/fbf0ba88010bd250183f8974c23c08561a6d5445))
+* improve snake performance by only rerendering changed cells ([15ba0f6](https://github.com/thirty-degrees/party-battle/commit/15ba0f64a4cd2ef3eb4d8da1df7545d43af763ee))
+* leave game room handling ([f84aa4b](https://github.com/thirty-degrees/party-battle/commit/f84aa4b3bbb9eefad1a3de18d9315f9960615cea))
+* Migrate lobby room to zustand ([#72](https://github.com/thirty-degrees/party-battle/issues/72)) ([30f1d51](https://github.com/thirty-degrees/party-battle/commit/30f1d518036d71e47aad011f5572c2b9f62815d7))
+* redirect to lobby if lobby is disconnected ([23c4a9b](https://github.com/thirty-degrees/party-battle/commit/23c4a9baef05270905299cabb333d16a3b9b47c2))
+* replace context providers with Zustand ([61dc0ab](https://github.com/thirty-degrees/party-battle/commit/61dc0ab1fced3bc65599ada6ab2d99780d0e5d44))
+* reuse last party code if not yet used ([d0e73be](https://github.com/thirty-degrees/party-battle/commit/d0e73be5a3b0d29ffa7b547c10d6aff6ad09b627))
+
+
+### Bug Fixes
+
+* gray instead of blue current player background ([21319fb](https://github.com/thirty-degrees/party-battle/commit/21319fb63d7df9939ddbcd90dea7a85059ff0879))
+* invalid lobby id error ([fad9152](https://github.com/thirty-degrees/party-battle/commit/fad9152e533b85029f2d093d6af27931cc54141d))
+* outdated version screen ([1d2e383](https://github.com/thirty-degrees/party-battle/commit/1d2e383524d42418f4d2f86e0987a1c2b49d4946))
+* redirect to index in case of missing roomId ([1d4e87b](https://github.com/thirty-degrees/party-battle/commit/1d4e87baf149ab05668fcc1d1ef64ff17e98805f))
+* userSelect ([705fa01](https://github.com/thirty-degrees/party-battle/commit/705fa0190f591925aad8ac2aaebaf7f0bc8e1503))
+
 ## [2.14.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.13.0...frontend-party-battle-v2.14.0) (2025-09-25)
 
 

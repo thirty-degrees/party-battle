@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.15.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.14.0...backend-party-battle-v2.15.0) (2025-09-30)
+
+
+### Features
+
+* add name tags to snakes ([a22f195](https://github.com/thirty-degrees/party-battle/commit/a22f1953bb390504cdf4a3f1964e1f259b1ca5f4))
+* added ColorReactionGameRoom ([29be19e](https://github.com/thirty-degrees/party-battle/commit/29be19e57bb7f30e9d5d7df8849ad33a1bea1757))
+* leave game room handling ([f84aa4b](https://github.com/thirty-degrees/party-battle/commit/f84aa4b3bbb9eefad1a3de18d9315f9960615cea))
+* Migrate lobby room to zustand ([#72](https://github.com/thirty-degrees/party-battle/issues/72)) ([30f1d51](https://github.com/thirty-degrees/party-battle/commit/30f1d518036d71e47aad011f5572c2b9f62815d7))
+* randomize start positions and first player ([49fdb77](https://github.com/thirty-degrees/party-battle/commit/49fdb7702434a11fe78f79c2f99c174940230720))
+* reuse last party code if not yet used ([d0e73be](https://github.com/thirty-degrees/party-battle/commit/d0e73be5a3b0d29ffa7b547c10d6aff6ad09b627))
+
+
+### Bug Fixes
+
+* moving over tail field ([fefaaad](https://github.com/thirty-degrees/party-battle/commit/fefaaad07a996dbeb432194570f3b82301618613))
+
 ## [2.14.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.13.0...backend-party-battle-v2.14.0) (2025-09-25)
 
 
