@@ -37,7 +37,8 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
   override onCreate(options: { lobbyRoomId: string; players: { name: string; color: RGBColor }[] }) {
     const playerNames = options.players.map((player) => player.name)
-    const { board, width, height, directions, bodies } = createInitialBoard(playerNames)
+    const randomlySortedPlayerNames = playerNames.sort(() => Math.random() - 0.5)
+    const { board, width, height, directions, bodies } = createInitialBoard(randomlySortedPlayerNames)
     this.bodies = bodies
 
     const boardSchema = new ArraySchema<CellSchema>()
@@ -83,7 +84,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
       }
     )
 
-    playerNames.forEach((playerName) => {
+    randomlySortedPlayerNames.forEach((playerName) => {
       const remainingPlayerSchema = new RemainingPlayerSchema(playerName, directions[playerName])
       this.state.remainingPlayers.push(remainingPlayerSchema)
 

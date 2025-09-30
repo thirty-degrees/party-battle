@@ -50,7 +50,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
 
   protected startGame() {
     this.state.status = 'playing'
-    this.currentPlayerIndex = 0
+    this.currentPlayerIndex = Math.floor(Math.random() * this.state.remainingPlayers.length)
     this.setCurrentPlayer()
     this.startPlayerTurn()
   }
