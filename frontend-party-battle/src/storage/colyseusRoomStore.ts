@@ -70,7 +70,7 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
       if (error instanceof ServerError && error.code === 4111) {
         set({ playerNameValidationError: error.message })
       } else {
-        set({ roomError: error })
+        set({ roomError: new Error('Failed to connect to room', { cause: error }) })
       }
       return false
     }

@@ -37,7 +37,9 @@ export function VersionUpdateScreen() {
       <GluestackUIProvider>
         <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">
           <View className="flex-1 p-6 items-center justify-center gap-6">
-            <Heading size="4xl">New version available</Heading>
+            <Heading size="4xl" className="text-center">
+              New version available
+            </Heading>
             <Text size="md">Update to the latest version to continue playing</Text>
             {isWeb ? (
               <Button size="xl" action="primary" onPress={handleReload} style={{ width: 200 }}>

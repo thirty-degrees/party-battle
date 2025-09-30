@@ -16,11 +16,12 @@ export function JoinSection() {
   const { partyCode: storedPartyCode, setPartyCode } = usePartyCode()
   const [draft, setDraft] = useState(storedPartyCode)
   const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
-  const { createRoom, joinById, isLoading } = useLobbyStore(
+  const { createRoom, joinById, isLoading, roomError } = useLobbyStore(
     useShallow((state) => ({
       createRoom: state.createRoom,
       joinById: state.joinById,
       isLoading: state.isLoading,
+      roomError: state.roomError,
     }))
   )
   const { playerName } = usePlayerName()
@@ -85,6 +86,10 @@ export function JoinSection() {
     router.push({
       pathname: '/lobby',
     })
+  }
+
+  if (roomError) {
+    throw roomError
   }
 
   return (
