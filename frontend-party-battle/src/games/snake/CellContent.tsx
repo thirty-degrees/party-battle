@@ -1,19 +1,23 @@
+import { View, ViewProps } from 'react-native'
 import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
 import { CellCollectible } from './CellCollectible'
 import { CellEmpty } from './CellEmpty'
 import { CellSnake } from './CellSnake'
 
-interface CellContentProps {
+interface CellContentProps extends ViewProps {
   cell: Cell
 }
 
-export const CellContent = ({ cell }: CellContentProps) => {
-  switch (cell.kind) {
-    case CellKind.Snake:
-      return <CellSnake playerName={cell.player!} />
-    case CellKind.Empty:
-      return <CellEmpty />
-    case CellKind.Collectible:
-      return <CellCollectible />
-  }
+export const CellContent = ({ cell, style }: CellContentProps) => {
+  return (
+    <View style={style}>
+      {cell.kind === CellKind.Snake ? (
+        <CellSnake playerName={cell.player!} />
+      ) : cell.kind === CellKind.Empty ? (
+        <CellEmpty />
+      ) : (
+        <CellCollectible />
+      )}
+    </View>
+  )
 }
