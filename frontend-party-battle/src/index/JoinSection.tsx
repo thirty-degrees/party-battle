@@ -39,7 +39,7 @@ export function JoinSection() {
   useEffect(() => {
     if (partyCode) {
       setDraft(partyCode)
-      setPartyCode(partyCode)
+      setPartyCode(partyCode.trim())
     }
   }, [partyCode, setPartyCode])
 
@@ -60,7 +60,8 @@ export function JoinSection() {
   }
 
   const handleCreateRoom = async () => {
-    const success = await createRoom()
+    if (!playerName || isLoading) return
+    const success = await createRoom(storedPartyCode)
     if (!success) {
       showError('Failed to create party')
       return
@@ -71,8 +72,10 @@ export function JoinSection() {
     })
   }
 
-  const handleJoinRoom = async (gameRoomId: string) => {
-    const success = await joinById(gameRoomId)
+  const handleJoinRoom = async () => {
+    if (!playerName || !storedPartyCode || isLoading) return
+
+    const success = await joinById(storedPartyCode)
 
     if (!success) {
       showError('Failed to join party')
@@ -99,10 +102,7 @@ export function JoinSection() {
           placeholder="Enter Party Code"
           returnKeyType="join"
           enablesReturnKeyAutomatically
-          onSubmitEditing={() => {
-            if (!playerName || !draft.trim() || isLoading) return
-            handleJoinRoom(draft.trim())
-          }}
+          onSubmitEditing={handleJoinRoom}
           onFocus={() => setIsFloatingKeyboardInputVisible(true)}
           style={{ width: 200, textAlign: 'center' }}
         />
@@ -110,7 +110,7 @@ export function JoinSection() {
       <Button
         size="xl"
         action="primary"
-        onPress={() => handleJoinRoom(draft.trim())}
+        onPress={handleJoinRoom}
         isDisabled={!playerName || !draft.trim() || isLoading}
         style={{ width: 200, paddingHorizontal: 8 }}
       >

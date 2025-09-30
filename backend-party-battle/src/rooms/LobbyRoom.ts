@@ -17,12 +17,16 @@ export class LobbyRoom extends Room<LobbySchema> {
   private readonly IDS_CHANNEL = '$lobby-ids'
   private playerColors: RGBColor[] = []
 
-  private async generateRoomId(): Promise<string> {
+  private async generateRoomId(roomId?: string): Promise<string> {
     const current = await this.presence.smembers(this.IDS_CHANNEL)
     let id: string
-    do {
-      id = humanId()
-    } while (current.includes(id))
+    if (roomId && roomId.length >= 8 && roomId.length <= 19 && !current.includes(roomId)) {
+      id = roomId
+    } else {
+      do {
+        id = humanId()
+      } while (current.includes(id))
+    }
     await this.presence.sadd(this.IDS_CHANNEL, id)
     return id
   }
@@ -41,8 +45,8 @@ export class LobbyRoom extends Room<LobbySchema> {
     throw new ServerError(4113, 'No colors available')
   }
 
-  async onCreate(_options: { name: string }) {
-    this.roomId = await this.generateRoomId()
+  async onCreate(options: { name: string; roomId?: string }) {
+    this.roomId = await this.generateRoomId(options.roomId)
     console.log(`LobbyRoom.onCreate: roomId: '${this.roomId}'`)
 
     this.autoDispose = true
