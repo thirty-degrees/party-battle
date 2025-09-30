@@ -113,12 +113,15 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   private applyMovementIntentions(intentions: MovementIntention[]) {
     for (const intention of intentions) {
       const body = this.bodies.get(intention.name)
-      if (!body || body.length === 0) continue
       const tailIndex = body[0]
-      const headIndex = intention.head.y * this.state.width + intention.head.x
       const tailCell = this.state.board[tailIndex]
       tailCell.kind = CellKind.Empty
       tailCell.player = undefined
+    }
+
+    for (const intention of intentions) {
+      const body = this.bodies.get(intention.name)
+      const headIndex = intention.head.y * this.state.width + intention.head.x
       body.push(headIndex)
       body.shift()
       const headCell = this.state.board[headIndex]
