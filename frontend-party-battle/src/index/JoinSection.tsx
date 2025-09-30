@@ -3,7 +3,7 @@ import { Button, ButtonIcon, ButtonText } from '@/components/ui/button'
 import { PartyPopperIcon } from '@/components/ui/icon'
 import { Input, InputField } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
-import useToastHelper from '@/components/ui/useToastHelper'
+import { Toast, ToastTitle, useToast } from '@/components/ui/toast'
 import { useLobbyStore } from '@/src/lobby/useLobbyStore'
 import { usePartyCode, usePlayerName } from '@/src/storage/userPreferencesStore'
 import { OverlayContainer } from '@gluestack-ui/core/overlay/aria'
@@ -16,16 +16,25 @@ export function JoinSection() {
   const { partyCode: storedPartyCode, setPartyCode } = usePartyCode()
   const [draft, setDraft] = useState(storedPartyCode)
   const { partyCode } = useLocalSearchParams<{ partyCode?: string }>()
-  const { createRoom, joinById, isLoading, playerNameValidationError } = useLobbyStore(
+  const { createRoom, joinById, isLoading } = useLobbyStore(
     useShallow((state) => ({
       createRoom: state.createRoom,
       joinById: state.joinById,
       isLoading: state.isLoading,
-      playerNameValidationError: state.playerNameValidationError,
     }))
   )
   const { playerName } = usePlayerName()
-  const { showError } = useToastHelper()
+  const toast = useToast()
+
+  const showError = (title: string) => {
+    toast.show({
+      render: () => (
+        <Toast action="error" variant="solid">
+          <ToastTitle>{title}</ToastTitle>
+        </Toast>
+      ),
+    })
+  }
 
   useEffect(() => {
     if (partyCode) {
@@ -53,8 +62,7 @@ export function JoinSection() {
   const handleCreateRoom = async () => {
     const success = await createRoom()
     if (!success) {
-      const errorMessage = playerNameValidationError
-      showError('Failed to create party', errorMessage ?? '')
+      showError('Failed to create party')
       return
     }
 
@@ -67,8 +75,7 @@ export function JoinSection() {
     const success = await joinById(gameRoomId)
 
     if (!success) {
-      const errorMessage = playerNameValidationError
-      showError('Failed to join party', errorMessage ?? '')
+      showError('Failed to join party')
       return
     }
 

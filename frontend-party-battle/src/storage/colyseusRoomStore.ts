@@ -10,6 +10,7 @@ export type ColyseusRoomStoreState<TView> = {
   roomId?: string
   isLoading: boolean
   playerNameValidationError?: string
+  setPlayerNameValidationError: (value?: string) => void
   connectionLost: boolean
   failedRetries: number
   roomError?: unknown
@@ -67,7 +68,7 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
       set({ isLoading: false })
       if (onError) onError()
       if (error instanceof ServerError && error.code === 4111) {
-        set({ playerNameValidationError: String(error.message) })
+        set({ playerNameValidationError: error.message })
       } else {
         set({ roomError: error })
       }
@@ -105,6 +106,8 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
     failedRetries: 0,
     roomError: undefined,
 
+    setPlayerNameValidationError: (value?: string) => set({ playerNameValidationError: value }),
+
     joinById: async (roomId) => {
       return connectToRoom(
         (playerName) => clientRef.current.joinById<TSchema>(roomId, { name: playerName }),
@@ -122,14 +125,12 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
     },
 
     leaveRoom: async () => {
-      const room = roomRef.current
-      if (!room) {
-        set({ view: opts.initialView, connectionLost: false })
-        return
-      }
       try {
-        intentionalLeaveRef.current = true
-        await room.leave(true)
+        const room = roomRef.current
+        if (room && room.connection.isOpen) {
+          intentionalLeaveRef.current = true
+          await room.leave(true)
+        }
       } finally {
         roomRef.current = null
         set({

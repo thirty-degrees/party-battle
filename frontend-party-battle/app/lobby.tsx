@@ -5,6 +5,7 @@ import { useLobbyStore } from '@/src/lobby/useLobbyStore'
 import { usePartyCode } from '@/src/storage/userPreferencesStore'
 import { useIsFocused } from '@react-navigation/native'
 import { Redirect } from 'expo-router'
+import { useEffect } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 export default function LobbyScreen() {
@@ -16,7 +17,13 @@ export default function LobbyScreen() {
     }))
   )
   const isFocused = useIsFocused()
-  const { partyCode } = usePartyCode()
+  const { partyCode, setPartyCode } = usePartyCode()
+
+  useEffect(() => {
+    if (roomId && partyCode !== roomId && !connectionLost && !error) {
+      setPartyCode(roomId)
+    }
+  }, [partyCode, setPartyCode, roomId, connectionLost, error])
 
   if (!isFocused) {
     return null
@@ -30,12 +37,12 @@ export default function LobbyScreen() {
     return <ConnectionLostScreen />
   }
 
-  if (error) {
-    throw error
-  }
-
   if (!roomId && partyCode) {
     return <JoinLobby />
+  }
+
+  if (error) {
+    throw error
   }
 
   return <LobbyContent />
