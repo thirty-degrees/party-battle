@@ -1,50 +1,44 @@
 import { Progress, ProgressFilledTrack } from '@/components/ui/progress'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo } from 'react'
+import Animated, {
+  cancelAnimation,
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
 
 type TimerProgressBarProps = {
   timeWhenTimerIsOver: number
   isActive: boolean
 }
 
+const AProgressFilledTrack = Animated.createAnimatedComponent(ProgressFilledTrack)
+
 export default function TimerProgressBar({ timeWhenTimerIsOver, isActive }: TimerProgressBarProps) {
-  const [progress, setProgress] = useState(100)
-  const [startTime, setStartTime] = useState<number | null>(null)
+  const pct = useSharedValue(1)
+
+  const duration = useMemo(() => {
+    if (!isActive || timeWhenTimerIsOver === 0) return 0
+    return Math.max(timeWhenTimerIsOver - Date.now(), 0)
+  }, [timeWhenTimerIsOver, isActive])
 
   useEffect(() => {
-    if (!isActive || timeWhenTimerIsOver === 0) {
-      setProgress(100)
-      setStartTime(null)
+    cancelAnimation(pct)
+    if (!isActive || duration === 0) {
+      pct.value = 1
       return
     }
+    pct.value = withTiming(0, { duration, easing: Easing.linear })
+  }, [duration, isActive, pct])
 
-    if (startTime === null) {
-      setStartTime(Date.now())
-    }
-
-    const updateProgress = () => {
-      const currentTime = Date.now()
-      const remainingTime = Math.max(timeWhenTimerIsOver - currentTime, 0)
-
-      const totalDuration = timeWhenTimerIsOver - (startTime || currentTime)
-      const newProgress = (remainingTime / totalDuration) * 100
-
-      setProgress(Math.max(newProgress, 0))
-    }
-
-    updateProgress()
-
-    const interval = setInterval(updateProgress, 16)
-
-    return () => clearInterval(interval)
-  }, [timeWhenTimerIsOver, isActive, startTime])
-
-  if (!isActive) {
-    return null
-  }
+  const filledStyle = useAnimatedStyle(() => ({
+    width: `${pct.value * 100}%`,
+  }))
 
   return (
-    <Progress value={progress} size="sm" className="w-full max-w-sm">
-      <ProgressFilledTrack className="bg-red-500" />
+    <Progress value={100} size="md" orientation="horizontal" className="overflow-hidden">
+      <AProgressFilledTrack style={filledStyle} className="bg-[#d31e26]" />
     </Progress>
   )
 }
