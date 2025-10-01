@@ -1,9 +1,10 @@
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider'
 import '@/global.css'
-import { VersionUpdateScreen } from '@/src/VersionUpdateScreen'
+import ErrorScreen from '@/src/error/ErrorScreen'
+import { VersionUpdateScreen } from '@/src/error/VersionUpdateScreen'
 import { LilitaOne_400Regular } from '@expo-google-fonts/lilita-one'
 import { useFonts } from 'expo-font'
-import { ErrorBoundary as DefaultErrorBoundary, ErrorBoundaryProps, Stack } from 'expo-router'
+import { ErrorBoundaryProps, Stack } from 'expo-router'
 import Head from 'expo-router/head'
 import { StatusBar } from 'expo-status-bar'
 import { useColorScheme } from 'react-native'
@@ -66,5 +67,5 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
     return <VersionUpdateScreen />
   }
 
-  return <DefaultErrorBoundary retry={retry} error={error} />
+  return <ErrorScreen error={error} retry={retry} />
 }

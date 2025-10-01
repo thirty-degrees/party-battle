@@ -16,6 +16,7 @@ export type ColyseusRoomStoreState<TView> = {
   connectionLost: boolean
   failedRetries: number
   roomError?: Error
+  resetErrors: () => void
   joinById: (roomId: string) => Promise<{ success: boolean }>
   createRoom: (roomId?: string) => Promise<{ success: boolean; roomId?: string }>
   leaveRoom: () => Promise<void>
@@ -118,6 +119,16 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
 
     resetPlayerNameValidationError: () => set({ playerNameValidationError: undefined }),
     resetInvalidRoomId: () => set({ invalidRoomId: false }),
+
+    resetErrors: () =>
+      set({
+        playerNameValidationError: undefined,
+        invalidRoomId: false,
+        connectionLost: false,
+        failedRetries: 0,
+        isLoading: false,
+        roomError: undefined,
+      }),
 
     joinById: async (roomId) => {
       return connectToRoom(
