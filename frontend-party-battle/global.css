@@ -5,13 +5,11 @@
 @media (prefers-color-scheme: light) {
   :root {
     color-scheme: light;
-    background-color: --color-background-0;
   }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    background-color: --color-background-950;
   }
 }
