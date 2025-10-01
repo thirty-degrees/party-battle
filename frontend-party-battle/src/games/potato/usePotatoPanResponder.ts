@@ -1,8 +1,6 @@
 import { useMemo } from 'react'
 import { Animated, PanResponder } from 'react-native'
 import { PotatoDirection } from 'types-party-battle/types/potato/PotatoGameSchema'
-import { useShallow } from 'zustand/react/shallow'
-import { usePotatoGameStore } from './usePotatoStore'
 
 type Args = {
   status: string | undefined
@@ -13,6 +11,7 @@ type Args = {
   availableHeight: number
   translateX: Animated.Value
   translateY: Animated.Value
+  onSwipe: (direction: PotatoDirection) => void
 }
 
 export function usePotatoPanResponder({
@@ -24,9 +23,8 @@ export function usePotatoPanResponder({
   availableHeight,
   translateX,
   translateY,
+  onSwipe,
 }: Args) {
-  const { sendMessage } = usePotatoGameStore(useShallow((state) => ({ sendMessage: state.sendMessage })))
-
   const panResponder = useMemo(
     () =>
       PanResponder.create({
@@ -42,14 +40,14 @@ export function usePotatoPanResponder({
             const dir: PotatoDirection = g.dx > 0 ? 'right' : 'left'
             const allowed = dir === 'right' ? canRight : canLeft
             if (!allowed) return
-            sendMessage<PotatoDirection>('PassPotato', dir)
+            onSwipe(dir)
             const toX = dir === 'right' ? availableWidth : -availableWidth
             Animated.parallel([
               Animated.timing(translateX, { toValue: toX, duration: 500, useNativeDriver: true }),
             ]).start()
           } else if (g.dy < 0) {
             if (!canAcross) return
-            sendMessage<PotatoDirection>('PassPotato', 'across')
+            onSwipe('across')
             Animated.parallel([
               Animated.timing(translateY, {
                 toValue: -availableHeight,
@@ -60,17 +58,7 @@ export function usePotatoPanResponder({
           }
         },
       }),
-    [
-      status,
-      canLeft,
-      canRight,
-      canAcross,
-      sendMessage,
-      availableWidth,
-      availableHeight,
-      translateX,
-      translateY,
-    ]
+    [status, canLeft, canRight, canAcross, onSwipe, availableWidth, availableHeight, translateX, translateY]
   )
 
   return panResponder

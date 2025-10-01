@@ -10,6 +10,8 @@ interface UserPreferencesState {
   setPartyCode: (value: string) => void
   isPartyCodeVisible: boolean
   setIsPartyCodeVisible: (isVisible: boolean) => void
+  potatoSwipeCount: number
+  setPotatoSwipeCount: (value: number) => void
 }
 
 export const useUserPreferencesStore = create<UserPreferencesState>()(
@@ -21,6 +23,8 @@ export const useUserPreferencesStore = create<UserPreferencesState>()(
       setPartyCode: (value: string) => set({ partyCode: value }),
       isPartyCodeVisible: true,
       setIsPartyCodeVisible: (isVisible: boolean) => set({ isPartyCodeVisible: isVisible }),
+      potatoSwipeCount: 0,
+      setPotatoSwipeCount: (value: number) => set({ potatoSwipeCount: value }),
     }),
     {
       name: 'user-preferences',
@@ -50,5 +54,14 @@ export const usePartyCode = () =>
     useShallow((s) => ({
       partyCode: s.partyCode,
       setPartyCode: s.setPartyCode,
+    }))
+  )
+
+export const useSwipeHintVisibility = () =>
+  useUserPreferencesStore(
+    useShallow((s) => ({
+      showSwipeHint: s.potatoSwipeCount < 3,
+      potatoSwipeCount: s.potatoSwipeCount,
+      setPotatoSwipeCount: s.setPotatoSwipeCount,
     }))
   )

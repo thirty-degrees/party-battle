@@ -13,7 +13,7 @@ export const PotatoGame: GameComponent = () => {
 
   return (
     <BasicGameView className={isCurrentPlayerDying ? 'bg-orange-500 dark:bg-orange-500' : ''}>
-      <View className="flex-1 relative">
+      <View className="flex-1 relative overflow-hidden">
         <PotatoGameContent />
       </View>
     </BasicGameView>

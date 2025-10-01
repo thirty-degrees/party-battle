@@ -1,6 +1,7 @@
 import { RiveAnimation } from '@/components/rive-animation'
 import { useEffect } from 'react'
-import { AutoBind, useRive, useRiveColor, useRiveTrigger } from 'rive-react-native'
+import { Platform } from 'react-native'
+import { AutoBind, Fit, useRive, useRiveColor, useRiveTrigger } from 'rive-react-native'
 import { ArrowButtonComponent } from './ArrowButtons.types'
 
 export const ArrowButtons: ArrowButtonComponent = ({ style, color, onUp, onRight, onDown, onLeft }) => {
@@ -38,6 +39,7 @@ export const ArrowButtons: ArrowButtonComponent = ({ style, color, onUp, onRight
       stateMachineName="State Machine 1"
       autoplay
       style={style}
+      fit={Platform.OS === 'android' ? Fit.None : Fit.Cover}
     />
   )
 }

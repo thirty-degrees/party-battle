@@ -1,7 +1,7 @@
 import type React from 'react'
 import { forwardRef } from 'react'
 import { Image, Platform, View } from 'react-native'
-import Rive, { Fit, type RiveRef } from 'rive-react-native'
+import Rive, { type RiveRef } from 'rive-react-native'
 
 export type RiveSourceResult = { url: string; resourceName?: never } | { resourceName: string; url?: never }
 
@@ -39,12 +39,11 @@ export const RiveAnimation = forwardRef<RiveRef, WrapperProps>(({ source, style,
     <View style={style}>
       <Rive
         ref={ref}
-        {...rest}
         {...riveSource}
         onError={(err) => {
           console.error(`${err.type}: ${err.message}`)
         }}
-        fit={Platform.OS === 'android' ? Fit.None : Fit.Cover}
+        {...rest}
       />
     </View>
   )
