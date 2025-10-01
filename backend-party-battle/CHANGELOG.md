@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.16.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.15.0...backend-party-battle-v2.16.0) (2025-10-01)
+
+
+### Bug Fixes
+
+* pick cards start screen ([016019b](https://github.com/thirty-degrees/party-battle/commit/016019bb22e3a0bbc2ff5c539364eb8262ef9e81))
+
 ## [2.15.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.14.0...backend-party-battle-v2.15.0) (2025-09-30)
 
 
