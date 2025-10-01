@@ -1,7 +1,7 @@
 import nativewindPreset from 'nativewind/preset'
 
 export default {
-  darkMode: 'media',
+  darkMode: 'class',
   content: ['./**/*.{ts,tsx,js,jsx}', '!./node_modules/**/*', '!./dist/**/*', '!./.expo/**/*'],
   presets: [nativewindPreset],
   safelist: [
