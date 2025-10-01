@@ -14,7 +14,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
   private currentPlayerIndex = 0
   private playerTurnTimer: Delayed | null = null
   private eliminatedPlayers: string[] = []
-  private readonly playerTurnTimeout = 3000
+  private readonly playerTurnTimeout = 7000
 
   override getGameType(): GameType {
     return PickCardsGameRoom.gameType
@@ -32,7 +32,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
       this.state.remainingPlayers.push(player.name)
     })
 
-    this.onMessage('CardPressed', (client, message: { index: number }) => {
+    this.onMessage<{ index: number }>('CardPressed', (client, message) => {
       const playerName = this.findPlayerBySessionId(client.sessionId)
       if (playerName && playerName === this.state.currentPlayer) {
         this.state.pressedCardIndex.push(message.index)

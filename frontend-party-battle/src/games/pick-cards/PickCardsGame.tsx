@@ -12,25 +12,18 @@ import TimerProgressBar from './TimerProgressBar'
 import { usePickCardsGameStore } from './usePickCardsStore'
 
 export const PickCardsGame: GameComponent = () => {
-  const {
-    status,
-    cardCount,
-    pressedCardIndex,
-    currentPlayer,
-    remainingPlayers,
-    timeWhenTimerIsOver,
-    sendMessage,
-  } = usePickCardsGameStore(
-    useShallow((state) => ({
-      status: state.view.status,
-      cardCount: state.view.cardCount,
-      pressedCardIndex: state.view.pressedCardIndex,
-      currentPlayer: state.view.currentPlayer,
-      remainingPlayers: state.view.remainingPlayers,
-      timeWhenTimerIsOver: state.view.timeWhenTimerIsOver,
-      sendMessage: state.sendMessage,
-    }))
-  )
+  const { cardCount, pressedCardIndex, currentPlayer, remainingPlayers, timeWhenTimerIsOver, sendMessage } =
+    usePickCardsGameStore(
+      useShallow((state) => ({
+        status: state.view.status,
+        cardCount: state.view.cardCount,
+        pressedCardIndex: state.view.pressedCardIndex,
+        currentPlayer: state.view.currentPlayer,
+        remainingPlayers: state.view.remainingPlayers,
+        timeWhenTimerIsOver: state.view.timeWhenTimerIsOver,
+        sendMessage: state.sendMessage,
+      }))
+    )
   const { playerName } = usePlayerName()
 
   const screenWidth = Dimensions.get('window').width
@@ -45,8 +38,12 @@ export const PickCardsGame: GameComponent = () => {
     }
   }
 
+  if (remainingPlayers.length === 0) {
+    return <></>
+  }
+
   return (
-    <ShakingScreen run={!isPlayerInGame && status !== 'waiting'}>
+    <ShakingScreen run={!isPlayerInGame}>
       <BasicGameView>
         <View className="flex-1 items-center justify-center">
           <View className="flex-1 items-center justify-center">

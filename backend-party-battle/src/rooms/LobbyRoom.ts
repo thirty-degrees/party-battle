@@ -85,7 +85,7 @@ export class LobbyRoom extends Room<LobbySchema> {
   }
 
   private registerSetPlayerReady() {
-    this.onMessage('SetPlayerReady', async (client: Client, ready: boolean) => {
+    this.onMessage<boolean>('SetPlayerReady', async (client: Client, ready: boolean) => {
       const player = this.state.players.get(client.sessionId)
       console.log(
         `LobbyRoom.onMessage(SetPlayerReady): roomId: '${this.roomId}', playerName: '${player.name}', ready: ${ready}`
