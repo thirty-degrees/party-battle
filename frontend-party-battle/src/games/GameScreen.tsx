@@ -15,7 +15,7 @@ interface GameScreenProps {
   activeGameRoomId?: string
   gameStatus: string
   connectionToGameRoomLost: boolean
-  gameRoomError?: unknown
+  gameRoomError?: Error
 }
 
 export default function GameScreen({
@@ -26,7 +26,7 @@ export default function GameScreen({
   activeGameRoomId,
   gameStatus,
   connectionToGameRoomLost,
-  gameRoomError: error,
+  gameRoomError,
 }: GameScreenProps) {
   const { currentGame, currentGameRoomId } = useLobbyStore(
     useShallow((state) => ({
@@ -55,8 +55,8 @@ export default function GameScreen({
     return <Redirect href="/lobby" />
   }
 
-  if (error) {
-    throw error
+  if (gameRoomError) {
+    throw gameRoomError
   }
 
   if (isGameRoomLoading || currentGameRoomId !== activeGameRoomId) {

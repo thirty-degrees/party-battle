@@ -15,7 +15,7 @@ export type ColyseusRoomStoreState<TView> = {
   resetInvalidRoomId: () => void
   connectionLost: boolean
   failedRetries: number
-  roomError?: unknown
+  roomError?: Error
   joinById: (roomId: string) => Promise<{ success: boolean }>
   createRoom: (roomId?: string) => Promise<{ success: boolean; roomId?: string }>
   leaveRoom: () => Promise<void>
@@ -95,7 +95,7 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
       if (nextView !== get().view) set({ view: nextView })
     })
     room.onError((code, message) => {
-      set({ roomError: { code, message } })
+      console.warn('colyseus room onError', { code, message })
     })
     room.onLeave(() => {
       roomRef.current = null
@@ -160,7 +160,7 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
       const roomId = get().roomId
       const failedRetries = get().failedRetries
       if (!roomId) {
-        set({ roomError: 'Room id is required', failedRetries: failedRetries + 1 })
+        set({ roomError: new Error('Room id is required'), failedRetries: failedRetries + 1 })
         return { success: false }
       }
       return connectToRoom(
