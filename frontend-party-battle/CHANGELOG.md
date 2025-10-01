@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.16.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.15.0...frontend-party-battle-v2.16.0) (2025-10-01)
+
+
+### Features
+
+* custom error screen ([7cf7e42](https://github.com/thirty-degrees/party-battle/commit/7cf7e42b3d4d77fc2a09b419dd05163c744e7edb))
+* death screen background ([ed43022](https://github.com/thirty-degrees/party-battle/commit/ed43022a587235a0bb2f4220b826381a597f21fe))
+* force dark mode ([07e74e1](https://github.com/thirty-degrees/party-battle/commit/07e74e18f8028505499cc324a7cf317b13490cd2))
+* optimize potato game for rerendering ([101a842](https://github.com/thirty-degrees/party-battle/commit/101a8421598c4e58f30d4b747d06fabb91b0822f))
+* swipe animation for potato ([e2d6aef](https://github.com/thirty-degrees/party-battle/commit/e2d6aefed7c59cf12debe7610c1105f7caa493cd))
+
+
+### Bug Fixes
+
+* improve error handling ([c5e2913](https://github.com/thirty-degrees/party-battle/commit/c5e291322cbc4a6837d321f1a5b1995dd1eac27b))
+* pick cards start screen ([016019b](https://github.com/thirty-degrees/party-battle/commit/016019bb22e3a0bbc2ff5c539364eb8262ef9e81))
+* progress bar animation ([5436927](https://github.com/thirty-degrees/party-battle/commit/54369276962b6006eab10633fee6739cb6a6f7ce))
+* reset potato animation when no longer playing ([208f6d1](https://github.com/thirty-degrees/party-battle/commit/208f6d11087381b15c40aff2bff4bcba784526e9))
+
 ## [2.15.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.14.0...frontend-party-battle-v2.15.0) (2025-09-30)
 
 
