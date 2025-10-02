@@ -44,8 +44,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       ...(config.android ?? {}),
       package: androidPackage,
       adaptiveIcon: {
-        foregroundImage: './assets/images/adaptive-icon.png',
-        backgroundColor: '#ffffff',
+        backgroundImage: './assets/images/background.png',
+        foregroundImage: './assets/images/foreground.png',
+        monochromeImage: './assets/images/foreground.png',
       },
       edgeToEdgeEnabled: true,
       intentFilters: [
