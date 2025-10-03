@@ -22,21 +22,23 @@ export interface MovementIntention {
 export function getMovementIntentions(
   players: RemainingPlayer[],
   bodies: Map<string, number[]>,
+  directions: Map<string, Direction>,
   width: number
 ): MovementIntention[] {
   const intentions: MovementIntention[] = []
 
   for (const player of players) {
     const body = bodies.get(player.name)
+    const direction = directions.get(player.name)
 
     const headIndex = body[body.length - 1]
     const x = headIndex % width
     const y = Math.floor(headIndex / width)
-    const [dx, dy] = DIRECTION_DELTA[player.direction]
+    const [dx, dy] = DIRECTION_DELTA[direction]
     const nx = x + dx
     const ny = y + dy
 
-    intentions.push({ name: player.name, head: { x: nx, y: ny }, tail: body[0], direction: player.direction })
+    intentions.push({ name: player.name, head: { x: nx, y: ny }, tail: body[0], direction })
   }
 
   return intentions

@@ -6,6 +6,7 @@ import { CellKind, CellSchema, fromCell, toCell } from 'types-party-battle/types
 import {
   Direction,
   DIRECTIONS,
+  RemainingPlayer,
   RemainingPlayerSchema,
   toRemainingPlayer,
 } from 'types-party-battle/types/snake/RemainingPlayerSchema'
@@ -30,6 +31,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   private eliminatedPlayers: string[][] = []
   private bodies: Map<string, number[]> = new Map()
   private lastMovementDirections: Map<string, Direction> = new Map()
+  private directionQueue: Map<string, Direction[]> = new Map()
 
   override getGameType(): GameType {
     return SnakeGameRoom.gameType
@@ -64,17 +66,12 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
           return
         }
 
-        const lastMovementDirection = this.lastMovementDirections.get(playerName)
-        if (lastMovementDirection && isOppositeDirection(lastMovementDirection, direction)) {
-          return
+        let queue = this.directionQueue.get(playerName)
+        if (!queue) {
+          queue = []
+          this.directionQueue.set(playerName, queue)
         }
-
-        for (let i = 0; i < this.state.remainingPlayers.length; i++) {
-          if (this.state.remainingPlayers[i].name === playerName) {
-            this.state.remainingPlayers[i].direction = direction
-            break
-          }
-        }
+        queue.push(direction)
       },
       (payload) => {
         if (!isValidDirection(payload)) {
@@ -85,10 +82,11 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     )
 
     randomlySortedPlayerNames.forEach((playerName) => {
-      const remainingPlayerSchema = new RemainingPlayerSchema(playerName, directions[playerName])
+      const remainingPlayerSchema = new RemainingPlayerSchema(playerName)
       this.state.remainingPlayers.push(remainingPlayerSchema)
 
       this.lastMovementDirections.set(playerName, directions[playerName])
+      this.directionQueue.set(playerName, [])
     })
 
     this.startGameWhenReady()
@@ -108,11 +106,35 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     const board = this.state.board.map(toCell)
     const remainingPlayers = this.state.remainingPlayers.map(toRemainingPlayer)
 
-    const intentions = getMovementIntentions(remainingPlayers, this.bodies, this.state.width)
+    const directions = this.getDirectionsForPlayers(remainingPlayers)
+    const intentions = getMovementIntentions(remainingPlayers, this.bodies, directions, this.state.width)
     const deaths = getDeaths(intentions, board, this.state.width, this.state.height)
 
     this.applyMovementIntentions(intentions.filter((intention) => !deaths.has(intention.name)))
     this.applyDeaths(deaths)
+  }
+
+  private getDirectionsForPlayers(players: RemainingPlayer[]): Map<string, Direction> {
+    const directions = new Map<string, Direction>()
+
+    for (const player of players) {
+      const queue = this.directionQueue.get(player.name) || []
+      const lastDirection = this.lastMovementDirections.get(player.name)
+
+      let chosenDirection = lastDirection
+
+      while (queue.length > 0) {
+        const candidateDirection = queue.shift()!
+        if (!lastDirection || !isOppositeDirection(lastDirection, candidateDirection)) {
+          chosenDirection = candidateDirection
+          break
+        }
+      }
+
+      directions.set(player.name, chosenDirection)
+    }
+
+    return directions
   }
 
   private applyMovementIntentions(intentions: MovementIntention[]) {
@@ -165,6 +187,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
           }
         }
         this.lastMovementDirections.delete(name)
+        this.directionQueue.delete(name)
         eliminatedThisTurn.push(name)
       }
 
