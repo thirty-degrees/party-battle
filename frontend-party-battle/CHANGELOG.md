@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.17.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.16.0...frontend-party-battle-v2.17.0) (2025-10-03)
+
+
+### Bug Fixes
+
+* android icon ([be335d1](https://github.com/thirty-degrees/party-battle/commit/be335d1a3b70628c264cc0853853c063ca6aff4d))
+
 ## [2.16.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.15.0...frontend-party-battle-v2.16.0) (2025-10-01)
 
 
