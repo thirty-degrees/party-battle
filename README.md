@@ -3,8 +3,8 @@
 ## Platforms
 
 - Web: https://party-battle.thirty-degrees.ch
-- Android: (wip)
-- IOS: (wip)
+- Android: https://play.google.com/store/apps/details?id=ch.thirty_degrees.party_battle
+- IOS: https://apps.apple.com/us/app/party-battle/id6751968403
 
 ## Setup
 
