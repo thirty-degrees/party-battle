@@ -95,12 +95,16 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   }
 
   protected startGame() {
-    this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1000 / STEPS_PER_SECOND)
-
     this.state.status = 'playing'
+
+    this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1000 / STEPS_PER_SECOND)
   }
 
   update(_deltaTime: number) {
+    if (this.state.status !== 'playing') {
+      return
+    }
+
     const board = this.state.board.map(toCell)
     const remainingPlayers = this.state.remainingPlayers.map(toRemainingPlayer)
 
