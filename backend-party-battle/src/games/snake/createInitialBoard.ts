@@ -6,13 +6,13 @@ export function createInitialBoard(playerNames: string[]): {
   width: number
   height: number
   directions: Record<string, Direction>
-  bodies: Map<string, number[]>
+  bodies: Record<string, number[]>
 } {
   const width = 20
   const height = playerNames.length * 5
   const board: Cell[] = []
   const directions: Record<string, Direction> = {}
-  const bodies = new Map<string, number[]>()
+  const bodies: Record<string, number[]> = {}
 
   for (let i = 0; i < width * height; i++) {
     board.push({ kind: CellKind.Empty })
@@ -37,7 +37,7 @@ export function createInitialBoard(playerNames: string[]): {
     if (direction === 'left') {
       bodyIndices.reverse()
     }
-    bodies.set(playerName, bodyIndices)
+    bodies[playerName] = bodyIndices
   })
 
   return { board, width, height, directions, bodies }
