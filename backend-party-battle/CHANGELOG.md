@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.17.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.16.0...backend-party-battle-v2.17.0) (2025-10-03)
+
+
+### Features
+
+* queue for snake direction changes ([64f0e9d](https://github.com/thirty-degrees/party-battle/commit/64f0e9d5969632fa184cefdd9e2291dc667966f4))
+
+
+### Bug Fixes
+
+* finishing snake game multiple times ([70eb293](https://github.com/thirty-degrees/party-battle/commit/70eb293f94c262462360537223cf20d589e49466))
+
 ## [2.16.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.15.0...backend-party-battle-v2.16.0) (2025-10-01)
 
 
