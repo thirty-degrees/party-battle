@@ -14,7 +14,7 @@ import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
 import { getDeaths } from '../games/snake/getDeaths'
-import { getMovementIntentions, MovementIntention } from '../games/snake/getMovementIntentions'
+import { getMovementIntention, MovementIntention } from '../games/snake/getMovementIntention'
 import { isOppositeDirection } from '../games/snake/isOppositeDirection'
 import { assignScoresByRank } from '../scores/assignScoresByRank'
 
@@ -107,11 +107,26 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     const remainingPlayers = this.state.remainingPlayers.map(toRemainingPlayer)
 
     const directions = this.getDirectionsForPlayers(remainingPlayers)
-    const intentions = getMovementIntentions(remainingPlayers, this.bodies, directions, this.state.width)
+    const intentions = this.getIntentions(remainingPlayers, directions)
     const deaths = getDeaths(intentions, board, this.state.width, this.state.height)
 
-    this.applyMovementIntentions(intentions.filter((intention) => !deaths.has(intention.name)))
+    const survivingIntentions: Record<string, MovementIntention> = Object.fromEntries(
+      Object.entries(intentions).filter(([playerName]) => !deaths.has(playerName))
+    )
+    this.applyMovementIntentions(survivingIntentions)
     this.applyDeaths(deaths)
+  }
+
+  private getIntentions(
+    remainingPlayers: RemainingPlayer[],
+    directions: Map<string, Direction>
+  ): Record<string, MovementIntention> {
+    return Object.fromEntries(
+      remainingPlayers.map((player) => [
+        player.name,
+        getMovementIntention(this.bodies.get(player.name), directions.get(player.name), this.state.width),
+      ])
+    )
   }
 
   private getDirectionsForPlayers(players: RemainingPlayer[]): Map<string, Direction> {
@@ -137,18 +152,17 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     return directions
   }
 
-  private applyMovementIntentions(intentions: MovementIntention[]) {
-    for (const intention of intentions) {
-      const body = this.bodies.get(intention.name)
-      const tailIndex = body[0]
+  private applyMovementIntentions(intentions: Record<string, MovementIntention>) {
+    for (const [, intention] of Object.entries(intentions)) {
+      const tailIndex = intention.tail
       const tailCell = this.state.board[tailIndex]
       tailCell.kind = CellKind.Empty
       tailCell.player = undefined
       tailCell.isHead = undefined
     }
 
-    for (const intention of intentions) {
-      const body = this.bodies.get(intention.name)
+    for (const [playerName, intention] of Object.entries(intentions)) {
+      const body = this.bodies.get(playerName)
       const oldHeadIndex = body[body.length - 1]
       const oldHeadCell = this.state.board[oldHeadIndex]
       oldHeadCell.isHead = undefined
@@ -158,9 +172,9 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
       body.shift()
       const headCell = this.state.board[headIndex]
       headCell.kind = CellKind.Snake
-      headCell.player = intention.name
+      headCell.player = playerName
       headCell.isHead = true
-      this.lastMovementDirections.set(intention.name, intention.direction)
+      this.lastMovementDirections.set(playerName, intention.direction)
     }
   }
 
