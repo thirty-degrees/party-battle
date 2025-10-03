@@ -1,5 +1,5 @@
 import { Cell, CellKind } from 'types-party-battle/types/snake/CellSchema'
-import { Direction } from 'types-party-battle/types/snake/RemainingPlayerSchema'
+import { Direction } from 'types-party-battle/types/snake/DirectionSchema'
 
 export function createInitialBoard(playerNames: string[]): {
   board: Cell[]

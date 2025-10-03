@@ -1,4 +1,4 @@
-import { Direction } from 'types-party-battle/types/snake/RemainingPlayerSchema'
+import { Direction } from 'types-party-battle/types/snake/DirectionSchema'
 import { getMovementIntention, MovementIntention } from '../getMovementIntention'
 
 describe('getMovementIntention', () => {

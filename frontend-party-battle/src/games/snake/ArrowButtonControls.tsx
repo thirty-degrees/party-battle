@@ -1,6 +1,6 @@
 import { usePlayerName } from '@/src/storage/userPreferencesStore'
 import { View } from 'react-native'
-import { Direction } from 'types-party-battle/types/snake/RemainingPlayerSchema'
+import { Direction } from 'types-party-battle/types/snake/DirectionSchema'
 import { useShallow } from 'zustand/react/shallow'
 import { ArrowButtons } from './ArrowButtons'
 import { useSnakeGameStore } from './useSnakeStore'

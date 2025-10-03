@@ -1,4 +1,4 @@
-import { Direction } from 'types-party-battle/types/snake/RemainingPlayerSchema'
+import { Direction } from 'types-party-battle/types/snake/DirectionSchema'
 
 const DIRECTION_DELTA: Record<Direction, [number, number]> = {
   up: [0, -1],

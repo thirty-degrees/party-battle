@@ -1,4 +1,4 @@
-import { Direction } from 'types-party-battle/types/snake/RemainingPlayerSchema'
+import { Direction } from 'types-party-battle/types/snake/DirectionSchema'
 
 export function isOppositeDirection(current: Direction, next: Direction): boolean {
   if (current === 'up' && next === 'down') {

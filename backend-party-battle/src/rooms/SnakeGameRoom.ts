@@ -3,13 +3,7 @@ import { GameType } from 'types-party-battle/types/GameSchema'
 import { RGBColor } from 'types-party-battle/types/RGBColorSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { CellKind, CellSchema, fromCell, toCell } from 'types-party-battle/types/snake/CellSchema'
-import {
-  Direction,
-  DIRECTIONS,
-  RemainingPlayer,
-  RemainingPlayerSchema,
-  toRemainingPlayer,
-} from 'types-party-battle/types/snake/RemainingPlayerSchema'
+import { Direction, DIRECTIONS } from 'types-party-battle/types/snake/DirectionSchema'
 import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
@@ -82,8 +76,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     )
 
     randomlySortedPlayerNames.forEach((playerName) => {
-      const remainingPlayerSchema = new RemainingPlayerSchema(playerName)
-      this.state.remainingPlayers.push(remainingPlayerSchema)
+      this.state.remainingPlayers.push(playerName)
 
       this.lastMovementDirections[playerName] = directions[playerName]
       this.directionQueue[playerName] = []
@@ -104,7 +97,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     }
 
     const board = this.state.board.map(toCell)
-    const remainingPlayers = this.state.remainingPlayers.map(toRemainingPlayer)
+    const remainingPlayers = Array.from(this.state.remainingPlayers)
 
     const intentions = this.getIntentions(remainingPlayers)
     const deaths = getDeaths(intentions, board, this.state.width, this.state.height)
@@ -116,22 +109,22 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     this.applyDeaths(deaths)
   }
 
-  private getIntentions(remainingPlayers: RemainingPlayer[]): Record<string, MovementIntention> {
+  private getIntentions(remainingPlayers: string[]): Record<string, MovementIntention> {
     const directions = this.getDirectionsForPlayers(remainingPlayers)
 
     return Object.fromEntries(
-      remainingPlayers.map((player) => [
-        player.name,
-        getMovementIntention(this.bodies[player.name], directions[player.name], this.state.width),
+      remainingPlayers.map((playerName) => [
+        playerName,
+        getMovementIntention(this.bodies[playerName], directions[playerName], this.state.width),
       ])
     )
   }
 
-  private getDirectionsForPlayers(players: RemainingPlayer[]): Record<string, Direction> {
+  private getDirectionsForPlayers(players: string[]): Record<string, Direction> {
     return Object.fromEntries(
-      players.map((player) => {
-        const queue = this.directionQueue[player.name] || []
-        const lastDirection = this.lastMovementDirections[player.name]
+      players.map((playerName) => {
+        const queue = this.directionQueue[playerName] || []
+        const lastDirection = this.lastMovementDirections[playerName]
 
         while (queue.length > 0 && isOppositeDirection(lastDirection, queue[0])) {
           queue.shift()
@@ -139,7 +132,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
         const chosenDirection = queue.shift() || lastDirection
 
-        return [player.name, chosenDirection]
+        return [playerName, chosenDirection]
       })
     )
   }
@@ -187,7 +180,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
           delete this.bodies[name]
         }
         for (let i = 0; i < this.state.remainingPlayers.length; i++) {
-          if (this.state.remainingPlayers[i].name === name) {
+          if (this.state.remainingPlayers[i] === name) {
             this.state.remainingPlayers.splice(i, 1)
             break
           }
@@ -208,7 +201,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   override getScores(): Score[] {
     const playerGroups: string[][] = []
 
-    playerGroups.push([...this.state.remainingPlayers.map((player) => player.name)])
+    playerGroups.push([...this.state.remainingPlayers])
 
     for (const playerName of this.eliminatedPlayers) {
       playerGroups.push([...playerName])
@@ -218,6 +211,6 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   }
 
   private isPlayerInGame(playerName: string): boolean {
-    return this.state.remainingPlayers.some((player) => player.name === playerName)
+    return this.state.remainingPlayers.includes(playerName)
   }
 }

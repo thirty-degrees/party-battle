@@ -2,22 +2,16 @@ import { ArraySchema, type } from "@colyseus/schema";
 import { Game, GameSchema, GameStatus, mapGameStable } from "../GameSchema";
 import { mapArrayStable } from "../mapArrayStable";
 import { Cell, CellSchema, mapCellStable } from "./CellSchema";
-import {
-  RemainingPlayer,
-  RemainingPlayerSchema,
-  mapRemainingPlayerStable,
-} from "./RemainingPlayerSchema";
 
 export interface SnakeGame extends Game {
-  remainingPlayers: RemainingPlayer[];
+  remainingPlayers: string[];
   width: number;
   height: number;
   board: Cell[];
 }
 
 export class SnakeGameSchema extends GameSchema {
-  @type([RemainingPlayerSchema]) remainingPlayers =
-    new ArraySchema<RemainingPlayerSchema>();
+  @type(["string"]) remainingPlayers = new ArraySchema<string>();
   @type("number") width;
   @type("number") height;
   @type([CellSchema]) board;
@@ -40,17 +34,14 @@ export const mapSnakeGameStable = (
   prev?: SnakeGame
 ): SnakeGame => {
   const base = mapGameStable(game, prev);
-  const remainingPlayers = mapArrayStable(
-    game.remainingPlayers,
-    prev?.remainingPlayers,
-    mapRemainingPlayerStable
-  );
+  const remainingPlayers = Array.from(game.remainingPlayers);
   const width = game.width;
   const height = game.height;
   const board = mapArrayStable(game.board, prev?.board, mapCellStable);
   if (
     base === prev &&
-    remainingPlayers === prev?.remainingPlayers &&
+    remainingPlayers.length === prev?.remainingPlayers.length &&
+    remainingPlayers.every((p, i) => p === prev?.remainingPlayers[i]) &&
     width === prev?.width &&
     height === prev?.height &&
     board === prev?.board
