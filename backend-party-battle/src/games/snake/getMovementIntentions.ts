@@ -23,7 +23,7 @@ export function getMovementIntentions(
   players: RemainingPlayer[],
   bodies: Map<string, number[]>,
   directions: Map<string, Direction>,
-  width: number
+  boardWidth: number
 ): MovementIntention[] {
   const intentions: MovementIntention[] = []
 
@@ -32,8 +32,8 @@ export function getMovementIntentions(
     const direction = directions.get(player.name)
 
     const headIndex = body[body.length - 1]
-    const x = headIndex % width
-    const y = Math.floor(headIndex / width)
+    const x = headIndex % boardWidth
+    const y = Math.floor(headIndex / boardWidth)
     const [dx, dy] = DIRECTION_DELTA[direction]
     const nx = x + dx
     const ny = y + dy
