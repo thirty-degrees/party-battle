@@ -7,6 +7,7 @@ const initialLobby: Lobby = {
   currentGame: null,
   currentGameRoomId: null,
   gameHistories: [],
+  enabledGameTypes: [],
 }
 
 export const useLobbyStore = createColyseusRoomStore<Lobby, LobbySchema>({

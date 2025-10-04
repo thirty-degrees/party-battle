@@ -23,20 +23,20 @@ export default function ReadyButton() {
     blurActiveElement()
   }
 
+  const requiresMorePlayers = isCurrentPlayerReady && playerCount < 2
+
   return (
     <View className="flex-col justify-end">
-      <View className="flex-row w-full justify-center">
-        <Button size="xl" action={'primary'} onPress={handleToggleReady}>
-          <ButtonText>{isCurrentPlayerReady ? 'CANCEL' : 'PLAY'}</ButtonText>
-        </Button>
-      </View>
+      <Button size="xl" action={'primary'} onPress={handleToggleReady}>
+        <ButtonText>{isCurrentPlayerReady ? 'CANCEL' : 'PLAY'}</ButtonText>
+      </Button>
 
-      <View className="h-8 justify-center items-center">
-        {isCurrentPlayerReady && playerCount < 2 ? (
-          <Text className="text-sm text-typography-600 dark:text-typography-400">
-            Need 1 more player to start.
-          </Text>
-        ) : null}
+      <View className="h-8 justify-center">
+        <Text
+          className={`text-sm text-typography-600 dark:text-typography-400 ${!requiresMorePlayers ? 'opacity-0 select-none' : ''}`}
+        >
+          Need 1 more player to start.
+        </Text>
       </View>
     </View>
   )

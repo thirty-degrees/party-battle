@@ -6,7 +6,7 @@ import {
   PLAYER_NAME_MAX_LENGTH,
 } from 'types-party-battle/consts/config'
 import { GameHistory, GameHistorySchema } from 'types-party-battle/types/GameHistorySchema'
-import { GameType } from 'types-party-battle/types/GameSchema'
+import { GAME_TYPES, GameType } from 'types-party-battle/types/GameSchema'
 import { LobbyPlayerSchema } from 'types-party-battle/types/LobbyPlayerSchema'
 import { LobbySchema } from 'types-party-battle/types/LobbySchema'
 import { RGBColor, rgbColorEquals, toRgbColor } from 'types-party-battle/types/RGBColorSchema'
@@ -36,6 +36,17 @@ export class LobbyRoom extends Room<LobbySchema> {
     this.playerColors = shuffledColors
   }
 
+  private initializeEnabledGameTypes(): void {
+    const availableGameTypes = this.getAllGameTypes()
+    availableGameTypes.forEach((gameType) => {
+      this.state.enabledGameTypes.push(gameType)
+    })
+  }
+
+  private getAllGameTypes() {
+    return gameRooms.map((gameRoom) => gameRoom.gameType)
+  }
+
   private getFreePlayerColor(): RGBColor {
     const usedColors = Array.from(this.state.players.values()).map((p) => toRgbColor(p.color))
     for (const color of this.playerColors) {
@@ -54,8 +65,10 @@ export class LobbyRoom extends Room<LobbySchema> {
     this.state = new LobbySchema()
 
     this.initializePlayerColors()
+    this.initializeEnabledGameTypes()
 
     this.registerSetPlayerReady()
+    this.registerSetEnableGameType()
     this.registerScoreSubscription()
   }
 
@@ -85,19 +98,67 @@ export class LobbyRoom extends Room<LobbySchema> {
   }
 
   private registerSetPlayerReady() {
-    this.onMessage<boolean>('SetPlayerReady', async (client: Client, ready: boolean) => {
-      const player = this.state.players.get(client.sessionId)
-      console.log(
-        `LobbyRoom.onMessage(SetPlayerReady): roomId: '${this.roomId}', playerName: '${player.name}', ready: ${ready}`
-      )
+    this.onMessage<boolean>(
+      'SetPlayerReady',
+      async (client: Client, ready: boolean) => {
+        const player = this.state.players.get(client.sessionId)
+        console.log(
+          `LobbyRoom.onMessage(SetPlayerReady): roomId: '${this.roomId}', playerName: '${player.name}', ready: ${ready}`
+        )
 
-      player.ready = ready
+        player.ready = ready
 
-      if (this.areAllPlayersReady()) {
-        const nextGameType = this.getNextGameType()
-        await this.createGameRoom(nextGameType)
+        if (this.areAllPlayersReady()) {
+          const nextGameType = this.getNextGameType()
+          await this.createGameRoom(nextGameType)
+        }
+      },
+      (payload) => {
+        if (typeof payload !== 'boolean') {
+          throw new Error('Invalid payload')
+        }
+        return payload
       }
-    })
+    )
+  }
+
+  private registerSetEnableGameType() {
+    this.onMessage<{ gameType: GameType; enabled: boolean }>(
+      'SetEnableGameType',
+      async (client: Client, { gameType, enabled }) => {
+        const player = this.state.players.get(client.sessionId)
+        console.log(
+          `LobbyRoom.onMessage(SetEnableGameType): roomId: '${this.roomId}', playerName: '${player.name}', gameType: '${gameType}', enabled: ${enabled}`
+        )
+
+        const currentIndex = this.state.enabledGameTypes.indexOf(gameType)
+        const isCurrentlyEnabled = currentIndex !== -1
+
+        if (enabled && !isCurrentlyEnabled) {
+          this.state.enabledGameTypes.push(gameType)
+        } else if (!enabled && isCurrentlyEnabled) {
+          this.state.enabledGameTypes.splice(currentIndex, 1)
+        }
+      },
+      (payload: unknown) => {
+        if (
+          typeof payload !== 'object' ||
+          payload === null ||
+          !('gameType' in payload) ||
+          !('enabled' in payload)
+        ) {
+          throw new Error('Invalid payload')
+        }
+        const typedPayload = payload as { gameType: string; enabled: boolean }
+        if (typeof typedPayload.gameType !== 'string' || typeof typedPayload.enabled !== 'boolean') {
+          throw new Error('Invalid payload')
+        }
+        if (!GAME_TYPES.includes(typedPayload.gameType as GameType)) {
+          throw new Error('Invalid game type')
+        }
+        return typedPayload as { gameType: GameType; enabled: boolean }
+      }
+    )
   }
 
   private registerScoreSubscription() {
@@ -153,7 +214,14 @@ export class LobbyRoom extends Room<LobbySchema> {
   }
 
   private getNextGameType(): GameType {
-    const availableTypes = gameRooms.map((gameRoom) => gameRoom.gameType)
+    const enabled = Array.from(this.state.enabledGameTypes ?? [])
+    const basePool = enabled.length > 0 ? enabled : this.getAllGameTypes()
+    const lastType =
+      this.state.gameHistories.length > 0
+        ? this.state.gameHistories[this.state.gameHistories.length - 1].gameType
+        : undefined
+    const availableTypes =
+      basePool.length > 1 && lastType !== undefined ? basePool.filter((t) => t !== lastType) : basePool
 
     const counts = new Map<GameType, number>(availableTypes.map((t) => [t, 0]))
     for (const h of this.state.gameHistories) {

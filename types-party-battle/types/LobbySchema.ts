@@ -17,6 +17,7 @@ export interface Lobby {
   currentGame?: GameType | null;
   currentGameRoomId?: string | null;
   gameHistories: GameHistory[];
+  enabledGameTypes: GameType[];
 }
 
 export class LobbySchema extends Schema {
@@ -26,6 +27,7 @@ export class LobbySchema extends Schema {
   @type("string") currentGameRoomId?: string | null;
   @type([GameHistorySchema]) gameHistories =
     new ArraySchema<GameHistorySchema>();
+  @type(["string"]) enabledGameTypes = new ArraySchema<GameType>();
 }
 
 export const mapPlayersStable = (
@@ -64,14 +66,22 @@ export const mapLobbyStable = (state: LobbySchema, prev?: Lobby): Lobby => {
     prev?.gameHistories,
     mapGameHistoryStable
   );
+  const enabledGameTypes = Array.from(state.enabledGameTypes);
   if (
     prev &&
     prev.players === players &&
     prev.currentGame === currentGame &&
     prev.currentGameRoomId === currentGameRoomId &&
-    prev.gameHistories === gameHistories
+    prev.gameHistories === gameHistories &&
+    prev.enabledGameTypes === enabledGameTypes
   ) {
     return prev;
   }
-  return { players, currentGame, currentGameRoomId, gameHistories };
+  return {
+    players,
+    currentGame,
+    currentGameRoomId,
+    gameHistories,
+    enabledGameTypes,
+  };
 };
