@@ -32,7 +32,7 @@ export function PlayerListEntry({ playerName }: PlayerListEntryProps) {
       style={{ marginBottom: 8 }}
     >
       <View
-        className={`p-3 rounded border border-outline-200 dark:border-outline-800 flex-row items-center ${isCurrentPlayer ? 'bg-zinc-200 dark:bg-zinc-800' : ''}`}
+        className={`p-[10px] rounded border border-outline-200 dark:border-outline-800 flex-row items-center ${isCurrentPlayer ? 'bg-zinc-200 dark:bg-zinc-800' : ''}`}
       >
         <PlaceCell playerName={playerName} />
 

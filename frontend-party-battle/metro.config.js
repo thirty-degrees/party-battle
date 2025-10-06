@@ -29,4 +29,4 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
 
 config.resolver.assetExts.push('riv')
 
-module.exports = withNativeWind(config, { input: './global.css' })
+module.exports = withNativeWind(config, { input: './global.css', inlineRem: 18 })

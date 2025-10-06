@@ -25,7 +25,7 @@ export function PlayerNameSection() {
 
   return (
     <View className="flex-col items-center gap-4 w-full">
-      <Text size="xl" style={{ width: 200, textAlign: 'center' }}>
+      <Text size="xl" style={{ width: 230, textAlign: 'center' }}>
         Name
       </Text>
       <View className="items-center">
@@ -36,7 +36,7 @@ export function PlayerNameSection() {
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-            width: 200,
+            width: 230,
           }}
         >
           <InputField
@@ -46,7 +46,7 @@ export function PlayerNameSection() {
             placeholder="Enter your name..."
             autoComplete="username"
             maxLength={PLAYER_NAME_MAX_LENGTH}
-            style={{ width: 200, textAlign: 'center' }}
+            style={{ width: 230, textAlign: 'center' }}
           />
         </Input>
         <Text size="md" className="text-error-800 dark:text-error-700">

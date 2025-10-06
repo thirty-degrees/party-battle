@@ -20,7 +20,7 @@ export default function FloatingKeyboardInputPreview({
   placeholder,
   isVisible,
   size = 'xl',
-  width = 200,
+  width = 230,
   autoFocus = true,
   isDisabled = false,
   returnKeyType,

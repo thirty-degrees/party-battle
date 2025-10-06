@@ -32,6 +32,7 @@ export const Board = () => {
           height: boardHeight,
           position: 'relative',
         }}
+        className="bg-zinc-800"
       >
         {Array.from({ length: width * height }, (_, index) => (
           <Cell key={index} index={index} width={width} cellSize={cellSize} />

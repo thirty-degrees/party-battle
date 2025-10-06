@@ -110,7 +110,7 @@ export function JoinSection() {
           size="xl"
           isInvalid={false}
           isDisabled={isLoading}
-          style={{ width: 200 }}
+          style={{ width: 230 }}
         >
           <InputField
             value={draft}
@@ -120,7 +120,7 @@ export function JoinSection() {
             enablesReturnKeyAutomatically
             onSubmitEditing={handleJoinRoom}
             onFocus={() => setIsFloatingKeyboardInputVisible(true)}
-            style={{ width: 200, textAlign: 'center' }}
+            style={{ width: 230, textAlign: 'center' }}
           />
         </Input>
       </View>
@@ -129,7 +129,7 @@ export function JoinSection() {
         action="primary"
         onPress={handleJoinRoom}
         isDisabled={!playerName || !draft.trim() || isLoading}
-        style={{ width: 200, paddingHorizontal: 8 }}
+        style={{ width: 230, paddingHorizontal: 8 }}
       >
         <ButtonText>{isLoading ? 'Loading...' : 'JOIN'}</ButtonText>
       </Button>
@@ -157,7 +157,7 @@ export function JoinSection() {
           placeholder="Enter Party Code"
           isVisible={isFloatingKeyboardInputVisible}
           size="xl"
-          width={200}
+          width={230}
           autoFocus
           isDisabled={isLoading}
           returnKeyType="join"

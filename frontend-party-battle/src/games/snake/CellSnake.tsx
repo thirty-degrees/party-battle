@@ -21,14 +21,12 @@ export const CellSnake = ({ playerName, cellSize, isHead }: CellSnakeProps) => {
           className="absolute z-10"
           style={{
             top: -cellSize * 0.8,
-            left: -cellSize * 1.5,
-            width: cellSize * 4,
+            left: -cellSize * 2.5,
+            width: cellSize * 6,
             ...(Platform.OS === 'web' ? { userSelect: 'none' } : {}),
           }}
         >
-          <Text size="xs" className="text-center text-white font-bold">
-            {playerName}
-          </Text>
+          <Text className="text-center text-white font-bold text-2xs">{playerName}</Text>
         </View>
       )}
       <View
