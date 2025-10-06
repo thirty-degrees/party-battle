@@ -25,8 +25,8 @@ function isValidPotatoDirection(value: unknown): value is PotatoDirection {
   return typeof value === 'string' && POTATO_DIRECTIONS.includes(value as PotatoDirection)
 }
 
-const POTATO_COUNTDOWN_MIN_SECONDS = 8
-const POTATO_COUNTDOWN_MAX_SECONDS = 15
+const POTATO_COUNTDOWN_MIN_SECONDS = 6
+const POTATO_COUNTDOWN_MAX_SECONDS = 12
 
 export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
   static readonly gameType: GameType = 'potato'
