@@ -4,15 +4,13 @@ import { RGBColor } from 'types-party-battle/types/RGBColorSchema'
 import { Score } from 'types-party-battle/types/ScoreSchema'
 import { CellKind, CellSchema, fromCell, toCell } from 'types-party-battle/types/snake/CellSchema'
 import { Direction, DIRECTIONS } from 'types-party-battle/types/snake/DirectionSchema'
-import { SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
+import { SNAKE_TICK_MS, SnakeGameSchema } from 'types-party-battle/types/snake/SnakeGameSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
 import { createInitialBoard } from '../games/snake/createInitialBoard'
 import { getDeaths } from '../games/snake/getDeaths'
 import { getMovementIntention, MovementIntention } from '../games/snake/getMovementIntention'
 import { isOppositeDirection } from '../games/snake/isOppositeDirection'
 import { assignScoresByRank } from '../scores/assignScoresByRank'
-
-const STEPS_PER_SECOND = 3
 
 function isValidDirection(value: unknown): value is Direction {
   return typeof value === 'string' && DIRECTIONS.includes(value as Direction)
@@ -88,7 +86,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
   protected startGame() {
     this.state.status = 'playing'
 
-    this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1000 / STEPS_PER_SECOND)
+    this.setSimulationInterval((deltaTime) => this.update(deltaTime), SNAKE_TICK_MS)
   }
 
   update(_deltaTime: number) {
@@ -107,6 +105,8 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     )
     this.applyMovementIntentions(survivingIntentions)
     this.applyDeaths(deaths)
+
+    this.state.tick++
   }
 
   private getIntentions(remainingPlayers: string[]): Record<string, MovementIntention> {

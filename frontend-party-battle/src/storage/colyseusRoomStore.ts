@@ -28,12 +28,13 @@ type Options<TView, TSchema extends Schema> = {
   initialView: TView
   mapStable: (schema: TSchema, prev: TView) => TView
   roomName: string
+  getTick?: (schema: TSchema) => number
+  bufferMs?: number
+  tickMs?: number
 }
 
 export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Options<TView, TSchema>) {
-  const clientRef: { current: Client } = {
-    current: new Client(Constants.expoConfig?.extra?.backendUrl),
-  }
+  const clientRef: { current: Client } = { current: new Client(Constants.expoConfig?.extra?.backendUrl) }
   const roomRef: { current: Room<TSchema> | null } = { current: null }
   const intentionalLeaveRef: { current: boolean } = { current: false }
 
@@ -48,11 +49,7 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
       set({ playerNameValidationError: 'Player name is required' })
       return { success: false }
     }
-    set({
-      isLoading: true,
-      playerNameValidationError: undefined,
-      roomError: undefined,
-    })
+    set({ isLoading: true, playerNameValidationError: undefined, roomError: undefined })
     try {
       if (roomRef.current) {
         await get().leaveRoom()
@@ -60,12 +57,7 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
       const room = await op(playerName)
       roomRef.current = room
       wireRoom(room, set, get)
-      set({
-        isLoading: false,
-        connectionLost: false,
-        failedRetries: 0,
-        roomId: room.roomId,
-      })
+      set({ isLoading: false, connectionLost: false, failedRetries: 0, roomId: room.roomId })
       return { success: true, roomId: room.roomId }
     } catch (error) {
       set({ isLoading: false })
@@ -91,14 +83,69 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
     set: (partial: Partial<ColyseusRoomStoreState<TView>>) => void,
     get: () => ColyseusRoomStoreState<TView>
   ) => {
+    let latestView: TView = opts.initialView
+    let lastPublishedTick: number | null = null
+    let lastPublishedAt = 0
+    let lastSeenTick: number | null = null
+    let pendingTimer: ReturnType<typeof setTimeout> | null = null
+    const bufferMs = opts.bufferMs ?? 200
+    const tickMs = opts.tickMs ?? 333
+
+    const publishNow = () => {
+      if (get().view !== latestView) set({ view: latestView })
+      lastPublishedAt = Date.now()
+      lastPublishedTick = lastSeenTick
+    }
+
     room.onStateChange((schema) => {
-      const nextView = opts.mapStable(schema as TSchema, get().view)
-      if (nextView !== get().view) set({ view: nextView })
+      latestView = opts.mapStable(schema, latestView)
+      const tick = opts.getTick ? opts.getTick(schema) : null
+      if (tick == null) {
+        if (get().view !== latestView) set({ view: latestView })
+        return
+      }
+      if (lastPublishedTick == null) {
+        lastSeenTick = tick
+        if (pendingTimer) {
+          clearTimeout(pendingTimer)
+          pendingTimer = null
+        }
+        publishNow()
+        return
+      }
+      if (tick === lastSeenTick) {
+        if (get().view !== latestView) set({ view: latestView })
+        return
+      }
+      lastSeenTick = tick
+      const now = Date.now()
+      const expectedNextPublishAt = lastPublishedAt + tickMs
+      let delay = expectedNextPublishAt - now
+      if (delay < 0 && (-delay > bufferMs || tick > (lastPublishedTick ?? -1) + 1)) delay = 0
+      if (delay > bufferMs) delay = bufferMs
+      if (pendingTimer) {
+        clearTimeout(pendingTimer)
+        pendingTimer = null
+      }
+      if (delay === 0) {
+        publishNow()
+      } else {
+        pendingTimer = setTimeout(() => {
+          pendingTimer = null
+          publishNow()
+        }, delay)
+      }
     })
+
     room.onError((code, message) => {
       console.warn('colyseus room onError', { code, message })
     })
+
     room.onLeave(() => {
+      if (pendingTimer) {
+        clearTimeout(pendingTimer)
+        pendingTimer = null
+      }
       roomRef.current = null
       if (!intentionalLeaveRef.current) {
         set({ connectionLost: true })
@@ -116,10 +163,8 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
     connectionLost: false,
     failedRetries: 0,
     roomError: undefined,
-
     resetPlayerNameValidationError: () => set({ playerNameValidationError: undefined }),
     resetInvalidRoomId: () => set({ invalidRoomId: false }),
-
     resetErrors: () =>
       set({
         playerNameValidationError: undefined,
@@ -129,7 +174,6 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
         isLoading: false,
         roomError: undefined,
       }),
-
     joinById: async (roomId) => {
       return connectToRoom(
         (playerName) => clientRef.current.joinById<TSchema>(roomId, { name: playerName }),
@@ -137,7 +181,6 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
         get
       )
     },
-
     createRoom: async (roomId?: string) => {
       return connectToRoom(
         (playerName) => clientRef.current.create<TSchema>(opts.roomName, { name: playerName, roomId }),
@@ -145,7 +188,6 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
         get
       )
     },
-
     leaveRoom: async () => {
       try {
         const room = roomRef.current
@@ -166,7 +208,6 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
         })
       }
     },
-
     retry: async () => {
       const roomId = get().roomId
       const failedRetries = get().failedRetries
@@ -183,11 +224,10 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
         }
       )
     },
-
     sendMessage<T>(type: string | number, message?: T) {
       const room = roomRef.current
       if (!room) return
-      room.send<T>(type, message as T)
+      room.send<T>(type, message)
     },
   }))
 }
