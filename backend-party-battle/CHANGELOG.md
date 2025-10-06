@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.18.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.17.0...backend-party-battle-v2.18.0) (2025-10-06)
+
+
+### Features
+
+* buffer jitter for snake ([109c11b](https://github.com/thirty-degrees/party-battle/commit/109c11b7367fb6ef1a6ae4f085cc5cc25f05eaaf))
+* game selector ([7421060](https://github.com/thirty-degrees/party-battle/commit/7421060403334db61a8ce9197628ade98f6c47e0))
+
 ## [2.17.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.16.0...backend-party-battle-v2.17.0) (2025-10-03)
 
 
