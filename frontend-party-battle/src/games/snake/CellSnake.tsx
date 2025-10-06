@@ -21,8 +21,8 @@ export const CellSnake = ({ playerName, cellSize, isHead }: CellSnakeProps) => {
           className="absolute z-10"
           style={{
             top: -cellSize * 0.8,
-            left: -cellSize * 0.5,
-            width: cellSize * 2,
+            left: -cellSize * 1.5,
+            width: cellSize * 4,
             ...(Platform.OS === 'web' ? { userSelect: 'none' } : {}),
           }}
         >
