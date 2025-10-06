@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.18.0...frontend-party-battle-v2.19.0) (2025-10-06)
+
+
+### Miscellaneous Chores
+
+* **frontend-party-battle:** Synchronize party-battle versions
+
 ## [2.18.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.17.0...frontend-party-battle-v2.18.0) (2025-10-06)
 
 
