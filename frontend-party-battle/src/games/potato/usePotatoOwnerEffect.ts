@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { GAME_VIEW_PADDING } from '../constants'
 import { POTATO_HEIGHT, POTATO_WIDTH } from './constants'
+import { usePotatoGameStore } from './usePotatoStore'
 
 export function usePotatoOwnerEffect(
   playerWithPotato: string | undefined,
@@ -13,6 +14,7 @@ export function usePotatoOwnerEffect(
   translateX: Animated.Value,
   translateY: Animated.Value
 ) {
+  const isInRemainingPlayers = usePotatoGameStore((state) => state.view.remainingPlayers.includes(playerName))
   const [potatoPos, setPotatoPos] = useState<{ left: number; top: number } | null>(null)
   const prevPlayerWithPotato = useRef<string | undefined>(undefined)
 
@@ -42,7 +44,9 @@ export function usePotatoOwnerEffect(
   ])
 
   const shouldShow =
-    (playerWithPotato === playerName || prevPlayerWithPotato.current === playerName) && !!potatoPos
+    (playerWithPotato === playerName || prevPlayerWithPotato.current === playerName) &&
+    !!potatoPos &&
+    isInRemainingPlayers
 
   return { potatoPos, shouldShow }
 }
