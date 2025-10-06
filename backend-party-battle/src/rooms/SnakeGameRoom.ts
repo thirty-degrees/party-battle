@@ -194,7 +194,10 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
     }
 
     if (this.state.remainingPlayers.length <= 1) {
-      this.finishGame()
+      this.state.status = 'paused'
+      this.clock.setTimeout(() => {
+        this.finishGame()
+      }, 1000)
     }
   }
 
