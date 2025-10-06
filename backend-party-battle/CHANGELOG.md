@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.18.0...backend-party-battle-v2.19.0) (2025-10-06)
+
+
+### Features
+
+* add pause before game over for snake ([21cb20a](https://github.com/thirty-degrees/party-battle/commit/21cb20a8ac9acadd581bf3c339103634bdafd431))
+
 ## [2.18.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.17.0...backend-party-battle-v2.18.0) (2025-10-06)
 
 
