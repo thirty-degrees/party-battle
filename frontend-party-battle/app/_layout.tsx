@@ -47,7 +47,7 @@ export default function RootLayout() {
           <Stack.Screen name="games/color-reaction" />
           <Stack.Screen name="+not-found" />
         </Stack>
-        <StatusBar style="auto" />
+        <StatusBar hidden />
       </GluestackUIProvider>
     </SafeAreaProvider>
     // </React.StrictMode>
