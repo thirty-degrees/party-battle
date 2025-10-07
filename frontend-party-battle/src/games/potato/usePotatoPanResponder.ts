@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Animated, PanResponder } from 'react-native'
 import { PotatoDirection } from 'types-party-battle/types/potato/PotatoGameSchema'
 
@@ -25,16 +25,20 @@ export function usePotatoPanResponder({
   translateY,
   onSwipe,
 }: Args) {
+  useEffect(() => {
+    if (status !== 'playing') {
+      translateX.setValue(0)
+      translateY.setValue(0)
+      return
+    }
+  }, [status, translateX, translateY])
+
   const panResponder = useMemo(
     () =>
       PanResponder.create({
         onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dx) > 20 || Math.abs(g.dy) > 20,
         onPanResponderRelease: (_, g) => {
-          if (status !== 'playing') {
-            translateX.setValue(0)
-            translateY.setValue(0)
-            return
-          }
+          if (status !== 'playing') return
 
           if (Math.abs(g.dx) > Math.abs(g.dy)) {
             const dir: PotatoDirection = g.dx > 0 ? 'right' : 'left'
