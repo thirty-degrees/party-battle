@@ -21,6 +21,6 @@ export const useSnakeGameStore = createColyseusRoomStore<SnakeGame, SnakeGameSch
   mapStable: (schema, prev) => mapSnakeGameStable(schema, prev),
   roomName: 'snake_game_room',
   getTick: (schema) => schema.tick,
-  bufferMs: 200,
+  bufferMs: 300,
   tickMs: SNAKE_TICK_MS,
 })

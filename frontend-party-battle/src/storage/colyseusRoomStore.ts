@@ -88,7 +88,7 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
     let lastPublishedAt = 0
     let lastSeenTick: number | null = null
     let pendingTimer: ReturnType<typeof setTimeout> | null = null
-    const bufferMs = opts.bufferMs ?? 200
+    const bufferMs = opts.bufferMs ?? 300
     const tickMs = opts.tickMs ?? 333
 
     const publishNow = () => {
@@ -121,8 +121,12 @@ export function createColyseusRoomStore<TView, TSchema extends Schema>(opts: Opt
       const now = Date.now()
       const expectedNextPublishAt = lastPublishedAt + tickMs
       let delay = expectedNextPublishAt - now
-      if (delay < 0 && (-delay > bufferMs || tick > (lastPublishedTick ?? -1) + 1)) delay = 0
-      if (delay > bufferMs) delay = bufferMs
+      if (delay < 0 && (-delay > bufferMs || tick > (lastPublishedTick ?? -1) + 1)) {
+        delay = 0
+      }
+      if (delay > bufferMs) {
+        delay = bufferMs
+      }
       if (pendingTimer) {
         clearTimeout(pendingTimer)
         pendingTimer = null
