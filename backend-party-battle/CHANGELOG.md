@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.20.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.19.0...backend-party-battle-v2.20.0) (2025-10-07)
+
+
+### Features
+
+* decrease potato countdown time ([bc1314a](https://github.com/thirty-degrees/party-battle/commit/bc1314a364826767f19dc9a950e450bd00b6b785))
+
 ## [2.19.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.18.0...backend-party-battle-v2.19.0) (2025-10-06)
 
 

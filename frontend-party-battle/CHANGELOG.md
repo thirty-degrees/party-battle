@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.20.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.19.0...frontend-party-battle-v2.20.0) (2025-10-07)
+
+
+### Features
+
+* hide status bar ([a7f105f](https://github.com/thirty-degrees/party-battle/commit/a7f105feab3b921ec21549ddd8d53675baca0238))
+* increase bufferMs for Snake ([2567f4a](https://github.com/thirty-degrees/party-battle/commit/2567f4aa1875fdc71fb0e541c120b98f3e4174d9))
+
+
+### Bug Fixes
+
+* heading font on Android ([e9a0880](https://github.com/thirty-degrees/party-battle/commit/e9a088090a02d372f0604909ce2af6a1ab9ceb2b))
+* hide potato after loosing ([cd161d3](https://github.com/thirty-degrees/party-battle/commit/cd161d3b0b9514ecbf89fdf9b0f4aa9e6001d048))
+* increase size for iPad and Mac ([eba2475](https://github.com/thirty-degrees/party-battle/commit/eba2475091049781029181b7dfd267e8edc369fa))
+* potato away but still lost ([c56a9d1](https://github.com/thirty-degrees/party-battle/commit/c56a9d13caaf8c8a77ef839979fa89dbb18bfdf4))
+* snake name tags for long names ([87b3873](https://github.com/thirty-degrees/party-battle/commit/87b38738af27b5a54157e4406ee76233b359d214))
+
 ## [2.19.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.18.0...frontend-party-battle-v2.19.0) (2025-10-06)
 
 
