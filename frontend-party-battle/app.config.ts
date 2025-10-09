@@ -20,7 +20,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   const { backendUrl, frontendUrl } = envMap[env as keyof typeof envMap]
 
   const androidPackage = 'ch.thirty_degrees.party_battle'
-  const appleAppId = '6751968403'
+  const appleAppId = '6752260272'
 
   return {
     ...config,
@@ -105,7 +105,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       androidMarketUrl: `market://details?id=${androidPackage}`,
       androidMarketWebUrl: `https://play.google.com/store/apps/details?id=${androidPackage}`,
       iosMarketUrl: `itms-apps://itunes.apple.com/app/id${appleAppId}`,
-      iosMarketWebUrl: `https://apps.apple.com/us/app/party-battle/id${appleAppId}`,
+      iosMarketWebUrl: `https://apps.apple.com/app/party-battle-2-to-8-players/id${appleAppId}`,
       router: {},
     },
     owner: 'thirty-degrees',
