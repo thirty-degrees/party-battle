@@ -1,5 +1,8 @@
 {
   "typescript.referencesCodeLens.enabled": true,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
@@ -21,5 +24,5 @@
   },
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  }
 }
