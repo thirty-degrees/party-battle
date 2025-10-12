@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.21.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.20.0...frontend-party-battle-v2.21.0) (2025-10-12)
+
+
+### Features
+
+* [New Game] Trivia ([e3470a0](https://github.com/thirty-degrees/party-battle/commit/e3470a00001c92587b49a66b7be2bf0c9f7b2d44))
+
+
+### Bug Fixes
+
+* ios app store links ([b96d957](https://github.com/thirty-degrees/party-battle/commit/b96d957c94f825e5c1882405cb5b1addb94640e0))
+
 ## [2.20.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.19.0...frontend-party-battle-v2.20.0) (2025-10-07)
 
 
