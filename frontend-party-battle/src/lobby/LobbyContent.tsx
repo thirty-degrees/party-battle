@@ -14,10 +14,13 @@ import ReadyButton from './ReadyButton'
 import ShareButton from './ShareButton'
 
 export default function LobbyContent() {
-  const { currentGame, currentGameRoomId } = useLobbyStore(
+  const { currentGame, currentGameRoomId, areAllPlayersReady } = useLobbyStore(
     useShallow((state) => ({
       currentGame: state.view.currentGame,
       currentGameRoomId: state.view.currentGameRoomId,
+      areAllPlayersReady:
+        Object.values(state.view.players).length >= 2 &&
+        Object.values(state.view.players).every((player: { ready?: boolean }) => player.ready),
     }))
   )
 
@@ -46,7 +49,7 @@ export default function LobbyContent() {
             <PlayerList />
             <View className="flex-row gap-2 justify-center">
               <LobbyConfigurationButton />
-              <ReadyButton />
+              <ReadyButton disabled={areAllPlayersReady} />
             </View>
           </View>
         </View>

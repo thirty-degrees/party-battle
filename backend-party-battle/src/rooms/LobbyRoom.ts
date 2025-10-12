@@ -106,6 +106,12 @@ export class LobbyRoom extends Room<LobbySchema> {
           `LobbyRoom.onMessage(SetPlayerReady): roomId: '${this.roomId}', playerName: '${player.name}', ready: ${ready}`
         )
 
+        const wasAllReady = this.areAllPlayersReady()
+        if (wasAllReady && !ready) {
+          console.log(`LobbyRoom.onMessage(SetPlayerReady): All players were ready, cannot un-ready.`)
+          return
+        }
+
         player.ready = ready
 
         if (this.areAllPlayersReady()) {

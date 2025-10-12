@@ -6,7 +6,11 @@ import { blurActiveElement } from '@/src/utils/focusUtils'
 import { View } from 'react-native'
 import { useShallow } from 'zustand/react/shallow'
 
-export default function ReadyButton() {
+type ReadyButtonProps = {
+  disabled?: boolean
+}
+
+export default function ReadyButton({ disabled }: ReadyButtonProps) {
   const { playerName } = usePlayerName()
   const { isCurrentPlayerReady, playerCount, sendMessage } = useLobbyStore(
     useShallow((state) => ({
@@ -27,7 +31,7 @@ export default function ReadyButton() {
 
   return (
     <View className="flex-col justify-end">
-      <Button size="xl" action={'primary'} onPress={handleToggleReady}>
+      <Button size="xl" action={'primary'} onPress={handleToggleReady} isDisabled={disabled}>
         <ButtonText>{isCurrentPlayerReady ? 'CANCEL' : 'PLAY'}</ButtonText>
       </Button>
 
