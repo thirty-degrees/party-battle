@@ -36,18 +36,15 @@ export class TriviaService {
     }
 
     const url = `${this.baseUrl}?${params.toString()}`
-    console.log('url', url)
 
     try {
       const response = await fetch(url)
-      console.log('response', response)
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
       const data: OpenTriviaResponse = await response.json()
-      console.error('data: ', data)
 
       if (data.response_code !== 0) {
         throw new Error(`API error! response code: ${data.response_code}`)

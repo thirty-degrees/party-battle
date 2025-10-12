@@ -86,6 +86,10 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
   }
 
   private displayQuestion() {
+    if (this.questions.length === 0) {
+      this.finishGame()
+      return
+    }
     this.state.currentCountdownNumber = null
     const question = this.questions[this.currentRound % this.questions.length]
     const schema = new TriviaQuestionSchema()
