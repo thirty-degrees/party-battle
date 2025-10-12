@@ -2,14 +2,14 @@ import { ArraySchema, Schema, type } from "@colyseus/schema";
 
 export interface TriviaQuestion {
   question: string;
-  correctAnswer: string;
-  incorrectAnswers: string[];
+  allAnswers: string[];
+  correctAnswerIndex: number;
 }
 
 export class TriviaQuestionSchema extends Schema {
   @type("string") question: string = "";
-  @type("string") correctAnswer: string = "";
-  @type(["string"]) incorrectAnswers = new ArraySchema<string>();
+  @type(["string"]) allAnswers = new ArraySchema<string>();
+  @type("number") correctAnswerIndex: number = 0;
 }
 
 export const mapTriviaQuestionStable = (
@@ -19,15 +19,15 @@ export const mapTriviaQuestionStable = (
   if (!schema) return undefined;
   const next: TriviaQuestion = {
     question: schema.question,
-    correctAnswer: schema.correctAnswer,
-    incorrectAnswers: Array.from(schema.incorrectAnswers),
+    allAnswers: Array.from(schema.allAnswers),
+    correctAnswerIndex: schema.correctAnswerIndex,
   };
   if (
     prev &&
     prev.question === next.question &&
-    prev.correctAnswer === next.correctAnswer &&
-    prev.incorrectAnswers.length === next.incorrectAnswers.length &&
-    prev.incorrectAnswers.every((v, i) => v === next.incorrectAnswers[i])
+    prev.allAnswers.length === next.allAnswers.length &&
+    prev.allAnswers.every((v, i) => v === next.allAnswers[i]) &&
+    prev.correctAnswerIndex === next.correctAnswerIndex
   ) {
     return prev;
   }

@@ -1,4 +1,5 @@
 import { decode } from 'html-entities'
+import { shuffle } from 'lodash'
 import { TriviaQuestion } from 'types-party-battle/types/trivia/TriviaQuestionSchema'
 
 interface OpenTriviaResponse {
@@ -60,11 +61,19 @@ export class TriviaService {
   }
 
   private transformQuestions(apiQuestions: OpenTriviaQuestion[]): TriviaQuestion[] {
-    return apiQuestions.map((apiQuestion) => ({
-      question: decode(apiQuestion.question),
-      correctAnswer: decode(apiQuestion.correct_answer),
-      incorrectAnswers: apiQuestion.incorrect_answers.map((answer) => decode(answer)),
-    }))
+    return apiQuestions.map((apiQuestion) => {
+      const correctAnswer = decode(apiQuestion.correct_answer)
+      const incorrectAnswers = apiQuestion.incorrect_answers.map((answer) => decode(answer))
+
+      const allAnswers = shuffle([correctAnswer, ...incorrectAnswers])
+      const correctAnswerIndex = allAnswers.indexOf(correctAnswer)
+
+      return {
+        question: decode(apiQuestion.question),
+        allAnswers,
+        correctAnswerIndex,
+      }
+    })
   }
 }
 

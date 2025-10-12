@@ -94,8 +94,8 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
     const question = this.questions[this.currentRound % this.questions.length]
     const schema = new TriviaQuestionSchema()
     schema.question = question.question
-    schema.correctAnswer = question.correctAnswer
-    schema.incorrectAnswers = new ArraySchema<string>(...question.incorrectAnswers)
+    schema.allAnswers = new ArraySchema<string>(...question.allAnswers)
+    schema.correctAnswerIndex = question.correctAnswerIndex
     this.state.currentQuestion = schema
     this.state.roundState = 'answering'
 
@@ -121,7 +121,8 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
     if (this.answersSubmitted.has(playerName)) return
     this.answersSubmitted.set(playerName, answer)
 
-    const isCorrect = answer === this.state.currentQuestion.correctAnswer
+    const correctAnswer = this.state.currentQuestion.allAnswers[this.state.currentQuestion.correctAnswerIndex]
+    const isCorrect = answer === correctAnswer
     const currentScore = this.playerScores.get(playerName) || 0
     this.playerScores.set(playerName, isCorrect ? currentScore + 1 : currentScore)
 

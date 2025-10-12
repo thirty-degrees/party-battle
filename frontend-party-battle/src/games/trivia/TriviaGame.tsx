@@ -24,9 +24,7 @@ export const TriviaGame: GameComponent = () => {
 
   const { sendMessage } = useTriviaGameStore(useShallow((s) => ({ sendMessage: s.sendMessage })))
 
-  const allAnswers = currentQuestion
-    ? [currentQuestion.correctAnswer, ...currentQuestion.incorrectAnswers]
-    : []
+  const allAnswers = currentQuestion?.allAnswers ?? []
 
   const handleAnswerPress = (answer: string) => {
     sendMessage<string>('SubmitAnswer', answer)
@@ -70,7 +68,7 @@ export const TriviaGame: GameComponent = () => {
                   answers={allAnswers}
                   onAnswerPress={() => {}}
                   showingResults
-                  correctAnswer={currentQuestion.correctAnswer}
+                  correctAnswer={currentQuestion.allAnswers[currentQuestion.correctAnswerIndex]}
                   selectedAnswer={selectedAnswer}
                 />
                 <View className="items-center h-12 w-full">
