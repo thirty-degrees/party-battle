@@ -75,8 +75,8 @@ export const TriviaGame: GameComponent = () => {
                 />
                 <View className="items-center h-12 w-full">
                   {!selectedAnswer ? (
-                    <Text className="text-error-500 text-center">
-                      you don&apos;t get points, you didn&apos;t gave an answer.
+                    <Text className="text-red-400  dark:text-red-400 text-xl text-center">
+                      No answer, no points.
                     </Text>
                   ) : null}
                 </View>
