@@ -17,7 +17,7 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
   private answerTimerInterval: Delayed | null = null
   private readonly answerTimeoutMs = 15000
   private currentRound = 0
-  private totalRounds = 0
+  private readonly totalRounds = 5
   private playerScores = new Map<string, number>()
   private questions: TriviaQuestion[] = []
   private answersSubmitted = new Map<string, string>()
@@ -31,8 +31,9 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
     this.state = new TriviaGameSchema('waiting')
     super.onCreate(options)
 
-    this.totalRounds = Math.max(this.state.players.length, 0)
     this.currentRound = 0
+    this.state.totalRounds = this.totalRounds
+    this.state.currentRound = 0
 
     this.state.playerScores = new ArraySchema<ScoreSchema>()
     this.state.currentCountdownNumber = null
@@ -91,6 +92,7 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
       return
     }
     this.state.currentCountdownNumber = null
+    this.state.currentRound = this.currentRound + 1
     const question = this.questions[this.currentRound % this.questions.length]
     const schema = new TriviaQuestionSchema()
     schema.question = question.question

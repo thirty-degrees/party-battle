@@ -15,6 +15,8 @@ export interface TriviaGame extends Game {
   answerTimeRemaining?: number;
   timeWhenTimerIsOver?: number;
   roundState: "answering" | "results";
+  currentRound: number;
+  totalRounds: number;
 }
 
 export class TriviaGameSchema extends GameSchema {
@@ -25,6 +27,8 @@ export class TriviaGameSchema extends GameSchema {
   @type("number") answerTimeRemaining: number | null = null;
   @type("number") timeWhenTimerIsOver: number = 0;
   @type("string") roundState: "answering" | "results" = "answering";
+  @type("number") currentRound: number = 0;
+  @type("number") totalRounds: number = 5;
 }
 
 export const mapTriviaGameStable = (
@@ -47,6 +51,8 @@ export const mapTriviaGameStable = (
     answerTimeRemaining: schema.answerTimeRemaining ?? undefined,
     timeWhenTimerIsOver: schema.timeWhenTimerIsOver,
     roundState: schema.roundState,
+    currentRound: schema.currentRound,
+    totalRounds: schema.totalRounds,
   };
   return next;
 };

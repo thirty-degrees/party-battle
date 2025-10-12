@@ -14,6 +14,8 @@ const initialTriviaGame: TriviaGame = {
   players: [],
   status: 'waiting',
   roundState: 'answering',
+  currentRound: 0,
+  totalRounds: 5,
 }
 
 export const useTriviaGameStore = createColyseusRoomStore<TriviaGame, TriviaGameSchema>({

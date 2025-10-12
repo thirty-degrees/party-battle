@@ -10,17 +10,27 @@ import { InGameLeaderboard } from './InGameLeaderboard'
 import { useTriviaGameStore } from './useTriviaGameStore'
 
 export const TriviaGame: GameComponent = () => {
-  const { currentQuestion, currentCountdownNumber, playerScores, players, roundState, timeWhenTimerIsOver } =
-    useTriviaGameStore(
-      useShallow((state) => ({
-        currentQuestion: state.view.currentQuestion,
-        currentCountdownNumber: state.view.currentCountdownNumber,
-        playerScores: state.view.playerScores,
-        players: state.view.players,
-        roundState: state.view.roundState,
-        timeWhenTimerIsOver: state.view.timeWhenTimerIsOver,
-      }))
-    )
+  const {
+    currentQuestion,
+    currentCountdownNumber,
+    playerScores,
+    players,
+    roundState,
+    timeWhenTimerIsOver,
+    currentRound,
+    totalRounds,
+  } = useTriviaGameStore(
+    useShallow((state) => ({
+      currentQuestion: state.view.currentQuestion,
+      currentCountdownNumber: state.view.currentCountdownNumber,
+      playerScores: state.view.playerScores,
+      players: state.view.players,
+      roundState: state.view.roundState,
+      timeWhenTimerIsOver: state.view.timeWhenTimerIsOver,
+      currentRound: state.view.currentRound,
+      totalRounds: state.view.totalRounds,
+    }))
+  )
 
   const { sendMessage } = useTriviaGameStore(useShallow((s) => ({ sendMessage: s.sendMessage })))
 
@@ -48,6 +58,11 @@ export const TriviaGame: GameComponent = () => {
           <Text className="text-6xl font-bold">{currentCountdownNumber}</Text>
         ) : (
           <View className="w-full items-center gap-6">
+            <View className="items-center py-2">
+              <Text className="text-lg font-semibold">
+                Round {currentRound}/{totalRounds}
+              </Text>
+            </View>
             <Text className="text-2xl text-center">{currentQuestion?.question ?? ''}</Text>
             {isAnswering ? (
               <>
