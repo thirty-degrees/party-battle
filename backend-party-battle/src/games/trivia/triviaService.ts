@@ -23,6 +23,7 @@ export interface TriviaServiceOptions {
 
 export class TriviaService {
   private readonly baseUrl = 'https://opentdb.com/api.php'
+  private readonly requestTimeoutMs = 5000
 
   async fetchQuestions(options: TriviaServiceOptions = {}): Promise<TriviaQuestion[]> {
     const { amount = 10, difficulty } = options
@@ -38,26 +39,39 @@ export class TriviaService {
 
     const url = `${this.baseUrl}?${params.toString()}`
 
-    try {
-      const response = await fetch(url)
+    for (let i = 0; i < 3; i++) {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), this.requestTimeoutMs)
+      try {
+        const response = await fetch(url, { signal: controller.signal })
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const data: OpenTriviaResponse = await response.json()
+
+        if (data.response_code !== 0) {
+          throw new Error(`API error! response code: ${data.response_code}`)
+        }
+
+        return this.transformQuestions(data.results)
+      } catch (error) {
+        console.error(`Attempt ${i + 1} failed to fetch trivia questions:`, error)
+        if (i < 2) {
+          await new Promise((res) => setTimeout(res, 1000 * (i + 1)))
+        } else {
+          throw new Error(
+            `Failed to fetch trivia questions after 3 attempts: ${
+              error instanceof Error ? error.message : 'Unknown error'
+            }`
+          )
+        }
+      } finally {
+        clearTimeout(timeoutId)
       }
-
-      const data: OpenTriviaResponse = await response.json()
-
-      if (data.response_code !== 0) {
-        throw new Error(`API error! response code: ${data.response_code}`)
-      }
-
-      return this.transformQuestions(data.results)
-    } catch (error) {
-      console.error('Failed to fetch trivia questions:', error)
-      throw new Error(
-        `Failed to fetch trivia questions: ${error instanceof Error ? error.message : 'Unknown error'}`
-      )
     }
+    throw new Error('Failed to fetch trivia questions after 3 attempts')
   }
 
   private transformQuestions(apiQuestions: OpenTriviaQuestion[]): TriviaQuestion[] {
