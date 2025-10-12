@@ -1,3 +1,4 @@
+import { AnimatedCountdownNumber } from '@/components/animated-countdown-number'
 import { Text } from '@/components/ui/text'
 import TimerProgressBar from '@/src/games/pick-cards/TimerProgressBar'
 import { useEffect, useState } from 'react'
@@ -55,7 +56,7 @@ export const TriviaGame: GameComponent = () => {
       <InGameLeaderboard players={players} playerScores={playerScores} />
       <View className="flex-1 justify-center items-center px-4">
         {currentCountdownNumber ? (
-          <Text className="text-6xl font-bold">{currentCountdownNumber}</Text>
+          <AnimatedCountdownNumber value={currentCountdownNumber} size="big" />
         ) : (
           <View className="w-full items-center gap-6">
             <View className="items-center py-2">

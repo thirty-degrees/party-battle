@@ -1,3 +1,4 @@
+import { AnimatedCountdownNumber } from '@/components/animated-countdown-number'
 import { Text } from '@/components/ui/text'
 import { View } from 'react-native'
 import { RGBColor } from 'types-party-battle/types/RGBColorSchema'
@@ -6,7 +7,6 @@ import { BasicGameView } from '../BasicGameView'
 import { GameComponent } from '../GameComponent'
 import { AnimatedColorButtons } from './AnimatedColorButtons'
 import { ColorButtons } from './ColorButtons'
-import { CurrentCountdownNumber } from './CurrentCountdownNumber'
 import { useColorReactionGameStore } from './useColorReactionStore'
 
 export const ColorReactionGame: GameComponent = () => {
@@ -53,7 +53,7 @@ export const ColorReactionGame: GameComponent = () => {
                 {currentSelection.word}
               </Text>
             ) : (
-              <CurrentCountdownNumber value={currentCountdownNumber} />
+              <AnimatedCountdownNumber value={currentCountdownNumber} />
             )}
           </View>
         </View>
