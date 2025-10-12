@@ -71,7 +71,6 @@ export class TriviaService {
         clearTimeout(timeoutId)
       }
     }
-    throw new Error('Failed to fetch trivia questions after 3 attempts')
   }
 
   private transformQuestions(apiQuestions: OpenTriviaQuestion[]): TriviaQuestion[] {

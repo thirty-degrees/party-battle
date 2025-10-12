@@ -59,6 +59,7 @@ export function InGameLeaderboard({ players, playerScores }: Props) {
         </View>
       )
     }
+    return null
   }
 
   return (
