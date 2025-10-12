@@ -18,12 +18,10 @@ export function AnswerButtons({
   disabled,
   showingResults,
 }: Props) {
-  const sortedAnswers = [...answers].sort()
-
   return (
     <View className="h-full w-full flex-col justify-center gap-4">
       <View className="flex flex-row justify-center gap-4">
-        {sortedAnswers.slice(0, 2).map((answer) => (
+        {answers.slice(0, 2).map((answer) => (
           <AnswerButton
             key={answer}
             answer={answer}
@@ -36,7 +34,7 @@ export function AnswerButtons({
         ))}
       </View>
       <View className="flex flex-row justify-center gap-4">
-        {sortedAnswers.slice(2, 4).map((answer) => (
+        {answers.slice(2, 4).map((answer) => (
           <AnswerButton
             key={answer}
             answer={answer}

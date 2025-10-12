@@ -25,7 +25,7 @@ export const TriviaGame: GameComponent = () => {
   const { sendMessage } = useTriviaGameStore(useShallow((s) => ({ sendMessage: s.sendMessage })))
 
   const allAnswers = currentQuestion
-    ? [currentQuestion.correctAnswer, ...currentQuestion.incorrectAnswers].sort(() => Math.random() - 0.5)
+    ? [currentQuestion.correctAnswer, ...currentQuestion.incorrectAnswers]
     : []
 
   const handleAnswerPress = (answer: string) => {
