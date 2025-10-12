@@ -25,6 +25,7 @@
     "@colyseus/testing": "^0.16.3",
     "@eslint/js": "^9.34.0",
     "@types/express": "^5.0.3",
+    "@types/lodash": "^4.17.20",
     "eslint": "^9.34.0",
     "eslint-config-expo": "~9.2.0",
     "eslint-config-prettier": "^10.1.8",
@@ -48,6 +49,8 @@
     "@colyseus/ws-transport": "^0.16.5",
     "colyseus": "^0.16.4",
     "express": "^5.1.0",
-    "human-id": "^4.1.1"
+    "html-entities": "^2.6.0",
+    "human-id": "^4.1.1",
+    "lodash": "^4.17.21"
   }
 }

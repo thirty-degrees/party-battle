@@ -9,13 +9,20 @@ import { LobbyRoom } from './rooms/LobbyRoom'
 import { PickCardsGameRoom } from './rooms/PickCardsGameRoom'
 import { PotatoGameRoom } from './rooms/PotatoGameRoom'
 import { SnakeGameRoom } from './rooms/SnakeGameRoom'
+import { TriviaGameRoom } from './rooms/TriviaGameRoom'
 
 const LOBBY_ROOM_NAME = 'lobby_room'
 
 export const gameRooms: ({
   readonly gameType: GameType
   readonly roomName: string
-} & Type<Room<GameSchema>>)[] = [PickCardsGameRoom, SnakeGameRoom, PotatoGameRoom, ColorReactionGameRoom]
+} & Type<Room<GameSchema>>)[] = [
+  PickCardsGameRoom,
+  SnakeGameRoom,
+  PotatoGameRoom,
+  ColorReactionGameRoom,
+  TriviaGameRoom,
+]
 
 export default config({
   initializeGameServer: (gameServer) => {

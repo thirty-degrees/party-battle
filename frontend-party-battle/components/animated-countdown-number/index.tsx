@@ -2,11 +2,12 @@ import { Text } from '@/components/ui/text'
 import { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
 
-interface CurrentCountdownNumberProps {
+interface AnimatedCountdownNumberProps {
   value?: number | null
+  size?: 'normal' | 'big'
 }
 
-export const CurrentCountdownNumber = ({ value }: CurrentCountdownNumberProps) => {
+export const AnimatedCountdownNumber = ({ value, size = 'normal' }: AnimatedCountdownNumberProps) => {
   const scale = useRef(new Animated.Value(0.6)).current
   const opacity = useRef(new Animated.Value(0)).current
 
@@ -31,7 +32,9 @@ export const CurrentCountdownNumber = ({ value }: CurrentCountdownNumberProps) =
 
   return (
     <Animated.View style={{ opacity, transform: [{ scale }] }}>
-      <Text className="text-4xl font-bold text-center">{value ?? ''}</Text>
+      <Text className={`${size === 'big' ? 'text-6xl' : 'text-4xl'} font-bold text-center`}>
+        {value ?? ''}
+      </Text>
     </Animated.View>
   )
 }
