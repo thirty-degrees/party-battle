@@ -6,6 +6,7 @@ import { Score, ScoreSchema } from 'types-party-battle/types/ScoreSchema'
 import { TriviaGameSchema } from 'types-party-battle/types/trivia/TriviaGameSchema'
 import { TriviaQuestion, TriviaQuestionSchema } from 'types-party-battle/types/trivia/TriviaQuestionSchema'
 import { BaseGameRoom } from '../games/BaseGameRoom'
+import { triviaService } from '../games/trivia'
 import { assignScoresByRank } from '../scores/assignScoresByRank'
 
 export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
@@ -14,7 +15,7 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
 
   private countdownInterval: Delayed | null = null
   private answerTimerInterval: Delayed | null = null
-  private readonly answerTimeoutMs = 10000
+  private readonly answerTimeoutMs = 15000
   private currentRound = 0
   private totalRounds = 0
   private playerScores = new Map<string, number>()
@@ -25,7 +26,7 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
     return TriviaGameRoom.gameType
   }
 
-  override onCreate(options: { lobbyRoomId: string; players: { name: string; color: RGBColor }[] }) {
+  override async onCreate(options: { lobbyRoomId: string; players: { name: string; color: RGBColor }[] }) {
     this.clock.start()
     this.state = new TriviaGameSchema('waiting')
     super.onCreate(options)
@@ -43,7 +44,7 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
       this.playerScores.set(player.name, 0)
     })
 
-    this.questions = this.fetchTriviaQuestions()
+    this.questions = await this.fetchTriviaQuestions()
 
     this.onMessage<string>('SubmitAnswer', (client, answer) => {
       this.handleSubmitAnswer(client, answer)
@@ -172,23 +173,17 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
     super.onDispose()
   }
 
-  private fetchTriviaQuestions(): TriviaQuestion[] {
-    return [
-      {
-        question: 'What is the capital of France?',
-        correctAnswer: 'Paris',
-        incorrectAnswers: ['Lyon', 'Marseille', 'Nice'],
-      },
-      {
-        question: 'Which planet is known as the Red Planet?',
-        correctAnswer: 'Mars',
-        incorrectAnswers: ['Venus', 'Jupiter', 'Saturn'],
-      },
-      {
-        question: 'Who wrote Hamlet?',
-        correctAnswer: 'William Shakespeare',
-        incorrectAnswers: ['Charles Dickens', 'Mark Twain', 'Jane Austen'],
-      },
-    ]
+  private async fetchTriviaQuestions(): Promise<TriviaQuestion[]> {
+    try {
+      const questions = await triviaService.fetchQuestions({
+        amount: this.totalRounds,
+        difficulty: 'medium',
+      })
+      return questions
+    } catch (error) {
+      console.error('Failed to fetch trivia questions, ending game:', error)
+      this.finishGame()
+      return []
+    }
   }
 }
