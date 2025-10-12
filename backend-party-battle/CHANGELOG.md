@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.20.0...backend-party-battle-v2.21.0) (2025-10-12)
+
+
+### Features
+
+* [New Game] Trivia ([e3470a0](https://github.com/thirty-degrees/party-battle/commit/e3470a00001c92587b49a66b7be2bf0c9f7b2d44))
+
 ## [2.20.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.19.0...backend-party-battle-v2.20.0) (2025-10-07)
 
 
