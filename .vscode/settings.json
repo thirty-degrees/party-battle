@@ -11,4 +11,5 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
+  "editor.tabSize": 2,
 }
