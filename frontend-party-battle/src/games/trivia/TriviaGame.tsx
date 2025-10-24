@@ -53,23 +53,25 @@ export const TriviaGame: GameComponent = () => {
 
   return (
     <BasicGameView>
-      <View className="flex-1 flex-column">
+      <View className="flex-1 flex-col">
         <InGameLeaderboard players={players} playerScores={playerScores} />
         <View className="flex-1 justify-center items-center px-4 ">
           {currentCountdownNumber ? (
             <AnimatedCountdownNumber value={currentCountdownNumber} size="big" />
           ) : (
-            <View className="flex-1 flex-column w-full">
+            <View className="flex-1 flex-col w-full">
               <View className="w-full">
-                <View className="items-center py-2">
-                  <Text className="text-lg font-semibold">
-                    Round {currentRound}/{totalRounds}
-                  </Text>
-                </View>
+                {currentQuestion && (
+                  <View className="items-center py-2">
+                    <Text className="text-lg font-semibold">
+                      Round {currentRound}/{totalRounds}
+                    </Text>
+                  </View>
+                )}
                 <Text className="text-2xl text-center">{currentQuestion?.question ?? ''}</Text>
               </View>
               {isAnswering ? (
-                <View className="w-full flex-1 flex-column justify-end">
+                <View className="w-full flex-1 flex-col justify-end">
                   <View className="w-full flex-1 items-center justify-end pb-10 ">
                     <AnswerButtons
                       answers={allAnswers}
@@ -84,7 +86,7 @@ export const TriviaGame: GameComponent = () => {
                   </View>
                 </View>
               ) : isShowingResults ? (
-                <View className="w-full flex-1 flex-column justify-end">
+                <View className="w-full flex-1 flex-col justify-end">
                   <View className="w-full flex-1 items-center justify-end pb-10 ">
                     <AnswerButtons
                       answers={allAnswers}
