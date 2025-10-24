@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.21.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.21.0...frontend-party-battle-v2.21.1) (2025-10-24)
+
+
+### Bug Fixes
+
+* Fixed some minor bugs and overall improved app experience ([#82](https://github.com/thirty-degrees/party-battle/issues/82)) ([3797dd0](https://github.com/thirty-degrees/party-battle/commit/3797dd07af20c6bb288a11ab904e165ca33a86d2))
+* resolved Trivia-Game bug on IOS ([#80](https://github.com/thirty-degrees/party-battle/issues/80)) ([336993d](https://github.com/thirty-degrees/party-battle/commit/336993d90bb7098d15039d928afdd32ce10a3a05))
+
 ## [2.21.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.20.0...frontend-party-battle-v2.21.0) (2025-10-12)
 
 
