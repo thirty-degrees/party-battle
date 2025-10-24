@@ -9,7 +9,8 @@
   "scripts": {
     "start": "tsx watch src/index.ts",
     "loadtest": "tsx loadtest/example.ts --room my_room --numClients 2",
-    "bots": "tsx loadtest/bots.ts --endpoint ws://localhost:2567 --room lobby_room --numClients 7",
+    "bots": "tsx loadtest/bots.ts --ready-index=$npm_config_indexes --delay=$npm_config_delay --endpoint ws://localhost:2567 --room lobby_room --numClients=7",
+    "bots:named": "tsx loadtest/bots.ts --named-bots --ready-index=$npm_config_indexes --delay=$npm_config_delay --endpoint ws://localhost:2567 --room lobby_room",
     "build": "npm run clean && tsc",
     "clean": "rimraf build",
     "check-types": "tsc --noEmit",
