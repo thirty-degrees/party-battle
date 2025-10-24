@@ -24,6 +24,7 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
   private currentRound = 0
   private totalRounds = 0
   private playerScores = new Map<string, number>()
+  private playersWhoResponded = new Set<string>()
 
   override getGameType(): GameType {
     return ColorReactionGameRoom.gameType
@@ -52,12 +53,15 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
   }
 
   private handleColorPressed(client: Client, color: RGBColorSchema) {
-    this.state.colorIdButtons = new ArraySchema<RGBColorSchema>()
-
     const playerName = this.findPlayerBySessionId(client.sessionId)
-    if (playerName) {
-      this.state.guesserName = playerName
+
+    if (!playerName || this.playersWhoResponded.has(playerName)) {
+      return
     }
+
+    this.playersWhoResponded.add(playerName)
+    this.state.colorIdButtons = new ArraySchema<RGBColorSchema>()
+    this.state.guesserName = playerName
 
     const selectedColorString = rgbColorToString(color)
 
@@ -97,6 +101,7 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
     this.state.currentCountdownNumber = null
     this.state.guesserName = null
     this.state.correctGuess = null
+    this.playersWhoResponded.clear()
 
     this.setIdButtons()
   }

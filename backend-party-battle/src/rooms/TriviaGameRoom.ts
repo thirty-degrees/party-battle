@@ -12,7 +12,6 @@ import { assignScoresByRank } from '../scores/assignScoresByRank'
 export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
   static readonly gameType: GameType = 'trivia'
   static readonly roomName: string = 'trivia_game_room'
-
   private countdownInterval: Delayed | null = null
   private answerTimerInterval: Delayed | null = null
   private readonly answerTimeoutMs = 15000

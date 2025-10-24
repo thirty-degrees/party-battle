@@ -85,8 +85,12 @@ function AnswerButton({
   }
 
   return (
-    <Pressable className={getButtonStyle()} onPress={() => onAnswerPress(answer)} disabled={disabled}>
-      <Text className="text-black dark:text-white">{answer}</Text>
+    <Pressable
+      className={getButtonStyle()}
+      onPress={() => onAnswerPress(answer)}
+      disabled={disabled || showingResults}
+    >
+      <Text className="text-black dark:text-white text-center">{answer}</Text>
     </Pressable>
   )
 }

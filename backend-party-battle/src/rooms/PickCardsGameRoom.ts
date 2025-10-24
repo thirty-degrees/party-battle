@@ -15,6 +15,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
   private playerTurnTimer: Delayed | null = null
   private eliminatedPlayers: string[] = []
   private readonly playerTurnTimeout = 7000
+  private turnActionProcessed = false
 
   override getGameType(): GameType {
     return PickCardsGameRoom.gameType
@@ -34,14 +35,21 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
 
     this.onMessage<{ index: number }>('CardPressed', (client, message) => {
       const playerName = this.findPlayerBySessionId(client.sessionId)
-      if (playerName && playerName === this.state.currentPlayer) {
-        this.state.pressedCardIndex.push(message.index)
+      if (!playerName || playerName !== this.state.currentPlayer) {
+        return
+      }
 
-        if (message.index === this.hotCardIndex) {
-          this.handleHotCardPressed(playerName)
-        } else {
-          this.advanceToNextPlayer()
-        }
+      if (this.turnActionProcessed) {
+        return
+      }
+
+      this.turnActionProcessed = true
+      this.state.pressedCardIndex.push(message.index)
+
+      if (message.index === this.hotCardIndex) {
+        this.handleHotCardPressed(playerName)
+      } else {
+        this.advanceToNextPlayer()
       }
     })
 
@@ -62,6 +70,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
   }
 
   private startPlayerTurn() {
+    this.turnActionProcessed = false
     this.clearPlayerTurnTimer()
 
     this.state.timeWhenTimerIsOver = this.clock.currentTime + this.playerTurnTimeout
@@ -80,6 +89,10 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
 
   private handlePlayerTimeout() {
     this.clearPlayerTurnTimer()
+    if (this.turnActionProcessed) {
+      return
+    }
+    this.turnActionProcessed = true
     const currentPlayerName = this.state.currentPlayer
     if (currentPlayerName) {
       this.handleHotCardPressed(currentPlayerName)
