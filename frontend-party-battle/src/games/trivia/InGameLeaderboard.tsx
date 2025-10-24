@@ -63,7 +63,7 @@ export function InGameLeaderboard({ players, playerScores }: Props) {
   }
 
   return (
-    <View className="absolute top-0 left-0 right-0 p-2">
+    <View className="p-2">
       <Text className="text-4xl font-bold text-white text-center mb-5">Trivia</Text>
       <View className="flex-row border-b border-t border-white/20 pb-2">
         {topRow.map((player, index) => renderCell(player, index))}

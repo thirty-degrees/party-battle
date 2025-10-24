@@ -37,7 +37,7 @@ export default function TimerProgressBar({ timeWhenTimerIsOver, isActive }: Time
   }))
 
   return (
-    <Progress value={100} size="md" orientation="horizontal" className="overflow-hidden">
+    <Progress value={100} size="md" orientation="horizontal">
       <AProgressFilledTrack style={filledStyle} className="bg-[#d31e26]" />
     </Progress>
   )

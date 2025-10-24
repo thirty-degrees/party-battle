@@ -1,6 +1,5 @@
 import { Text } from '@/components/ui/text'
-import { TouchableOpacity, View } from 'react-native'
-
+import { Pressable, View } from 'react-native'
 type Props = {
   answers: string[]
   onAnswerPress: (answer: string) => void
@@ -19,7 +18,7 @@ export function AnswerButtons({
   showingResults,
 }: Props) {
   return (
-    <View className="h-full w-full flex-col justify-center gap-4">
+    <View className="w-full flex-col justify-center gap-4">
       <View className="flex flex-row justify-center gap-4">
         {answers.slice(0, 2).map((answer) => (
           <AnswerButton
@@ -65,43 +64,29 @@ function AnswerButton({
   const isSelected = selectedAnswer === answer
   const isCorrect = correctAnswer === answer
 
-  const buttonClasses: string[] = ['w-full']
-  if (showingResults) {
-    if (isCorrect) {
-      buttonClasses.push('bg-green-500')
-    } else if (isSelected && !isCorrect) {
-      buttonClasses.push('bg-red-500')
-    } else {
-      buttonClasses.push('bg-gray-200 dark:bg-zinc-800 opacity-60')
+  const getButtonStyle = () => {
+    let baseClasses = 'flex-1 w-full justify-center items-center rounded-md p-2 border-2'
+    let isCorrectColorBg = 'bg-green-200 dark:bg-green-500'
+    let isSelectedColorBorder = 'border-blue-400 dark:border-blue-600'
+    let isDefaultColorBg = 'bg-primary-500 dark:bg-primary-500'
+
+    if (showingResults && isCorrect) {
+      if (isSelected) {
+        return `${baseClasses} ${isCorrectColorBg} ${isSelectedColorBorder}`
+      }
+      return `${baseClasses} ${isCorrectColorBg} border-transparent`
     }
-    buttonClasses.push('border-2 border-transparent')
-  } else {
-    buttonClasses.push('bg-gray-200 dark:bg-zinc-800', 'border-2')
+
     if (isSelected) {
-      buttonClasses.push('border-blue-500')
-    } else {
-      buttonClasses.push('border-transparent')
+      return `${baseClasses} ${isSelectedColorBorder} ${isDefaultColorBg}`
     }
+
+    return `${baseClasses} ${isDefaultColorBg} border-transparent`
   }
 
-  const finalButtonClasses = [
-    ...buttonClasses,
-    'flex-1',
-    'p-6',
-    'justify-center',
-    'items-center',
-    'rounded-md',
-  ].join(' ')
-
   return (
-    <View className="h-full flex-1">
-      <TouchableOpacity
-        className={finalButtonClasses}
-        disabled={disabled || showingResults}
-        onPress={() => onAnswerPress(answer)}
-      >
-        <Text>{answer}</Text>
-      </TouchableOpacity>
-    </View>
+    <Pressable className={getButtonStyle()} onPress={() => onAnswerPress(answer)} disabled={disabled}>
+      <Text className="text-black dark:text-white">{answer}</Text>
+    </Pressable>
   )
 }
