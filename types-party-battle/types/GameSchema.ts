@@ -8,6 +8,7 @@ export const GAME_TYPES = [
   "potato",
   "color-reaction",
   "trivia",
+  "space-invaders",
 ] as const;
 
 export type GameType = (typeof GAME_TYPES)[number];

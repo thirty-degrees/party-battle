@@ -10,6 +10,7 @@ import { PickCardsGameRoom } from './rooms/PickCardsGameRoom'
 import { PotatoGameRoom } from './rooms/PotatoGameRoom'
 import { SnakeGameRoom } from './rooms/SnakeGameRoom'
 import { TriviaGameRoom } from './rooms/TriviaGameRoom'
+import { SpaceInvadersGameRoom } from './rooms/SpaceInvadersGameRoom'
 
 const LOBBY_ROOM_NAME = 'lobby_room'
 
@@ -22,6 +23,7 @@ export const gameRooms: ({
   PotatoGameRoom,
   ColorReactionGameRoom,
   TriviaGameRoom,
+  SpaceInvadersGameRoom,
 ]
 
 export default config({
