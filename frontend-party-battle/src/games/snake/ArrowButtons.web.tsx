@@ -2,7 +2,18 @@ import { useRive, useViewModelInstanceColor, useViewModelInstanceTrigger } from 
 import { useEffect } from 'react'
 import { ArrowButtonComponent } from './ArrowButtons.types'
 
-export const ArrowButtons: ArrowButtonComponent = ({ style, color, onUp, onRight, onDown, onLeft }) => {
+export const ArrowButtons: ArrowButtonComponent = ({
+  style,
+  color,
+  onUp,
+  onRight,
+  onDown,
+  onLeft,
+  onUpRelease,
+  onRightRelease,
+  onDownRelease,
+  onLeftRelease,
+}) => {
   const { RiveComponent, rive } = useRive({
     src: require('../../../assets/rive/arrowbuttons.riv'),
     stateMachines: 'State Machine 1',
@@ -38,6 +49,42 @@ export const ArrowButtons: ArrowButtonComponent = ({ style, color, onUp, onRight
       onLeft()
     },
   })
+  useViewModelInstanceTrigger('Button_up/Up', rive?.viewModelInstance, {
+    onTrigger: () => {
+      onUpRelease?.()
+    },
+  })
+  useViewModelInstanceTrigger('Button_right/Up', rive?.viewModelInstance, {
+    onTrigger: () => {
+      onRightRelease?.()
+    },
+  })
+  useViewModelInstanceTrigger('Button_down/Up', rive?.viewModelInstance, {
+    onTrigger: () => {
+      onDownRelease?.()
+    },
+  })
+  useViewModelInstanceTrigger('Button_left/Up', rive?.viewModelInstance, {
+    onTrigger: () => {
+      onLeftRelease?.()
+    },
+  })
 
-  return <RiveComponent style={style} />
+  const handleRelease = () => {
+    onUpRelease?.()
+    onRightRelease?.()
+    onDownRelease?.()
+    onLeftRelease?.()
+  }
+
+  return (
+    <div
+      onPointerUp={handleRelease}
+      onPointerCancel={handleRelease}
+      onPointerLeave={handleRelease}
+      style={style}
+    >
+      <RiveComponent style={{ width: '100%', height: '100%' }} />
+    </div>
+  )
 }

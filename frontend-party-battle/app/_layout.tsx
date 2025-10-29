@@ -45,6 +45,7 @@ export default function RootLayout() {
           <Stack.Screen name="games/snake" />
           <Stack.Screen name="games/potato" />
           <Stack.Screen name="games/color-reaction" />
+          <Stack.Screen name="games/space-invaders" />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar hidden />

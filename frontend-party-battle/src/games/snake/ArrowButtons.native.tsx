@@ -1,10 +1,21 @@
 import { RiveAnimation } from '@/components/rive-animation'
 import { useEffect } from 'react'
-import { Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import { AutoBind, Fit, useRive, useRiveColor, useRiveTrigger } from 'rive-react-native'
 import { ArrowButtonComponent } from './ArrowButtons.types'
 
-export const ArrowButtons: ArrowButtonComponent = ({ style, color, onUp, onRight, onDown, onLeft }) => {
+export const ArrowButtons: ArrowButtonComponent = ({
+  style,
+  color,
+  onUp,
+  onRight,
+  onDown,
+  onLeft,
+  onUpRelease,
+  onRightRelease,
+  onDownRelease,
+  onLeftRelease,
+}) => {
   const [setRive, rive] = useRive()
 
   const [, setBackgroundColor] = useRiveColor(rive, 'Background')
@@ -31,15 +42,24 @@ export const ArrowButtons: ArrowButtonComponent = ({ style, color, onUp, onRight
     onLeft()
   })
 
+  const handleRelease = () => {
+    onUpRelease?.()
+    onRightRelease?.()
+    onDownRelease?.()
+    onLeftRelease?.()
+  }
+
   return (
-    <RiveAnimation
-      ref={setRive}
-      dataBinding={AutoBind(true)}
-      source={require('../../../assets/rive/arrowbuttons.riv')}
-      stateMachineName="State Machine 1"
-      autoplay
-      style={style}
-      fit={Platform.OS === 'android' ? Fit.None : Fit.Cover}
-    />
+    <View onTouchEnd={handleRelease} onTouchCancel={handleRelease}>
+      <RiveAnimation
+        ref={setRive}
+        dataBinding={AutoBind(true)}
+        source={require('../../../assets/rive/arrowbuttons.riv')}
+        stateMachineName="State Machine 1"
+        autoplay
+        style={style}
+        fit={Platform.OS === 'android' ? Fit.None : Fit.Cover}
+      />
+    </View>
   )
 }

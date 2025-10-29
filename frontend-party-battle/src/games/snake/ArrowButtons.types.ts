@@ -7,6 +7,10 @@ type ArrowButtonProps = {
   onRight: () => void
   onDown: () => void
   onLeft: () => void
+  onUpRelease?: () => void
+  onRightRelease?: () => void
+  onDownRelease?: () => void
+  onLeftRelease?: () => void
 }
 
 export type ArrowButtonComponent = (props: ArrowButtonProps) => JSX.Element
