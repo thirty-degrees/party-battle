@@ -44,12 +44,12 @@ export const ColorReactionGame: GameComponent = () => {
         <View className="w-full justify-center align-center pt-8 pb-8">
           <View className="h-8 justify-center">
             {!isAnimating ? (
-              <Text className="text-xl font-bold text-center">Select the {selectionType}</Text>
+              <Text className="text-xl font-normal text-center">Select the {selectionType}</Text>
             ) : null}
           </View>
           <View className="h-16 justify-center">
             {currentSelection ? (
-              <Text className="text-4xl font-bold text-center" style={{ color: currentSelection.color }}>
+              <Text className="text-4xl font-normal text-center" style={{ color: currentSelection.color }}>
                 {currentSelection.word}
               </Text>
             ) : (
@@ -60,7 +60,7 @@ export const ColorReactionGame: GameComponent = () => {
         <View className="w-full flex-1 flex-column justify-end">
           {guesserName ? (
             <View className="h-full justify-center items-center">
-              <Text className="text-4xl font-bold mb-4">{guesserName}</Text>
+              <Text className="text-4xl font-normal mb-4">{guesserName}</Text>
               <Text
                 className="text-1xl font-semibold"
                 style={{ color: correctGuess ? '#22c55e' : '#ef4444' }}

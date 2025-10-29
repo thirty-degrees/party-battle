@@ -26,7 +26,7 @@ export const CellSnake = ({ playerName, cellSize, isHead }: CellSnakeProps) => {
             ...(Platform.OS === 'web' ? { userSelect: 'none' } : {}),
           }}
         >
-          <Text className="text-center text-white font-bold text-2xs">{playerName}</Text>
+          <Text className="text-center text-white font-normal text-2xs">{playerName}</Text>
         </View>
       )}
       <View

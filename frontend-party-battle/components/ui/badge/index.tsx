@@ -3,9 +3,9 @@
 import { PrimitiveIcon, UIIcon } from '@gluestack-ui/core/icon/creator';
 import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils';
 import {
-  tva,
-  useStyleContext,
-  withStyleContext,
+    tva,
+    useStyleContext,
+    withStyleContext,
 } from '@gluestack-ui/utils/nativewind-utils';
 import { cssInterop } from "nativewind";
 import React from "react";
@@ -58,7 +58,7 @@ const badgeTextStyle = tva({
       true: "web:truncate",
     },
     bold: {
-      true: "font-bold",
+      true: "font-normal",
     },
     underline: {
       true: "underline",

@@ -49,18 +49,18 @@ export const PickCardsGame: GameComponent = () => {
           <View className="flex-1 items-center justify-center">
             <View style={{ height: 80 }} className="items-center justify-center">
               {isPlayerInGame && remainingPlayers.length === 1 ? (
-                <Text className="text-red-400 text-xl font-bold text-center">
+                <Text className="text-red-400 text-xl font-normal text-center">
                   This time, the luck was on your side!
                 </Text>
               ) : (
                 <>
                   {!isPlayerInGame && (
-                    <Text className="text-red-500 dark:text-red-400 text-2xl font-bold">
+                    <Text className="text-red-500 dark:text-red-400 text-2xl font-normal">
                       You picked the WRONG card!
                     </Text>
                   )}
                   {isPlayerInGame && isCurrentPlayer && (
-                    <Text className="text-green-500 dark:text-green-400 text-xl font-bold">
+                    <Text className="text-green-500 dark:text-green-400 text-xl font-normal">
                       It&apos;s your turn!
                     </Text>
                   )}

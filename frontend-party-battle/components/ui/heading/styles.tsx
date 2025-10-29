@@ -10,7 +10,7 @@ export const headingStyle = tva({
       true: 'truncate',
     },
     bold: {
-      true: 'font-bold',
+      true: 'font-normal',
     },
     underline: {
       true: 'underline',

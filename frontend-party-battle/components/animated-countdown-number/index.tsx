@@ -32,7 +32,7 @@ export const AnimatedCountdownNumber = ({ value, size = 'normal' }: AnimatedCoun
 
   return (
     <Animated.View style={{ opacity, transform: [{ scale }] }}>
-      <Text className={`${size === 'big' ? 'text-6xl' : 'text-4xl'} font-bold text-center`}>
+      <Text className={`${size === 'big' ? 'text-6xl' : 'text-4xl'} font-normal text-center`}>
         {value ?? ''}
       </Text>
     </Animated.View>
