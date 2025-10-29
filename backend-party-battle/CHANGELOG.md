@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.2](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.21.1...backend-party-battle-v2.21.2) (2025-10-29)
+
+
+### Bug Fixes
+
+* sort scores fore more than 2 players correctly ([06cc3cd](https://github.com/thirty-degrees/party-battle/commit/06cc3cdadbc104c3ee22ab18242b59d9bd71b3d5))
+
 ## [2.21.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.21.0...backend-party-battle-v2.21.1) (2025-10-24)
 
 

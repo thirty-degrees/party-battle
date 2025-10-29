@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.2](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.21.1...frontend-party-battle-v2.21.2) (2025-10-29)
+
+
+### Bug Fixes
+
+* font family issue for android for bold texts ([46c685a](https://github.com/thirty-degrees/party-battle/commit/46c685a04d3508d678475e99d477518c603951cc))
+
 ## [2.21.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.21.0...frontend-party-battle-v2.21.1) (2025-10-24)
 
 
