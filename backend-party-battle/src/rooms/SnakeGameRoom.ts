@@ -206,7 +206,7 @@ export class SnakeGameRoom extends BaseGameRoom<SnakeGameSchema> {
 
     playerGroups.push([...this.state.remainingPlayers])
 
-    for (const playerName of this.eliminatedPlayers) {
+    for (const playerName of [...this.eliminatedPlayers].reverse()) {
       playerGroups.push([...playerName])
     }
 
