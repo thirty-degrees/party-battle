@@ -44,25 +44,33 @@ export function SpaceControls() {
         style={{ width: 150, height: 150, opacity: 0.5 }}
         color={rgba}
         onUp={() => {
-          sendMessage<Direction>('SetHeading', 'up')
-          sendMessage<boolean>('SetGas', true)
+          sendMessage<{ direction: Direction; enabled: boolean }>('SetGas', {
+            direction: 'up',
+            enabled: true,
+          })
         }}
-        onUpRelease={() => sendMessage<boolean>('SetGas', false)}
+        onUpRelease={() => sendMessage<{ enabled: boolean }>('SetGas', { enabled: false })}
         onRight={() => {
-          sendMessage<Direction>('SetHeading', 'right')
-          sendMessage<boolean>('SetGas', true)
+          sendMessage<{ direction: Direction; enabled: boolean }>('SetGas', {
+            direction: 'right',
+            enabled: true,
+          })
         }}
-        onRightRelease={() => sendMessage<boolean>('SetGas', false)}
+        onRightRelease={() => sendMessage<{ enabled: boolean }>('SetGas', { enabled: false })}
         onDown={() => {
-          sendMessage<Direction>('SetHeading', 'down')
-          sendMessage<boolean>('SetGas', true)
+          sendMessage<{ direction: Direction; enabled: boolean }>('SetGas', {
+            direction: 'down',
+            enabled: true,
+          })
         }}
-        onDownRelease={() => sendMessage<boolean>('SetGas', false)}
+        onDownRelease={() => sendMessage<{ enabled: boolean }>('SetGas', { enabled: false })}
         onLeft={() => {
-          sendMessage<Direction>('SetHeading', 'left')
-          sendMessage<boolean>('SetGas', true)
+          sendMessage<{ direction: Direction; enabled: boolean }>('SetGas', {
+            direction: 'left',
+            enabled: true,
+          })
         }}
-        onLeftRelease={() => sendMessage<boolean>('SetGas', false)}
+        onLeftRelease={() => sendMessage<{ enabled: boolean }>('SetGas', { enabled: false })}
       />
       <Pressable
         onPressIn={onFire}

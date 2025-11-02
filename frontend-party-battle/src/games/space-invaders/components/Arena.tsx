@@ -27,7 +27,6 @@ export function Arena() {
   const playerColorByName = useMemo(() => {
     const m = new Map<string, { r: number; g: number; b: number }>()
     players.forEach((p) => m.set(p.name, p.color))
-    console.log(m)
     return m
   }, [players])
 

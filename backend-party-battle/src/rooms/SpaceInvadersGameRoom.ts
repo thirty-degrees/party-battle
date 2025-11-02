@@ -48,35 +48,24 @@ export class SpaceInvadersGameRoom extends BaseGameRoom<SpaceInvadersGameSchema>
       this.state.remainingPlayers.push(p.name)
     })
 
-    this.onMessage<Direction>('SetHeading', (client, dir) => {
-      const name = this.findPlayerBySessionId(client.sessionId)
-      if (!name) return
-      if (this.state.status !== 'playing') return
-      if (!this.isPlayerAlive(name)) return
-      if (!isValidDirection(dir)) return
-      const ship = this.findShip(name)
-      if (!ship) return
-      ship.heading = dir
-    })
-
-    this.onMessage<boolean>('SetGas', (client, gas) => {
-      console.log('SetGas', gas)
-      const name = this.findPlayerBySessionId(client.sessionId)
-      if (!name) return
-      if (this.state.status !== 'playing') return
-      if (!this.isPlayerAlive(name)) return
-      const ship = this.findShip(name)
-      if (!ship) return
-      ship.gas = !!gas
-    })
+    this.onMessage<{ direction?: Direction; enabled: boolean }>(
+      'SetGas',
+      (client, { direction, enabled }) => {
+        const name = this.findPlayerBySessionId(client.sessionId)!
+        if (!this.isPlayerAlive(name)) return
+        const ship = this.findShip(name)!
+        if (enabled && direction) {
+          if (!isValidDirection(direction)) return
+          ship.heading = direction
+        }
+        ship.gas = enabled
+      }
+    )
 
     this.onMessage('Fire', (client) => {
-      const name = this.findPlayerBySessionId(client.sessionId)
-      if (!name) return
-      if (this.state.status !== 'playing') return
+      const name = this.findPlayerBySessionId(client.sessionId)!
       if (!this.isPlayerAlive(name)) return
-      const ship = this.findShip(name)
-      if (!ship) return
+      const ship = this.findShip(name)!
       const now = Date.now()
       if (now - ship.lastFiredAtMs < FIRE_COOLDOWN_MS) return
       ship.lastFiredAtMs = now
@@ -186,9 +175,9 @@ export class SpaceInvadersGameRoom extends BaseGameRoom<SpaceInvadersGameSchema>
     this.eliminatedPlayers.push(names)
     names.forEach((name) => {
       const idx = this.state.remainingPlayers.indexOf(name)
-      if (idx >= 0) this.state.remainingPlayers.splice(idx, 1)
+      this.state.remainingPlayers.splice(idx, 1)
       const shipIdx = this.state.ships.findIndex((s) => s.name === name)
-      if (shipIdx >= 0) this.state.ships.splice(shipIdx, 1)
+      this.state.ships.splice(shipIdx, 1)
     })
   }
 
