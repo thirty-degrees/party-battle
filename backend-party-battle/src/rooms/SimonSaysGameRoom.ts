@@ -183,33 +183,19 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
     } else {
       console.log(`${playerName}: ${pressedSide} (wrong)`)
       this.playerResult.set(playerName, 'wrong')
-
-      const index = this.state.remainingPlayers.indexOf(playerName)
-      if (index !== -1) {
-        this.state.remainingPlayers.splice(index, 1)
-      }
     }
-  }
-
-  private allRemainingPlayersHavePressed(): boolean {
-    return this.state.remainingPlayers.every((playerName) =>
-      this.state.playersWhoPressed.includes(playerName)
-    )
   }
 
   private processRoundEliminations() {
     const currentRoundEliminations: string[] = []
 
-    this.state.playersWhoPressed.forEach((playerName) => {
-      const result = this.playerResult.get(playerName)
-      if (result === 'wrong') {
-        currentRoundEliminations.push(playerName)
-      }
-    })
-
     this.state.remainingPlayers.forEach((playerName) => {
       const result = this.playerResult.get(playerName)
-      if (result !== 'correct') {
+      const hasPressed = this.state.playersWhoPressed.includes(playerName)
+
+      if (hasPressed && result === 'wrong') {
+        currentRoundEliminations.push(playerName)
+      } else if (!hasPressed) {
         currentRoundEliminations.push(playerName)
       }
     })
@@ -258,15 +244,12 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
       return
     }
 
+    console.log(`${playerName} pressed ${pressedSide}`)
+
     this.playerPressedSide.set(playerName, pressedSide)
     this.state.playersWhoPressed.push(playerName)
 
     this.evaluatePress(playerName, pressedSide, this.currentRoundData.finalSide)
-
-    if (this.state.isFinalSide && this.allRemainingPlayersHavePressed()) {
-      this.clearAllTimers()
-      this.processRoundEnd()
-    }
   }
 
   private resetRoundState() {

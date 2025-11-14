@@ -95,13 +95,13 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
     this.clearGameStartTimeouts()
   }
 
-  protected findPlayerBySessionId(sessionId: string): string | undefined {
+  protected findPlayerBySessionId(sessionId: string): string {
     for (const [name, session] of this.playerConnections.entries()) {
       if (session === sessionId) {
         return name
       }
     }
-    return undefined
+    throw new Error(`Player not found for sessionId: ${sessionId}`)
   }
 
   private clearGameStartTimeouts() {

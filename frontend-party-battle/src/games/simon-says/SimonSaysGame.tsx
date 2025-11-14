@@ -1,3 +1,5 @@
+import { Card } from '@/components/ui/card'
+import { Text } from '@/components/ui/text'
 import TimerProgressBar from '@/src/games/pick-cards/TimerProgressBar'
 import { usePlayerName } from '@/src/storage/userPreferencesStore'
 import { useEffect, useState } from 'react'
@@ -29,7 +31,7 @@ export const SimonSaysGame: GameComponent = () => {
     if (!isFinalSide) {
       setHasPressed(false)
     }
-  }, [isFinalSide, side])
+  }, [isFinalSide])
 
   const isPlayerInGame = remainingPlayers.includes(playerName)
   const isDecisionWindowActive = isFinalSide && timeWhenDecisionWindowEnds > 0
@@ -58,11 +60,13 @@ export const SimonSaysGame: GameComponent = () => {
           )}
         </View>
 
-        <SideButtons
-          side={side}
-          onPress={handleSidePress}
-          disabled={!isPlayerInGame || hasPressed || isTimerExpired}
-        />
+        {isPlayerInGame ? (
+          <SideButtons side={side} onPress={handleSidePress} disabled={hasPressed || isTimerExpired} />
+        ) : (
+          <Card className="bg-red-500 dark:bg-red-600 mx-4 mb-4 h-12 p-0 flex items-center justify-center">
+            <Text className="text-white text-center text-xl font-bold">You are out!</Text>
+          </Card>
+        )}
       </View>
     </BasicGameView>
   )

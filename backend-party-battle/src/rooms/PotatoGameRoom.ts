@@ -87,8 +87,8 @@ export class PotatoGameRoom extends BaseGameRoom<PotatoGameSchema> {
     this.startRound()
   }
 
-  private isPlayerInGame(playerName: string | undefined): boolean {
-    return playerName !== undefined && this.state.remainingPlayers.includes(playerName)
+  private isPlayerInGame(playerName: string): boolean {
+    return this.state.remainingPlayers.includes(playerName)
   }
 
   private getAdjacentPlayer(playerName: string, direction: PotatoDirection): string | null {
