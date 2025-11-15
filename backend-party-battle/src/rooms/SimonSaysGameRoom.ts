@@ -243,7 +243,6 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
   private handleSidePressed(client: Client, pressedSide: SimonSide) {
     const playerName = this.findPlayerBySessionId(client.sessionId)
 
-    console.log(`${playerName} pressed ${pressedSide}`)
     if (this.state.playersWhoPressed.includes(playerName)) {
       return
     }

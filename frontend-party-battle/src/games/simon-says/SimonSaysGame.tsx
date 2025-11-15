@@ -56,7 +56,6 @@ export const SimonSaysGame: GameComponent = () => {
   }, [isDecisionWindowActive, isPlayerInGame, timeWhenDecisionWindowEnds])
 
   const handleSidePress = (pressedSide: SimonSide) => {
-    console.log('handleSidePress', pressedSide, isPlayerInGame, hasPressed, canPress)
     if (isPlayerInGame && !hasPressed && canPress) {
       setHasPressed(true)
       sendMessage<SimonSide>('SidePressed', pressedSide)
