@@ -30,6 +30,7 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
   private currentRound = 0
   private currentRoundData: RoundData | null = null
   private readonly interRoundWaitDuration = 2000
+  private readonly slideBackAnimationDuration = 300
 
   private getDifficultyPhase(): 1 | 2 | 3 {
     if (this.currentRound < 2) return 1
@@ -59,8 +60,9 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
 
   private getFinalDelayAfterLastFeint(): number {
     const phase = this.getDifficultyPhase()
-    if (phase === 3) return 50
-    return 500
+    const minDelay = this.slideBackAnimationDuration + 50
+    if (phase === 3) return minDelay
+    return Math.max(minDelay, 500)
   }
 
   override getGameType(): GameType {
@@ -103,8 +105,11 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
 
     for (let i = 0; i < feintCount; i++) {
       const holdDuration = 800 + Math.floor(Math.random() * 400)
+      const minGapDuration = this.slideBackAnimationDuration + 50
       const gapDuration =
-        phase === 3 ? 100 + Math.floor(Math.random() * 200) : 500 + Math.floor(Math.random() * 500)
+        phase === 3
+          ? minGapDuration + Math.floor(Math.random() * 200)
+          : minGapDuration + Math.floor(Math.random() * 500)
 
       const feintTotalDuration = holdDuration + gapDuration
       const maxEndTime = totalDelayToFinal - finalDelayAfterLastFeint
