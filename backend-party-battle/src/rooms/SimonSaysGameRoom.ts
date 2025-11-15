@@ -183,10 +183,8 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
 
   private evaluatePress(playerName: string, pressedSide: SimonSide, correctSide: SimonSide) {
     if (pressedSide === correctSide) {
-      console.log(`${playerName}: ${pressedSide} (correct)`)
       this.playerResult.set(playerName, 'correct')
     } else {
-      console.log(`${playerName}: ${pressedSide} (wrong)`)
       this.playerResult.set(playerName, 'wrong')
     }
   }
@@ -245,11 +243,10 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
   private handleSidePressed(client: Client, pressedSide: SimonSide) {
     const playerName = this.findPlayerBySessionId(client.sessionId)
 
+    console.log(`${playerName} pressed ${pressedSide}`)
     if (this.state.playersWhoPressed.includes(playerName)) {
       return
     }
-
-    console.log(`${playerName} pressed ${pressedSide}`)
 
     this.playerPressedSide.set(playerName, pressedSide)
     this.state.playersWhoPressed.push(playerName)

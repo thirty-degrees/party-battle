@@ -4,10 +4,13 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 import { SimonSide } from 'types-party-battle/types/simon-says/SimonSaysGameSchema'
 import { BoxingGloveLeft } from './BoxingGloveLeft'
 import { BoxingGloveRight } from './BoxingGloveRight'
+import { CircularProgressBorder } from './CircularProgressBorder'
 
 type SlidingBoxProps = {
   side: SimonSide | null | undefined
   isFinalSide: boolean
+  durationMs?: number
+  isProgressActive?: boolean
 }
 
 const CIRCLE_SIZE = 120
@@ -17,7 +20,7 @@ const HALF_SLIDE_DISTANCE = 50
 const FULL_SLIDE_DISTANCE = 100
 const ANIMATION_DURATION = 300
 
-export function SlidingBox({ side, isFinalSide }: SlidingBoxProps) {
+export function SlidingBox({ side, isFinalSide, durationMs = 0, isProgressActive = false }: SlidingBoxProps) {
   const translateX = useSharedValue(0)
   const [displayedSide, setDisplayedSide] = useState<SimonSide | null>(null)
 
@@ -50,7 +53,7 @@ export function SlidingBox({ side, isFinalSide }: SlidingBoxProps) {
             position: 'absolute',
             left: boxCenterOffset,
             top: svgTopOffset,
-            zIndex: 1,
+            zIndex: 0,
           },
           animatedStyle,
         ]}
@@ -61,10 +64,17 @@ export function SlidingBox({ side, isFinalSide }: SlidingBoxProps) {
           <BoxingGloveRight width={SVG_WIDTH} height={SVG_HEIGHT} />
         ) : null}
       </Animated.View>
-      <View
-        className="absolute rounded-full border-4 border-gray-400 dark:border-gray-600 bg-gray-100 dark:bg-gray-800"
-        style={{ width: CIRCLE_SIZE, height: CIRCLE_SIZE, zIndex: 2 }}
-      />
+      <View className="absolute" style={{ zIndex: 1 }}>
+        <CircularProgressBorder
+          durationMs={durationMs}
+          size={CIRCLE_SIZE}
+          borderWidth={4}
+          progressBorderColor="#000000"
+          backgroundColor="#4B5563"
+          strokeColor="#9CA3AF"
+          isActive={isProgressActive && durationMs > 0}
+        />
+      </View>
     </View>
   )
 }
