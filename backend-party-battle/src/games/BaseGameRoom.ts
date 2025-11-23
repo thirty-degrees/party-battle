@@ -76,7 +76,7 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
         this.startGame()
       }
     } else {
-      console.log(`${this.constructor.name}.onJoin: playerName: '${options.name}' is not part of the game`)
+      throw new Error(`Player '${options.name}' is not part of the game`)
     }
   }
 

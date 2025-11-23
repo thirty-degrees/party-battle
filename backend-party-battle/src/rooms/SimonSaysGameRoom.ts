@@ -241,6 +241,10 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
   }
 
   private handleSidePressed(client: Client, pressedSide: SimonSide) {
+    if (!this.currentRoundData) {
+      throw new Error('SidePressed received before round data was initialized')
+    }
+
     const playerName = this.findPlayerBySessionId(client.sessionId)
 
     if (this.state.playersWhoPressed.includes(playerName)) {
