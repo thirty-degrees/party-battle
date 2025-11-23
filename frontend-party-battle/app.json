@@ -1,8 +1,8 @@
 {
   "expo": {
-    "version": "2.21.1",
+    "version": "2.22.0",
     "ios": {
-      "buildNumber": "2.21.1",
+      "buildNumber": "2.22.0",
       "supportsTablet": true,
       "bundleIdentifier": "ch.thirty-degrees.party-battle",
       "associatedDomains": [
@@ -13,7 +13,7 @@
       }
     },
     "android": {
-      "versionCode": 540022101
+      "versionCode": 540022200
     }
   }
 }

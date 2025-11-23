@@ -2,7 +2,7 @@
   "name": "frontend-party-battle",
   "private": true,
   "main": "expo-router/entry",
-  "version": "2.21.1",
+  "version": "2.22.0",
   "type": "commonjs",
   "scripts": {
     "start": "npm run -w types-party-battle build && npx expo start -c",

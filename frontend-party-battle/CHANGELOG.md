@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.22.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.21.1...frontend-party-battle-v2.22.0) (2025-11-23)
+
+
+### Features
+
+* Added Game "Boxing sides" ([b744a9e](https://github.com/thirty-degrees/party-battle/commit/b744a9ebed108f284f6c54cb20bf70f5f5b3dd8e))
+
+
+### Bug Fixes
+
+* font family issue for android for bold texts ([46c685a](https://github.com/thirty-degrees/party-battle/commit/46c685a04d3508d678475e99d477518c603951cc))
+
 ## [2.21.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.21.0...frontend-party-battle-v2.21.1) (2025-10-24)
 
 
