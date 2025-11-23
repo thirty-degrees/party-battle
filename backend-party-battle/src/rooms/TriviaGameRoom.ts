@@ -114,7 +114,6 @@ export class TriviaGameRoom extends BaseGameRoom<TriviaGameSchema> {
 
   private handleSubmitAnswer(client: Client, answer: string) {
     const playerName = this.findPlayerBySessionId(client.sessionId)
-    if (!playerName) return
     if (!this.state.currentQuestion) return
     if (this.state.roundState !== 'answering') return
     if (this.clock.currentTime >= this.state.timeWhenTimerIsOver) return

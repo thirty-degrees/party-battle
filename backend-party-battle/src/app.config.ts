@@ -8,6 +8,7 @@ import { ColorReactionGameRoom } from './rooms/ColorReactionGameRoom'
 import { LobbyRoom } from './rooms/LobbyRoom'
 import { PickCardsGameRoom } from './rooms/PickCardsGameRoom'
 import { PotatoGameRoom } from './rooms/PotatoGameRoom'
+import { SimonSaysGameRoom } from './rooms/SimonSaysGameRoom'
 import { SnakeGameRoom } from './rooms/SnakeGameRoom'
 import { TriviaGameRoom } from './rooms/TriviaGameRoom'
 
@@ -22,6 +23,7 @@ export const gameRooms: ({
   PotatoGameRoom,
   ColorReactionGameRoom,
   TriviaGameRoom,
+  SimonSaysGameRoom,
 ]
 
 export default config({

@@ -11,6 +11,7 @@ const GAME_TYPE_NAMES: Record<GameType, string> = {
   potato: 'Hot Potato',
   'color-reaction': 'Color Reaction',
   trivia: 'Trivia',
+  'simon-says': 'Boxing sides',
 }
 
 export function GameTypeToggle({ gameType }: { gameType: GameType }) {

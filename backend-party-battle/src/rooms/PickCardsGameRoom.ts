@@ -35,7 +35,7 @@ export class PickCardsGameRoom extends BaseGameRoom<PickCardsGameSchema> {
 
     this.onMessage<{ index: number }>('CardPressed', (client, message) => {
       const playerName = this.findPlayerBySessionId(client.sessionId)
-      if (!playerName || playerName !== this.state.currentPlayer) {
+      if (playerName !== this.state.currentPlayer) {
         return
       }
 

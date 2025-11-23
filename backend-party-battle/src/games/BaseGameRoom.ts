@@ -76,7 +76,7 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
         this.startGame()
       }
     } else {
-      console.log(`${this.constructor.name}.onJoin: playerName: '${options.name}' is not part of the game`)
+      throw new Error(`Player '${options.name}' is not part of the game`)
     }
   }
 
@@ -95,13 +95,13 @@ export abstract class BaseGameRoom<S extends GameSchema> extends Room<S> {
     this.clearGameStartTimeouts()
   }
 
-  protected findPlayerBySessionId(sessionId: string): string | undefined {
+  protected findPlayerBySessionId(sessionId: string): string {
     for (const [name, session] of this.playerConnections.entries()) {
       if (session === sessionId) {
         return name
       }
     }
-    return undefined
+    throw new Error(`Player not found for sessionId: ${sessionId}`)
   }
 
   private clearGameStartTimeouts() {

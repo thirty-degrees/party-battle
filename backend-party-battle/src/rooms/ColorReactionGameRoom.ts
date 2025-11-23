@@ -55,7 +55,7 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
   private handleColorPressed(client: Client, color: RGBColorSchema) {
     const playerName = this.findPlayerBySessionId(client.sessionId)
 
-    if (!playerName || this.playersWhoResponded.has(playerName)) {
+    if (this.playersWhoResponded.has(playerName)) {
       return
     }
 
