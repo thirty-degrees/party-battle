@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.22.0](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.21.1...backend-party-battle-v2.22.0) (2025-11-23)
+
+
+### Features
+
+* Added Game "Boxing sides" ([b744a9e](https://github.com/thirty-degrees/party-battle/commit/b744a9ebed108f284f6c54cb20bf70f5f5b3dd8e))
+
+
+### Bug Fixes
+
+* sort scores fore more than 2 players correctly ([06cc3cd](https://github.com/thirty-degrees/party-battle/commit/06cc3cdadbc104c3ee22ab18242b59d9bd71b3d5))
+
 ## [2.21.1](https://github.com/thirty-degrees/party-battle/compare/backend-party-battle-v2.21.0...backend-party-battle-v2.21.1) (2025-10-24)
 
 
