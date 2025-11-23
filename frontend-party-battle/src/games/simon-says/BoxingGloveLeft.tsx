@@ -27,4 +27,3 @@ export function BoxingGloveLeft({ width = 429, height = 351 }: BoxingGloveLeftPr
     </Svg>
   )
 }
-
