@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.22.1](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.22.0...frontend-party-battle-v2.22.1) (2025-12-09)
+
+
+### Miscellaneous Chores
+
+* release 2.22.1 ([7d2927a](https://github.com/thirty-degrees/party-battle/commit/7d2927a4a879e5d7b20270d01e149851d1750073))
+
 ## [2.22.0](https://github.com/thirty-degrees/party-battle/compare/frontend-party-battle-v2.21.1...frontend-party-battle-v2.22.0) (2025-11-23)
 
 
