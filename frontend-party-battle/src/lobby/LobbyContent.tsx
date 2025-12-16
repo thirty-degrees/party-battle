@@ -1,4 +1,5 @@
 import { useLobbyStore } from '@/src/lobby/useLobbyStore'
+import { useRatingPrompt } from '@/src/utils/useRatingPrompt'
 import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { View } from 'react-native'
@@ -25,12 +26,17 @@ export default function LobbyContent() {
   )
 
   const router = useRouter()
+  const { triggerRatingPrompt } = useRatingPrompt()
 
   useEffect(() => {
     if (currentGame && currentGameRoomId) {
       router.push(`/games/${currentGame}`)
     }
   }, [currentGame, currentGameRoomId, router])
+
+  useEffect(() => {
+    triggerRatingPrompt()
+  }, [triggerRatingPrompt])
 
   return (
     <SafeAreaView className="flex-1 bg-background-0 dark:bg-background-950">

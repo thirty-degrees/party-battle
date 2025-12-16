@@ -12,6 +12,12 @@ interface UserPreferencesState {
   setIsPartyCodeVisible: (isVisible: boolean) => void
   potatoSwipeCount: number
   setPotatoSwipeCount: (value: number) => void
+  completedLobbySessions: number
+  incrementCompletedLobbySessions: () => void
+  hasRequestedRating: boolean
+  setHasRequestedRating: (value: boolean) => void
+  lastRatingRequestDate: string | null
+  setLastRatingRequestDate: (value: string | null) => void
 }
 
 export const useUserPreferencesStore = create<UserPreferencesState>()(
@@ -25,6 +31,13 @@ export const useUserPreferencesStore = create<UserPreferencesState>()(
       setIsPartyCodeVisible: (isVisible: boolean) => set({ isPartyCodeVisible: isVisible }),
       potatoSwipeCount: 0,
       setPotatoSwipeCount: (value: number) => set({ potatoSwipeCount: value }),
+      completedLobbySessions: 0,
+      incrementCompletedLobbySessions: () =>
+        set((state) => ({ completedLobbySessions: state.completedLobbySessions + 1 })),
+      hasRequestedRating: false,
+      setHasRequestedRating: (value: boolean) => set({ hasRequestedRating: value }),
+      lastRatingRequestDate: null,
+      setLastRatingRequestDate: (value: string | null) => set({ lastRatingRequestDate: value }),
     }),
     {
       name: 'user-preferences',
@@ -63,5 +76,17 @@ export const useSwipeHintVisibility = () =>
       showSwipeHint: s.potatoSwipeCount < 3,
       potatoSwipeCount: s.potatoSwipeCount,
       setPotatoSwipeCount: s.setPotatoSwipeCount,
+    }))
+  )
+
+export const useRatingState = () =>
+  useUserPreferencesStore(
+    useShallow((s) => ({
+      completedLobbySessions: s.completedLobbySessions,
+      incrementCompletedLobbySessions: s.incrementCompletedLobbySessions,
+      hasRequestedRating: s.hasRequestedRating,
+      setHasRequestedRating: s.setHasRequestedRating,
+      lastRatingRequestDate: s.lastRatingRequestDate,
+      setLastRatingRequestDate: s.setLastRatingRequestDate,
     }))
   )
