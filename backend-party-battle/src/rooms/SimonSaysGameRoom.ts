@@ -29,7 +29,7 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
   private activeTimers: Delayed[] = []
   private currentRound = 0
   private currentRoundData: RoundData | null = null
-  private readonly interRoundWaitDuration = 2000
+  private readonly interRoundWaitDuration = 1500
   private readonly slideBackAnimationDuration = 300
 
   private getDifficultyPhase(): 1 | 2 | 3 {
@@ -42,7 +42,7 @@ export class SimonSaysGameRoom extends BaseGameRoom<SimonSaysGameSchema> {
     const phase = this.getDifficultyPhase()
     if (phase === 1) return 1500
     if (phase === 2) return 1000
-    return 800
+    return 700
   }
 
   private getMaxFeintCount(): number {

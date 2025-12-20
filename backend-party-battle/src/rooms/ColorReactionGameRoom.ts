@@ -53,26 +53,30 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
   }
 
   private handleColorPressed(client: Client, color: RGBColorSchema) {
+    if (this.state.guesserName || !this.state.selectiontype) {
+      return
+    }
+
     const playerName = this.findPlayerBySessionId(client.sessionId)
 
     if (this.playersWhoResponded.has(playerName)) {
       return
     }
 
+    const selectedColorString = rgbColorToString(color)
+    let isCorrect = false
+
+    if (this.state.selectiontype === 'color') {
+      isCorrect = this.state.currentSelection?.color === selectedColorString
+    } else if (this.state.selectiontype === 'word') {
+      const selectedColorName = this.findColorNameByRgb(color)
+      isCorrect = this.state.currentSelection?.word === selectedColorName
+    }
+
     this.playersWhoResponded.add(playerName)
     this.state.colorIdButtons = new ArraySchema<RGBColorSchema>()
     this.state.guesserName = playerName
-
-    const selectedColorString = rgbColorToString(color)
-
-    if (this.state.selectiontype === 'color') {
-      this.state.correctGuess = this.state.currentSelection?.color === selectedColorString
-    } else if (this.state.selectiontype === 'word') {
-      const selectedColorName = this.findColorNameByRgb(color)
-      this.state.correctGuess = this.state.currentSelection?.word === selectedColorName
-    } else {
-      this.state.correctGuess = false
-    }
+    this.state.correctGuess = isCorrect
 
     if (playerName) {
       const currentScore = this.playerScores.get(playerName) || 0
@@ -96,7 +100,7 @@ export class ColorReactionGameRoom extends BaseGameRoom<ColorReactionGameSchema>
   }
 
   private resetGame() {
-    this.state.selectiontype = 'color' as selectionType
+    this.state.selectiontype = undefined
     this.state.currentSelection = null
     this.state.currentCountdownNumber = null
     this.state.guesserName = null

@@ -43,8 +43,10 @@ export const ColorReactionGame: GameComponent = () => {
       <View className="flex-1 flex-column space-between">
         <View className="w-full justify-center align-center pt-8 pb-8">
           <View className="h-8 justify-center">
-            {!isAnimating ? (
-              <Text className="text-xl font-normal text-center">Select the {selectionType}</Text>
+            {!isAnimating && selectionType ? (
+              <Text className="text-xl font-bold text-center">
+                {selectionType === 'color' ? 'IGNORE THE WORD, CLICK THE COLOR!' : 'CLICK THE WRITTEN WORD!'}
+              </Text>
             ) : null}
           </View>
           <View className="h-16 justify-center">
