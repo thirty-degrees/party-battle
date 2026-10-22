@@ -1,0 +1,142 @@
+name: containers
+
+on:
+  workflow_call:
+    inputs:
+      target:
+        description: Container to build (backend, web, or both)
+        required: true
+        type: string
+      deploy:
+        description: Deploy the containers after building
+        default: false
+        type: boolean
+    secrets:
+      GH_PAT_ACTIONS_TRIGGER:
+        required: false
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Container to rebuild
+        required: true
+        default: both
+        type: choice
+        options:
+          - both
+          - backend
+          - web
+      deploy:
+        description: Deploy the containers after building
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+env:
+  IMAGE_VERSION: ${{ github.event_name == 'workflow_dispatch' && format('{0}-{1}-{2}', github.sha, github.run_id, github.run_attempt) || github.sha }}
+
+jobs:
+  build-backend:
+    if: inputs.target == 'backend' || inputs.target == 'both'
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image_version: ${{ env.IMAGE_VERSION }}
+      backend_version: ${{ steps.version.outputs.backend_version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read existing backend version
+        id: version
+        run: |
+          version=$(python3 .github/scripts/read_manifest_version.py backend-party-battle)
+          echo "backend_version=$version" >> "$GITHUB_OUTPUT"
+          echo "Backend endpoint: /api/v$version" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./backend-party-battle/dockerfile
+          pull: true
+          push: true
+          tags: |
+            ghcr.io/thirty-degrees/backend-party-battle:${{ env.IMAGE_VERSION }}
+            ghcr.io/thirty-degrees/backend-party-battle:latest
+          platforms: linux/arm64
+          cache-from: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache
+          cache-to: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache,mode=max
+
+  deploy-backend:
+    needs: build-backend
+    if: inputs.deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger backend image update
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GH_PAT_ACTIONS_TRIGGER }}
+          repository: Calfur/calfur-dev
+          event-type: add-party-battle-backend-version
+          client-payload: '{"image_version":"${{ needs.build-backend.outputs.image_version }}","backend_version":"${{ needs.build-backend.outputs.backend_version }}"}'
+
+  build-web:
+    if: inputs.target == 'web' || inputs.target == 'both'
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image_version: ${{ env.IMAGE_VERSION }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./frontend-party-battle/dockerfile
+          pull: true
+          push: true
+          tags: |
+            ghcr.io/thirty-degrees/frontend-party-battle-web:${{ env.IMAGE_VERSION }}
+            ghcr.io/thirty-degrees/frontend-party-battle-web:latest
+          platforms: linux/arm64
+          build-args: |
+            EXPO_PUBLIC_ENV=prod
+          cache-from: type=registry,ref=ghcr.io/thirty-degrees/frontend-party-battle-web:buildcache
+          cache-to: type=registry,ref=ghcr.io/thirty-degrees/frontend-party-battle-web:buildcache,mode=max
+
+  deploy-web:
+    needs: build-web
+    if: inputs.deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger frontend image update
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GH_PAT_ACTIONS_TRIGGER }}
+          repository: Calfur/calfur-dev
+          event-type: new-party-battle-frontend-image
+          client-payload: '{"image_version":"${{ needs.build-web.outputs.image_version }}"}'
