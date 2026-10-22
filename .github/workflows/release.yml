@@ -24,101 +24,26 @@ jobs:
   build-backend:
     needs: release
     if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'backend-party-battle')
-    runs-on: ubuntu-24.04-arm
+    uses: ./.github/workflows/containers.yml
     permissions:
       contents: read
       packages: write
-    env:
-      IMAGE_VERSION: ${{ github.sha }}
-    outputs:
-      image_version: ${{ env.IMAGE_VERSION }}
-      backend_version: ${{ steps.derive_backend_version.outputs.backend_version }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Derive backend version from release outputs
-        id: derive_backend_version
-        env:
-          RELEASES: ${{ needs.release.outputs.releases }}
-        run: |
-          chmod +x .github/scripts/read_manifest_version.py
-          ver=$(.github/scripts/read_manifest_version.py backend-party-battle)
-          echo "BACKEND_VERSION=$ver" >> $GITHUB_ENV
-          echo "backend_version=$ver" >> $GITHUB_OUTPUT
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v3
-
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./backend-party-battle/dockerfile
-          push: true
-          tags: |
-            ghcr.io/thirty-degrees/backend-party-battle:${{ env.IMAGE_VERSION }}
-            ghcr.io/thirty-degrees/backend-party-battle:latest
-          build-args: |
-            NODE_VERSION=24.22.1-alpine
-          platforms: linux/arm64
-          cache-from: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache
-          cache-to: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache,mode=max
-
-  trigger-backend-deployment:
-    needs: build-backend
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger backend image update
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.GH_PAT_ACTIONS_TRIGGER }}
-          repository: Calfur/calfur-dev
-          event-type: add-party-battle-backend-version
-          client-payload: '{"image_version":"${{ needs.build-backend.outputs.image_version }}","backend_version":"${{ needs.build-backend.outputs.backend_version }}"}'
+    with:
+      target: backend
+      deploy: true
+    secrets:
+      GH_PAT_ACTIONS_TRIGGER: ${{ secrets.GH_PAT_ACTIONS_TRIGGER }}
 
   build-web:
     needs: release
     if: contains(join(fromJSON(needs.release.outputs.paths), ','), 'frontend-party-battle')
-    runs-on: ubuntu-24.04-arm
+    uses: ./.github/workflows/containers.yml
     permissions:
       contents: read
       packages: write
-    env:
-      IMAGE_VERSION: ${{ github.sha }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v3
-
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./frontend-party-battle/dockerfile
-          push: true
-          tags: |
-            ghcr.io/thirty-degrees/frontend-party-battle-web:${{ env.IMAGE_VERSION }}
-            ghcr.io/thirty-degrees/frontend-party-battle-web:latest
-          platforms: linux/arm64
-          build-args: |
-            EXPO_PUBLIC_ENV=prod
-          cache-from: type=registry,ref=ghcr.io/thirty-degrees/frontend-party-battle-web:buildcache
-          cache-to: type=registry,ref=ghcr.io/thirty-degrees/frontend-party-battle-web:buildcache,mode=max
+    with:
+      target: web
+      deploy: false
 
   build-android:
     needs: release
