@@ -66,7 +66,7 @@ jobs:
             ghcr.io/thirty-degrees/backend-party-battle:${{ env.IMAGE_VERSION }}
             ghcr.io/thirty-degrees/backend-party-battle:latest
           build-args: |
-            NODE_VERSION=24-alpine
+            NODE_VERSION=24.22.1-alpine
           platforms: linux/arm64
           cache-from: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache
           cache-to: type=registry,ref=ghcr.io/thirty-degrees/backend-party-battle:buildcache,mode=max

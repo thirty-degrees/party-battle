@@ -1,4 +1,4 @@
-ARG NODE_VERSION=24-alpine
+ARG NODE_VERSION=24.22.1-alpine
 ARG EXPO_PUBLIC_ENV=dev
 
 FROM node:${NODE_VERSION} AS builder
@@ -17,7 +17,7 @@ RUN npm run -w types-party-battle build
 WORKDIR /app/frontend-party-battle
 RUN npx expo export -p web
 
-FROM nginx:stable-alpine
+FROM nginx:1.30.6-alpine
 
 COPY frontend-party-battle/nginx.conf /etc/nginx/conf.d/default.conf
 
