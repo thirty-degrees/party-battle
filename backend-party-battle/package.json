@@ -4,7 +4,7 @@
   "version": "2.22.1",
   "main": "build/index.js",
   "engines": {
-    "node": ">= 20.9.0"
+    "node": ">= 24.22.3"
   },
   "scripts": {
     "start": "tsx watch src/index.ts",
